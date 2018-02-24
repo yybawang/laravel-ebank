@@ -30,9 +30,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 		$schedule->call(function(){
-//			logger('111');
+//			logger('定时测试..');
 		})->everyMinute();
-//		$schedule->job(OrderNotifyCron::dispatch()->onQueue('order_notify'))->everyMinute();
+		$schedule->job(OrderNotifyCron::dispatch()->onQueue('order_notify'))->everyMinute();
     }
 
     /**

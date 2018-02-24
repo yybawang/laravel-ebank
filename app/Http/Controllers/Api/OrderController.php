@@ -1,15 +1,13 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\ApiException;
-use App\Http\Requests\ApiPayUnifiedAlipayJsapiRequest;
 use App\Http\Requests\OrderUnifiedRequest;
-use App\Http\Requests\ApiPayUnifiedWechatJsapiRequest;
-use App\Libraries\PayUnified;
+use App\Libraries\OrderUnified;
 use App\Models\FundMerchant;
 use App\Models\FundOrder;
 use App\Models\FundOrderPayment;
 use App\Models\FundPurseType;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends CommonController {
@@ -26,12 +24,9 @@ class OrderController extends CommonController {
 	 * @return mixed
 	 */
 	public function unified(OrderUnifiedRequest $request){
-		$basic_param = $request->only(['user_id','appid','order_no','order_type','product_name','amount','return_url','notify_url','pay_type_group']);
+		$basic_param = $request->only(['user_id','appid','order_no','order_type','product_name','return_url','notify_url','pay_type_group']);
 		$this->order_no = $basic_param['order_no'];
 		$this->product_name = $basic_param['product_name'];
-//		$this->amount = $basic_param['amount'];
-//		$this->return_url = url('api/form/return_distribution');
-//		$this->notify_url = url('api/form/notify_distribution');
 		$pay_type_group = array_filter($basic_param['pay_type_group']);
 		$pay_type_thread = '';
 		$pay_type_thread_count = 0;
@@ -102,20 +97,16 @@ class OrderController extends CommonController {
 				'notify_status'	=> 0,
 				'status'		=> 1,
 			];
-			$id = FundOrder::create($add)->id;
+			$order_id = FundOrder::create($add)->id;
 			
 			// 存入支付方式表
 			foreach($pay_type_group as $pay_type => $price){
 				$add_payment = [
-					'order_id'	=> $id,
+					'order_id'	=> $order_id,
 					'type'		=> $pay_type,
 					'amount'	=> $price,
 				];
 				FundOrderPayment::create($add_payment);
-			}
-			
-			if(empty($id)){
-				abort_500('下单信息存储失败，请稍后重试');
 			}
 		}
 		$return = $this->$pay_type_unified();
@@ -127,21 +118,19 @@ class OrderController extends CommonController {
 	/**
 	 * 内部钱包支付扣款
 	 * @return array
-	 * @throws ApiException
-	 * @throws \Exception
 	 */
 	public function wallet(){
 		// 防多次点击
 		$cache_key = md5(serialize(request()->all()));
-		$cache_val = cache($cache_key);
+		$cache_val = Cache::has($cache_key);
 		if($cache_val){
 			abort_500('请求频繁，请稍后再试');
 		}
-		cache([$cache_key=>1],0.1);	// 6秒钟
+		Cache::add($cache_key,1,0.1);	// 6秒钟
 		if($this->pay_type_thread_count != 0){
-			abort_500('组合支付中存在三方支付，无法调用内部支付');
+			abort_500('组合支付中存在三方支付，无法直接内部支付');
 		}
-		$pay_unified = new PayUnified();
+		$pay_unified = new OrderUnified();
 		$status = $pay_unified->wallet($this->order_no,$this->amount);
 		return json_return($status,$pay_unified->getError(),'支付成功',['order_no'=>$this->order_no,'type'=>'wallet','platform'=>'wallet','content'=>'']);
 	}
@@ -151,7 +140,7 @@ class OrderController extends CommonController {
 	 * @return array
 	 */
 	public function wechat_app(){
-		$pay_unified = new PayUnified();
+		$pay_unified = new OrderUnified();
 		$notify_url = url('api/notify/wechat');
 		$sign = $pay_unified->wechatApp($this->order_no,$this->product_name,$this->amount,$notify_url);
 		return json_success('OK',['order_no'=>$this->order_no,'type'=>'app','platform'=>'wechat','content'=>$sign]);
@@ -169,7 +158,7 @@ class OrderController extends CommonController {
 			'openid.required'		=> '用户微信openid参数必传',
 			'openid.string'			=> '用户微信openid参数格式有误',
 		]);
-		$pay_unified = new PayUnified();
+		$pay_unified = new OrderUnified();
 		$openid = request()->input('openid');
 		$return_url = url('api/return/wechat');
 		$notify_url = url('api/notify/wechat');
@@ -189,7 +178,7 @@ class OrderController extends CommonController {
 	 * @return string
 	 */
 	public function alipay_app(){
-		$pay_unified = new PayUnified();
+		$pay_unified = new OrderUnified();
 		$notify_url = url('api/notify/alipay');
 		$sign = $pay_unified->alipayApp($this->order_no,$this->product_name,$this->amount,$notify_url);
 		return json_success('OK',['order_no'=>$this->order_no,'type'=>'app','platform'=>'alipay','content'=>$sign]);
@@ -203,7 +192,7 @@ class OrderController extends CommonController {
 		request()->validate([
 			'return_url'	=> 'required|url',
 		]);
-		$pay_unified = new PayUnified();
+		$pay_unified = new OrderUnified();
 		$return_url = url('api/return/alipay');
 		$notify_url = url('api/notify/alipay');
 		$html = $pay_unified->alipayJsapi($this->order_no,$this->product_name,$this->amount,$return_url,$notify_url);

@@ -1,6 +1,6 @@
 <?php
 /**
- * APP 支付算签
+ * 支付下单中转类
  */
 namespace App\Libraries;
 
@@ -8,10 +8,11 @@ use App\Exceptions\ApiException;
 use App\Http\Controllers\Api\NotifyController;
 use App\Http\Requests\BasicRequest;
 use App\Models\FundConfig;
+use App\Models\FundOrder;
 
 include_once 'wechat_pay/lib/WxPay.Api.php';
 include_once 'alipay_sdk/AopSdk.php';
-class PayUnified {
+class OrderUnified {
 	protected $error = '';
 	
 	public function getError(){
@@ -20,15 +21,15 @@ class PayUnified {
 	
 	
 	/**
+	 * 内部钱包支付扣款
 	 * @param $order_no
 	 * @param $amount
 	 * @return bool
-	 * 内部钱包支付扣款
 	 */
 	public function wallet($order_no,$amount){
-		$notifyController = new NotifyController();
-		$status = $notifyController->wallet($order_no,$amount);
-		if($status == 'SUCCESS'){
+		$order = new FundOrder();
+		$status = $order->complete($order_no,$amount);
+		if($status){
 			return true;
 		}else{
 			$this->error = '内部钱包支付扣款失败，请稍后再试';
@@ -37,12 +38,12 @@ class PayUnified {
 	}
 	
 	/**
+	 * 微信APP支付签名，app使用此参数唤醒
 	 * @param $order_no
 	 * @param $product_name
 	 * @param $price
 	 * @param $notify_url
 	 * @return array
-	 * 微信APP支付签名，app使用此参数唤醒
 	 */
 	public function wechatApp($order_no,$product_name,$price,$notify_url){
 		$input = new \WxPayUnifiedOrder();
@@ -75,13 +76,13 @@ class PayUnified {
 	}
 	
 	/**
+	 * 微信jsapi支付，前端使用js唤醒
 	 * @param $openid
 	 * @param $order_no
 	 * @param $product_name
 	 * @param $price
 	 * @param $notify_url
 	 * @return array
-	 * 微信jsapi支付，前端使用js唤醒
 	 */
 	public function wechatJsapi($openid,$order_no,$product_name,$price,$notify_url){
 		$input = new \WxPayUnifiedOrder();
@@ -113,12 +114,12 @@ class PayUnified {
 	
 	
 	/**
+	 * 支付宝APP支付，客户端使用此字符串直接唤醒支付宝app支付
 	 * @param $order_no
 	 * @param $product_name
 	 * @param $price
 	 * @param $notify_url
 	 * @return string
-	 * 支付宝APP支付，客户端使用此字符串直接唤醒支付宝app支付
 	 */
 	public function alipayApp($order_no,$product_name,$price,$notify_url){
 		$aop = new \AopClient();
@@ -148,13 +149,13 @@ class PayUnified {
 	
 	
 	/**
+	 * 支付宝jsapi支付，前端拿到此字符串唤醒js支付即可
 	 * @param $order_no
 	 * @param $product_name
 	 * @param $price
 	 * @param $return_url
 	 * @param $notify_url
 	 * @return string
-	 * 支付宝jsapi支付，前端拿到此字符串唤醒js支付即可
 	 */
 	public function alipayJsapi($order_no,$product_name,$price,$return_url,$notify_url){
 		$aop = new \AopClient();
@@ -189,119 +190,6 @@ class PayUnified {
 		$aop->alipayrsaPublicKey = file_get_contents(__DIR__.'/alipay_sdk/pem/alipay_public_key.pem');
 		$flag = $aop->rsaCheckV1($_POST, NULL, "RSA2");
 		return $flag;
-	}
-	
-	
-	/**
-	 * @param string $merchant_no
-	 * @param string $order_no
-	 * @param string $product_name
-	 * @param float $amount
-	 * @param string $notify_url
-	 * @return mixed
-	 * 高汇通支付宝app支付
-	 */
-	public function gaohuitongAlipayApp(string $merchant_no,string $order_no,string $product_name,float $amount,string $notify_url){
-		$trans_url = url('api/form/gaohuitong');
-		$test = env('APP_ENV') == 'online' ? false : true;
-		$wangguan = new Wangguan($trans_url,'',$notify_url,$test);
-		$form = $wangguan->publicPay($merchant_no,$order_no,$product_name,'ALIPAY',$amount);
-		$this->error = $wangguan->getError();
-		return $form;
-	}
-	
-	/**
-	 * @param string $merchant_no
-	 * @param string $order_no
-	 * @param string $product_name
-	 * @param float $amount
-	 * @param string $notify_url
-	 * @return mixed
-	 * 高汇通微信app支付
-	 */
-	public function gaohuitongWechatApp(string $merchant_no,string $order_no,string $product_name,float $amount,string $notify_url){
-		$trans_url = url('api/form/gaohuitong');
-		$test = env('APP_ENV') == 'online' ? false : true;
-		$wangguan = new Wangguan($trans_url,'',$notify_url,$test);
-		$form = $wangguan->publicPay($merchant_no,$order_no,$product_name,'WECHAT',$amount);
-		$this->error = $wangguan->getError();
-		return $form;
-	}
-	
-	/**
-	 * @param string $merchant_no
-	 * @param string $order_no
-	 * @param string $product_name
-	 * @param float $amount
-	 * @param string $return_url
-	 * @param string $notify_url
-	 * @return mixed
-	 * 高汇通支付宝jsapi支付
-	 */
-	public function gaohuitongAlipayJsapi(string $merchant_no,string $order_no,string $product_name,float $amount,string $return_url,string $notify_url){
-		$trans_url = url('api/form/gaohuitong');
-		$test = env('APP_ENV') == 'online' ? false : true;
-		$wangguan = new Wangguan($trans_url,$return_url,$notify_url,$test);
-		$form = $wangguan->publicPay($merchant_no,$order_no,$product_name,'PUBLICALIPAY',$amount);
-		$this->error = $wangguan->getError();
-		return $form;
-	}
-	
-	/**
-	 * @param string $merchant_no
-	 * @param string $order_no
-	 * @param string $product_name
-	 * @param float $amount
-	 * @param string $return_url
-	 * @param string $notify_url
-	 * @param string $openid
-	 * @return mixed
-	 * 高汇通微信jsapi支付
-	 */
-	public function gaohuitongWechatJsapi(string $merchant_no,string $order_no,string $product_name,float $amount,string $return_url,string $notify_url,string $appid,string $openid){
-		// 高汇通正式需要一个中间地址，来源域名都是备案的，不然提示不合法的url
-		$trans_url = url('api/form/gaohuitong');
-		$test = env('APP_ENV') == 'online' ? false : true;
-		$wangguan = new Wangguan($trans_url,$return_url,$notify_url,$test);
-		$form = $wangguan->publicPay($merchant_no,$order_no,$product_name,'PUBLICWECHAT',$amount,$appid,$openid);
-		$this->error = $wangguan->getError();
-		return $form;
-	}
-	
-	/**
-	 * @param string $merchant_no
-	 * @param string $order_no
-	 * @param string $product_name
-	 * @param float $amount
-	 * @param string $card_no
-	 * @param string $return_url
-	 * @param string $notify_url
-	 * @return mixed
-	 * 高汇通银行卡支付，不支持信用卡
-	 */
-	public function gaohuitongCard(string $merchant_no,string $order_no,string $product_name,float $amount,string $card_no,string $return_url,string $notify_url){
-		$trans_url = url('api/form/gaohuitong');
-		$test = env('APP_ENV') == 'online' ? false : true;
-		$wangguan = new Wangguan($trans_url,$return_url,$notify_url,$test);
-		$form = $wangguan->cardPay($merchant_no,$order_no,$product_name,$amount,$card_no);
-		$this->error = $wangguan->getError();
-		return $form;
-	}
-	
-	/**
-	 * @return bool
-	 * 高汇通支付
-	 */
-	public function gaohuitongCheckSign(){
-		$request = request();
-		$pay_status = $request->input('pay_result');	// 1 支付成功，0 未支付，2 支付失败
-		$order_no = $request->input('order_no');
-		$pay_no = $request->input('pay_no');
-		$wangguan = new Wangguan('','','',env('APP_ENV') == 'online' ? false : true);
-		if(!$wangguan->verifyParam($request->except(['s']))){
-			return false;
-		}
-		return true;
 	}
 	
 }

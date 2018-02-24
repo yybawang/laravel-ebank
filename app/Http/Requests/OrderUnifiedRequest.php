@@ -28,7 +28,6 @@ class OrderUnifiedRequest extends BasicRequest
 			'user_id'		=> 'required|min:1',
 			'order_no'		=> 'required',
 			'product_name'	=> 'required',
-//			'amount'		=> 'required|integer|min:1',
 			'return_url'	=> 'url',
 			'notify_url'	=> 'required|url',
 			'pay_type_group'=> 'required|array'
@@ -41,9 +40,6 @@ class OrderUnifiedRequest extends BasicRequest
 			'user_id.min'			=> '用户id参数必传',
 			'order_no.required'		=> '订单号参数必传',
 			'product_name.required'	=> '订单名称参数必传',
-//			'amount.required'		=> '订单金额参数必传',
-//			'amount.numeric'		=> '订单金额只能为数字',
-//			'amount.min'			=> '订单金额不能少于一分钱',
 			'return_url.url'		=> '同步回调url地址格式错误',
 			'notify_url.required'	=> '异步回调url地址参数必传',
 			'notify_url.url'		=> '异步回调url地址格式错误',
