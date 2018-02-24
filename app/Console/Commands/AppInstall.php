@@ -39,7 +39,7 @@ class AppInstall extends Command
 	public function handle()
 	{
 		//
-		$this->clearCaches();
+//		$this->clearCaches();
 		
 		if (!$this->verifyNotInstalled()) {
 			return -1;
@@ -57,8 +57,8 @@ class AppInstall extends Command
 		$config = base_path('.env');
 		if (!file_exists($config)) {
 			copy(base_path('.env.example'), $config);
-			$this->call('key:generate');
 		}
+		$this->call('key:generate');
 		
 		// 3、生成数据
 		$this->call('migrate',['--seed'=>true]);
