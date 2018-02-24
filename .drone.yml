@@ -1,0 +1,56 @@
+# drone 会自动配置
+#clone:
+#  git:
+#    image: plugins/git
+#    depth: 50
+#    tags: true
+
+#workspace:
+#  base: /home
+#  path: www
+
+pipeline:
+
+#######  正式环境执行命令  ######
+  dev_frontend:
+    image: node:8
+    commands:
+      - node -v
+      - npm -v
+      - npm install
+      - npm run dev
+      # 打包代码，然后上传后解压缩
+      - tar -zcvf /home/gpu2.tar.gz ./ --exclude-vcs --exclude vendor --exclude node_modules
+      - mv /home/gpu2.tar.gz ./
+    when:
+      branch: dev
+
+
+  dev_publish:
+    image: drillster/drone-rsync
+    secrets: [ rsync_key ]
+    hosts:
+      - 118.190.174.119
+    user: root
+    port: 2222
+    source: ./
+    target: /var/www/gpu2
+    include:
+      - gpu2.tar.gz
+    script:
+      - pwd
+      - cd /var/www/gpu2
+      - pwd
+      - tar -zxvf ./gpu2.tar.gz
+      - composer install --optimize-autoloader
+      - \cp -f .env.example.dev .env
+      - chmod -R 777 storage/
+      - chmod -R 777 public/
+      - chmod -R 777 bootstrap/cache/
+      # 必须先清除配置缓存，才能继续生成key，不然laravel安全机制问题
+      - php artisan config:clear
+      - php artisan key:generate
+      - php artisan app:install
+      - rm -f gpu2.tar.gz
+    when:
+      branch: dev

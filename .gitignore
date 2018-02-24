@@ -1,0 +1,13 @@
+# ---> Laravel
+/bootstrap/compiled.php
+/bootstrap/cache/packages.php
+/bootstrap/cache/services.php
+.env.*.php
+.env.php
+.env
+npm-debug.log
+/vendor
+/node_modules
+/.idea
+/public/storage
+

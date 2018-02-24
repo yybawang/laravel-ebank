@@ -1,0 +1,18 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+root = true
+
+# 所有文件都生效
+[*]
+charset = utf-8
+end_of_line = lf
+# 每个文件使用新行结尾
+insert_final_newline = false
+indent_style = tab
+indent_size = 4
+# 设为true表示会除去换行行首的任意空白字符，false反之。
+trim_trailing_whitespace = false
+
+[*.yml]
+indent_style = space
+indent_size = 2

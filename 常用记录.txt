@@ -1,0 +1,17 @@
+// 上线流程，注php版本必需≥7.1
+1、cp .env.example .env && 并修改.env配置文件为线上环境
+2、php artisan key:generate
+3、composer install
+4、npm install
+5、npm run production
+6、复制一份数据表到数据库并访问 /api/bank/init 初始化数据库
+7、复制根目录下的 gpu2_supervisor.ini 文件到 supervisor.d/conf.d 中配置队列监听
+
+// 本地CMD运行队列监听
+php artisan queue:work --queue=default,email,order_notify,transfer --sleep=1 --tries=1
+
+// linux 定时任务调度
+* * * * * php /usr/share/nginx/gpu2/artisan schedule:run >> /dev/null 2>&1
+
+2018-01-15日
+    - 使用 drone 进行测试以及async 使用ssh上传文件自动部署

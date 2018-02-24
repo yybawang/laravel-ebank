@@ -1,0 +1,1 @@
+{!! json_encode(json_error($msg)) !!}
