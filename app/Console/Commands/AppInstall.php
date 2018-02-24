@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Libraries\Bank;
 use Illuminate\Console\Command;
 
 class AppInstall extends Command
@@ -67,6 +68,10 @@ class AppInstall extends Command
 		
 		// 5、缓存配置和路由，生产环境使用
 //		$this->clearCaches();
+		
+		// 6、初始化钱包
+		$bank = new Bank();
+		$bank->init();
 		
 		$this->line('');
 		$this->comment('安装成功，接下来可能要做的事：');
