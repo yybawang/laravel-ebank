@@ -208,7 +208,7 @@ function abort_500($message = '',$var = false){
 function bug_email(...$msg){
 	$receives = config('basic.bug_receives');
 	$url = request()->fullUrl();
-	\Illuminate\Support\Facades\Mail::to($receives)->queue((new \App\Mail\Bug($url,$msg))->onQueue('email'));
+	\Illuminate\Support\Facades\Mail::to($receives)->queue((new \App\Mail\Bug($url,$_GET,$_POST,$_REQUEST,$_SERVER,$_COOKIE,$_SESSION,$msg))->onQueue('email'));
 	return true;
 }
 

@@ -40,32 +40,40 @@ class AppInstall extends Command
 		//
 		$this->clearCaches();
 		
-//		if (!$this->verifyNotInstalled()) {
-//			return -1;
-//		}
+		if (!$this->verifyNotInstalled()) {
+			return -1;
+		}
 		
 		$this->line('');
 		$this->info('************************************');
-		$this->info('          Welcome to CD             ');
-		$this->info('  代码已自动部署完毕，正在进行最后配置   ');
+		$this->info('*         Welcome to EBank         *');
+		$this->info('*          正在进行最后配置          *');
 		$this->info('************************************');
 		$this->line('');
 		
 		
-		// 2、复制 .env.example 文件，已经在自动部署里复制了
-//		$config = base_path('.env');
-//		if (!file_exists($config)) {
-//			copy(base_path('.env.example'), $config);
-//			$this->call('key:generate');
-//		}
+		// 2、复制 .env.example 文件
+		$config = base_path('.env');
+		if (!file_exists($config)) {
+			copy(base_path('.env.example'), $config);
+			$this->call('key:generate');
+		}
 		
-		// 3、生成 storage link 链接
+		// 3、生成数据
+		$this->call('migrate',['--seed'=>true]);
+		
+		// 4、生成 storage link 链接
 		$this->call('storage:link');
+		
+		// 5、缓存配置和路由，生产环境使用
+//		$this->clearCaches();
 		
 		$this->line('');
 		$this->comment('安装成功，接下来可能要做的事：');
-		$this->comment('1、配置访问域名，可参考本项目目录下的 gpu2_nginx.conf');
-		$this->comment('2、重启nginx，访问域名测试');
+		$this->comment('1、配置访问域名，推荐使用 Nginx，可参考本项目目录下的 ebank_nginx.conf');
+		$this->comment('2、配置队列环境，推荐使用 Supervisor，可参考本项目目录下的 ebank_supervior.conf');
+		$this->comment('3、重启nginx，访问域名测试');
+		$this->comment('4、进行队列测试，可调用 bug_email() 方法测试(配置好 SMTP 服务)');
 	}
 	
 	

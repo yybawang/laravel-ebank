@@ -37,14 +37,13 @@ class BankController extends CommonController {
 	public function init(BasicRequest $request){
 		$balance = $request->input('balance',100000000000000);
 		$bank = new Bank();
-		$bank->init_table();
 		$bool = $bank->init($balance);
 		return json_return($bool,'初始化错误，请检查转账数据是否已存在','系统钱包数据初始化完成，启动资金'.number_format($balance / 100,2).'元');
 	}
 	
 	/**
-	 * @return array
 	 * 用户类型列表
+	 * @return array
 	 */
 	public function user_type(){
 		$bank = new Bank();
@@ -53,8 +52,8 @@ class BankController extends CommonController {
 	}
 	
 	/**
-	 * @return array
 	 * 钱包类型列表
+	 * @return array
 	 */
 	public function purse_type(){
 		$bank = new Bank();
@@ -63,9 +62,9 @@ class BankController extends CommonController {
 	}
 	
 	/**
+	 * 获取用户类型下的所有钱包
 	 * @param ApiUserTypeWalletRequest $request
 	 * @return array
-	 * 获取用户类型下的所有钱包
 	 */
 	public function user_type_wallet(ApiUserTypeWalletRequest $request){
 		$user_type = $request->input('user_type');
@@ -102,9 +101,9 @@ class BankController extends CommonController {
 	}
 	
 	/**
+	 * 用户钱包列表
 	 * @param ApiUserWalletRequest $request
 	 * @return array
-	 * 用户钱包列表
 	 */
 	public function user_wallet(ApiUserWalletRequest $request){
 		$user_id = $request->input('user_id');
@@ -114,9 +113,9 @@ class BankController extends CommonController {
 	}
 	
 	/**
+	 * 根据钱包id获取钱包详情
 	 * @param ApiPurseDetailRequest $request
 	 * @return mixed
-	 * 根据钱包id获取钱包详情
 	 */
 	public function purse_detail(ApiPurseDetailRequest $request){
 		$purse_id = $request->input('purse_id');
@@ -127,9 +126,9 @@ class BankController extends CommonController {
 	
 	
 	/**
+	 * 冻结用户资金
 	 * @param ApiFreezeRequest $request
 	 * @return array
-	 * 冻结用户资金
 	 */
 	public function freeze(ApiFreezeRequest $request){
 		$purse_id = $request->input('purse_id');
@@ -141,9 +140,9 @@ class BankController extends CommonController {
 	}
 	
 	/**
+	 * 解冻用户资金
 	 * @param ApiUnfreezeRequest $request
 	 * @return array
-	 * 解冻用户资金
 	 */
 	public function unfreeze(ApiUnfreezeRequest $request){
 		$freeze_id = $request->input('freeze_id');
@@ -154,9 +153,9 @@ class BankController extends CommonController {
 	
 	
 	/**
+	 * 转账通用方法，根据 transfer_alias 参数区分
 	 * @param BasicRequest $request
 	 * @return array
-	 * 转账通用方法，根据 transfer_alias 参数区分
 	 */
 	public function transfer(BasicRequest $request){
 		$bank = new Bank();
@@ -184,9 +183,9 @@ class BankController extends CommonController {
 	}
 	
 	/**
+	 * 钱包冲正，钱包回转
 	 * @param ApiReverseRequest $request
 	 * @return array
-	 * 钱包冲正，钱包回转
 	 */
 	public function untransfer(ApiReverseRequest $request){
 		$transfer_id = $request->input('transfer_id');
@@ -197,9 +196,9 @@ class BankController extends CommonController {
 	}
 	
 	/**
+	 * 转账详情
 	 * @param ApiTransferDetailRequest $request
 	 * @return array
-	 * 转账详情
 	 */
 	public function transfer_detail(ApiTransferDetailRequest $request){
 		$transfer_id = $request->input('transfer_id');

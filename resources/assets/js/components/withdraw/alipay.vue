@@ -89,6 +89,7 @@
 		data(){
 			return {
 				list : [],
+				purse_type : '',
 				form : '',
 				dialog : '',
 				success_all_id : [],
@@ -162,7 +163,8 @@
 			init(){
 				let t = this;
 				get('/withdraw/alipay',t.keyword,function(data){
-					t.list = data;
+					t.list = data.data;
+					t.purse_type = data.purse_type;
 					if(t.keyword.export){
 						mdui.alert('可在左侧【导出任务】菜单查看任务状态并下载文件','已放入导出任务',function(){},{history:false});
 					}

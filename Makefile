@@ -11,6 +11,7 @@ dependency-install:
 
 npm-install:
 	npm install
+	npm run dev
 
 app-install:
 	php artisan app:install

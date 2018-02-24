@@ -5,6 +5,7 @@ use App\Exceptions\ApiException;
 use App\Libraries\Bank;
 use App\Http\Requests\BasicRequest;
 use App\Libraries\ExportCsv;
+use App\Models\FundPurseType;
 use App\Models\FundWithdraw;
 use App\Models\FundWithdrawAlipay;
 use App\Models\FundWithdrawWechat;
@@ -17,6 +18,7 @@ class WithdrawController extends CommonController {
 	 * @return array
 	 */
 	public function bank(BasicRequest $request){
+		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('id','name');
 		$model = FundWithdraw::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})
@@ -31,7 +33,7 @@ class WithdrawController extends CommonController {
 			$model2 = clone $model;
 			(new ExportCsv())->name('导出用户银行卡提现')->field(['id'=>'id','user_id'=>'提现用户ID','pay_type'=>'提现方式','amount'=>'申请提现金额(分)','fee'=>'手续费(分)','amount_actual'=>'实际到账金额(分)','realname'=>'银行卡户名','bank_name'=>'银行名称','bank_no'=>'银行卡号','status'=>'状态，0申请中，1提现成功，2提现失败','created_at'=>'创建时间'])->data($model2->get())->save();
 		}
-		$data = $model->pages();
+		$data['data'] = $model->pages();
 		return json_success('OK',$data);
 	}
 	
@@ -41,6 +43,7 @@ class WithdrawController extends CommonController {
 	 * @return array
 	 */
 	public function alipay(BasicRequest $request){
+		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('id','name');
 		$model = FundWithdrawAlipay::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})
@@ -55,7 +58,7 @@ class WithdrawController extends CommonController {
 			$model2 = clone $model;
 			(new ExportCsv())->name('导出用户支付宝提现')->field(['id'=>'id','user_id'=>'提现用户ID','pay_type'=>'提现方式','amount'=>'申请提现金额(分)','fee'=>'手续费(分)','amount_actual'=>'实际到账金额(分)','realname'=>'支付宝实名','account'=>'支付宝账户','status'=>'状态，0申请中，1提现成功，2提现失败','created_at'=>'创建时间'])->data($model2->get())->save();
 		}
-		$data = $model->pages();
+		$data['data'] = $model->pages();
 		return json_success('OK',$data);
 	}
 	
@@ -65,6 +68,7 @@ class WithdrawController extends CommonController {
 	 * @return array
 	 */
 	public function wechat(BasicRequest $request){
+		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('id','name');
 		$model = FundWithdrawWechat::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})
@@ -79,7 +83,7 @@ class WithdrawController extends CommonController {
 			$model2 = clone $model;
 			(new ExportCsv())->name('导出用户支付宝提现')->field(['id'=>'id','user_id'=>'提现用户ID','pay_type'=>'提现方式','amount'=>'申请提现金额(分)','fee'=>'手续费(分)','amount_actual'=>'实际到账金额(分)','realname'=>'支付宝实名','account'=>'支付宝账户','status'=>'状态，0申请中，1提现成功，2提现失败','created_at'=>'创建时间'])->data($model2->get())->save();
 		}
-		$data = $model->pages();
+		$data['data'] = $model->pages();
 		return json_success('OK',$data);
 	}
 	
@@ -103,7 +107,9 @@ class WithdrawController extends CommonController {
 			foreach($ids as $k => $id){
 				$withdraw = $withdraw_object->findOrFail($id);
 				$bank->unfreeze($withdraw->freeze_id);
-				$transfer_id = $bank->transfer($withdraw->user_id,0,$withdraw->amount,'10006',0,$withdraw->id);
+				$purse_type = ucfirst($withdraw->purse);
+				$transfer_alias = 'user'.$purse_type.'ToSystem'.$purse_type;
+				$transfer_id = $bank->$transfer_alias($withdraw->user_id,0,$withdraw->amount,'10006',0,$withdraw->id);
 				$withdraw->status = 1;
 				$withdraw->transfer_id = $transfer_id;
 				$bool = $withdraw->save();

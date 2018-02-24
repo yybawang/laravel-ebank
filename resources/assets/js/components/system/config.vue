@@ -39,12 +39,13 @@
 					<td v-text="val.tips"></td>
 					<td v-text="val.status ? '启用' : '禁用'"></td>
 					<td v-text="val.created_at"></td>
-					<td>
+					<td v-text="val.rank"></td>
+					<!--<td>
 						<div class="mdui-btn-group">
 							<a class="mdui-btn mdui-ripple mdui-color-teal-400 mdui-text-color-white" @click="rank(val.id,-1)">上移</a>
 							<a class="mdui-btn mdui-ripple mdui-color-cyan-500 mdui-text-color-white" @click="rank(val.id,1)">下移</a>
 						</div>
-					</td>
+					</td>-->
 					<td>
 						<div class="mdui-btn-group">
 							<a class="mdui-btn mdui-ripple mdui-color-theme" @click="add(val.id)">修改</a>

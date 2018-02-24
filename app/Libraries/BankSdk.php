@@ -284,7 +284,7 @@ class BankSdk {
 	 * @param null|string $message
 	 * @throws \Exception
 	 */
-	private function _throw(?string $message = ''){
+	private function _throw($message = ''){
 		throw new \Exception($message ?: '接口错误，未返回json，未知异常',500);
 	}
 }

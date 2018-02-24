@@ -14,26 +14,26 @@
 	</div>
 	<div><h2>$_GET</h2></div>
 	<div>
-		<pre>{{print_r($_GET,true)}}</pre>
+		<pre>{{print_r($get,true)}}</pre>
 	</div>
 	<div><h2>$_POST</h2></div>
 	<div>
-		<pre>{{print_r($_POST,true)}}</pre>
+		<pre>{{print_r($post,true)}}</pre>
 	</div>
 	<div><h2>$_REQUEST</h2></div>
 	<div>
-		<pre>{{print_r(request()->all(),true)}}</pre>
+		<pre>{{print_r($request,true)}}</pre>
 	</div>
 	<div><h2>$_SESSION</h2></div>
 	<div>
-		<pre>{{print_r($_SESSION,true)}}</pre>
+		<pre>{{print_r($session,true)}}</pre>
 	</div>
 	<div><h2>$_COOKIE</h2></div>
 	<div>
-		<pre>{{print_r($_COOKIE,true)}}</pre>
+		<pre>{{print_r($cookie,true)}}</pre>
 	</div>
 	<div><h2>$_SERVER</h2></div>
 	<div>
-		<pre>{{print_r($_SERVER,true)}}</pre>
+		<pre>{{print_r($server,true)}}</pre>
 	</div>
 </div>

@@ -20,10 +20,10 @@ pipeline:
       - npm install
       - npm run dev
       # 打包代码，然后上传后解压缩
-      - tar -zcvf /home/gpu2.tar.gz ./ --exclude-vcs --exclude vendor --exclude node_modules
-      - mv /home/gpu2.tar.gz ./
+      - tar -zcvf /home/ebank.tar.gz ./ --exclude-vcs --exclude vendor --exclude node_modules
+      - mv /home/ebank.tar.gz ./
     when:
-      branch: dev
+      branch: nightly
 
 
   dev_publish:
@@ -34,23 +34,23 @@ pipeline:
     user: root
     port: 2222
     source: ./
-    target: /var/www/gpu2
+    target: /var/www/ebank
     include:
-      - gpu2.tar.gz
+      - ebank.tar.gz
     script:
       - pwd
-      - cd /var/www/gpu2
+      - cd /var/www/ebank
       - pwd
-      - tar -zxvf ./gpu2.tar.gz
+      - tar -zxvf ./ebank.tar.gz
       - composer install --optimize-autoloader
-      - \cp -f .env.example.dev .env
+#      - \cp -f .env.example.dev .env
       - chmod -R 777 storage/
       - chmod -R 777 public/
       - chmod -R 777 bootstrap/cache/
-      # 必须先清除配置缓存，才能继续生成key，不然laravel安全机制问题
-      - php artisan config:clear
-      - php artisan key:generate
+#       必须先清除配置缓存，才能继续生成key，不然laravel安全机制问题
+#      - php artisan config:clear
+#      - php artisan key:generate
       - php artisan app:install
-      - rm -f gpu2.tar.gz
+      - rm -f ebank.tar.gz
     when:
-      branch: dev
+      branch: nightly

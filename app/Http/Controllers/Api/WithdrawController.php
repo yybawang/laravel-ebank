@@ -64,6 +64,9 @@ class WithdrawController extends CommonController {
 		]);
 		$post['pay_type']	= '支付宝提现';
 		$post['amount_actual'] = $post['amount'] - $post['fee'];
+		if($post['amount_actual'] <= 0){
+			abort_500('计算错误，手续费大于提现金额');
+		}
 		
 		$purse = $request->input('purse');
 		$purse_id = FundPurseType::where(['alias'=>$purse,'status'=>1])->value('id');
@@ -94,6 +97,9 @@ class WithdrawController extends CommonController {
 		]);
 		$post['pay_type']	= '微信提现';
 		$post['amount_actual'] = $post['amount'] - $post['fee'];
+		if($post['amount_actual'] <= 0){
+			abort_500('计算错误，手续费大于提现金额');
+		}
 		
 		$purse = $request->input('purse');
 		$purse_id = FundPurseType::where(['alias'=>$purse,'status'=>1])->value('id');
