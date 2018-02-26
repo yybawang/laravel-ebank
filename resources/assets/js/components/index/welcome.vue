@@ -49,7 +49,7 @@
 					}
 				},
 				grid : {
-					top : '100px',
+					top : '160px',
 					containLabel: true
 				},
 				calculable : true,
