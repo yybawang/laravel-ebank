@@ -17,8 +17,6 @@ class AppServiceProvider extends ServiceProvider
 		// 设置错误级别
 		error_reporting(E_ERROR &~ E_NOTICE);
 	
-		// 更改日志文件名，多运行环境多文件
-		Log::useDailyFiles(storage_path().'/logs/laravel-'.php_sapi_name().'.log');
     }
 
     /**
