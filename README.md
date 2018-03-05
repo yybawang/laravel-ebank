@@ -7,6 +7,13 @@
 ## 文档（完善中）
 [Doc](http://doc.thinkms.com/project/1 "在线文档")
 
+## 交流QQ群
+
+> 454247844(EBank项目开发者交流群)
+
+![群二维码](https://raw.githubusercontent.com/yybawang/images/master/ebank/454247844.png)
+
+
 
 ## 安装
 
