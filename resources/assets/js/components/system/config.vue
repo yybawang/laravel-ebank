@@ -83,6 +83,12 @@
 						</div>
 					</div>
 					<div class="mdui-container">
+						<div class="mdui-textfield">
+							<label class="mdui-textfield-label">展示列表排序(小位数靠前)</label>
+							<input class="mdui-textfield-input" type="text" v-model="form.rank" />
+						</div>
+					</div>
+					<div class="mdui-container">
 						<label class="mdui-radio">
 							<input type="radio" name="status" v-model="form.status" value="1" :checked="!!form.status" />
 							<i class="mdui-radio-icon"></i>

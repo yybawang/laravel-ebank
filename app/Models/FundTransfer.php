@@ -24,4 +24,19 @@ class FundTransfer extends CommonModel
 	public function into_purse_type(){
 		return $this->hasOne('\App\Models\FundPurseType','id','into_purse_type_id');
 	}
+	
+	
+	/**
+	 * 递归查找父级（示例）
+	 */
+	public function parents(){
+		$data = collect();
+		$parent_id = $this->getAttribute('parent_id');
+		$find = $this->where(['id'=>$parent_id])->first();
+		if($find){
+			$data2 = $find->parents();
+			$data = $data2->push($find);
+		}
+		return $data;
+	}
 }

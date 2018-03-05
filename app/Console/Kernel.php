@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
 		$schedule->call(function(){
 //			logger('定时测试..');
 		})->everyMinute();
-		$schedule->job(OrderNotifyCron::dispatch()->onQueue('order_notify'))->everyMinute();
+		$schedule->job((new OrderNotifyCron())->onQueue('order_notify'))->everyMinute();
     }
 
     /**
