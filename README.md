@@ -44,6 +44,10 @@ _EBank项目开发者交流群(新群，欢迎@提出不足或思路)_
 
 ## 安装
 
+> 因项目中涉及大金额运算(万亿以上)以及php的linux特性语法，推荐学习并使用 laradock 搭建开发环境**
+
+[laradock](https://github.com/laradock/laradock "laradock")
+
 
 **Linux 下使用 Makefile 自动安装**
 
