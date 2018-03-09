@@ -88,8 +88,6 @@ class Bank {
 			'to_user_id'			=> 'required|integer|min:0',
 			'amount'				=> 'required|integer|min:1',
 			'reason'				=> 'required|integer',
-			'detail'				=> 'nullable|string',
-			'remarks'				=> 'nullable|string',
 			'out_user_type'		=> [
 				'required',
 				Rule::exists('fund_user_type','alias')->where('status',1),
@@ -118,8 +116,6 @@ class Bank {
 			'amount.min'				=> '金额参数只能为正整数',
 			'reason.required'			=> 'reason 参数必传',
 			'reason.integer'			=> 'reason 参数只能为数字',
-			'detail.string'				=> '详情只能为字符串类型',
-			'remarks.string'			=> '备注只能为字符串类型',
 			'out_user_type.required'	=> '转出用户类型参数必传',
 			'out_user_type.exists'		=> '转出用户类型不存在',
 			'out_purse_type.required'	=> '转出钱包类型参数必传',
@@ -182,8 +178,6 @@ class Bank {
 				'integer',
 				Rule::exists('fund_transfer_reason','reason')->where('status',1),
 			],
-			'detail'				=> 'nullable|string',
-			'remarks'				=> 'nullable|string',
 		],[
 			'out_user_id.required'	=> '转出用户ID参数必传',
 			'out_user_id.integer'	=> '转出用户ID参数只能为正整数',
@@ -197,8 +191,6 @@ class Bank {
 			'reason.required'		=> 'reason 参数必传',
 			'reason.integer'		=> 'reason 参数只能为数字',
 			'reason.exists'			=> 'reason 数据不存在',
-			'detail.string'			=> '详情只能为字符串类型',
-			'remarks.string'		=> '备注只能为字符串类型',
 		])->validate();
 		
 		$reason_first = FundTransferReason::select(['out_user_type_id','out_purse_type_id','into_user_type_id','into_purse_type_id'])->where(['reason'=>$reason])->first();
@@ -292,45 +284,42 @@ class Bank {
 			abort_500('转入钱包已被临时禁用');
 		}
 		
-		DB::beginTransaction();
-		// 出账钱包扣款
-		$var = FundUserPurse::where(['id'=>$out_purse_id])->decrement('balance',$amount);
-		if(!$var){
-			abort_500('转出钱包扣款失败');
-		}
-		// 进账钱包收款
-		$var = FundUserPurse::where(['id'=>$into_purse_id])->increment('balance',$amount);
-		if(!$var){
-			abort_500('转入钱包收款失败');
-		}
-		
-		$transfer_add = [
-			'reason'			=> $reason,
-			'amount'			=> $amount,
+		$transfer_id = DB::transaction(function() use ($out_purse_id,$into_purse_id,$out_purse,$into_purse,$amount,$parent_id,$reason,$detail,$remarks){
+			// 出账钱包扣款
+			$var = FundUserPurse::where(['id'=>$out_purse_id])->decrement('balance',$amount);
+			if(!$var){
+				abort_500('转出钱包扣款失败');
+			}
+			// 进账钱包收款
+			$var = FundUserPurse::where(['id'=>$into_purse_id])->increment('balance',$amount);
+			if(!$var){
+				abort_500('转入钱包收款失败');
+			}
 			
-			'out_user_id'		=> $out_purse->user_id,
-			'out_user_type_id'	=> $out_purse->user_type_id,
-			'out_purse_type_id'	=> $out_purse->purse_type_id,
-			'out_purse_id'		=> $out_purse_id,
-			'out_balance'		=> $out_purse->balance - $amount,
+			$transfer_add = [
+				'reason'			=> $reason,
+				'amount'			=> $amount,
+				
+				'out_user_id'		=> $out_purse->user_id,
+				'out_user_type_id'	=> $out_purse->user_type_id,
+				'out_purse_type_id'	=> $out_purse->purse_type_id,
+				'out_purse_id'		=> $out_purse_id,
+				'out_balance'		=> $out_purse->balance - $amount,
+				
+				'into_user_id'		=> $into_purse->user_id,
+				'into_user_type_id'	=> $into_purse->user_type_id,
+				'into_purse_type_id'=> $into_purse->purse_type_id,
+				'into_purse_id'		=> $into_purse_id,
+				'into_balance'		=> $into_purse->balance + $amount,
+				
+				'parent_id'			=> $parent_id,
+				'detail'			=> $detail,
+				'remarks'			=> $remarks,
+				'status'			=> 1,
+			];
 			
-			'into_user_id'		=> $into_purse->user_id,
-			'into_user_type_id'	=> $into_purse->user_type_id,
-			'into_purse_type_id'=> $into_purse->purse_type_id,
-			'into_purse_id'		=> $into_purse_id,
-			'into_balance'		=> $into_purse->balance + $amount,
-			
-			'parent_id'			=> $parent_id,
-			'detail'			=> $detail,
-			'remarks'			=> $remarks,
-			'status'			=> 1,
-		];
-		
-		$transfer_id = FundTransfer::create($transfer_add)->id;
-		if(!$transfer_id){
-			abort_500('转账记录添加失败');
-		}
-		DB::commit();
+			return FundTransfer::create($transfer_add)->id;
+		});
 		return $transfer_id;
 	}
 	
@@ -363,22 +352,23 @@ class Bank {
 		$into_purse_id = $detail->out_purse_id;	// 解析后需转入的钱包id
 		$amount = $detail->amount;
 		
-		DB::beginTransaction();
-		// 出账钱包扣款
-		$var = FundUserPurse::where(['id'=>$out_purse_id])->decrement('balance',$amount);
-		if(!$var){
-			abort_500('转出钱包扣款失败');
-		}
-		// 进账钱包收款
-		$var = FundUserPurse::where(['id'=>$into_purse_id])->increment('balance',$amount);
-		if(!$var){
-			abort_500('转入钱包收款失败');
-		}
-		$detail->status = 2;
-		$detail->remarks = $remarks;
-		$return = $detail->save();
-		DB::commit();
-		return $return;
+		$bool = DB::transaction(function() use ($detail,$out_purse_id,$into_purse_id,$amount,$remarks){
+			// 出账钱包扣款
+			$var = FundUserPurse::where(['id'=>$out_purse_id])->decrement('balance',$amount);
+			if(!$var){
+				abort_500('转出钱包扣款失败');
+			}
+			// 进账钱包收款
+			$var = FundUserPurse::where(['id'=>$into_purse_id])->increment('balance',$amount);
+			if(!$var){
+				abort_500('转入钱包收款失败');
+			}
+			$detail->status = 2;
+			$detail->remarks = $remarks;
+			return $detail->save();
+		});
+		
+		return $bool;
 	}
 	
 	
@@ -554,17 +544,18 @@ class Bank {
 		if($purse->balance - $purse->freeze < $amount){
 			abort_500('账户余额不足');
 		}
-		DB::beginTransaction();
-		$purse->freeze += $amount;
-		$purse->save();
-		$freeze_add = [
-			'purse_id'		=> $purse_id,
-			'amount'		=> $amount,
-			'status'		=> 1,
-			'remarks'		=> $remarks,
-		];
-		$id = FundFreeze::create($freeze_add)->id;
-		DB::commit();
+		
+		$id = DB::transaction(function() use ($amount,$purse,$purse_id,$remarks){
+			$purse->freeze += $amount;
+			$purse->save();
+			$freeze_add = [
+				'purse_id'		=> $purse_id,
+				'amount'		=> $amount,
+				'status'		=> 1,
+				'remarks'		=> $remarks,
+			];
+			return FundFreeze::create($freeze_add)->id;
+		});
 		return $id;
 	}
 	
@@ -587,15 +578,16 @@ class Bank {
 		if($freeze->status != 1){
 			abort_500('冻结记录['.$freeze_id.']已被处理过');
 		}
-		DB::beginTransaction();
-		// 更新钱包冻结资金，减掉对应资金
-		$purse->freeze -= $freeze->amount;
-		$purse->save();
 		
-		// 更新冻结历史数据，设为已冻结
-		$freeze->status = 2;
-		$bool = $freeze->save();
-		DB::commit();
+		$bool = DB::transaction(function() use ($purse,$freeze){
+			// 更新钱包冻结资金，减掉对应资金
+			$purse->freeze -= $freeze->amount;
+			$purse->save();
+			
+			// 更新冻结历史数据，设为已冻结
+			$freeze->status = 2;
+			return $freeze->save();
+		});
 		return $bool;
 	}
 }
