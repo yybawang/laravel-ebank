@@ -1,4 +1,7 @@
 # ebank
+
+ **此项目功能已完成全部代码并满足基本需求（已服务三家电商公司），但项目还处于基本阶段，并一直会吸取上线项目遇到的问题教训来优化项目，nightly 分支会更新公测代码，master 分支为稳定版本，功能还在调整与完善中，因此可能会经常改动数据库字段，不建议生产环境使用。欢迎试用并贡献思路和提示宝贵意见！**
+
 > 项目使用 PHP7.1+ & Laravel5.5 & Mysql5.7+ & npm & webpack & vue2 & mdui3 搭建
 
 > 项目后台使用 vue 搭建，此 github 中不带编译后前端文件，请自行安装 npm 环境，然后执行打包，详情可看安装步骤。
@@ -66,7 +69,7 @@ cp .env.example .env
 // 编辑 .env 文件配置数据库、redis、email 等，需提前建立好数据库(字符集：utf8mb4 排序规则：utf8mb4_unicode_ci)，然后再继续执行以下命令
 composer install -o --no-dev
 npm install
-npm run dev
+npm run prod
 php artisan app:install
 php artisan clear-compiled
 ```
