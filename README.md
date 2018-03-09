@@ -44,7 +44,7 @@ _EBank项目开发者交流群(新群，欢迎@提出不足或思路)_
 
 ## 安装
 
-> 因项目中涉及大金额运算(万亿以上)以及php的linux特性语法，推荐学习并使用 laradock 搭建开发环境**
+> 因项目中涉及大金额运算(万亿以上)以及php的linux特性语法，推荐学习并使用 laradock 搭建开发环境
 
 [laradock](https://github.com/laradock/laradock "laradock")
 
@@ -54,7 +54,7 @@ _EBank项目开发者交流群(新群，欢迎@提出不足或思路)_
 ```
 // 项目目录下运行以下命令，如遇错误，可按照windows安装方式按步骤执行
 1、cp .env.example .env
-2、 编辑 .env 文件配置数据库、redis、email 等，需提前建立好数据库，然后再继续执行以下命令
+2、 编辑 .env 文件配置数据库、redis、email 等，需提前建立好数据库(字符集：utf8mb4 排序规则：utf8mb4_unicode_ci)，然后再继续执行以下命令
 3、make && make install
 ```
 
@@ -63,7 +63,7 @@ _EBank项目开发者交流群(新群，欢迎@提出不足或思路)_
 ```
 // 项目目录下运行以下命令
 cp .env.example .env
-// 编辑 .env 文件配置数据库、redis、email 等，需提前建立好数据库，然后再继续执行以下命令
+// 编辑 .env 文件配置数据库、redis、email 等，需提前建立好数据库(字符集：utf8mb4 排序规则：utf8mb4_unicode_ci)，然后再继续执行以下命令
 composer install -o --no-dev
 npm install
 npm run dev
