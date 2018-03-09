@@ -108,8 +108,9 @@ class WithdrawController extends CommonController {
 				$withdraw = $withdraw_object->findOrFail($id);
 				$bank->unfreeze($withdraw->freeze_id);
 				$purse_type = ucfirst($withdraw->purse);
-				$transfer_alias = 'user'.$purse_type.'ToSystem'.$purse_type;
-				$transfer_id = $bank->$transfer_alias($withdraw->user_id,0,$withdraw->amount,'10006',0,$withdraw->id);
+				$transfer_alias_user = 'user'.$purse_type.'ToUserWithdraw';
+				$bank->$transfer_alias_user($withdraw->user_id,$withdraw->user_id,$withdraw->amount,'10006',0,$withdraw->id);
+				$transfer_id = $bank->transfer($withdraw->user_id,0,$withdraw->amount,'10007',0,$withdraw->id);
 				$withdraw->status = 1;
 				$withdraw->transfer_id = $transfer_id;
 				$bool = $withdraw->save();

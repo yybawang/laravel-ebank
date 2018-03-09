@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    GPU 2.0
+                    EBank 2.0
                 </div>
 
                 <div class="links">

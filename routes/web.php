@@ -14,6 +14,8 @@ use App\Http\Middleware\AdminUser;
 
 Route::get('/', 'Controller@index');
 
+// 日志浏览
+Route::get('log-viewer', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 
 Route::group(['prefix'=>'sandbox'],function(){

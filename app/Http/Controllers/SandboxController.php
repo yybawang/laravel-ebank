@@ -38,7 +38,8 @@ class SandboxController extends Controller
 		 * 系统用户不必指定uid
 		 */
 		$transfer = [
-			BankSdk::transfer_add(10001)->amount(100)->detail(''),
+			// 充值测试
+			BankSdk::transfer_add(10005)->to(1)->amount(100000)->detail(''),
 		];
 //		$s = (new BankSdk())->transfer($transfer);
 //		$s = (new BankSdk())->async()->transfer($transfer);
@@ -51,7 +52,7 @@ class SandboxController extends Controller
 //		$export = new ExportCsv();
 //		$s = $export->name('导出流水测试')->data(FundTransfer::all())->save();
 		
-//		$s = BankSdk::withdraw(1)->amount(1)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->wechat();
+//		$s = BankSdk::withdraw(1)->amount(1)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
 		// 事务测试
 //		DB::transaction(function(){
 //			(new Bank())->transfer(0,0,100,20001);

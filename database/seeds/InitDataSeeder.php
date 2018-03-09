@@ -46,6 +46,11 @@ class InitDataSeeder extends Seeder
 			'alias'		=> 'cash',
 			'status'	=> 1,
 		]);
+		FundPurseType::create([
+			'name'		=> '提现钱包',
+			'alias'		=> 'withdraw',
+			'status'	=> 1,
+		]);
 		
 		FundTransferReason::create([
 			'merchant_id'		=> 1,
@@ -104,12 +109,23 @@ class InitDataSeeder extends Seeder
 		]);
 		FundTransferReason::create([
 			'merchant_id'		=> 1,
-			'name'				=> '提现成功',
+			'name'				=> '提现成功，用户钱包过账到提现钱包',
 			'out_user_type_id'	=> 3,
 			'out_purse_type_id'	=> 1,
-			'into_user_type_id'	=> 2,
-			'into_purse_type_id'=> 1,
+			'into_user_type_id'	=> 3,
+			'into_purse_type_id'=> 2,
 			'reason'			=> '10006',
+			'status'			=> 1,
+			'remarks'			=> '包含银行卡/支付宝/微信',
+		]);
+		FundTransferReason::create([
+			'merchant_id'		=> 1,
+			'name'				=> '提现成功，用户提现钱包到系统提现钱包',
+			'out_user_type_id'	=> 3,
+			'out_purse_type_id'	=> 2,
+			'into_user_type_id'	=> 2,
+			'into_purse_type_id'=> 2,
+			'reason'			=> '10007',
 			'status'			=> 1,
 			'remarks'			=> '包含银行卡/支付宝/微信',
 		]);
