@@ -51,6 +51,10 @@ _EBank项目开发者交流群(新群，欢迎@提出不足或思路)_
 
 [laradock](https://github.com/laradock/laradock "laradock")
 
+> 可使用我修改过的版本，增加 gogs、drone、firebird 服务 (前提会配置laradock)
+
+[yanyong/laradock-cd](http://gogs.thinkms.com/yanyong/laradock-cd.git "yanyong/laradock-cd")
+
 
 **Linux 下使用 Makefile 自动安装**
 
