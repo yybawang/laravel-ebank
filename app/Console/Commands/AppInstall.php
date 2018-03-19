@@ -41,9 +41,6 @@ class AppInstall extends Command
 		//
 //		$this->clearCaches();
 		
-		if (!$this->verifyNotInstalled()) {
-			return -1;
-		}
 		
 		$this->line('');
 		$this->info('************************************');
@@ -58,10 +55,16 @@ class AppInstall extends Command
 		if (!file_exists($config)) {
 			copy(base_path('.env.example'), $config);
 		}
-		$this->call('key:generate');
+		if ($this->verifyNotInstalled()) {
+//			return -1;
+			$this->call('key:generate');
+			// 3、生成数据
+			$this->call('migrate',['--seed'=>true]);
+		}else{
+			$this->call('migrate');
+		}
 		
-		// 3、生成数据
-		$this->call('migrate',['--seed'=>true]);
+		
 		
 		// 4、生成 storage link 链接
 		$this->call('storage:link');
@@ -96,7 +99,7 @@ class AppInstall extends Command
 	
 	
 	/**
-	 * Ensures that Fixhub has not been installed yet.
+	 * Ensures that ebank has not been installed yet.
 	 *
 	 * @return bool
 	 */

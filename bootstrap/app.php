@@ -41,13 +41,8 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
-$app->configureMonologUsing(function (Monolog\Logger $monolog) {
-	$filename = storage_path('logs/' . php_sapi_name() . '-' . posix_getpwuid(posix_geteuid())['name'] . '.log');
-	$monolog->pushHandler($handler = new Monolog\Handler\RotatingFileHandler($filename, 30));
-	$handler->setFilenameFormat('laravel-{date}-{filename}', 'Y-m-d');
-	$formatter = new \Monolog\Formatter\LineFormatter(null, null, true, true);
-	$formatter->includeStacktraces();
-	$handler->setFormatter($formatter);
+$app->configureMonologUsing(function(Monolog\Logger $monolog) use($app) {
+	$monolog->pushHandler(new Logger\Monolog\Handler\MysqlHandler());
 });
 
 /*

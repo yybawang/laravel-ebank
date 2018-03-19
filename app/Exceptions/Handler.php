@@ -53,15 +53,19 @@ class Handler extends ExceptionHandler
     public function report(Exception $exception)
     {
 		
-		if(!in_array(get_class($exception),$this->dontReport)){
+		if($this->shouldReport($exception)){
 			if($exception instanceof ValidationException){
 				$message = $exception->validator->errors()->first();
 			}else{
 				$message = $exception->getMessage();
 			}
 			// 有异常就发送邮件记录，不保险，可能会死循环，选择其他替代方案(存库)或第三方
-			bug_email($message,$exception->__toString());
+//			bug_email($message,$exception->__toString());
 //			bug_wechat($message,$exception->__toString());
+		}
+	
+		if (app()->bound('sentry') && $this->shouldReport($exception)) {
+			app('sentry')->captureException($exception);
 		}
 		
         parent::report($exception);

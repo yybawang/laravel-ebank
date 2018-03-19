@@ -11,7 +11,7 @@
 
 pipeline:
 
-#######  正式环境执行命令  ######
+#######  测试环境执行命令  ######
   dev_frontend:
     image: node:8
     commands:

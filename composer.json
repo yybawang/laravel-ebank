@@ -10,11 +10,13 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
+        "markhilton/monolog-mysql": "^0.1.6",
         "mews/captcha": "^2.1",
         "overtrue/easy-sms": "^1.0",
         "overtrue/laravel-wechat": "~4.0",
         "predis/predis": "^1.1",
-		"rap2hpoutre/laravel-log-viewer": "^0.12.0"
+        "rap2hpoutre/laravel-log-viewer": "^0.12.0",
+        "sentry/sentry-laravel": "^0.8.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

@@ -177,6 +177,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+	
+		// monolog to mysql
+		Logger\Laravel\Provider\MonologMysqlHandlerServiceProvider::class,
     ],
 
     /*
