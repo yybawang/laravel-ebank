@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 		$schedule->call(function(){
-//			logger('定时测试..');
+//			logger('打开注释，测试每分钟定时测试..');
 		})->everyMinute();
 		$schedule->job((new OrderNotifyCron())->onQueue('order_notify'))->everyMinute();
     }

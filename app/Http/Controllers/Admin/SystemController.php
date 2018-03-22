@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\BasicRequest;
 use App\Models\FundBehavior;
 use App\Models\FundConfig;
+use App\Models\Log;
 use Illuminate\Validation\Rule;
 
 /**

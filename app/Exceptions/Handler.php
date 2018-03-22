@@ -81,6 +81,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+//		return parent::render($request, $exception);
     	if($exception instanceof LoginException){
     		$message = $exception->getMessage();
 			return response()->json(json_login($message),200,['Content-type'=>'Application/json']);
@@ -102,7 +103,6 @@ class Handler extends ExceptionHandler
 			}
 			return response()->json(json_error($message),200,['Content-type'=>'Application/json']);
 		}
-//		return parent::render($request, $exception);
 //		logger($request->all());
 //		logger($exception->getMessage());
 //		logger($exception->getTraceAsString());

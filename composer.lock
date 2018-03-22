@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5026dec0f363353cfc3e1fa2a9fd80e9",
+    "content-hash": "d3f64376540fb136a865d6acab48794b",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -982,50 +982,6 @@
                 "storage"
             ],
             "time": "2018-03-01T10:27:04+00:00"
-        },
-        {
-            "name": "markhilton/monolog-mysql",
-            "version": "0.1.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/markhilton/monolog-mysql.git",
-                "reference": "e1edb9146bbeae65ba42c533bc6efe9e10521051"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://files.phpcomposer.com/files/markhilton/monolog-mysql/e1edb9146bbeae65ba42c533bc6efe9e10521051.zip",
-                "reference": "e1edb9146bbeae65ba42c533bc6efe9e10521051",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.9"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Logger": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mark Hilton",
-                    "email": "nerd305@gmail.com"
-                }
-            ],
-            "description": "Laravel 5 MySQL driver for Monolog",
-            "homepage": "https://github.com/markhilton/monolog-mysql",
-            "keywords": [
-                "laravel",
-                "laravel5",
-                "log",
-                "monolog",
-                "mysql"
-            ],
-            "time": "2017-05-02T15:05:51+00:00"
         },
         {
             "name": "mews/captcha",

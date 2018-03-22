@@ -73,7 +73,6 @@
 		data(){
 			return {
 				list : [],
-				purse_type : '',
 				dialog : '',
 				dialog_data : '',
 				keyword : {
@@ -97,6 +96,7 @@
 					'$_SESSION' : val.$_SESSION,
 					'$_COOKIE' : val.$_COOKIE,
 					'$_SERVER' : val.$_SERVER,
+					created_at : val.created_at,
 				};
 				setTimeout(function(){
 					t.dialog.open();
@@ -107,7 +107,6 @@
 				let t = this;
 				get('/system/behavior',t.keyword,function(data){
 					t.list = data.list;
-					t.purse_type = data.purse_type;
 				});
 			}
 		},

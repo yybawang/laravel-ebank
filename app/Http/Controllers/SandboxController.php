@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Http\Controllers\Api\NotifyController;
 use App\Libraries\Bank;
 use App\Libraries\BankSdk;
@@ -77,6 +78,7 @@ class SandboxController extends Controller
 //		$s = DB::update('update fund_user_purse set balance = 99999999999900 where id = 2');
 //		$s = FundUserPurse::where(['id'=>2])->update(['balance'=>99999999999900]);
 //		$s = curl_post(url('api/sms/content'),['mobile'=>'17099912460','content'=>'发送短信。。。']);
+//		curl_post('http://sdfd1204545.com',['df'=>333]);
 		dump($s);
 	}
 	

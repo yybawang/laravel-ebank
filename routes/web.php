@@ -141,10 +141,10 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	
 	Route::prefix('system')->name('admin.系统管理.')->group(function(){
 		Route::get('config','SystemController@config')->name('menu.系统设置');
-		Route::get('behavior','SystemController@behavior')->name('menu.行为记录');
 		Route::get('config_detail','SystemController@config_detail');
 		Route::post('config','SystemController@config_add');
 		Route::delete('config','SystemController@config_delete');
 		Route::post('config_rank','SystemController@config_rank');
+		Route::get('behavior','SystemController@behavior')->name('menu.行为记录');
 	});
 });
