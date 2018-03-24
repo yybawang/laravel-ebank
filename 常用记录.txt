@@ -2,7 +2,7 @@
 1、cp .env.example .env && 并修改.env配置文件为线上环境
 2、php artisan key:generate
 3、composer install
-4、npm install
+4、npm install		// 系统已自带前端打包文件，如果需要自己开发，请安装lavavel的前端开发方式自行开发
 5、npm run production
 6、php artisan migrate --seed 初始化数据库和数据
 7、复制根目录下的 gpu2_supervisor.ini 文件到 supervisor.d/conf.d 中配置队列监听

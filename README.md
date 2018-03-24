@@ -8,7 +8,7 @@
 
 > 项目使用 PHP7.1+ & Laravel5.5 & Mysql5.7+ & npm & webpack & vue2 & mdui3 搭建
 
-> 项目后台使用 vue 搭建，此 github 中不带编译后前端文件，请自行安装 npm 环境，然后执行打包，详情可看安装步骤。
+> 项目后台使用 vue 搭建，此项目中已自带编译后前端文件
 
 ## 简介
 
@@ -75,9 +75,7 @@ _EBank项目开发者交流群(新群，欢迎@提出不足或思路)_
 // 项目目录下运行以下命令
 cp .env.example .env
 // 编辑 .env 文件配置数据库、redis、email 等，需提前建立好数据库(字符集：utf8mb4 排序规则：utf8mb4_unicode_ci)，然后再继续执行以下命令
-composer install -o --no-dev
-npm install
-npm run prod
+composer install
 php artisan app:install
 php artisan clear-compiled
 ```

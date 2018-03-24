@@ -1,6 +1,6 @@
 .PHONY: dependency-install file-permission
 
-dependency: dependency-install file-permission npm-install
+dependency: dependency-install file-permission
 install: app-install dump-autoload
 
 help:
