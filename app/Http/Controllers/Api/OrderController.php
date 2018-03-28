@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends CommonController {
 	protected $order_no;
 	protected $product_name;
-	protected $amount;
+	protected $amount;	// 总金额
+	protected $amount_wallet;	// 内部支付总金额
+	protected $amount_thread;	// 三方支付总金额
 	protected $openid;
 	protected $pay_type_thread_count = 0;
 	
@@ -31,7 +33,8 @@ class OrderController extends CommonController {
 		$pay_type_thread = '';
 		$pay_type_thread_count = 0;
 		$pay_type_wallet_count = 0;
-		$amount = 0;
+		$this->amount_wallet = 0;
+		$this->amount_thread = 0;
 		$param_all = json_encode($request->all());
 		
 		// 钱包类型列表
@@ -44,16 +47,20 @@ class OrderController extends CommonController {
 				$pay_type_thread_count++;
 			}elseif(in_array(substr(strstr($pay_type,'_'),1),$purse_type)){		// 如果是内部钱包支付
 				$pay_type_wallet_count++;
+				$this->amount_wallet += $price;
 			}else{
 			
 			}
-			$amount += $price;
+			$this->amount += $price;
 		}
+		// 计算三方支付金额，以总金额减去背部钱包金额为准
+		$this->amount_thread = $this->amount - $this->amount_wallet;
+		
 		// 如果第三方支付+内部钱包支付不登录组合支付数量，就是参数有误
 		if($pay_type_thread_count + $pay_type_wallet_count != count($pay_type_group)){
 			abort_500('组合支付参数中存在不支持的扣款类型');
 		}
-		if($amount < 1){
+		if($this->amount < 1){
 			abort_500('订单金额不能少于1');
 		}
 		if($pay_type_thread && $pay_type_thread_count != 1){
@@ -65,7 +72,6 @@ class OrderController extends CommonController {
 		}else{
 			$pay_type_unified = 'wallet';
 		}
-		$this->amount = $amount;
 		$this->pay_type_thread_count = $pay_type_thread_count;
 		
 		// 下单存表
@@ -131,7 +137,7 @@ class OrderController extends CommonController {
 			abort_500('组合支付中存在三方支付，无法直接内部支付');
 		}
 		$pay_unified = new OrderUnified();
-		$status = $pay_unified->wallet($this->order_no,$this->amount);
+		$status = $pay_unified->wallet($this->order_no,$this->amount_wallet);
 		return json_return($status,$pay_unified->getError(),'支付成功',['order_no'=>$this->order_no,'type'=>'wallet','platform'=>'wallet','content'=>'']);
 	}
 	
@@ -142,7 +148,7 @@ class OrderController extends CommonController {
 	public function wechat_app(){
 		$pay_unified = new OrderUnified();
 		$notify_url = url('api/notify/wechat');
-		$sign = $pay_unified->wechatApp($this->order_no,$this->product_name,$this->amount,$notify_url);
+		$sign = $pay_unified->wechatApp($this->order_no,$this->product_name,$this->amount_thread,$notify_url);
 		return json_success('OK',['order_no'=>$this->order_no,'type'=>'app','platform'=>'wechat','content'=>$sign]);
 	}
 	
@@ -162,7 +168,7 @@ class OrderController extends CommonController {
 		$openid = request()->input('openid');
 		$return_url = url('api/return/wechat');
 		$notify_url = url('api/notify/wechat');
-		$sign = $pay_unified->wechatJsapi($openid,$this->order_no,$this->product_name,$this->amount,$notify_url);
+		$sign = $pay_unified->wechatJsapi($openid,$this->order_no,$this->product_name,$this->amount_thread,$notify_url);
 		$parse_url = parse_url($return_url);
 		if($parse_url['query']){
 			$return_url = $return_url.'&order_no='.$this->order_no.'&pay_status=';
@@ -180,7 +186,7 @@ class OrderController extends CommonController {
 	public function alipay_app(){
 		$pay_unified = new OrderUnified();
 		$notify_url = url('api/notify/alipay');
-		$sign = $pay_unified->alipayApp($this->order_no,$this->product_name,$this->amount,$notify_url);
+		$sign = $pay_unified->alipayApp($this->order_no,$this->product_name,$this->amount_thread,$notify_url);
 		return json_success('OK',['order_no'=>$this->order_no,'type'=>'app','platform'=>'alipay','content'=>$sign]);
 	}
 	
@@ -195,7 +201,7 @@ class OrderController extends CommonController {
 		$pay_unified = new OrderUnified();
 		$return_url = url('api/return/alipay');
 		$notify_url = url('api/notify/alipay');
-		$html = $pay_unified->alipayJsapi($this->order_no,$this->product_name,$this->amount,$return_url,$notify_url);
+		$html = $pay_unified->alipayJsapi($this->order_no,$this->product_name,$this->amount_thread,$return_url,$notify_url);
 		return json_success('OK',['order_no'=>$this->order_no,'type'=>'wap','platform'=>'alipay','content'=>$html]);
 	}
 	

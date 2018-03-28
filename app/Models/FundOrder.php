@@ -50,18 +50,23 @@ class FundOrder extends CommonModel
 		Cache::add($multi_key,1,0.1);
 		
 		$order = FundOrder::where(['order_no'=>$order_no])->first();
+		// 如果此订单存在第三方支付就得到第三方支付的价格进行匹配
+		$amount_thread = FundOrderPayment::where(['order_id'=>$order->id])->where('type','not like','wallet_%')->sum('amount');
 		if($order){
-			if($order->amount != $amount){
-				logger('异步通知订单号['.$order_no.']通知价格不正确，本地价格：'.$order->amount.'，通知价格：'.$amount);
+			if($amount_thread > 0){
+				if($amount_thread != $amount){
+					logger('三方支付通知订单号['.$order_no.']通知价格不正确，本地价格：'.$amount_thread.'，通知价格：'.$amount);
+					return false;
+				}
+			}elseif($order->amount != $amount){
+				logger('钱包支付通知订单号['.$order_no.']通知价格不正确，本地价格：'.$order->amount.'，通知价格：'.$amount);
 				return false;
 			}
 			if(1 == $order->pay_status){
 				logger($order_no.'重复通知，订单 pay_status = 1 已支付');
 				return false;
 			}
-//			$job = (new OrderNotify($order_no))->onQueue('distribution_notify');
-//			$this->dispatch($job);
-//			return true;
+			
 			DB::transaction(function() use ($order){
 				$bank = new Bank();
 				// 系统钱包增加金额，流水为充值，用户钱包支付部分就是用户到系统。
