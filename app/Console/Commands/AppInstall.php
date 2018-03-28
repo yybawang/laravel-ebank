@@ -45,7 +45,6 @@ class AppInstall extends Command
 		$this->line('');
 		$this->info('************************************');
 		$this->info('*         Welcome to EBank         *');
-		$this->info('*          正在进行最后配置          *');
 		$this->info('************************************');
 		$this->line('');
 		
