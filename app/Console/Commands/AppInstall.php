@@ -38,7 +38,6 @@ class AppInstall extends Command
 	 */
 	public function handle()
 	{
-		//
 //		$this->clearCaches();
 		
 		
@@ -48,20 +47,24 @@ class AppInstall extends Command
 		$this->info('************************************');
 		$this->line('');
 		
+		// 初始安装，写入lock文件，剩下的不用操作
+		$installed = base_path('.installed');
+		if (file_exists($installed)) {
+			$this->info('You have already installed');
+			$this->info('exit');
+			return 0;
+		}
+		file_put_contents($installed,'installed');
 		
-		// 2、复制 .env.example 文件
+		// 复制 .env.example 文件
 		$config = base_path('.env');
 		if (!file_exists($config)) {
 			copy(base_path('.env.example'), $config);
 		}
-		if ($this->verifyNotInstalled()) {
-//			return -1;
-			$this->call('key:generate');
-			// 3、生成数据
-			$this->call('migrate',['--seed'=>true]);
-		}else{
-			$this->call('migrate');
-		}
+		
+		// 初始化数据
+//		$this->call('key:generate');
+		$this->call('migrate',['--seed'=>true]);
 		
 		
 		
