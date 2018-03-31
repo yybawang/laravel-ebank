@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\OrderUnifiedRequest;
+use App\Libraries\OrderPayments;
 use App\Libraries\OrderUnified;
 use App\Models\FundMerchant;
 use App\Models\FundOrder;
@@ -17,7 +18,6 @@ class OrderController extends CommonController {
 	protected $amount_wallet;	// 内部支付总金额
 	protected $amount_thread;	// 三方支付总金额
 	protected $openid;
-	protected $pay_type_thread_count = 0;
 	
 	
 	/**
@@ -38,18 +38,20 @@ class OrderController extends CommonController {
 		$param_all = json_encode($request->all());
 		
 		// 钱包类型列表
-		$purse_type = FundPurseType::where(['status'=>1])->pluck('alias')->toArray();
-		
+		$purse_type = collect();
+		FundPurseType::where(['status'=>1])->pluck('alias')->each(function($v) use (&$purse_type){
+			$purse_type->push('wallet_'.$v);
+		});
+		$purse_type = $purse_type->flip();
+
 		foreach($pay_type_group as $pay_type=>$price){
-			// 如果是第三方支付
-			if(method_exists($this,$pay_type)){
-				$pay_type_thread = $pay_type;
-				$pay_type_thread_count++;
-			}elseif(in_array(substr(strstr($pay_type,'_'),1),$purse_type)){		// 如果是内部钱包支付
+			// 如果是内部支付，否则第三方支付
+			if($purse_type->has($pay_type)){		// 如果是内部钱包支付
 				$pay_type_wallet_count++;
 				$this->amount_wallet += $price;
 			}else{
-			
+				$pay_type_thread_count++;
+				$pay_type_thread = $pay_type;
 			}
 			$this->amount += $price;
 		}
@@ -63,32 +65,25 @@ class OrderController extends CommonController {
 		if($this->amount < 1){
 			abort_500('订单金额不能少于1');
 		}
+
 		if($pay_type_thread && $pay_type_thread_count != 1){
 			abort_500('存在多个第三方支付，请修改组合支付方式');
 		}
-		
-		if($pay_type_thread){
-			$pay_type_unified = $pay_type_thread;
-		}else{
-			$pay_type_unified = 'wallet';
-		}
-		$this->pay_type_thread_count = $pay_type_thread_count;
 		
 		// 下单存表
 		$merchant_id = FundMerchant::where(['appid'=>$basic_param['appid']])->value('id');
 		
 		$exist = FundOrder::where(['merchant_id'=>$merchant_id,'order_no'=>$this->order_no])->first();
 		// 如果已支付，订单就不用再支付了
-		if($exist->pay_status == 1){
+		if($exist && $exist->pay_status == 1){
 			abort_500('商户订单已支付完成，无需再次支付');
 		}
-		DB::beginTransaction();
-		if($exist){
-			// 如果存在判断参数是否统一，不统一无法继续支付
-			if($param_all != $exist->param){
-				abort_500('商户订单号已存在但参数不同，无法继续支付');
-			}
-		}else{
+		
+		// 如果是已存在订单则判断参数是否统一，不统一无法继续支付
+		if($exist && $param_all != $exist->param){
+			abort_500('商户订单号已存在但参数不同，无法继续支付');
+		}
+		$return = DB::transaction(function() use ($basic_param,$merchant_id,$param_all,$pay_type_group,$pay_type_thread){
 			$add = [
 				'user_id'		=> $basic_param['user_id'],
 				'merchant_id'	=> $merchant_id,
@@ -114,95 +109,16 @@ class OrderController extends CommonController {
 				];
 				FundOrderPayment::create($add_payment);
 			}
-		}
-		$return = $this->$pay_type_unified();
-		DB::commit();
+			
+			if($pay_type_thread){
+				$pay_type_unified = $pay_type_thread;
+			}else{
+				$pay_type_unified = 'wallet';
+			}
+			$order_payments = new OrderPayments($this->order_no,$this->amount_thread,$this->amount_wallet,$this->product_name);
+			return $order_payments->$pay_type_unified();
+		});
+		
 		return $return;
 	}
-	
-	
-	/**
-	 * 内部钱包支付扣款
-	 * @return array
-	 */
-	public function wallet(){
-		// 防多次点击
-		$cache_key = md5(serialize(request()->all()));
-		$cache_val = Cache::has($cache_key);
-		if($cache_val){
-			abort_500('请求频繁，请稍后再试');
-		}
-		Cache::add($cache_key,1,0.1);	// 6秒钟
-		if($this->pay_type_thread_count != 0){
-			abort_500('组合支付中存在三方支付，无法直接内部支付');
-		}
-		$pay_unified = new OrderUnified();
-		$status = $pay_unified->wallet($this->order_no,$this->amount_wallet);
-		return json_return($status,$pay_unified->getError(),'支付成功',['order_no'=>$this->order_no,'type'=>'wallet','platform'=>'wallet','content'=>'']);
-	}
-	
-	/**
-	 * 微信APP支付
-	 * @return array
-	 */
-	public function wechat_app(){
-		$pay_unified = new OrderUnified();
-		$notify_url = url('api/notify/wechat');
-		$sign = $pay_unified->wechatApp($this->order_no,$this->product_name,$this->amount_thread,$notify_url);
-		return json_success('OK',['order_no'=>$this->order_no,'type'=>'app','platform'=>'wechat','content'=>$sign]);
-	}
-	
-	/**
-	 * 微信 jsapi 支付签名
-	 * @return array
-	 */
-	public function wechat_jsapi(){
-		request()->validate([
-			'openid'		=> 'required|string',
-			'return_url'	=> 'required|url',
-		],[
-			'openid.required'		=> '用户微信openid参数必传',
-			'openid.string'			=> '用户微信openid参数格式有误',
-		]);
-		$pay_unified = new OrderUnified();
-		$openid = request()->input('openid');
-		$return_url = url('api/return/wechat');
-		$notify_url = url('api/notify/wechat');
-		$sign = $pay_unified->wechatJsapi($openid,$this->order_no,$this->product_name,$this->amount_thread,$notify_url);
-		$parse_url = parse_url($return_url);
-		if($parse_url['query']){
-			$return_url = $return_url.'&order_no='.$this->order_no.'&pay_status=';
-		}else{
-			$return_url = $return_url.'?order_no='.$this->order_no.'&pay_status=';
-		}
-		$html = build_form(url('api/form/wechat'),['sign'=>$sign,'return_url'=>$return_url]);
-		return json_success('OK',['order_no'=>$this->order_no,'type'=>'wap','platform'=>'wechat','content'=>$html]);
-	}
-	
-	/**
-	 * 支付宝APP支付
-	 * @return string
-	 */
-	public function alipay_app(){
-		$pay_unified = new OrderUnified();
-		$notify_url = url('api/notify/alipay');
-		$sign = $pay_unified->alipayApp($this->order_no,$this->product_name,$this->amount_thread,$notify_url);
-		return json_success('OK',['order_no'=>$this->order_no,'type'=>'app','platform'=>'alipay','content'=>$sign]);
-	}
-	
-	/**
-	 * 支付宝jsapi支付
-	 * @return string
-	 */
-	public function alipay_jsapi(){
-		request()->validate([
-			'return_url'	=> 'required|url',
-		]);
-		$pay_unified = new OrderUnified();
-		$return_url = url('api/return/alipay');
-		$notify_url = url('api/notify/alipay');
-		$html = $pay_unified->alipayJsapi($this->order_no,$this->product_name,$this->amount_thread,$return_url,$notify_url);
-		return json_success('OK',['order_no'=>$this->order_no,'type'=>'wap','platform'=>'alipay','content'=>$html]);
-	}
-	
 }

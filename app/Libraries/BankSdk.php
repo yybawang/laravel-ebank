@@ -4,6 +4,8 @@ namespace App\Libraries;
 
 /**
  * 用户钱包接口类，涉及到查询余额，转账操作
+ * 此为转账业务SDK封装，可复制到 ThinkPhp/CI等框架使用，纯原生代码，php 版本需 >= 7.1
+ * 
  * Class BankSdk
  * @author yybawang
  * @package App\Libraries
