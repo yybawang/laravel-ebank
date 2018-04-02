@@ -27,7 +27,7 @@ Route::group(['prefix'=>'sandbox'],function(){
 
 
 /********************************************** 微信接口模块 ******************************************/
-Route::name('后台服务器接口部分')->namespace('Wechat')->prefix('wechat')->group(function(){
+Route::name('微信接口部分')->namespace('Wechat')->prefix('wechat')->group(function(){
 	Route::any('index','IndexController@index');	// 初始化服务器托管，填写托管地址时，可填写此地址验证
 	
 	Route::any('access_token','ApiController@access_token');	// 获取服务器 access_token ，可暴露给其他服务器访问
@@ -45,7 +45,7 @@ Route::name('后台服务器接口部分')->namespace('Wechat')->prefix('wechat'
 });
 
 
-Route::name('前台网页授权部分')->middleware(['wechat.oauth:snsapi_userinfo'])->namespace('Wechat')->prefix('wechat')->group(function(){
+Route::name('微信网页授权部分')->middleware(['wechat.oauth:snsapi_userinfo'])->namespace('Wechat')->prefix('wechat')->group(function(){
 	Route::get('oauth','OauthController@index');
 });
 

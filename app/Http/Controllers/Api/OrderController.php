@@ -63,7 +63,7 @@ class OrderController extends CommonController {
 			abort_500('组合支付参数中存在不支持的扣款类型');
 		}
 		if($this->amount < 1){
-			abort_500('订单金额不能少于1');
+			abort_500('订单金额不能少于 0.01 元');
 		}
 
 		if($pay_type_thread && $pay_type_thread_count != 1){

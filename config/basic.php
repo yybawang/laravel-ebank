@@ -15,20 +15,20 @@ return [
 	
 	// bug 微信推送接受者，需要在 http://sc.ftqq.com/ 用 github 登录扫码绑定，不自己做是因为自己的公众号在第二层，不在微信首页，也不会又角标
 	'bug_wechat'	=> [
-		'https://sc.ftqq.com/SCU20083Tc2c88a6cec1be2a13cfe742ce21472a45a5b4b139af22.send',
+		'https://sc.ftqq.com/xxx.send',
 	],
 	
 	
 	// 微信支付配置
 	'wechat_payment'	=> [
-		'appid'		=> 'wxe36110336fb08ff8',
-		'mchid'		=> '1462437002',
-		'key'		=> 'f4b65ee90524f2d7d5b95a5eec43085a',
-		'secret'	=> '391907f2247e48d4df3fbf1de3d1e1ba',
+		'appid'		=> env('WECHAT_APPID'),
+		'mchid'		=> env('WECHAT_MCHID'),
+		'key'		=> env('WECHAT_KEY'),
+		'secret'	=> env('WECHAT_SECRET'),
 	],
 	
 	// 支付宝支付配置
 	'alipay_payment'	=> [
-		'appid'		=> '',
+		'appid'		=> env('ALIPAY_APPID'),
 	],
 ];

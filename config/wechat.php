@@ -66,10 +66,10 @@ return [
      */
     'official_account' => [
         'default' => [
-            'app_id' => 'wxa65791126909be69',    // AppID
-            'secret' => 'e5675f4d7fc226d38586f396f13566c4',    // AppSecret
-            'token' => '4E8F794089B6B4EF55CD0399DCA14322',      // Token
-            'aes_key' => '',  // EncodingAESKey
+            'app_id' => env('WECHAT_APPID'),    // AppID
+            'secret' => env('WECHAT_SECRET'),    // AppSecret
+            'token' => env('WECHAT_TOKEN'),      // Token
+            'aes_key' => env('WECHAT_AESKEY'),  // EncodingAESKey
 
             /*
              * OAuth 配置
