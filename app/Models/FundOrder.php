@@ -33,6 +33,15 @@ class FundOrder extends CommonModel
 		return $this->hasMany('App\Models\FundOrderPayment','order_id','id');
 	}
 	
+	/**
+	 * 后台手动更改支付完成
+	 * @param int $id
+	 * @return bool
+	 */
+	public function completeAdmin(int $id){
+		$order = $this->findOrFail($id);
+		return $this->_completeOrder($order);
+	}
 	
 	
 	/**
@@ -67,40 +76,46 @@ class FundOrder extends CommonModel
 				return false;
 			}
 			
-			DB::transaction(function() use ($order){
-				$bank = new Bank();
-				// 系统钱包增加金额，流水为充值，用户钱包支付部分就是用户到系统。
-				FundOrderPayment::where(['order_id'=>$order->id])->pluck('amount','type')->each(function($amount,$type) use ($order,$bank){
-					$uid = $order->user_id;
-					if($amount <= 0){
-						return true;
-					}
-					// 如果是用户，就是回转到系统
-					if(stripos($type,'wallet_') === 0){
-						$purse_type = ucfirst(substr(strstr($type, '_'), 1));
-						$transfer_alias = 'user'.$purse_type.'ToSystem'.$purse_type;
-						$bank->$transfer_alias($uid,0,$amount,10004,0,$order->order_no);
-					}else{
-						$bank->transfer(0,0,$amount,10002,0,$order->order_no);	// 为凭空出来的钱，所以先从中央银行扣款到系统
-						$bank->transfer(0,$uid,$amount,10003,0,$order->order_no);	// 系统先给用户充值，走流水
-						$bank->transfer($uid,0,$amount,10004,0,$order->order_no);	// 再转回系统，订单支付
-					}
-				});
-				
-				// 保存支付时间和状态
-				$order->pay_status = 1;
-				$order->pay_time = time2date();
-				$order->save();
-				
-				
-				// 异步通知到商户
-				OrderNotify::dispatch($order->order_no)->onQueue('order_notify');
-			});
+			$this->_completeOrder($order);
 			return true;
 		}else{
 			logger('异步通知订单号['.$order_no.']未找到');
 			bug_email('异步通知订单号['.$order_no.']未找到');
 			return false;
 		}
+	}
+	
+	
+	private function _completeOrder(FundOrder $order){
+		DB::transaction(function() use ($order){
+			$bank = new Bank();
+			// 系统钱包增加金额，流水为充值，用户钱包支付部分就是用户到系统。
+			FundOrderPayment::where(['order_id'=>$order->id])->pluck('amount','type')->each(function($amount,$type) use ($order,$bank){
+				$uid = $order->user_id;
+				if($amount <= 0){
+					return true;
+				}
+				// 如果是用户，就是回转到系统
+				if(stripos($type,'wallet_') === 0){
+					$purse_type = ucfirst(substr(strstr($type, '_'), 1));
+					$transfer_alias = 'user'.$purse_type.'ToSystem'.$purse_type;
+					$bank->$transfer_alias($uid,0,$amount,10004,0,$order->order_no);
+				}else{
+					$bank->transfer(0,0,$amount,10002,0,$order->order_no);	// 为凭空出来的钱，所以先从中央银行扣款到系统
+					$bank->transfer(0,$uid,$amount,10003,0,$order->order_no);	// 系统先给用户充值，走流水
+					$bank->transfer($uid,0,$amount,10004,0,$order->order_no);	// 再转回系统，订单支付
+				}
+			});
+			
+			// 保存支付时间和状态
+			$order->pay_status = 1;
+			$order->pay_time = time2date();
+			$order->save();
+			
+			
+			// 异步通知到商户
+			OrderNotify::dispatch($order->order_no)->onQueue('order_notify');
+		});
+		return true;
 	}
 }

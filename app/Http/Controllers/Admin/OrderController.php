@@ -75,6 +75,18 @@ class OrderController extends CommonController {
 	}
 	
 	/**
+	 * 订单标记为支付成功
+	 * @param BasicRequest $request
+	 * @return array
+	 */
+	public function complete(BasicRequest $request){
+		$id = $request->input('id');
+		$order = new FundOrder();
+		$var = $order->completeAdmin($id);
+		return json_return($var);
+	}
+	
+	/**
 	 * 订单退款
 	 * @param BasicRequest $request
 	 * @return array

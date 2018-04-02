@@ -84,8 +84,8 @@
 						<td>支付时间：<span v-text="val.pay_time"></span></td>
 						<td>
 							<span v-for="(val2,key2) of val.payment">
-								<span class="mdui-text-color-teal-400">{{payments[val2.type]}}</span>:
-								<span class="mdui-text-color-red-500">{{val2.amount}}</span><span v-if="key2+1 < val.payment.length">，</span>
+								<span class="mdui-text-color-teal-400">{{payments[val2.type]}}</span>
+								<span class="mdui-text-color-red-500">「{{val2.amount}}」</span><span v-if="key2+1 < val.payment.length">｜</span>
 							</span>
 						</td>
 					</tr>
@@ -98,6 +98,7 @@
 						<td>退款状态：<strong><span v-if="val.refund_status" class=mdui-text-color-red-500>已退款</span><span v-else class=mdui-text-color-grey>未退款</span></strong></td>
 						<td>退款时间：<span v-text="val.refund_time"></span></td>
 						<td>
+							<a class="mdui-btn mdui-ripple mdui-color-blue-grey" v-if="val.status == 1 && val.pay_status == 0" @click="complete(val.id)">掉单补回</a>
 							<a class="mdui-btn mdui-ripple mdui-color-theme" v-if="val.status == 1 && val.pay_status == 1" @click="notify(val.id)">手动通知</a>
 							<a class="mdui-btn mdui-ripple mdui-color-red" v-if="val.status == 1 && val.pay_status == 1 && val.refund_status == 0" @click="refund(val.id,val.amount)">订单退款</a>
 						</td>
@@ -172,6 +173,15 @@
 			exports(){
 				this.keyword.export = 1;
 				this.init();
+			},
+			complete(id){
+				let t = this;
+				mdui.confirm('手动标记为支付成功，是否收到款项需财务核实，点击【确定】继续', '三方支付漏单/掉单补回', function () {
+					post('/order/complete', {id: id}, function (data,msg) {
+						mdui.alert(msg, function () {}, {history: false});
+						t.init();
+					})
+				}, function () {}, {history: false, confirmText: '确定', cancelText: '取消'});
 			},
 			notify(id) {
 				let t = this;

@@ -119,6 +119,7 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 		Route::get('/','OrderController@index')->name('menu.订单列表');
 		Route::post('notify','OrderController@notify');
 		Route::post('refund','OrderController@refund');
+		Route::post('complete','OrderController@complete');
 	});
 	
 	Route::prefix('export')->name('admin.导出任务.')->group(function(){

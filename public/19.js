@@ -129,6 +129,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -171,6 +172,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		exports: function exports() {
 			this.keyword.export = 1;
 			this.init();
+		},
+		complete: function complete(id) {
+			var t = this;
+			mdui.confirm('手动标记为支付成功，是否收到款项需财务核实，点击【确定】继续', '三方支付漏单/掉单补回', function () {
+				post('/order/complete', { id: id }, function (data, msg) {
+					mdui.alert(msg, function () {}, { history: false });
+					t.init();
+				});
+			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
 		},
 		notify: function notify(id) {
 			var t = this;
@@ -812,12 +822,12 @@ var render = function() {
                           { staticClass: "mdui-text-color-teal-400" },
                           [_vm._v(_vm._s(_vm.payments[val2.type]))]
                         ),
-                        _vm._v(":\n\t\t\t\t\t\t\t"),
+                        _vm._v(" "),
                         _c("span", { staticClass: "mdui-text-color-red-500" }, [
-                          _vm._v(_vm._s(val2.amount))
+                          _vm._v("「" + _vm._s(val2.amount) + "」")
                         ]),
                         key2 + 1 < val.payment.length
-                          ? _c("span", [_vm._v("，")])
+                          ? _c("span", [_vm._v("｜")])
                           : _vm._e()
                       ])
                     })
@@ -877,6 +887,22 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("td", [
+                    val.status == 1 && val.pay_status == 0
+                      ? _c(
+                          "a",
+                          {
+                            staticClass:
+                              "mdui-btn mdui-ripple mdui-color-blue-grey",
+                            on: {
+                              click: function($event) {
+                                _vm.complete(val.id)
+                              }
+                            }
+                          },
+                          [_vm._v("掉单补回")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
                     val.status == 1 && val.pay_status == 1
                       ? _c(
                           "a",
