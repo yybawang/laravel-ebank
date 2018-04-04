@@ -45,11 +45,19 @@ class InitDataSeeder extends Seeder
 			'name'		=> '现金钱包',
 			'alias'		=> 'cash',
 			'status'	=> 1,
+			'remarks'	=> '默认钱包',
 		]);
 		FundPurseType::create([
 			'name'		=> '提现钱包',
 			'alias'		=> 'withdraw',
 			'status'	=> 1,
+			'remarks'	=> '提现出账金额统一存放',
+		]);
+		FundPurseType::create([
+			'name'		=> '授信钱包',
+			'alias'		=> 'credit',
+			'status'	=> 1,
+			'remarks'	=> '提前消费负债资金',
 		]);
 		
 		FundTransferReason::create([

@@ -49,7 +49,7 @@ class SandboxController extends Controller
 		/**
 		 * payType 方法可以多次调用，实现组合支付
 		 */
-		$s =  BankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',1)->returnUrl('http://return.com')->notifyUrl('http://notify.com')->pay();
+//		$s =  BankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',1)->returnUrl('http://return.com')->notifyUrl('http://notify.com')->pay();
 		
 //		$export = new ExportCsv();
 //		$s = $export->name('导出流水测试')->data(FundTransfer::all())->save();
