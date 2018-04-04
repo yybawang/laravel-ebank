@@ -26,14 +26,13 @@ class SqlListener
      */
     public function handle(QueryExecuted $event)
     {
-        //
 		$sql = str_replace("?", "'%s'", $event->sql);
 	
 		$log = vsprintf($sql, $event->bindings);
 		if(preg_match('/^\s*$/',$log)){
 			return;
 		}
-		$log = $log . '　　['.request()->fullUrl().']';
+		$log = $log . '　　'.request()->fullUrl();
 		logger()->notice($log);
     }
 }
