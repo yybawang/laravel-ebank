@@ -47,11 +47,11 @@ pipeline:
       - chmod -R 777 storage/
       - chmod -R 777 public/
       - chmod -R 777 bootstrap/cache/
-      - php artisan queue:restart
 #       必须先清除配置缓存，才能继续生成key，不然laravel安全机制问题
 #      - php artisan config:clear
 #      - php artisan key:generate
       - php artisan app:install
+      - php artisan queue:restart
       - rm -f ebank.tar.gz
     when:
       branch: nightly

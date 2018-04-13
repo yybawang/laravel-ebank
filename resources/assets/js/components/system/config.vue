@@ -1,6 +1,6 @@
 <template>
 	<div class="purse_user">
-		<div class="mdui-typo">
+		<div class="typo">
 			<blockquote class="blockquote_normal">
 				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="add(0)"><i class="mdui-icon mdui-icon-left material-icons">add</i>添加</a>
 			</blockquote>

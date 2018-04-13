@@ -2144,7 +2144,7 @@ module.exports = charenc;
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-60bfcc2a\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue":
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-16367078\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -2159,7 +2159,7 @@ exports.push([module.i, "\n.datepicker {\n  display: inline-block;\n  position: 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-73d0d16e\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue":
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-84adde54\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")(false);
@@ -2453,15 +2453,19 @@ function isSlowBuffer (obj) {
 /***/ }),
 
 /***/ "./node_modules/mdui/dist/js/mdui.js":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 /*!
- * mdui v0.3.0 (https://mdui.org)
- * Copyright 2016-2017 zdhxiong
+ * mdui v0.4.1 (https://mdui.org)
+ * Copyright 2016-2018 zdhxiong
  * Licensed under MIT
  */
 /* jshint ignore:start */
-;(function (window, document, undefined) {
+;(function(global, factory) {
+   true ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global.mdui = factory());
+}(this, (function() {
   'use strict';
 
   /* jshint ignore:end */
@@ -4150,20 +4154,35 @@ function isSlowBuffer (obj) {
             return;
           }
 
+          var isMouseEvent = ['click', 'mousedown', 'mouseup', 'mousemove'].indexOf(eventName) > -1;
+
           var evt;
-          try {
-            evt = new CustomEvent(eventName, {
-              detail: data,
-              bubbles: true,
-              cancelable: true,
-            });
-          } catch (e) {
-            evt = document.createEvent('Event');
-            evt.initEvent(eventName, true, true);
-            evt.detail = data;
+
+          if (isMouseEvent) {
+            // Note: MouseEvent 无法传入 detail 参数
+            try {
+              evt = new MouseEvent(eventName, {
+                bubbles: true,
+                cancelable: true,
+              });
+            } catch (e) {
+              evt = document.createEvent('MouseEvent');
+              evt.initMouseEvent(eventName, true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            }
+          } else {
+            try {
+              evt = new CustomEvent(eventName, {
+                detail: data,
+                bubbles: true,
+                cancelable: true,
+              });
+            } catch (e) {
+              evt = document.createEvent('CustomEvent');
+              evt.initCustomEvent(eventName, true, true, data);
+            }
           }
 
-          evt._detailData = data;
+          evt._detail = data;
 
           return this.each(function () {
             this.dispatchEvent(evt);
@@ -4201,7 +4220,8 @@ function isSlowBuffer (obj) {
           };
 
           var callFn = function (e, ele) {
-            var result = func.apply(ele, e._detailData === undefined ? [e] : [e].concat(e._detailData));
+            // 因为鼠标事件模拟事件的 detail 属性是只读的，因此在 e._detail 中存储参数
+            var result = func.apply(ele, e._detail === undefined ? [e] : [e].concat(e._detail));
 
             if (result === false) {
               e.preventDefault();
@@ -4527,10 +4547,12 @@ function isSlowBuffer (obj) {
 
           xhr.open(method, options.url, options.async, options.username, options.password);
 
-          xhr.setRequestHeader('Content-Type', options.contentType);
+          if (sendData && !isQueryStringData(method) && options.contentType !== false || options.contentType) {
+            xhr.setRequestHeader('Content-Type', options.contentType);
+          }
 
           // 设置 Accept
-          if (options.contentType === 'json') {
+          if (options.dataType === 'json') {
             xhr.setRequestHeader('Accept', 'application/json, text/javascript');
           }
 
@@ -4588,14 +4610,16 @@ function isSlowBuffer (obj) {
               if (options.dataType === 'json') {
                 try {
                   eventParams.data = responseData = JSON.parse(xhr.responseText);
-
-                  triggerEvent(ajaxEvent.ajaxSuccess, eventParams);
-                  triggerCallback('success', responseData, textStatus, xhr);
                 } catch (err) {
                   textStatus = 'parsererror';
 
                   triggerEvent(ajaxEvent.ajaxError, eventParams);
                   triggerCallback('error', xhr, textStatus);
+                }
+
+                if (textStatus !== 'parsererror') {
+                  triggerEvent(ajaxEvent.ajaxSuccess, eventParams);
+                  triggerCallback('success', responseData, textStatus, xhr);
                 }
               } else {
                 eventParams.data = responseData =
@@ -5125,28 +5149,115 @@ function isSlowBuffer (obj) {
         }
       };
     },
-
-    /**
-     * 生成唯一 id
-     * @param pluginName 插件名，若传入该参数，guid 将以该参数作为前缀
-     * @returns {string}
-     */
-    guid: function (pluginName) {
-      function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000)
-          .toString(16)
-          .substring(1);
-      }
-
-      var guid = s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-      if (pluginName) {
-        guid = 'mdui-' + pluginName + '-' + guid;
-      }
-
-      return guid;
-    },
-
   });
+
+  /**
+   * 生成唯一 id
+   * @param string name id的名称，若该名称对于的guid不存在，则生成新的guid并返回；若已存在，则返回原有guid
+   * @returns {string}
+   */
+  (function () {
+    var GUID = {};
+
+    $.extend({
+      guid: function (name) {
+        if (typeof name !== 'undefined' && typeof GUID[name] !== 'undefined') {
+          return GUID[name];
+        }
+
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+
+        var guid = s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+
+        if (typeof name !== 'undefined') {
+          GUID[name] = guid;
+        }
+
+        return guid;
+      },
+    });
+  })();
+
+
+  /**
+   * =============================================================================
+   * ************   Mutation   ************
+   * =============================================================================
+   */
+
+  (function () {
+    /**
+     * API 初始化代理, 当 DOM 突变再次执行代理的初始化函数. 使用方法:
+     *
+     * 1. 代理组件 API 执行初始化函数, selector 必须为字符串.
+     *    mdui.mutation(selector, apiInit);
+     *    mutation 会执行 $(selector).each(apiInit)
+     *
+     * 2. 突变时, 再次执行代理的初始化函数
+     *    mdui.mutation()        等价 $(document).mutation()
+     *    $(selector).mutation() 在 selector 节点内进行 API 初始化
+     *
+     * 原理:
+     *
+     *    mutation 执行了 $().data('mdui.mutation', [selector]).
+     *    当元素被重构时, 该数据会丢失, 由此判断是否突变.
+     *
+     * 提示:
+     *
+     *    类似 Drawer 可以使用委托事件完成.
+     *    类似 Collapse 需要知道 DOM 发生突变, 并再次进行初始化.
+     */
+    var entries = { };
+
+    function mutation(selector, apiInit, that, i, item) {
+      var $this = $(that);
+      var m = $this.data('mdui.mutation');
+
+      if (!m) {
+        m = [];
+        $this.data('mdui.mutation', m);
+      }
+
+      if (m.indexOf(selector) === -1) {
+        m.push(selector);
+        apiInit.call(that, i, item);
+      }
+    }
+
+    $.fn.extend({
+      mutation: function () {
+        return this.each(function (i, item) {
+          var $this = $(this);
+          $.each(entries, function (selector, apiInit) {
+            if ($this.is(selector)) {
+              mutation(selector, apiInit, $this[0], i, item);
+            }
+
+            $this.find(selector).each(function (i, item) {
+              mutation(selector, apiInit, this, i, item);
+            });
+          });
+        });
+      },
+    });
+
+    mdui.mutation = function (selector, apiInit) {
+      if (typeof selector !== 'string' || typeof apiInit !== 'function') {
+        $(document).mutation();
+        return;
+      }
+
+      entries[selector] = apiInit;
+      $(selector).each(function (i, item) {
+        mutation(selector, apiInit, this, i, item);
+      });
+    };
+
+  })();
 
 
   /**
@@ -5388,7 +5499,7 @@ function isSlowBuffer (obj) {
    */
 
   $(function () {
-    $('[mdui-headroom]').each(function () {
+    mdui.mutation('[mdui-headroom]', function () {
       var $this = $(this);
       var options = parseOptions($this.attr('mdui-headroom'));
 
@@ -5649,7 +5760,7 @@ function isSlowBuffer (obj) {
    */
 
   $(function () {
-    $('[mdui-collapse]').each(function () {
+    mdui.mutation('[mdui-collapse]', function () {
       var $target = $(this);
 
       var inst = $target.data('mdui.collapse');
@@ -5817,14 +5928,14 @@ function isSlowBuffer (obj) {
       });
     };
 
-    $(function () {
-      // 实例化表格
-      $('.mdui-table').each(function () {
-        var $table = $(this);
-        if (!$table.data('mdui.table')) {
-          $table.data('mdui.table', new Table($table));
-        }
-      });
+    /**
+     * 初始化表格
+     */
+    mdui.mutation('.mdui-table', function () {
+      var $table = $(this);
+      if (!$table.data('mdui.table')) {
+        $table.data('mdui.table', new Table($table));
+      }
     });
 
     /**
@@ -6159,7 +6270,6 @@ function isSlowBuffer (obj) {
       // 实时字数统计
       if (reInit) {
         $textField
-          .removeClass('mdui-textfield-has-counter')
           .find('.mdui-textfield-counter')
           .remove();
       }
@@ -6170,12 +6280,6 @@ function isSlowBuffer (obj) {
           $('<div class="mdui-textfield-counter">' +
               '<span class="mdui-textfield-counter-inputed"></span> / ' + maxlength +
             '</div>').appendTo($textField);
-
-          // 如果没有 .mdui-textfield-error 作为占位，需要增加 .mdui-textfield 的下边距，
-          // 使 .mdui-textfield-counter 不会覆盖在文本框上
-          if (!$textField.find('.mdui-textfield-error').length) {
-            $textField.addClass('mdui-textfield-has-counter');
-          }
         }
 
         // 字符长度，确保统计方式和 maxlength 一致
@@ -6183,6 +6287,14 @@ function isSlowBuffer (obj) {
         $textField.find('.mdui-textfield-counter-inputed').text(inputed.toString());
       }
 
+      // 含 帮助文本、错误提示、字数统计 时，增加文本框底部内边距
+      if (
+        $textField.find('.mdui-textfield-helper').length ||
+        $textField.find('.mdui-textfield-error').length ||
+        maxlength
+      ) {
+        $textField.addClass('mdui-textfield-has-bottom');
+      }
     };
 
     // 绑定事件
@@ -6227,13 +6339,15 @@ function isSlowBuffer (obj) {
       });
     };
 
-    $(function () {
-      // DOM 加载完后自动执行
-      $('.mdui-textfield-input').each(function () {
-        $(this).trigger('input', {
+    /**
+     * 初始化文本框
+     */
+    mdui.mutation('.mdui-textfield', function () {
+      $(this)
+        .find('.mdui-textfield-input')
+        .trigger('input', {
           domLoadedEvent: true,
         });
-      });
     });
 
   })();
@@ -6367,16 +6481,14 @@ function isSlowBuffer (obj) {
       .on(TouchHandler.unlock, rangeSelector, TouchHandler.register);
 
     /**
-     * 页面加载完后自动初始化
+     * 页面加载完后自动初始化（未初始化时，可以调用该方法初始化）
      */
-    $(function () {
-      $('.mdui-slider').each(function () {
-        reInit($(this));
-      });
+    mdui.mutation('.mdui-slider', function () {
+      reInit($(this));
     });
 
     /**
-     * 重新初始化滑块
+     * 重新初始化滑块（强制重新初始化）
      */
     mdui.updateSliders = function () {
       $(arguments.length ? arguments[0] : '.mdui-slider').each(function () {
@@ -6716,7 +6828,7 @@ function isSlowBuffer (obj) {
       _this.options = $.extend({}, DEFAULT, (opts || {}));
 
       // 为当前 select 生成唯一 ID
-      _this.uniqueID = $.guid('select');
+      _this.uniqueID = $.guid();
 
       _this.state = 'closed';
 
@@ -6834,6 +6946,7 @@ function isSlowBuffer (obj) {
         _this.selectedIndex = itemData.index;
         _this.value = itemData.value;
         _this.text = itemData.text;
+        $selectNative.trigger('change');
 
         _this.close();
       });
@@ -6948,7 +7061,7 @@ function isSlowBuffer (obj) {
    */
 
   $(function () {
-    $('[mdui-select]').each(function () {
+    mdui.mutation('[mdui-select]', function () {
       var $this = $(this);
       var inst = $this.data('mdui.select');
       if (!inst) {
@@ -6970,13 +7083,13 @@ function isSlowBuffer (obj) {
 
   $(function () {
     // 滚动时隐藏应用栏
-    $('.mdui-appbar-scroll-hide').each(function () {
+    mdui.mutation('.mdui-appbar-scroll-hide', function () {
       var $this = $(this);
       $this.data('mdui.headroom', new mdui.Headroom($this));
     });
 
     // 滚动时只隐藏应用栏中的工具栏
-    $('.mdui-appbar-scroll-toolbar-hide').each(function () {
+    mdui.mutation('.mdui-appbar-scroll-toolbar-hide', function () {
       var $this = $(this);
       var inst = new mdui.Headroom($this, {
         pinnedClass: 'mdui-headroom-pinned-toolbar',
@@ -7030,7 +7143,7 @@ function isSlowBuffer (obj) {
       _this.options = $.extend({}, DEFAULT, (opts || {}));
       _this.$tabs = _this.$tab.children('a');
       _this.$indicator = $('<div class="mdui-tab-indicator"></div>').appendTo(_this.$tab);
-      _this.activeIndex = false;
+      _this.activeIndex = false; // 为 false 时表示没有激活的选项卡，或不存在选项卡
 
       // 根据 url hash 获取默认激活的选项卡
       var hash = location.hash;
@@ -7053,8 +7166,8 @@ function isSlowBuffer (obj) {
         });
       }
 
-      // 默认激活第一个选项卡
-      if (_this.activeIndex === false) {
+      // 存在选项卡时，默认激活第一个选项卡
+      if (_this.$tabs.length && _this.activeIndex === false) {
         _this.activeIndex = 0;
       }
 
@@ -7068,39 +7181,49 @@ function isSlowBuffer (obj) {
 
       // 监听点击选项卡事件
       _this.$tabs.each(function (i, tab) {
-        var $tab = $(tab);
-
-        // 点击或鼠标移入触发的事件
-        var clickEvent = function (e) {
-          // 禁用状态的选项无法选中
-          if (isDisabled($tab)) {
-            e.preventDefault();
-            return;
-          }
-
-          _this.activeIndex = i;
-          _this._setActive();
-        };
-
-        // 无论 trigger 是 click 还是 hover，都会响应 click 事件
-        $tab.on('click', clickEvent);
-
-        // trigger 为 hover 时，额外响应 mouseenter 事件
-        if (_this.options.trigger === 'hover') {
-          $tab.on('mouseenter', clickEvent);
-        }
-
-        $tab.on('click', function (e) {
-          // 阻止链接的默认点击动作
-          if ($tab.attr('href').indexOf('#') === 0) {
-            e.preventDefault();
-          }
-        });
+        _this._bindTabEvent(tab);
       });
     }
 
     /**
+     * 绑定在 Tab 上点击或悬浮的事件
+     * @private
+     */
+    Tab.prototype._bindTabEvent = function (tab) {
+      var _this = this;
+      var $tab = $(tab);
+
+      // 点击或鼠标移入触发的事件
+      var clickEvent = function (e) {
+        // 禁用状态的选项无法选中
+        if (isDisabled($tab)) {
+          e.preventDefault();
+          return;
+        }
+
+        _this.activeIndex = _this.$tabs.index(tab);
+        _this._setActive();
+      };
+
+      // 无论 trigger 是 click 还是 hover，都会响应 click 事件
+      $tab.on('click', clickEvent);
+
+      // trigger 为 hover 时，额外响应 mouseenter 事件
+      if (_this.options.trigger === 'hover') {
+        $tab.on('mouseenter', clickEvent);
+      }
+
+      $tab.on('click', function (e) {
+        // 阻止链接的默认点击动作
+        if ($tab.attr('href').indexOf('#') === 0) {
+          e.preventDefault();
+        }
+      });
+    };
+
+    /**
      * 设置激活状态的选项卡
+     * @private
      */
     Tab.prototype._setActive = function () {
       var _this = this;
@@ -7114,7 +7237,7 @@ function isSlowBuffer (obj) {
           if (!$tab.hasClass('mdui-tab-active')) {
             componentEvent('change', 'tab', _this, _this.$tab, {
               index: _this.activeIndex,
-              target: tab,
+              id: targetId.substr(1),
             });
             componentEvent('show', 'tab', _this, $tab);
 
@@ -7135,13 +7258,25 @@ function isSlowBuffer (obj) {
      */
     Tab.prototype._setIndicatorPosition = function () {
       var _this = this;
+      var $activeTab;
+      var activeTabOffset;
 
-      var $activeTab = _this.$tabs.eq(_this.activeIndex);
+      // 选项卡数量为 0 时，不显示指示器
+      if (_this.activeIndex === false) {
+        _this.$indicator.css({
+          left: 0,
+          width: 0,
+        });
+
+        return;
+      }
+
+      $activeTab = _this.$tabs.eq(_this.activeIndex);
       if (isDisabled($activeTab)) {
         return;
       }
 
-      var activeTabOffset = $activeTab.offset();
+      activeTabOffset = $activeTab.offset();
       _this.$indicator.css({
         left: activeTabOffset.left + _this.$tab[0].scrollLeft -
               _this.$tab[0].getBoundingClientRect().left + 'px',
@@ -7154,6 +7289,10 @@ function isSlowBuffer (obj) {
      */
     Tab.prototype.next = function () {
       var _this = this;
+
+      if (_this.activeIndex === false) {
+        return;
+      }
 
       if (_this.$tabs.length > _this.activeIndex + 1) {
         _this.activeIndex++;
@@ -7169,6 +7308,10 @@ function isSlowBuffer (obj) {
      */
     Tab.prototype.prev = function () {
       var _this = this;
+
+      if (_this.activeIndex === false) {
+        return;
+      }
 
       if (_this.activeIndex > 0) {
         _this.activeIndex--;
@@ -7186,6 +7329,10 @@ function isSlowBuffer (obj) {
     Tab.prototype.show = function (index) {
       var _this = this;
 
+      if (_this.activeIndex === false) {
+        return;
+      }
+
       if (parseInt(index) === index) {
         _this.activeIndex = index;
       } else {
@@ -7202,9 +7349,54 @@ function isSlowBuffer (obj) {
 
     /**
      * 在父元素的宽度变化时，需要调用该方法重新调整指示器位置
+     * 在添加或删除选项卡时，需要调用该方法
      */
     Tab.prototype.handleUpdate = function () {
-      this._setIndicatorPosition();
+      var _this = this;
+
+      var $oldTabs = _this.$tabs;               // 旧的 tabs JQ对象
+      var $newTabs = _this.$tab.children('a');  // 新的 tabs JQ对象
+      var oldTabsEle = $oldTabs.get();          // 旧 tabs 的元素数组
+      var newTabsEle = $newTabs.get();          // 新的 tabs 元素数组
+
+      if (!$newTabs.length) {
+        _this.activeIndex = false;
+        _this.$tabs = $newTabs;
+        _this._setIndicatorPosition();
+
+        return;
+      }
+
+      // 重新遍历选项卡，找出新增的选项卡
+      $newTabs.each(function (i, tab) {
+        // 有新增的选项卡
+        if (oldTabsEle.indexOf(tab) < 0) {
+          _this._bindTabEvent(tab);
+
+          if (_this.activeIndex === false) {
+            _this.activeIndex = 0;
+          } else if (i <= _this.activeIndex) {
+            _this.activeIndex++;
+          }
+        }
+      });
+
+      // 找出被移除的选项卡
+      $oldTabs.each(function (i, tab) {
+        // 有被移除的选项卡
+        if (newTabsEle.indexOf(tab) < 0) {
+
+          if (i < _this.activeIndex) {
+            _this.activeIndex--;
+          } else if (i === _this.activeIndex) {
+            _this.activeIndex = 0;
+          }
+        }
+      });
+
+      _this.$tabs = $newTabs;
+
+      _this._setActive();
     };
 
     return Tab;
@@ -7218,7 +7410,7 @@ function isSlowBuffer (obj) {
    */
 
   $(function () {
-    $('[mdui-tab]').each(function () {
+    mdui.mutation('[mdui-tab]', function () {
       var $this = $(this);
       var inst = $this.data('mdui.tab');
       if (!inst) {
@@ -7597,7 +7789,7 @@ function isSlowBuffer (obj) {
    */
 
   $(function () {
-    $('[mdui-drawer]').each(function () {
+    mdui.mutation('[mdui-drawer]', function () {
       var $this = $(this);
       var options = parseOptions($this.attr('mdui-drawer'));
       var selector = options.target;
@@ -7614,6 +7806,7 @@ function isSlowBuffer (obj) {
       $this.on('click', function () {
         inst.toggle();
       });
+
     });
   });
 
@@ -8315,6 +8508,7 @@ function isSlowBuffer (obj) {
       type: 'text',             // 输入框类型，text: 单行文本框 textarea: 多行文本框
       maxlength: '',            // 最大输入字符数
       defaultValue: '',         // 输入框中的默认文本
+      confirmOnEnter: false,    // 按下 enter 确认输入内容
     };
 
     options = $.extend({}, DEFAULT, options);
@@ -8370,6 +8564,17 @@ function isSlowBuffer (obj) {
 
         // 聚焦到输入框
         $input[0].focus();
+
+        // 捕捉文本框回车键，在单行文本框的情况下触发回调
+        if (options.type === 'text' && options.confirmOnEnter === true) {
+          $input.on('keydown', function (event) {
+            if (event.keyCode === 13) {
+              var value = inst.$dialog.find('.mdui-textfield-input').val();
+              onConfirm(value, inst);
+              inst.close();
+            }
+          });
+        }
 
         // 如果是多行输入框，监听输入框的 input 事件，更新对话框高度
         if (options.type === 'textarea') {
@@ -8513,16 +8718,19 @@ function isSlowBuffer (obj) {
       _this.state = 'closed';
 
       // 创建 Tooltip HTML
-      var guid = $.guid('tooltip');
       _this.$tooltip = $(
-        '<div class="mdui-tooltip" id="mdui-tooltip-' + guid + '">' +
+        '<div class="mdui-tooltip" id="' + $.guid() + '">' +
           _this.options.content +
         '</div>'
       ).appendTo(document.body);
 
-      // 绑定事件
+      // 绑定事件。元素处于 disabled 状态时无法触发鼠标事件，为了统一，把 touch 事件也禁用
       _this.$target
         .on('touchstart mouseenter', function (e) {
+          if (this.disabled) {
+            return;
+          }
+
           if (!TouchHandler.isAllow(e)) {
             return;
           }
@@ -8532,13 +8740,23 @@ function isSlowBuffer (obj) {
           _this.open();
         })
         .on('touchend mouseleave', function (e) {
+          if (this.disabled) {
+            return;
+          }
+
           if (!TouchHandler.isAllow(e)) {
             return;
           }
 
           _this.close();
         })
-        .on(TouchHandler.unlock, TouchHandler.register);
+        .on(TouchHandler.unlock, function (e) {
+          if (this.disabled) {
+            return;
+          }
+
+          TouchHandler.register(e);
+        });
     }
 
     /**
@@ -8685,8 +8903,6 @@ function isSlowBuffer (obj) {
         var options = parseOptions($this.attr('mdui-tooltip'));
         inst = new mdui.Tooltip($this, options);
         $this.data('mdui.tooltip', inst);
-
-        inst.open();
       }
     });
   });
@@ -8712,7 +8928,6 @@ function isSlowBuffer (obj) {
     var queueName = '__md_snackbar';
 
     var DEFAULT = {
-      message: '',                    // 文本内容
       timeout: 4000,                  // 在用户没有操作时多长时间自动隐藏
       buttonText: '',                 // 按钮的文本
       buttonColor: '',                // 按钮的颜色，支持 blue #90caf9 rgba(...)
@@ -8751,16 +8966,18 @@ function isSlowBuffer (obj) {
 
     /**
      * Snackbar 实例
+     * @param message
      * @param opts
      * @constructor
      */
-    function Snackbar(opts) {
+    function Snackbar(message, opts) {
       var _this = this;
 
+      _this.message = message;
       _this.options = $.extend({}, DEFAULT, (opts || {}));
 
       // message 参数必须
-      if (!_this.options.message) {
+      if (!_this.message) {
         return;
       }
 
@@ -8785,7 +9002,7 @@ function isSlowBuffer (obj) {
       _this.$snackbar = $(
         '<div class="mdui-snackbar">' +
           '<div class="mdui-snackbar-text">' +
-            _this.options.message +
+            _this.message +
           '</div>' +
           (_this.options.buttonText ?
             ('<a href="javascript:void(0)" ' +
@@ -8858,6 +9075,10 @@ function isSlowBuffer (obj) {
     Snackbar.prototype.open = function () {
       var _this = this;
 
+      if (!_this.message) {
+        return;
+      }
+
       if (_this.state === 'opening' || _this.state === 'opened') {
         return;
       }
@@ -8913,9 +9134,11 @@ function isSlowBuffer (obj) {
           }
 
           // 超时后自动关闭
-          _this.timeoutId = setTimeout(function () {
-            _this.close();
-          }, _this.options.timeout);
+          if (_this.options.timeout) {
+            _this.timeoutId = setTimeout(function () {
+              _this.close();
+            }, _this.options.timeout);
+          }
         });
     };
 
@@ -8924,6 +9147,10 @@ function isSlowBuffer (obj) {
      */
     Snackbar.prototype.close = function () {
       var _this = this;
+
+      if (!_this.message) {
+        return;
+      }
 
       if (_this.state === 'closing' || _this.state === 'closed') {
         return;
@@ -8958,10 +9185,16 @@ function isSlowBuffer (obj) {
 
     /**
      * 打开 Snackbar
-     * @param params
+     * @param message
+     * @param opts
      */
-    mdui.snackbar = function (params) {
-      var inst = new Snackbar(params);
+    mdui.snackbar = function (message, opts) {
+      if (typeof message !== 'string') {
+        opts = message;
+        message = opts.message;
+      }
+
+      var inst = new Snackbar(message, opts);
 
       inst.open();
       return inst;
@@ -8996,7 +9229,7 @@ function isSlowBuffer (obj) {
     });
 
     // 滚动时隐藏 mdui-bottom-nav-scroll-hide
-    $('.mdui-bottom-nav-scroll-hide').each(function () {
+    mdui.mutation('.mdui-bottom-nav-scroll-hide', function () {
       var $this = $(this);
       var inst = new mdui.Headroom($this, {
         pinnedClass: 'mdui-headroom-pinned-down',
@@ -9053,10 +9286,8 @@ function isSlowBuffer (obj) {
     /**
      * 页面加载完后自动填充 HTML 结构
      */
-    $(function () {
-      $('.mdui-spinner').each(function () {
-        fillHTML(this);
-      });
+    mdui.mutation('.mdui-spinner', function () {
+      fillHTML(this);
     });
 
     /**
@@ -9096,7 +9327,7 @@ function isSlowBuffer (obj) {
    */
 
   $(function () {
-    $('[mdui-panel]').each(function () {
+    mdui.mutation('[mdui-panel]', function () {
       var $target = $(this);
 
       var inst = $target.data('mdui.panel');
@@ -9786,8 +10017,8 @@ function isSlowBuffer (obj) {
 
   /* jshint ignore:start */
   mdui.JQ = $;
-  window.mdui = mdui;
-})(window, document);
+  return mdui;
+})));
 /* jshint ignore:end */
 
 
@@ -10244,13 +10475,13 @@ exports.clearImmediate = clearImmediate;
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-60bfcc2a\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue")
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-16367078\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue")
 }
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
 var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-60bfcc2a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-16367078\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -10267,7 +10498,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue"
+Component.options.__file = "node_modules\\vue-datepicker-local\\src\\VueDatepickerLocal.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -10276,9 +10507,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-60bfcc2a", Component.options)
+    hotAPI.createRecord("data-v-16367078", Component.options)
   } else {
-    hotAPI.reload("data-v-60bfcc2a", Component.options)
+    hotAPI.reload("data-v-16367078", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -10296,13 +10527,13 @@ module.exports = Component.exports
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-73d0d16e\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue")
+  __webpack_require__("./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-84adde54\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue")
 }
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
 var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-73d0d16e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-84adde54\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -10319,7 +10550,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue"
+Component.options.__file = "node_modules\\vue-datepicker-local\\src\\VueDatepickerLocalCalendar.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -10328,9 +10559,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-73d0d16e", Component.options)
+    hotAPI.createRecord("data-v-84adde54", Component.options)
   } else {
-    hotAPI.reload("data-v-73d0d16e", Component.options)
+    hotAPI.reload("data-v-84adde54", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -10472,7 +10703,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-60bfcc2a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-16367078\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -10575,13 +10806,13 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-60bfcc2a", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-16367078", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-73d0d16e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-84adde54\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -11145,7 +11376,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-73d0d16e", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-84adde54", module.exports)
   }
 }
 
@@ -13783,23 +14014,23 @@ if (inBrowser && window.Vue) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-60bfcc2a\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue":
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-16367078\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-60bfcc2a\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue");
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-16367078\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("757ee3fe", content, false);
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("05de56f6", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-60bfcc2a\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocal.vue", function() {
-     var newContent = require("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-60bfcc2a\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocal.vue");
+   module.hot.accept("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-16367078\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocal.vue", function() {
+     var newContent = require("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-16367078\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocal.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -13810,23 +14041,23 @@ if(false) {
 
 /***/ }),
 
-/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-73d0d16e\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue":
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-84adde54\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-73d0d16e\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue");
+var content = __webpack_require__("./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-84adde54\",\"scoped\":false,\"hasInlineConfig\":true}!./node_modules/vue-loader/lib/selector.js?type=styles&index=0!./node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue");
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("0b3e5a8c", content, false);
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("11a56495", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-73d0d16e\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocalCalendar.vue", function() {
-     var newContent = require("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-73d0d16e\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocalCalendar.vue");
+   module.hot.accept("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-84adde54\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocalCalendar.vue", function() {
+     var newContent = require("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-84adde54\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocalCalendar.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });

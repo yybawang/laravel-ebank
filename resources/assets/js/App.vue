@@ -92,7 +92,7 @@
 		<!--<div class="mdui-container">-->
 		<div class="mdui-p-a-3">
 			<div id="app">
-				<router-view @init="init"></router-view> <!-- 路由引入的组件将在这里被渲染 -->
+				<router-view @init="init" @initClear="initClear"></router-view> <!-- 路由引入的组件将在这里被渲染 -->
 			</div>
 		</div>
 		
@@ -169,12 +169,15 @@
 					});
 				// }
 			},
+			initClear(){
+				let t = this;
+				t.menu = '';
+				t.user = '';
+			},
 			logout(){
 				let t = this;
 				tips('即将跳转到登录页');
 				get('/logout',{},function(data){
-					t.menu = '';
-					t.user = '';
 					t.$router.push({path:'/login'});
 				});
 			}

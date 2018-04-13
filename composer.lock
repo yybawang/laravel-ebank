@@ -1605,16 +1605,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.11",
+            "version": "v2.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8"
+                "reference": "258c89a6b97de7dfaf5b8c7607d0478e236b04fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/paragonie/random_compat/5da4d3c796c275c55f057af5a643ae297d96b4d8.zip",
-                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8",
+                "url": "https://files.phpcomposer.com/files/paragonie/random_compat/258c89a6b97de7dfaf5b8c7607d0478e236b04fb.zip",
+                "reference": "258c89a6b97de7dfaf5b8c7607d0478e236b04fb",
                 "shasum": ""
             },
             "require": {
@@ -1649,7 +1649,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2017-09-27T21:40:39+00:00"
+            "time": "2018-04-04T21:24:14+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -2518,16 +2518,16 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v3.4.6",
+            "version": "v3.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "9b1071f86e79e1999b3d3675d2e0e7684268b9bc"
+                "reference": "9cf7c2271cfb89ef9727db1b740ca77be57bf9d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/symfony/debug/9b1071f86e79e1999b3d3675d2e0e7684268b9bc.zip",
-                "reference": "9b1071f86e79e1999b3d3675d2e0e7684268b9bc",
+                "url": "https://files.phpcomposer.com/files/symfony/debug/9cf7c2271cfb89ef9727db1b740ca77be57bf9d7.zip",
+                "reference": "9cf7c2271cfb89ef9727db1b740ca77be57bf9d7",
                 "shasum": ""
             },
             "require": {
@@ -2570,7 +2570,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2018-02-28T21:49:22+00:00"
+            "time": "2018-04-03T05:22:50+00:00"
         },
         {
             "name": "symfony/event-dispatcher",

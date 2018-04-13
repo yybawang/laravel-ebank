@@ -1,6 +1,6 @@
 
 // window._ = require('lodash');
-require('mdui');
+window.mdui =require('mdui');
 window.$ = mdui.JQ;
 // require('mdui/dist/css/mdui.min.css');
 

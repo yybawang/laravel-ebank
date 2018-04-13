@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "echarts": "^3.8.5",
-    "mdui": "^0.3.0",
+    "mdui": "^0.4.0",
     "vue-datepicker-local": "^1.0.9"
   }
 }
