@@ -2,7 +2,7 @@
 /**
  * 支付下单中转类
  */
-namespace App\Libraries;
+namespace App\Libraries\Bank;
 
 use App\Exceptions\ApiException;
 use App\Http\Controllers\Api\NotifyController;
@@ -10,8 +10,8 @@ use App\Http\Requests\BasicRequest;
 use App\Models\FundConfig;
 use App\Models\FundOrder;
 
-include_once 'wechat_pay/lib/WxPay.Api.php';
-include_once 'alipay_sdk/AopSdk.php';
+include_once '../wechat_pay/lib/WxPay.Api.php';
+include_once '../alipay_sdk/AopSdk.php';
 class OrderUnified {
 	protected $error = '';
 	
@@ -127,9 +127,9 @@ class OrderUnified {
 //		$aop->gatewayUrl = 'https://openapi.alipay.com/gateway.do';
 		$aop->appId = $appid;
 //		$aop->rsaPrivateKey = '请填写开发者私钥去头去尾去回车，一行字符串';
-		$aop->rsaPrivateKey = file_get_contents(__DIR__.'/alipay_sdk/pem/rsa_private_key.pem');
+		$aop->rsaPrivateKey = file_get_contents(__DIR__ . '/alipay_sdk/pem/rsa_private_key.pem');
 //		$aop->alipayrsaPublicKey='请填写支付宝公钥，一行字符串';
-		$aop->alipayrsaPublicKey = file_get_contents(__DIR__.'/alipay_sdk/pem/alipay_public_key.pem');
+		$aop->alipayrsaPublicKey = file_get_contents(__DIR__ . '/alipay_sdk/pem/alipay_public_key.pem');
 		$aop->apiVersion = '1.0';
 		$aop->signType = 'RSA2';
 		$aop->postCharset='UTF-8';
@@ -163,9 +163,9 @@ class OrderUnified {
 //		$aop->gatewayUrl = 'https://openapi.alipay.com/gateway.do';
 		$aop->appId = $appid;
 //		$aop->rsaPrivateKey = '请填写开发者私钥去头去尾去回车，一行字符串';
-		$aop->rsaPrivateKey = file_get_contents(__DIR__.'/alipay_sdk/pem/rsa_private_key.pem');
+		$aop->rsaPrivateKey = file_get_contents(__DIR__ . '/alipay_sdk/pem/rsa_private_key.pem');
 //		$aop->alipayrsaPublicKey='请填写支付宝公钥，一行字符串';
-		$aop->alipayrsaPublicKey = file_get_contents(__DIR__.'/alipay_sdk/pem/alipay_public_key.pem');
+		$aop->alipayrsaPublicKey = file_get_contents(__DIR__ . '/alipay_sdk/pem/alipay_public_key.pem');
 		$aop->apiVersion = '1.0';
 		$aop->signType = 'RSA2';
 		$aop->postCharset='UTF-8';
@@ -187,7 +187,7 @@ class OrderUnified {
 	// 支付宝支付算签
 	public function alipayCheckSign(){
 		$aop = new \AopClient();
-		$aop->alipayrsaPublicKey = file_get_contents(__DIR__.'/alipay_sdk/pem/alipay_public_key.pem');
+		$aop->alipayrsaPublicKey = file_get_contents(__DIR__ . '/alipay_sdk/pem/alipay_public_key.pem');
 		$flag = $aop->rsaCheckV1($_POST, NULL, "RSA2");
 		return $flag;
 	}

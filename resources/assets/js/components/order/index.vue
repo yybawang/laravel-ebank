@@ -47,7 +47,7 @@
 					<label class="mdui-checkbox" v-for="(name,id) of payment" style="margin-right:2rem;">
 						<input type="checkbox" :value="name" v-model="keyword.payment" />
 						<i class="mdui-checkbox-icon"></i>
-						{{payments[name]}}
+						{{payments[name] || name}}
 					</label>
 				</p>
 				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
@@ -55,7 +55,7 @@
 			</blockquote>
 			<blockquote class="blockquote_normal">
 				支付金额统计(分)
-				<p><span v-for="(amount,type) of sum_amount" class="mdui-m-r-3">{{payments[type]}}：{{amount}}</span></p>
+				<p><span v-for="(amount,type) of sum_amount" class="mdui-m-r-3">{{payments[type] || type}}：{{amount}}</span></p>
 			</blockquote>
 		</div>
 		<div class="mdui-table-fluid">
@@ -84,8 +84,8 @@
 						<td>支付时间：<span v-text="val.pay_time"></span></td>
 						<td>
 							<span v-for="(val2,key2) of val.payment">
-								<span class="mdui-text-color-teal-400">{{payments[val2.type]}}</span>
-								<span class="mdui-text-color-red-500">「{{val2.amount}}」</span><span v-if="key2+1 < val.payment.length">｜</span>
+								<span class="mdui-text-color-teal-400">{{payments[val2.type] || val2.type}}</span>
+								<span class="mdui-text-color-red-500">「{{val2.amount}}」</span><span v-if="key2+1 < val.payment.length">、</span>
 							</span>
 						</td>
 					</tr>

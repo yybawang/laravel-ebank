@@ -6,7 +6,7 @@
  * Time: 22:21
  */
 
-namespace App\Libraries;
+namespace App\Libraries\Bank;
 
 
 use Illuminate\Support\Facades\Cache;

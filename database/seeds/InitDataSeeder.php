@@ -45,7 +45,7 @@ class InitDataSeeder extends Seeder
 			'name'		=> '现金钱包',
 			'alias'		=> 'cash',
 			'status'	=> 1,
-			'remarks'	=> '默认钱包',
+			'remarks'	=> '支付入账默认钱包',
 		]);
 		FundPurseType::create([
 			'name'		=> '提现钱包',
@@ -60,83 +60,6 @@ class InitDataSeeder extends Seeder
 			'remarks'	=> '提前消费负债资金',
 		]);
 		
-		FundTransferReason::create([
-			'merchant_id'		=> 1,
-			'name'				=> '第三方支付接口退款',
-			'out_user_type_id'	=> 2,
-			'out_purse_type_id'	=> 1,
-			'into_user_type_id'	=> 1,
-			'into_purse_type_id'=> 1,
-			'reason'			=> '10001',
-			'status'			=> 1,
-			'remarks'			=> '系统到中央银行',
-		]);
-		FundTransferReason::create([
-			'merchant_id'		=> 1,
-			'name'				=> '第三方支付平台收款',
-			'out_user_type_id'	=> 1,
-			'out_purse_type_id'	=> 1,
-			'into_user_type_id'	=> 2,
-			'into_purse_type_id'=> 1,
-			'reason'			=> '10002',
-			'status'			=> 1,
-			'remarks'			=> '系统第三方支付入账，中央到系统',
-		]);
-		FundTransferReason::create([
-			'merchant_id'		=> 1,
-			'name'				=> '第三方现金充值',
-			'out_user_type_id'	=> 2,
-			'out_purse_type_id'	=> 1,
-			'into_user_type_id'	=> 3,
-			'into_purse_type_id'=> 1,
-			'reason'			=> '10003',
-			'status'			=> 1,
-			'remarks'			=> '用户订单支付中转，系统到用户',
-		]);
-		FundTransferReason::create([
-			'merchant_id'		=> 1,
-			'name'				=> '订单支付',
-			'out_user_type_id'	=> 3,
-			'out_purse_type_id'	=> 1,
-			'into_user_type_id'	=> 2,
-			'into_purse_type_id'=> 1,
-			'reason'			=> '10004',
-			'status'			=> 1,
-			'remarks'			=> '用户支付订单，用户到系统',
-		]);
-		FundTransferReason::create([
-			'merchant_id'		=> 1,
-			'name'				=> '用户退款',
-			'out_user_type_id'	=> 2,
-			'out_purse_type_id'	=> 1,
-			'into_user_type_id'	=> 3,
-			'into_purse_type_id'=> 1,
-			'reason'			=> '10005',
-			'status'			=> 1,
-			'remarks'			=> '后台订单退款',
-		]);
-		FundTransferReason::create([
-			'merchant_id'		=> 1,
-			'name'				=> '提现成功，用户钱包过账到提现钱包',
-			'out_user_type_id'	=> 3,
-			'out_purse_type_id'	=> 1,
-			'into_user_type_id'	=> 3,
-			'into_purse_type_id'=> 2,
-			'reason'			=> '10006',
-			'status'			=> 1,
-			'remarks'			=> '包含银行卡/支付宝/微信',
-		]);
-		FundTransferReason::create([
-			'merchant_id'		=> 1,
-			'name'				=> '提现成功，用户提现钱包到系统提现钱包',
-			'out_user_type_id'	=> 3,
-			'out_purse_type_id'	=> 2,
-			'into_user_type_id'	=> 2,
-			'into_purse_type_id'=> 2,
-			'reason'			=> '10007',
-			'status'			=> 1,
-			'remarks'			=> '包含银行卡/支付宝/微信',
-		]);
 		
 		FundUserType::create([
 			'name'		=> '中央银行',

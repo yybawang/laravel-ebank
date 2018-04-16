@@ -10,16 +10,13 @@
 					转账行为名称：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.name" />
 					reason：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.reason" />
 				</p>
-				<p>
-					所属商户：
-					<label class="mdui-checkbox" v-for="(name,id) of merchant" style="margin-right:2rem;">
-						<input type="checkbox" :value="id" v-model="keyword.merchant_id" />
-						<i class="mdui-checkbox-icon"></i>
-						{{name}}
-					</label>
-				</p>
 				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
 			</blockquote>
+		</div>
+		
+		<!--tab标签-->
+		<div class="mdui-tab" mdui-tab>
+			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(name,id,key) of merchant" v-text="name" @click="tab_change(id)"></a>
 		</div>
 		
 		<div class="mdui-table-fluid">
@@ -37,16 +34,15 @@
 				</tr>
 				</thead>
 				<tbody>
-				
-				<template v-for="(val,key,index) in list.data">
-					<tr class="mdui-color-grey-200">
-						<td v-text="key+1"></td>
-						<td v-text="val.id"></td>
-						<td v-text="merchant[val.merchant_id]"></td>
-						<td v-text="val.name"></td>
-						<td v-text="val.reason"></td>
-						<td v-text="val.created_at"></td>
-						<td v-text="val.updated_at"></td>
+				<template v-for="(val,key) in list.data">
+					<tr :class="{'mdui-color-grey-200':true}">
+						<td><span v-text="key+1"></span></td>
+						<td><span v-text="val.id"></span></td>
+						<td><span v-text="merchant[val.merchant_id]"></span></td>
+						<td><span v-text="val.name"></span></td>
+						<td><span v-text="val.reason"></span></td>
+						<td><span v-text="val.created_at"></span></td>
+						<td><span v-text="val.updated_at"></span></td>
 						<td>
 							<div class="mdui-btn-group">
 								<a class="mdui-btn mdui-ripple mdui-color-theme" @click="add(val.id)">修改</a>
@@ -60,8 +56,8 @@
 						<td>出账钱包：<span class="mdui-text-color-deep-orange">{{purse_type[val.out_purse_type_id]}}</span></td>
 						<td>进账身份：<span class="mdui-text-color-teal">{{user_type[val.into_user_type_id]}}</span></td>
 						<td>进账钱包：<span class="mdui-text-color-teal">{{purse_type[val.into_purse_type_id]}}</span></td>
-						<td>状态：<span v-text="val.status ? '启用' : '禁用'"></span></td>
-						<td colspan="2">用户释义：<span v-text="val.remarks"></span></td>
+						<td>状态：<span class="mdui-text-color-green" v-if="val.status">启用</span><span class="mdui-text-color-red" v-else>禁用</span></td>
+						<td colspan="2">备注：<span v-text="val.remarks"></span></td>
 					</tr>
 				</template>
 				</tbody>
@@ -177,7 +173,7 @@
 				keyword : {
 					page : 1,
 					name : '',
-					merchant_id : [],
+					merchant_id : 1,
 					reason : '',
 				},
 			};
@@ -209,6 +205,11 @@
 				this.keyword.page = page;
 				this.init();
 			},
+			tab_change(id){
+				this.keyword.page = 1;
+				this.keyword.merchant_id = id;
+				this.init();
+			},
 			init(){
 				let t = this;
 				get('/transfer/reason',t.keyword,function(data){
@@ -216,6 +217,9 @@
 					t.merchant = data.merchant;
 					t.user_type = data.user_type;
 					t.purse_type = data.purse_type;
+					setTimeout(function(){
+						$('.mdui-tab').mutation();
+					});
 				});
 			}
 		},

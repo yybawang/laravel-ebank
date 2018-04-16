@@ -70,7 +70,7 @@
 					</tr>
 					<tr v-show="val.more">
 						<td v-text="key+1"></td>
-						<td class="mdui-text-color-deep-orange">出账信息</td>
+						<td class="mdui-text-color-deep-orange">出账信息：</td>
 						<td>用户ID：<span v-text="val.out_user_id"></span></td>
 						<td class="mdui-text-color-deep-orange" v-text="user_type[val.out_user_type_id]"></td>
 						<td class="mdui-text-color-deep-orange" v-text="purse_type[val.out_purse_type_id]"></td>
@@ -79,7 +79,7 @@
 					</tr>
 					<tr v-show="val.more">
 						<td v-text="key+1"></td>
-						<td class="mdui-text-color-teal">进账信息</td>
+						<td class="mdui-text-color-teal">进账信息：</td>
 						<td>用户ID：<span v-text="val.into_user_id"></span></td>
 						<td class="mdui-text-color-teal" v-text="user_type[val.into_user_type_id]"></td>
 						<td class="mdui-text-color-teal" v-text="purse_type[val.into_purse_type_id]"></td>

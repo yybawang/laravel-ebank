@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\BasicRequest;
-use App\Libraries\Bank;
+use App\Libraries\Bank\EBank;
 use App\Models\FundPurseType;
 use App\Models\FundWithdraw;
 use App\Models\FundWithdrawAlipay;
@@ -37,7 +37,7 @@ class WithdrawController extends CommonController {
 		
 		$purse = $request->input('purse');
 		$purse_id = FundPurseType::where(['alias'=>$purse,'status'=>1])->value('id');
-		$bank = new Bank();
+		$bank = new EBank();
 		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id);
 		$id = $bank->freeze($wallet->id,$post['amount']);
 		$post['freeze_id']	= $id;
@@ -70,7 +70,7 @@ class WithdrawController extends CommonController {
 		
 		$purse = $request->input('purse');
 		$purse_id = FundPurseType::where(['alias'=>$purse,'status'=>1])->value('id');
-		$bank = new Bank();
+		$bank = new EBank();
 		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id);
 		$id = $bank->freeze($wallet->id,$post['amount']);
 		$post['freeze_id']	= $id;
@@ -103,7 +103,7 @@ class WithdrawController extends CommonController {
 		
 		$purse = $request->input('purse');
 		$purse_id = FundPurseType::where(['alias'=>$purse,'status'=>1])->value('id');
-		$bank = new Bank();
+		$bank = new EBank();
 		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id);
 		$id = $bank->freeze($wallet->id,$post['amount']);
 		$post['freeze_id']	= $id;

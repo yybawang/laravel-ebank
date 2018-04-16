@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Libraries\Bank;
+use App\Libraries\Bank\EBank;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -36,7 +36,7 @@ class Transfer implements ShouldQueue
     public function handle()
     {
 		// 异步转账操作
-		$bank = new Bank();
+		$bank = new EBank();
 		$transfer_ids = [];
 		DB::transaction(function() use (&$transfer_ids,$bank){
 			$parent_id = 0;

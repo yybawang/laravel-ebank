@@ -18,8 +18,8 @@ class IndexController extends CommonController
 	 * @return array
 	 */
 	public function init(BasicRequest $request){
-		$data['menu'] = init_menu();
 		$data['user'] = admin_user();
+		$data['menu'] = init_menu();
 		return json_success('OK',$data);
 	}
 	

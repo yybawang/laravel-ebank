@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Libraries\Bank;
 use App\Http\Requests\BasicRequest;
+use App\Libraries\Bank\EBank;
 use App\Models\FundFreeze;
 use App\Models\FundPurseType;
 use App\Models\FundUserPurse;
@@ -62,7 +62,7 @@ class PurseController extends CommonController {
 	// 冻结记录单条解冻
 	public function unfreeze(BasicRequest $request){
 		$id = $request->input('id');
-		$bank = new Bank();
+		$bank = new EBank();
 		$bool = $bank->unfreeze($id);
 		return json_return($bool);
 	}
@@ -103,7 +103,7 @@ class PurseController extends CommonController {
 		$post = $request->all();
 		$id = FundUserType::updateOrCreate(['id'=>$post['id']],$post)->id;
 		// 钱包金额初始化
-		$bank = new Bank();
+		$bank = new EBank();
 		$bank->init();
 		return json_return($id,'','',['id'=>$id]);
 	}
@@ -149,7 +149,7 @@ class PurseController extends CommonController {
 		$post = $request->all();
 		$id = FundPurseType::updateOrCreate(['id'=>$post['id']],$post)->id;
 		// 钱包金额初始化
-		$bank = new Bank();
+		$bank = new EBank();
 		$bank->init();
 		return json_return($id,'','',['id'=>$id]);
 	}

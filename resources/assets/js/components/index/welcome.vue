@@ -114,7 +114,7 @@
 				
 				for(let payment in into.amount){
 					let series = series_template();
-					series.name = payments[payment];
+					series.name = payments[payment] || payment;
 					order_options.legend.data.push(series.name);
 					for(let date in into.amount[payment]){
 						series.data.push(into.amount[payment][date]);

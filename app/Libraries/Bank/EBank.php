@@ -2,7 +2,7 @@
 /**
  * 电子银行核心sdk类库单文件
  */
-namespace App\Libraries;
+namespace App\Libraries\Bank;
 
 use App\Models\FundAdmin;
 use App\Models\FundAdminGroup;
@@ -29,7 +29,7 @@ use Illuminate\Validation\Rule;
  * 用户类型定死一种类型，id 可以不固定.
  * 1、现金
  */
-class Bank {
+class EBank {
 	
 	/**
 	 * @param int $balance	// 如果钱包余额为0，则重新赋此值
@@ -53,6 +53,7 @@ class Bank {
 	
 	/**
 	 * 开始转账，使用用户类型&钱包类型别名驼峰拼接的形式解析
+	 * 内部使用，不暴露给外部SDK
 	 * @param $name
 	 * @param $arguments
 	 * @return int
@@ -62,10 +63,8 @@ class Bank {
 		$out_user_id	= $arguments[0] ?? 0;
 		$into_user_id	= $arguments[1] ?? 0;
 		$amount			= $arguments[2];
-		$reason			= $arguments[3];
-		$parent_id		= $arguments[4] ?? 0;
-		$detail			= $arguments[5];
-		$remarks		= $arguments[6];
+		$detail			= $arguments[3];
+		$reason_name	= $arguments[4];
 
 		$transfer_name = explode('_',snake_case($name));
 		if(count($transfer_name) != 5){
@@ -76,9 +75,7 @@ class Bank {
 			'from_user_id'			=> $out_user_id,
 			'to_user_id'			=> $into_user_id,
 			'amount'				=> $amount,
-			'reason'				=> $reason,
 			'detail'				=> $detail,
-			'remarks'				=> $remarks,
 			'out_user_type'			=> $transfer_name[0],
 			'out_purse_type'		=> $transfer_name[1],
 			'into_user_type'		=> $transfer_name[3],
@@ -87,7 +84,7 @@ class Bank {
 			'from_user_id'			=> 'required|integer|min:0',
 			'to_user_id'			=> 'required|integer|min:0',
 			'amount'				=> 'required|integer|min:1',
-			'reason'				=> 'required|integer',
+//			'reason'				=> 'required|integer',
 			'out_user_type'		=> [
 				'required',
 				Rule::exists('fund_user_type','alias')->where('status',1),
@@ -114,8 +111,6 @@ class Bank {
 			'amount.required'			=> '金额参数必传',
 			'amount.integer'			=> '金额参数只能为正整数',
 			'amount.min'				=> '金额参数只能为正整数',
-			'reason.required'			=> 'reason 参数必传',
-			'reason.integer'			=> 'reason 参数只能为数字',
 			'out_user_type.required'	=> '转出用户类型参数必传',
 			'out_user_type.exists'		=> '转出用户类型不存在',
 			'out_purse_type.required'	=> '转出钱包类型参数必传',
@@ -145,7 +140,19 @@ class Bank {
 
 		$out_purse = $this->userWalletDetail($out_user_id,$out_purse_type_id,$out_user_type_id);
 		$into_purse = $this->userWalletDetail($into_user_id,$into_purse_type_id,$into_user_type_id);
-		$transfer_id = $this->_transfer($out_purse->id,$into_purse->id,$amount,$reason,$parent_id,$detail,$remarks);
+		// 自动生成 reason，商户为系统商户(ID:1)，格式为：出账用户类型+出账钱包类型+'2'+进账用户类型+进账钱包类型
+		$reason = str_pad($out_user_type_id,2,'0').str_pad($out_purse_type_id,2,'0').'2'.str_pad($into_user_type_id,2,'0').str_pad($into_purse_type_id,2,'0');
+		FundTransferReason::firstOrCreate(['reason'=>$reason],[
+			'merchant_id'		=> 1,
+			'name'				=> $reason_name ?? '钱包内部变动，系统自动处理',
+			'out_user_type_id'	=> $out_user_type_id,
+			'out_purse_type_id'	=> $out_purse_type_id,
+			'into_user_type_id'	=> $into_user_type_id,
+			'into_purse_type_id'=> $into_purse_type_id,
+			'status'			=> 1,
+			'remarks'			=> '系统自动生成，--请按业务修改[转账行为名称]',
+		]);
+		$transfer_id = $this->_transfer($out_purse->id,$into_purse->id,$amount,$reason,0,$detail);
 		return $transfer_id;
 	}
 	

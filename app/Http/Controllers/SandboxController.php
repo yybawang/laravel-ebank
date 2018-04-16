@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Http\Controllers\Api\NotifyController;
-use App\Libraries\Bank;
+use App\Libraries\Bank\EBank;
 use App\Libraries\BankSdk;
 use App\Http\Requests\BasicRequest;
 use App\Jobs\Transfer;
 use App\Libraries\ExportCsv;
-use App\Libraries\Jifudf;
 use App\Mail\Bug;
 use App\Models\FundAdmin;
 use App\Models\FundFreeze;
@@ -32,7 +31,8 @@ class SandboxController extends Controller
 //		bug_email('ssss','复古');
 //		echo FundAdmin::md5('123456');
 //		$bank = new BankSdk();
-		$bank = new Bank();
+		$bank = new EBank();
+//		$bank->init();
 //		$s = $bank->userPurseDetail(4);
 //		$s = $bank->unfreeze(1);
 		/**
@@ -41,7 +41,7 @@ class SandboxController extends Controller
 		 */
 		$transfer = [
 			// 充值测试
-			BankSdk::transfer_add(10005)->to(1)->amount(100000)->detail(''),
+			BankSdk::transfer_add(10001)->to(1)->amount(100000)->detail(''),
 		];
 //		$s = (new BankSdk())->transfer($transfer);
 //		$s = (new BankSdk())->async()->transfer($transfer);
@@ -49,7 +49,7 @@ class SandboxController extends Controller
 		/**
 		 * payType 方法可以多次调用，实现组合支付
 		 */
-//		$s =  BankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',1)->returnUrl('http://return.com')->notifyUrl('http://notify.com')->pay();
+//		$s =  BankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',1)->returnUrl('http://return.com')->notifyUrl('http://ebank.com')->pay();
 		
 //		$export = new ExportCsv();
 //		$s = $export->name('导出流水测试')->data(FundTransfer::all())->save();

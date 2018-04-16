@@ -13,9 +13,9 @@ use App\Http\Requests\ApiTransferDetailRequest;
 use App\Http\Requests\ApiUnfreezeRequest;
 use App\Http\Requests\ApiUserTypeWalletRequest;
 use App\Http\Requests\ApiUserWalletRequest;
-use App\Libraries\Bank;
 use App\Http\Requests\BasicRequest;
 use App\Jobs\Transfer;
+use App\Libraries\Bank\EBank;
 use App\Models\FundUserType;
 use Illuminate\Support\Facades\DB;
 
@@ -36,8 +36,8 @@ class BankController extends CommonController {
 	 */
 	public function init(BasicRequest $request){
 		$balance = $request->input('balance',100000000000000);
-		$bank = new Bank();
-		$bool = $bank->init($balance);
+		$EBank = new EBank();
+		$bool = $EBank->init($balance);
 		return json_return($bool,'初始化错误，请检查转账数据是否已存在','系统钱包数据初始化完成，启动资金'.number_format($balance / 100,2).'元');
 	}
 	
@@ -46,8 +46,8 @@ class BankController extends CommonController {
 	 * @return array
 	 */
 	public function user_type(){
-		$bank = new Bank();
-		$data = $bank->userType();
+		$EBank = new EBank();
+		$data = $EBank->userType();
 		return json_success('OK',$data);
 	}
 	
@@ -56,8 +56,8 @@ class BankController extends CommonController {
 	 * @return array
 	 */
 	public function purse_type(){
-		$bank = new Bank();
-		$data = $bank->purseType();
+		$EBank = new EBank();
+		$data = $EBank->purseType();
 		return json_success('OK',$data);
 	}
 	
@@ -68,9 +68,9 @@ class BankController extends CommonController {
 	 */
 	public function user_type_wallet(ApiUserTypeWalletRequest $request){
 		$user_type = $request->input('user_type');
-		$bank = new Bank();
+		$EBank = new EBank();
 		$user_type_id = FundUserType::where(['alias'=>$user_type])->value('id');
-		$data = $bank->userWallet(0,$user_type_id);
+		$data = $EBank->userWallet(0,$user_type_id);
 		return json_success('OK',$data);
 	}
 	
@@ -81,9 +81,9 @@ class BankController extends CommonController {
 	 */
 	public function central_wallet(BasicRequest $request){
 		$user_type = 'central';
-		$bank = new Bank();
+		$EBank = new EBank();
 		$user_type_id = FundUserType::where(['alias'=>$user_type])->value('id');
-		$data = $bank->userWallet(0,$user_type_id);
+		$data = $EBank->userWallet(0,$user_type_id);
 		return json_success('OK',$data);
 	}
 	
@@ -94,9 +94,9 @@ class BankController extends CommonController {
 	 */
 	public function system_wallet(BasicRequest $request){
 		$user_type = 'system';
-		$bank = new Bank();
+		$EBank = new EBank();
 		$user_type_id = FundUserType::where(['alias'=>$user_type])->value('id');
-		$data = $bank->userWallet(0,$user_type_id);
+		$data = $EBank->userWallet(0,$user_type_id);
 		return json_success('OK',$data);
 	}
 	
@@ -107,8 +107,8 @@ class BankController extends CommonController {
 	 */
 	public function user_wallet(ApiUserWalletRequest $request){
 		$user_id = $request->input('user_id');
-		$bank = new Bank();
-		$data = $bank->userWallet($user_id);
+		$EBank = new EBank();
+		$data = $EBank->userWallet($user_id);
 		return json_success('OK',$data);
 	}
 	
@@ -119,8 +119,8 @@ class BankController extends CommonController {
 	 */
 	public function purse_detail(ApiPurseDetailRequest $request){
 		$purse_id = $request->input('purse_id');
-		$bank = new Bank();
-		$data = $bank->userPurseDetail($purse_id);
+		$EBank = new EBank();
+		$data = $EBank->userPurseDetail($purse_id);
 		return json_success('OK',$data);
 	}
 	
@@ -134,8 +134,8 @@ class BankController extends CommonController {
 		$purse_id = $request->input('purse_id');
 		$amount = $request->input('amount');
 		$remarks = $request->input('remarks');
-		$bank = new Bank();
-		$freeze_id = $bank->freeze($purse_id,$amount,$remarks);
+		$EBank = new EBank();
+		$freeze_id = $EBank->freeze($purse_id,$amount,$remarks);
 		return json_return($freeze_id,'','OK',['freeze_id'=>$freeze_id]);
 	}
 	
@@ -146,8 +146,8 @@ class BankController extends CommonController {
 	 */
 	public function unfreeze(ApiUnfreezeRequest $request){
 		$freeze_id = $request->input('freeze_id');
-		$bank = new Bank();
-		$bool = $bank->unfreeze($freeze_id);
+		$EBank = new EBank();
+		$bool = $EBank->unfreeze($freeze_id);
 		return json_return($bool,'','解冻成功',['freeze_id'=>$freeze_id]);
 	}
 	
@@ -158,14 +158,14 @@ class BankController extends CommonController {
 	 * @return array
 	 */
 	public function transfer(BasicRequest $request){
-		$bank = new Bank();
+		$EBank = new EBank();
 		$transfer_ids = [];
 		$posts = $request->input('param');	// 二维数组，循环一次后才是真正的参数列表
 		$async = $request->input('async');	// 是否是异步操作，异步操作无返回值
 		if($async){
 			Transfer::dispatch($posts)->onQueue('transfer');
 		}else{
-			DB::transaction(function() use (&$transfer_ids,$bank,$posts){
+			DB::transaction(function() use (&$transfer_ids,$EBank,$posts){
 				$parent_id = 0;
 				
 				foreach($posts as $k => $post){
@@ -175,7 +175,7 @@ class BankController extends CommonController {
 					$reason = $post['reason'];
 					$detail = $post['detail'];
 					$remarks = $post['remarks'];
-					$transfer_ids[] = $parent_id = $bank->transfer($from_user_id,$to_user_id,$amount,$reason,$parent_id,$detail,$remarks);
+					$transfer_ids[] = $parent_id = $EBank->transfer($from_user_id,$to_user_id,$amount,$reason,$parent_id,$detail,$remarks);
 				}
 			});
 		}
@@ -190,8 +190,8 @@ class BankController extends CommonController {
 	public function untransfer(ApiReverseRequest $request){
 		$transfer_id = $request->input('transfer_id');
 		$remarks = $request->input('remarks');
-		$bank = new Bank();
-		$transfer_id = $bank->untransfer($transfer_id,$remarks);
+		$EBank = new EBank();
+		$transfer_id = $EBank->untransfer($transfer_id,$remarks);
 		return json_return($transfer_id,'','资金冲正处理成功',['transfer_id'=>$transfer_id]);
 	}
 	
@@ -202,8 +202,8 @@ class BankController extends CommonController {
 	 */
 	public function transfer_detail(ApiTransferDetailRequest $request){
 		$transfer_id = $request->input('transfer_id');
-		$bank = new Bank();
-		$detail = $bank->transferDetail($transfer_id);
+		$EBank = new EBank();
+		$detail = $EBank->transferDetail($transfer_id);
 		return json_success('OK',$detail);
 	}
 }

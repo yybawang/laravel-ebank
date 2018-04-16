@@ -2,9 +2,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\ApiException;
-use App\Libraries\Bank;
 use App\Http\Requests\BasicRequest;
 use App\Jobs\OrderNotify;
+use App\Libraries\Bank\EBank;
 use App\Libraries\ExportCsv;
 use App\Models\FundMerchant;
 use App\Models\FundOrder;
@@ -105,7 +105,7 @@ class OrderController extends CommonController {
 			abort_500('订单状态与退款条件不足');
 		}
 		DB::transaction(function () use ($amount, $order) {
-			$bank = new Bank();
+			$bank = new EBank();
 //			$transfer_id = 0;
 //			$pay_type_group = json_decode($order->pay_type_group,true);
 //

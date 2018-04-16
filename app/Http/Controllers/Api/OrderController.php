@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\OrderUnifiedRequest;
-use App\Libraries\OrderPayments;
-use App\Libraries\OrderUnified;
+use App\Libraries\Bank\OrderPayments;
+use App\Libraries\Bank\OrderUnified;
 use App\Models\FundMerchant;
 use App\Models\FundOrder;
 use App\Models\FundOrderPayment;

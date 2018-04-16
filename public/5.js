@@ -167,10 +167,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -184,7 +180,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			keyword: {
 				page: 1,
 				name: '',
-				merchant_id: [],
+				merchant_id: 1,
 				reason: ''
 			}
 		};
@@ -227,6 +223,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.keyword.page = page;
 			this.init();
 		},
+		tab_change: function tab_change(id) {
+			this.keyword.page = 1;
+			this.keyword.merchant_id = id;
+			this.init();
+		},
 		init: function init() {
 			var t = this;
 			get('/transfer/reason', t.keyword, function (data) {
@@ -234,6 +235,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				t.merchant = data.merchant;
 				t.user_type = data.user_type;
 				t.purse_type = data.purse_type;
+				setTimeout(function () {
+					$('.mdui-tab').mutation();
+				});
 			});
 		}
 	},
@@ -328,67 +332,6 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c(
-          "p",
-          [
-            _vm._v("\n\t\t\t\t所属商户：\n\t\t\t\t"),
-            _vm._l(_vm.merchant, function(name, id) {
-              return _c(
-                "label",
-                {
-                  staticClass: "mdui-checkbox",
-                  staticStyle: { "margin-right": "2rem" }
-                },
-                [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.keyword.merchant_id,
-                        expression: "keyword.merchant_id"
-                      }
-                    ],
-                    attrs: { type: "checkbox" },
-                    domProps: {
-                      value: id,
-                      checked: Array.isArray(_vm.keyword.merchant_id)
-                        ? _vm._i(_vm.keyword.merchant_id, id) > -1
-                        : _vm.keyword.merchant_id
-                    },
-                    on: {
-                      change: function($event) {
-                        var $$a = _vm.keyword.merchant_id,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = id,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 &&
-                              (_vm.keyword.merchant_id = $$a.concat([$$v]))
-                          } else {
-                            $$i > -1 &&
-                              (_vm.keyword.merchant_id = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
-                          }
-                        } else {
-                          _vm.$set(_vm.keyword, "merchant_id", $$c)
-                        }
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("i", { staticClass: "mdui-checkbox-icon" }),
-                  _vm._v("\n\t\t\t\t\t" + _vm._s(name) + "\n\t\t\t\t")
-                ]
-              )
-            })
-          ],
-          2
-        ),
-        _vm._v(" "),
-        _c(
           "a",
           {
             staticClass: "mdui-btn mdui-ripple mdui-color-theme",
@@ -410,6 +353,27 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "mdui-tab", attrs: { "mdui-tab": "" } },
+      _vm._l(_vm.merchant, function(name, id, key) {
+        return _c("a", {
+          class: {
+            "mdui-btn": true,
+            "mdui-ripple": true,
+            "mdui-tab-active": key == 0
+          },
+          attrs: { href: "#tab_" + key },
+          domProps: { textContent: _vm._s(name) },
+          on: {
+            click: function($event) {
+              _vm.tab_change(id)
+            }
+          }
+        })
+      })
+    ),
+    _vm._v(" "),
     _c("div", { staticClass: "mdui-table-fluid" }, [
       _c("table", { staticClass: "mdui-table mdui-table-hoverable" }, [
         _vm._m(0),
@@ -417,30 +381,46 @@ var render = function() {
         _c(
           "tbody",
           [
-            _vm._l(_vm.list.data, function(val, key, index) {
+            _vm._l(_vm.list.data, function(val, key) {
               return [
-                _c("tr", { staticClass: "mdui-color-grey-200" }, [
-                  _c("td", { domProps: { textContent: _vm._s(key + 1) } }),
+                _c("tr", { class: { "mdui-color-grey-200": true } }, [
+                  _c("td", [
+                    _c("span", { domProps: { textContent: _vm._s(key + 1) } })
+                  ]),
                   _vm._v(" "),
-                  _c("td", { domProps: { textContent: _vm._s(val.id) } }),
+                  _c("td", [
+                    _c("span", { domProps: { textContent: _vm._s(val.id) } })
+                  ]),
                   _vm._v(" "),
-                  _c("td", {
-                    domProps: {
-                      textContent: _vm._s(_vm.merchant[val.merchant_id])
-                    }
-                  }),
+                  _c("td", [
+                    _c("span", {
+                      domProps: {
+                        textContent: _vm._s(_vm.merchant[val.merchant_id])
+                      }
+                    })
+                  ]),
                   _vm._v(" "),
-                  _c("td", { domProps: { textContent: _vm._s(val.name) } }),
+                  _c("td", [
+                    _c("span", { domProps: { textContent: _vm._s(val.name) } })
+                  ]),
                   _vm._v(" "),
-                  _c("td", { domProps: { textContent: _vm._s(val.reason) } }),
+                  _c("td", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(val.reason) }
+                    })
+                  ]),
                   _vm._v(" "),
-                  _c("td", {
-                    domProps: { textContent: _vm._s(val.created_at) }
-                  }),
+                  _c("td", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(val.created_at) }
+                    })
+                  ]),
                   _vm._v(" "),
-                  _c("td", {
-                    domProps: { textContent: _vm._s(val.updated_at) }
-                  }),
+                  _c("td", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(val.updated_at) }
+                    })
+                  ]),
                   _vm._v(" "),
                   _c("td", [
                     _c("div", { staticClass: "mdui-btn-group" }, [
@@ -507,15 +487,17 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     _vm._v("状态："),
-                    _c("span", {
-                      domProps: {
-                        textContent: _vm._s(val.status ? "启用" : "禁用")
-                      }
-                    })
+                    val.status
+                      ? _c("span", { staticClass: "mdui-text-color-green" }, [
+                          _vm._v("启用")
+                        ])
+                      : _c("span", { staticClass: "mdui-text-color-red" }, [
+                          _vm._v("禁用")
+                        ])
                   ]),
                   _vm._v(" "),
                   _c("td", { attrs: { colspan: "2" } }, [
-                    _vm._v("用户释义："),
+                    _vm._v("备注："),
                     _c("span", {
                       domProps: { textContent: _vm._s(val.remarks) }
                     })

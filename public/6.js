@@ -500,7 +500,7 @@ var render = function() {
                       _c("td", { domProps: { textContent: _vm._s(key + 1) } }),
                       _vm._v(" "),
                       _c("td", { staticClass: "mdui-text-color-deep-orange" }, [
-                        _vm._v("出账信息")
+                        _vm._v("出账信息：")
                       ]),
                       _vm._v(" "),
                       _c("td", [
@@ -565,7 +565,7 @@ var render = function() {
                       _c("td", { domProps: { textContent: _vm._s(key + 1) } }),
                       _vm._v(" "),
                       _c("td", { staticClass: "mdui-text-color-teal" }, [
-                        _vm._v("进账信息")
+                        _vm._v("进账信息：")
                       ]),
                       _vm._v(" "),
                       _c("td", [

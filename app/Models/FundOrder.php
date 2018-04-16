@@ -4,7 +4,7 @@ namespace App\Models;
 
 
 use App\Jobs\OrderNotify;
-use App\Libraries\Bank;
+use App\Libraries\Bank\EBank;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -62,12 +62,11 @@ class FundOrder extends CommonModel
 		// 如果此订单存在第三方支付就得到第三方支付的价格进行匹配
 		$amount_thread = FundOrderPayment::where(['order_id'=>$order->id])->where('type','not like','wallet_%')->sum('amount');
 		if($order){
-			if($amount_thread > 0){
-				if($amount_thread != $amount){
-					logger('三方支付通知订单号['.$order_no.']通知价格不正确，本地价格：'.$amount_thread.'，通知价格：'.$amount);
-					return false;
-				}
-			}elseif($order->amount != $amount){
+			if($amount_thread > 0 && $amount_thread != $amount){
+				logger('三方支付通知订单号['.$order_no.']通知价格不正确，本地价格：'.$amount_thread.'，通知价格：'.$amount);
+				return false;
+			}
+			if($amount_thread <= 0 && $order->amount != $amount){
 				logger('钱包支付通知订单号['.$order_no.']通知价格不正确，本地价格：'.$order->amount.'，通知价格：'.$amount);
 				return false;
 			}
@@ -88,22 +87,23 @@ class FundOrder extends CommonModel
 	
 	private function _completeOrder(FundOrder $order){
 		DB::transaction(function() use ($order){
-			$bank = new Bank();
+			$bank = new EBank();
 			// 系统钱包增加金额，流水为充值，用户钱包支付部分就是用户到系统。
 			FundOrderPayment::where(['order_id'=>$order->id])->pluck('amount','type')->each(function($amount,$type) use ($order,$bank){
 				$uid = $order->user_id;
 				if($amount <= 0){
 					return true;
 				}
+				
 				// 如果是用户，就是回转到系统
 				if(stripos($type,'wallet_') === 0){
 					$purse_type = ucfirst(substr(strstr($type, '_'), 1));
 					$transfer_alias = 'user'.$purse_type.'ToSystem'.$purse_type;
-					$bank->$transfer_alias($uid,0,$amount,10004,0,$order->order_no);
+					$bank->$transfer_alias($uid,0,$amount,$order->order_no,'内部钱包支付成功扣款');
 				}else{
-					$bank->transfer(0,0,$amount,10002,0,$order->order_no);	// 为凭空出来的钱，所以先从中央银行扣款到系统
-					$bank->transfer(0,$uid,$amount,10003,0,$order->order_no);	// 系统先给用户充值，走流水
-					$bank->transfer($uid,0,$amount,10004,0,$order->order_no);	// 再转回系统，订单支付
+					$bank->centralCashToSystemCash(0,0,$amount,$order->order_no,'三方支付成功，中央银行现金拨款');	// 为凭空出来的钱，所以先从中央银行扣款到系统
+					$bank->systemCashToUserCash(0,$uid,$amount,$order->order_no,'用户充值');	// 系统先给用户充值，走流水
+					$bank->userCashToSystemCash($uid,0,$amount,$order->order_no,'订单支付');	// 再转回系统，订单支付
 				}
 			});
 			

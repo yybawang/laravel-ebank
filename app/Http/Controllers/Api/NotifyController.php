@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Libraries\Bank;
 use App\Http\Requests\BasicRequest;
 use App\Jobs\OrderNotify;
-use App\Libraries\OrderUnified;
+use App\Libraries\Bank\OrderUnified;
 use App\Models\FundOrder;
 use App\Models\FundOrderPayment;
 use Illuminate\Support\Facades\Cache;

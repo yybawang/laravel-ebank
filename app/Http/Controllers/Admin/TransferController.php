@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Libraries\Bank;
 use App\Http\Requests\BasicRequest;
+use App\Libraries\Bank\EBank;
 use App\Libraries\ExportCsv;
 use App\Models\FundMerchant;
 use App\Models\FundPurseType;
@@ -57,7 +57,7 @@ class TransferController extends CommonController {
 	public function untransfer(BasicRequest $request){
 		$id = $request->input('id');
 		$remarks = $request->input('remarks');
-		$bank = new Bank();
+		$bank = new EBank();
 		$bool = $bank->untransfer($id,$remarks);
 		return json_return($bool);
 	}
@@ -71,16 +71,17 @@ class TransferController extends CommonController {
 		$data['user_type'] = FundUserType::where(['status'=>1])->pluck('name','id');
 		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('name','id');
 		$data['merchant'] = FundMerchant::where(['status'=>1])->pluck('name','id');
-		$data['list'] = FundTransferReason::when($request->input('name'),function($query) use ($request){
-			$query->where('name','like','%'.$request->input('name').'%');
-		})
+		$data['list'] = FundTransferReason::where(['merchant_id'=>$request->input('merchant_id')])
+			->when($request->input('name'),function($query) use ($request){
+				$query->where('name','like','%'.$request->input('name').'%');
+			})
 			->when($request->input('reason'),function($query) use ($request){
 				$query->where('reason','like','%'.$request->input('reason').'%');
 			})
-			->when($request->input('merchant_id'),function($query) use ($request){
-				$query->whereIn('merchant_id',$request->input('merchant_id'));
-			})
-			->orderBy('reason','desc')
+//			->when($request->input('merchant_id'),function($query) use ($request){
+//				$query->whereIn('merchant_id',$request->input('merchant_id'));
+//			})
+			->orderBy('id','desc')
 			->pages();
 		return json_success('OK',$data);
 	}

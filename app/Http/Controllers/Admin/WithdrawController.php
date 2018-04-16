@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exceptions\ApiException;
-use App\Libraries\Bank;
 use App\Http\Requests\BasicRequest;
+use App\Libraries\Bank\EBank;
 use App\Libraries\ExportCsv;
 use App\Models\FundPurseType;
 use App\Models\FundWithdraw;
@@ -102,19 +102,19 @@ class WithdrawController extends CommonController {
 		}
 		$withdraw_class = '\\App\\Models\\FundWithdraw'.$type;
 		$withdraw_object = new $withdraw_class();
-		$bank = new Bank();
+		$bank = new EBank();
 		DB::transaction(function() use ($bank,$withdraw_object,$ids){
 			foreach($ids as $k => $id){
 				$withdraw = $withdraw_object->findOrFail($id);
 				$bank->unfreeze($withdraw->freeze_id);
 				$purse_type = ucfirst($withdraw->purse);
 				$transfer_alias_user = 'user'.$purse_type.'ToUserWithdraw';
-				$bank->$transfer_alias_user($withdraw->user_id,$withdraw->user_id,$withdraw->amount,'10006',0,$withdraw->id);
-				$transfer_id = $bank->transfer($withdraw->user_id,0,$withdraw->amount,'10007',0,$withdraw->id);
+				$transfer_alias_system = 'userWithdrawToSystemWithdraw';
+				$bank->$transfer_alias_user($withdraw->user_id,$withdraw->user_id,$withdraw->amount,$withdraw->id,'提现成功，钱包中转');
+				$transfer_id = $bank->$transfer_alias_system($withdraw->user_id,0,$withdraw->amount,$withdraw->id,'提现成功，资金回收');
 				$withdraw->status = 1;
 				$withdraw->transfer_id = $transfer_id;
-				$bool = $withdraw->save();
-				abort_500('ID：'.$id.' 执行错误，请截图并联系管理员处理',$bool);
+				$withdraw->save();
 			}
 		});
 		
@@ -127,20 +127,21 @@ class WithdrawController extends CommonController {
 	 * @return array
 	 */
 	public function fail(BasicRequest $request){
+		ignore_user_abort(true);
+		set_time_limit(3600);
 		$id = $request->input('id');
 		$remarks = $request->input('remarks');
 		$type = ucfirst($request->input('type'));
 		
 		$withdraw_class = '\\App\\Models\\FundWithdraw'.$type;
 		$withdraw_object = new $withdraw_class();
-		$bank = new Bank();
+		$bank = new EBank();
 		DB::transaction(function() use ($bank,$id,$withdraw_object,$remarks){
 			$withdraw = $withdraw_object->findOrFail($id);
 			$bank->unfreeze($withdraw->freeze_id);
 			$withdraw->status = 2;
 			$withdraw->remarks = $remarks;
-			$bool = $withdraw->save();
-			abort_500('ID：'.$id.' 执行错误，请截图并联系管理员处理',$bool);
+			$withdraw->save();
 		});
 		
 		return json_success('已标记为失败，资金已解冻');

@@ -645,7 +645,9 @@ var render = function() {
                   _vm._v(" "),
                   _c("i", { staticClass: "mdui-checkbox-icon" }),
                   _vm._v(
-                    "\n\t\t\t\t\t" + _vm._s(_vm.payments[name]) + "\n\t\t\t\t"
+                    "\n\t\t\t\t\t" +
+                      _vm._s(_vm.payments[name] || name) +
+                      "\n\t\t\t\t"
                   )
                 ]
               )
@@ -697,7 +699,7 @@ var render = function() {
           "p",
           _vm._l(_vm.sum_amount, function(amount, type) {
             return _c("span", { staticClass: "mdui-m-r-3" }, [
-              _vm._v(_vm._s(_vm.payments[type]) + "：" + _vm._s(amount))
+              _vm._v(_vm._s(_vm.payments[type] || type) + "：" + _vm._s(amount))
             ])
           })
         )
@@ -820,14 +822,14 @@ var render = function() {
                         _c(
                           "span",
                           { staticClass: "mdui-text-color-teal-400" },
-                          [_vm._v(_vm._s(_vm.payments[val2.type]))]
+                          [_vm._v(_vm._s(_vm.payments[val2.type] || val2.type))]
                         ),
                         _vm._v(" "),
                         _c("span", { staticClass: "mdui-text-color-red-500" }, [
                           _vm._v("「" + _vm._s(val2.amount) + "」")
                         ]),
                         key2 + 1 < val.payment.length
-                          ? _c("span", [_vm._v("｜")])
+                          ? _c("span", [_vm._v("、")])
                           : _vm._e()
                       ])
                     })

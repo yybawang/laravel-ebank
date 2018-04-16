@@ -109,7 +109,7 @@ __webpack_require__("./node_modules/echarts/lib/component/toolbox.js");
 
 			for (var payment in into.amount) {
 				var series = series_template();
-				series.name = payments[payment];
+				series.name = payments[payment] || payment;
 				order_options.legend.data.push(series.name);
 				for (var _date in into.amount[payment]) {
 					series.data.push(into.amount[payment][_date]);

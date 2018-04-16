@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Libraries\Bank;
+use App\Libraries\Bank\EBank;
 use Illuminate\Console\Command;
 
 class AppInstall extends Command
@@ -54,12 +54,12 @@ class AppInstall extends Command
 			$this->info('exit');
 			return 0;
 		}
-		file_put_contents($installed,'installed');
 		
 		// 复制 .env.example 文件
 		$config = base_path('.env');
 		if (!file_exists($config)) {
-			copy(base_path('.env.example'), $config);
+//			copy(base_path('.env.example'), $config);
+			$this->error('未发现 .env 配置文件，请复制 .env.example 文件为 .env 并修改配置');
 		}
 		
 		// 初始化数据
@@ -75,9 +75,10 @@ class AppInstall extends Command
 //		$this->clearCaches();
 		
 		// 6、初始化钱包
-		$bank = new Bank();
+		$bank = new EBank();
 		$bank->init();
 		
+		file_put_contents($installed,'installed');
 		$this->line('');
 		$this->comment('安装成功，接下来可能要做的事：');
 		$this->comment('1、配置访问域名，推荐使用 Nginx，可参考本项目目录下的 ebank_nginx.conf');

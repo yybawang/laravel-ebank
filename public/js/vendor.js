@@ -25174,11 +25174,11 @@ module.exports = g;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("./node_modules/vue/dist/vue.common.js");
-__webpack_require__("./node_modules/mdui/dist/js/mdui.js");
 __webpack_require__("./node_modules/vue-router/dist/vue-router.esm.js");
 __webpack_require__("./node_modules/vue-datepicker-local/src/index.js");
 __webpack_require__("./node_modules/axios/index.js");
-module.exports = __webpack_require__("./node_modules/md5/md5.js");
+__webpack_require__("./node_modules/md5/md5.js");
+module.exports = __webpack_require__("./node_modules/mdui/dist/js/mdui.js");
 
 
 /***/ })
