@@ -4,14 +4,11 @@
  */
 namespace App\Libraries\Bank;
 
-use App\Exceptions\ApiException;
-use App\Http\Controllers\Api\NotifyController;
-use App\Http\Requests\BasicRequest;
-use App\Models\FundConfig;
 use App\Models\FundOrder;
 
-include_once '../wechat_pay/lib/WxPay.Api.php';
-include_once '../alipay_sdk/AopSdk.php';
+include __DIR__.'/../wechat_pay/lib/WxPay.Api.php';
+include __DIR__.'/../alipay_sdk/AopSdk.php';
+
 class OrderUnified {
 	protected $error = '';
 	
