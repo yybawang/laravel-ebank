@@ -65,6 +65,7 @@ class EBank {
 		$amount			= $arguments[2];
 		$detail			= $arguments[3];
 		$reason_name	= $arguments[4];
+		$flag			= $arguments[5];	// 业务逻辑组，系统本身只带固定几种，如果没有的话，会索引冲突
 
 		$transfer_name = explode('_',snake_case($name));
 		if(count($transfer_name) != 5){
@@ -140,9 +141,9 @@ class EBank {
 
 		$out_purse = $this->userWalletDetail($out_user_id,$out_purse_type_id,$out_user_type_id);
 		$into_purse = $this->userWalletDetail($into_user_id,$into_purse_type_id,$into_user_type_id);
-		// 自动生成 reason，商户为系统商户(ID:1)，格式为：出账用户类型+出账钱包类型+'2'+进账用户类型+进账钱包类型
-		$reason = str_pad($out_user_type_id,2,'0').str_pad($out_purse_type_id,2,'0').'2'.str_pad($into_user_type_id,2,'0').str_pad($into_purse_type_id,2,'0');
-		FundTransferReason::firstOrCreate(['reason'=>$reason,'name'=>$reason_name],[
+		// 自动生成 reason，商户为系统商户(ID:1)，格式为：业务组+出账用户类型+出账钱包类型+'2'+进账用户类型+进账钱包类型
+		$reason = $flag.str_pad($out_user_type_id,2,'0',STR_PAD_LEFT).str_pad($out_purse_type_id,2,'0',STR_PAD_LEFT).'2'.str_pad($into_user_type_id,2,'0',STR_PAD_LEFT).str_pad($into_purse_type_id,2,'0',STR_PAD_LEFT);
+		FundTransferReason::firstOrCreate(['merchant_id'=>1,'reason'=>$reason],[
 			'merchant_id'		=> 1,
 			'name'				=> $reason_name ?? '钱包内部变动，系统自动处理',
 			'out_user_type_id'	=> $out_user_type_id,

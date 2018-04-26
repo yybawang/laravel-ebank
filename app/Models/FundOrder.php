@@ -99,11 +99,11 @@ class FundOrder extends CommonModel
 				if(stripos($type,'wallet_') === 0){
 					$purse_type = ucfirst(substr(strstr($type, '_'), 1));
 					$transfer_alias = 'user'.$purse_type.'ToSystem'.$purse_type;
-					$bank->$transfer_alias($uid,0,$amount,$order->order_no,'内部钱包支付成功扣款');
+					$bank->$transfer_alias($uid,0,$amount,$order->order_no,'内部钱包支付成功扣款',1);
 				}else{
-					$bank->centralCashToSystemCash(0,0,$amount,$order->order_no,'三方支付成功，中央银行现金拨款');	// 为凭空出来的钱，所以先从中央银行扣款到系统
-					$bank->systemCashToUserCash(0,$uid,$amount,$order->order_no,'用户充值');	// 系统先给用户充值，走流水
-					$bank->userCashToSystemCash($uid,0,$amount,$order->order_no,'订单支付');	// 再转回系统，订单支付
+					$bank->centralCashToSystemCash(0,0,$amount,$order->order_no,'三方支付成功，中央银行现金拨款',1);	// 为凭空出来的钱，所以先从中央银行扣款到系统
+					$bank->systemCashToUserCash(0,$uid,$amount,$order->order_no,'用户充值',1);	// 系统先给用户充值，走流水
+					$bank->userCashToSystemCash($uid,0,$amount,$order->order_no,'订单支付',1);	// 再转回系统，订单支付
 				}
 			});
 			

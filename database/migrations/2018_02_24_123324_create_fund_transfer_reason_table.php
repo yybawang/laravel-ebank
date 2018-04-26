@@ -26,7 +26,7 @@ class CreateFundTransferReasonTable extends Migration
 			$table->tinyInteger('status')->comment('0无效，1有效');
 			$table->string('remarks')->nullable();
 	
-			$table->unique(['merchant_id','reason','name'],'reason');		// 商户id与reason复合唯一索引
+			$table->unique(['merchant_id','reason'],'reason');		// 商户id与reason复合唯一索引
             $table->timestamps();
         });
     }

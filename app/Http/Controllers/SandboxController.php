@@ -49,7 +49,7 @@ class SandboxController extends Controller
 		/**
 		 * payType 方法可以多次调用，实现组合支付
 		 */
-//		$s =  BankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',1)->returnUrl('http://return.com')->notifyUrl('http://ebank.com')->pay();
+//		$s =  BankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',100)->payType('wechat_app',4147)->returnUrl('http://return.com')->notifyUrl('http://ebank.thinkms.com')->pay();
 		
 //		$export = new ExportCsv();
 //		$s = $export->name('导出流水测试')->data(FundTransfer::all())->save();
@@ -80,6 +80,7 @@ class SandboxController extends Controller
 //		$s = FundUserPurse::where(['id'=>2])->update(['balance'=>99999999999900]);
 //		$s = curl_post(url('api/sms/content'),['mobile'=>'17099912460','content'=>'发送短信。。。']);
 //		curl_post('http://sdfd1204545.com',['df'=>333]);
+		$s = $request->ip();
 		dump($s);
 	}
 	
