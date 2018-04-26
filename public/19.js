@@ -905,7 +905,9 @@ var render = function() {
                         )
                       : _vm._e(),
                     _vm._v(" "),
-                    val.status == 1 && val.pay_status == 1
+                    val.status == 1 &&
+                    val.pay_status == 1 &&
+                    val.refund_status == 0
                       ? _c(
                           "a",
                           {

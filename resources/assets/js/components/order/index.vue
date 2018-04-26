@@ -99,7 +99,7 @@
 						<td>退款时间：<span v-text="val.refund_time"></span></td>
 						<td>
 							<a class="mdui-btn mdui-ripple mdui-color-blue-grey" v-if="val.status == 1 && val.pay_status == 0" @click="complete(val.id)">掉单补回</a>
-							<a class="mdui-btn mdui-ripple mdui-color-theme" v-if="val.status == 1 && val.pay_status == 1" @click="notify(val.id)">手动通知</a>
+							<a class="mdui-btn mdui-ripple mdui-color-theme" v-if="val.status == 1 && val.pay_status == 1 && val.refund_status == 0" @click="notify(val.id)">手动通知</a>
 							<a class="mdui-btn mdui-ripple mdui-color-red" v-if="val.status == 1 && val.pay_status == 1 && val.refund_status == 0" @click="refund(val.id,val.amount)">订单退款</a>
 						</td>
 					</tr>
