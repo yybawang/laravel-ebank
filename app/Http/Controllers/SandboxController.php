@@ -49,12 +49,12 @@ class SandboxController extends Controller
 		/**
 		 * payType 方法可以多次调用，实现组合支付
 		 */
-//		$s =  BankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',100)->payType('wechat_app',4147)->returnUrl('http://return.com')->notifyUrl('http://ebank.thinkms.com')->pay();
+//		$s =  BankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',100)->payType('wechat_scan',1400)->returnUrl('http://return.com')->notifyUrl('http://ebank.thinkms.com')->param('openid','o7U3Bs-62euOeUsidmOEotkmUMag')->param('auth_code','101234567891234567')->pay();
 		
 //		$export = new ExportCsv();
 //		$s = $export->name('导出流水测试')->data(FundTransfer::all())->save();
 		
-//		$s = BankSdk::withdraw(1)->amount(1)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
+//		$s = BankSdk::withdraw(1)->amount(18)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
 		// 事务测试
 //		DB::transaction(function(){
 //			(new Bank())->transfer(0,0,100,20001);
@@ -80,7 +80,6 @@ class SandboxController extends Controller
 //		$s = FundUserPurse::where(['id'=>2])->update(['balance'=>99999999999900]);
 //		$s = curl_post(url('api/sms/content'),['mobile'=>'17099912460','content'=>'发送短信。。。']);
 //		curl_post('http://sdfd1204545.com',['df'=>333]);
-		$s = $request->ip();
 		dump($s);
 	}
 	

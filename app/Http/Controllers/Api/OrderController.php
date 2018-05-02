@@ -119,6 +119,6 @@ class OrderController extends CommonController {
 			return $order_payments->$pay_type_unified();
 		});
 		
-		return $return;
+		return json_success('下单成功',$return);
 	}
 }

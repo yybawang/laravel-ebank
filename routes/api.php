@@ -66,6 +66,7 @@ Route::namespace('Api')->group(function(){
 	// 支付回调，同步加异步
 	Route::any('return/wechat','ReturnController@wechat');
 	Route::any('return/alipay','ReturnController@alipay');
+	
 	Route::any('notify/wechat','NotifyController@wechat');
 	Route::any('notify/alipay','NotifyController@alipay');
 	

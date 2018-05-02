@@ -26,7 +26,7 @@ class BankSdk {
 	{
 		$appid = 'gpu10000';
 		$secret = '10000';
-		$url = config('app.url').'/api/';
+		$url = config('basic.ebank_url').'/api/';
 		$this->appid = $appid;
 		$this->secret = $secret;
 		$this->url = $url;

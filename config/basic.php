@@ -18,17 +18,5 @@ return [
 		'https://sc.ftqq.com/xxx.send',
 	],
 	
-	
-	// 微信支付配置
-	'wechat_payment'	=> [
-		'appid'		=> env('WECHAT_APPID'),
-		'mchid'		=> env('WECHAT_MCHID'),
-		'key'		=> env('WECHAT_KEY'),
-		'secret'	=> env('WECHAT_SECRET'),
-	],
-	
-	// 支付宝支付配置
-	'alipay_payment'	=> [
-		'appid'		=> env('ALIPAY_APPID'),
-	],
+	'ebank_url'		=> env('EBANK_URL'),	// 项目部署应该是这个
 ];
