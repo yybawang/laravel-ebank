@@ -12,6 +12,7 @@ class Bug extends Mailable
     use Queueable, SerializesModels;
 
     public $url;
+    public $database;
     public $get;
     public $post;
     public $request;
@@ -24,10 +25,11 @@ class Bug extends Mailable
      *
      * @return void
      */
-    public function __construct($url,$get,$post,$request,$server,$cookie,$session,$msg)
+    public function __construct($url,$database,$get,$post,$request,$server,$cookie,$session,$msg)
     {
         //
 		$this->url = $url;
+		$this->database = $database;
 		$this->get = $get;
 		$this->post = $post;
 		$this->request = $request;

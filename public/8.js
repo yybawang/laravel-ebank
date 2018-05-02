@@ -103,6 +103,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				'$_REQUEST': val.$_REQUEST,
 				'$_SESSION': val.$_SESSION,
 				'$_COOKIE': val.$_COOKIE,
+				'DATABASE': val.database,
 				'$_SERVER': val.$_SERVER,
 				created_at: val.created_at
 			};

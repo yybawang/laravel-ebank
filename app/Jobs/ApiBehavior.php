@@ -2,26 +2,27 @@
 
 namespace App\Jobs;
 
+use App\Models\FundBehavior;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class WechatTemplatePush implements ShouldQueue
+class ApiBehavior implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $post;
+    protected $data;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(array $post)
+    public function __construct(array $data)
     {
         //
-		$this->post = $post;
+		$this->data = $data;
     }
 
     /**
@@ -31,7 +32,6 @@ class WechatTemplatePush implements ShouldQueue
      */
     public function handle()
     {
-		$app = app('wechat.official_account');
-		$app->template_message->send($this->post);
+		FundBehavior::create($this->data);
 	}
 }

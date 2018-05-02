@@ -6,10 +6,10 @@ return [
         'app_id' => '',
 
         // 支付宝异步通知地址
-        'notify_url' => url('api/notify/alipay'),	// 无需改动
+        'notify_url' => config('APP_URL').'/api/notify/alipay',	// 无需改动
 
         // 支付成功后同步通知地址
-        'return_url' => url('api/return/alipay'),	// 无需改动
+        'return_url' =>  config('APP_URL').'/api/return/alipay',	// 无需改动
 
         // 阿里公共密钥，验证签名时使用
         'ali_public_key' => '',
@@ -41,7 +41,7 @@ return [
         'mch_id' => '',
 
         // 微信支付异步通知地址
-        'notify_url' => url('api/notify/wechat'),	// 无需改动
+        'notify_url' =>  config('APP_URL').'api/notify/wechat',	// 无需改动
 
         // 微信支付签名秘钥
         'key' => '',

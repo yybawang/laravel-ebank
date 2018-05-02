@@ -82,14 +82,16 @@ class OrderPayments
 		];
 	}
 	
+	// 记得把微信授权地址改为此ebank的地址 url('api/form/wechat')
 	public function wechat_wap(){
 		$order_unified = new OrderUnified();
 		$result = $order_unified->wechatWap($this->order_no,$this->amount_thread,$this->product_name);
+		$html = build_form(url('api/form/wechat'),['sign'=>$result,'return_url'=>url('api/return/wechat')]);
 		return [
 			'order_no'	=> $this->order_no,
 			'type'		=> 'url',	// location.href 跳转
 			'platform'	=> 'wechat',
-			'content'	=> $result
+			'content'	=> $html
 		];
 	}
 	

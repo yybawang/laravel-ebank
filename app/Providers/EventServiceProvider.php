@@ -16,10 +16,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
-		// SqlListener监听QueryExecuted，可在调试时打开
-		'Illuminate\Database\Events\QueryExecuted' => [
-			'App\Listeners\SqlListener',
-		],
     ];
 
     /**
