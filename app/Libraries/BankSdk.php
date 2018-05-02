@@ -219,10 +219,10 @@ class BankSdk {
 	 * @return string
 	 */
 	private function _sign(array $param){
-		unset($param['sign']);
+		unset($param['ebank_sign']);
 		ksort($param);
 		$param2 = $param;
-		$param2['secret'] = $this->secret;
+		$param2['ebank_secret'] = $this->secret;
 		$param_string = http_build_query($param2);
 		$sign = strtolower(md5($param_string));
 		return $sign;
@@ -234,34 +234,23 @@ class BankSdk {
 	 * @return bool
 	 */
 	public function check_sign(array $param){
-		$param['appid'] = $this->appid;
-		$sign = strtolower($param['sign']);
+		$param['ebank_appid'] = $this->appid;
+		$sign = strtolower($param['ebank_sign']);
 		$sign_mine = $this->_sign($param);
 		return $sign === $sign_mine;
 	}
 	
-	/**
-	 * @param $url
-	 * @param $param
-	 * @return mixed
-	 */
 	private function _post(string $url,array $param){
-		$param['appid'] = $this->appid;
-		$param['sign'] = $this->_sign($param);
+		$param['ebank_appid'] = $this->appid;
+		$param['ebank_sign'] = $this->_sign($param);
 		$decode = $this->_curl_post($url,$param);
 		if($decode['status'] != 1){
 			$this->_throw($decode['message']);
-			return false;
 		}else{
 			return $decode['data'];
 		}
 	}
 	
-	/**
-	 * @param $url
-	 * @param $param
-	 * @return mixed
-	 */
 	private function _curl_post($url,$param){
 		$ch = curl_init(); //初始化curl
 		curl_setopt($ch, CURLOPT_URL, $url);//设置链接

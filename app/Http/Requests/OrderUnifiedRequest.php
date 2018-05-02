@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class OrderUnifiedRequest extends BasicRequest
 {
@@ -25,7 +26,11 @@ class OrderUnifiedRequest extends BasicRequest
 	{
 		return [
 			//
-			'user_id'		=> 'required|min:1',
+			'user_id'		=> 'required|integer|min:1',
+			'ebank_appid'	=> [
+				'required',
+				Rule::exists('fund_merchant','appid')->where('status',1),
+			],
 			'order_no'		=> 'required',
 			'product_name'	=> 'required',
 			'return_url'	=> 'url',
@@ -38,6 +43,8 @@ class OrderUnifiedRequest extends BasicRequest
 		return [
 			'user_id.required'		=> '用户id参数必传',
 			'user_id.min'			=> '用户id参数必传',
+			'ebank_appid.required'	=> '接口商户appid参数必传',
+			'ebank_appid.exists'	=> '接口商户appid不存在',
 			'order_no.required'		=> '订单号参数必传',
 			'product_name.required'	=> '订单名称参数必传',
 			'return_url.url'		=> '同步回调url地址格式错误',

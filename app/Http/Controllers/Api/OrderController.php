@@ -26,7 +26,7 @@ class OrderController extends CommonController {
 	 * @return mixed
 	 */
 	public function unified(OrderUnifiedRequest $request){
-		$basic_param = $request->only(['user_id','appid','order_no','order_type','product_name','return_url','notify_url','pay_type_group']);
+		$basic_param = $request->only(['user_id','ebank_appid','order_no','order_type','product_name','return_url','notify_url','pay_type_group']);
 		$this->order_no = $basic_param['order_no'];
 		$this->product_name = $basic_param['product_name'];
 		$pay_type_group = array_filter($basic_param['pay_type_group']);
@@ -71,7 +71,7 @@ class OrderController extends CommonController {
 		}
 		
 		// 下单存表
-		$merchant_id = FundMerchant::where(['appid'=>$basic_param['appid']])->value('id');
+		$merchant_id = FundMerchant::where(['appid'=>$basic_param['ebank_appid']])->value('id');
 		
 		$exist = FundOrder::where(['merchant_id'=>$merchant_id,'order_no'=>$this->order_no])->first();
 		// 如果已支付，订单就不用再支付了
