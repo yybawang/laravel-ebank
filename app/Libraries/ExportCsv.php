@@ -1,7 +1,7 @@
 <?php
 namespace App\Libraries;
 use App\Models\FundAdminExport;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * 使用队列导出为 csv 文件并插库
@@ -13,7 +13,7 @@ class ExportCsv {
 	protected $name = '导出';
 	protected $filename = '';
 	protected $field = [];
-	protected $data;
+	protected $sql;
 	
 	/**
 	 * 指定操作名称
@@ -41,11 +41,15 @@ class ExportCsv {
 	
 	/**
 	 * 传入集合对象
-	 * @param Collection $collection
+	 * @param Builder $model
 	 * @return $this
 	 */
-	public function data(Collection $collection){
-		$this->data = $collection->toArray();
+	public function data(Builder $model){
+		$bindings_sql = $model->toSql();
+		$bindings = $model->getBindings();
+		$bindings_sql = str_replace("?", "'%s'", $bindings_sql);
+		$sql = vsprintf($bindings_sql, $bindings);
+		$this->sql = $sql;
 		return $this;
 	}
 	
@@ -65,6 +69,7 @@ class ExportCsv {
 			'status'	=> 0,
 		];
 		$id = FundAdminExport::create($add)->id;
-		return \App\Jobs\ExportCsv::dispatch($id,$this->name,$this->filename,$this->field,$this->data)->onQueue('export');
+		\App\Jobs\ExportCsv::dispatch($id,getcwd().$add['file_path'],$this->field,$this->sql)->onQueue('export');
+		return true;
 	}
 }

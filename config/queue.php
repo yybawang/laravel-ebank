@@ -43,7 +43,7 @@ return [
 
         'beanstalkd' => [
             'driver' => 'beanstalkd',
-            'host' => 'localhost',
+            'host' => 'beanstalkd',	// laradock 的服务名
             'queue' => 'default',
             'retry_after' => 90,
         ],

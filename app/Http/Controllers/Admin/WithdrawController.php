@@ -31,7 +31,8 @@ class WithdrawController extends CommonController {
 			->orderBy('id','desc');
 		if($request->input('export')){
 			$model2 = clone $model;
-			(new ExportCsv())->name('导出用户银行卡提现')->field(['id'=>'id','user_id'=>'提现用户ID','pay_type'=>'提现方式','amount'=>'申请提现金额(分)','fee'=>'手续费(分)','amount_actual'=>'实际到账金额(分)','realname'=>'银行卡户名','bank_name'=>'银行名称','bank_no'=>'银行卡号','status'=>'状态，0申请中，1提现成功，2提现失败','created_at'=>'创建时间'])->data($model2->get())->save();
+//			dd($model2);
+			(new ExportCsv())->name('导出用户银行卡提现')->field(['id'=>'id','user_id'=>'提现用户ID','pay_type'=>'提现方式','amount'=>'申请提现金额(分)','fee'=>'手续费(分)','amount_actual'=>'实际到账金额(分)','realname'=>'银行卡户名','bank_name'=>'银行名称','bank_no'=>'银行卡号','status'=>'状态，0申请中，1提现成功，2提现失败','created_at'=>'创建时间'])->data($model2)->save();
 		}
 		$data['data'] = $model->pages();
 		return json_success('OK',$data);
@@ -56,7 +57,7 @@ class WithdrawController extends CommonController {
 			->orderBy('id','desc');
 		if($request->input('export')){
 			$model2 = clone $model;
-			(new ExportCsv())->name('导出用户支付宝提现')->field(['id'=>'id','user_id'=>'提现用户ID','pay_type'=>'提现方式','amount'=>'申请提现金额(分)','fee'=>'手续费(分)','amount_actual'=>'实际到账金额(分)','realname'=>'支付宝实名','account'=>'支付宝账户','status'=>'状态，0申请中，1提现成功，2提现失败','created_at'=>'创建时间'])->data($model2->get())->save();
+			(new ExportCsv())->name('导出用户支付宝提现')->field(['id'=>'id','user_id'=>'提现用户ID','pay_type'=>'提现方式','amount'=>'申请提现金额(分)','fee'=>'手续费(分)','amount_actual'=>'实际到账金额(分)','realname'=>'支付宝实名','account'=>'支付宝账户','status'=>'状态，0申请中，1提现成功，2提现失败','created_at'=>'创建时间'])->data($model2)->save();
 		}
 		$data['data'] = $model->pages();
 		return json_success('OK',$data);
@@ -81,7 +82,7 @@ class WithdrawController extends CommonController {
 			->orderBy('id','desc');
 		if($request->input('export')){
 			$model2 = clone $model;
-			(new ExportCsv())->name('导出用户支付宝提现')->field(['id'=>'id','user_id'=>'提现用户ID','pay_type'=>'提现方式','amount'=>'申请提现金额(分)','fee'=>'手续费(分)','amount_actual'=>'实际到账金额(分)','realname'=>'支付宝实名','account'=>'支付宝账户','status'=>'状态，0申请中，1提现成功，2提现失败','created_at'=>'创建时间'])->data($model2->get())->save();
+			(new ExportCsv())->name('导出用户支付宝提现')->field(['id'=>'id','user_id'=>'提现用户ID','pay_type'=>'提现方式','amount'=>'申请提现金额(分)','fee'=>'手续费(分)','amount_actual'=>'实际到账金额(分)','realname'=>'支付宝实名','account'=>'支付宝账户','status'=>'状态，0申请中，1提现成功，2提现失败','created_at'=>'创建时间'])->data($model2)->save();
 		}
 		$data['data'] = $model->pages();
 		return json_success('OK',$data);

@@ -12,10 +12,6 @@
 	<div>
 		<pre>{{print_r($url,true)}}</pre>
 	</div>
-	<div><h2>DATABASE</h2></div>
-	<div>
-		<pre>{{print_r($database,true)}}</pre>
-	</div>
 	<div><h2>$_GET</h2></div>
 	<div>
 		<pre>{{print_r($get,true)}}</pre>
@@ -35,6 +31,10 @@
 	<div><h2>$_COOKIE</h2></div>
 	<div>
 		<pre>{{print_r($cookie,true)}}</pre>
+	</div>
+	<div><h2>DATABASE</h2></div>
+	<div>
+		<pre>{{print_r($database,true)}}</pre>
 	</div>
 	<div><h2>$_SERVER</h2></div>
 	<div>

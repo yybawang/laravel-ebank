@@ -51,7 +51,7 @@ class OrderController extends CommonController {
 			->orderBy('fund_order.id','desc');
 		if($request->input('export')){
 			$model2 = clone $model;
-			(new ExportCsv())->name('导出用户订单')->field(['order_no'=>'订单号','user_id'=>'下单用户ID','product_name'=>'商品名','amount'=>'订单金额','pay_status'=>'支付状态','notify_status'=>'异步回调状态','refund_status'=>'退款状态','created_at'=>'创建时间'])->data($model2->groupBy('fund_order.id')->get())->save();
+			(new ExportCsv())->name('导出用户订单')->field(['order_no'=>'订单号','user_id'=>'下单用户ID','product_name'=>'商品名','amount'=>'订单金额','pay_status'=>'支付状态','notify_status'=>'异步回调状态','refund_status'=>'退款状态','created_at'=>'创建时间'])->data($model2->groupBy('fund_order.id'))->save();
 		}
 		$model3 = clone $model;
 		$sum_amount = $model3->select(DB::raw('payment.type,sum(payment.amount) amount'))->groupBy('payment.type')->pluck('amount','type');
@@ -69,8 +69,6 @@ class OrderController extends CommonController {
 		$order = FundOrder::findOrFail($id);
 		// 异步通知到商户
 		OrderNotify::dispatch($order->order_no)->onQueue('order_notify');
-//		$job = (new OrderNotify($order->order_no))->onQueue('order_notify');
-//		$this->dispatch($job);
 		return json_success('已重新分发通知任务');
 	}
 	

@@ -20,8 +20,8 @@ class CreateFundAdminExportTable extends Migration
 			$table->string('name')->comment('操作名');
 			$table->string('file_name')->comment('文件名');
 			$table->string('file_path')->comment('文件路径');
-			$table->integer('downloads')->comment('下载次数统计');
 			$table->timestamp('complete_at')->nullable()->comment('导出完成时间');
+			$table->integer('downloads')->comment('下载次数统计');
 			$table->tinyInteger('status')->comment('0无效，1有效');
 			$table->string('remarks')->nullable();
             $table->timestamps();
