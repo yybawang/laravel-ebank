@@ -30,6 +30,7 @@ class CreateFundOrderTable extends Migration
             $table->timestamp('pay_time')->nullable()->comment('支付成功时间');
             $table->tinyInteger('notify_status')->comment('异步通知状态，0未通知，1通知完成，2多次通知失败(需重新通知)');
 			$table->timestamp('notify_time')->nullable()->comment('异步通知成功时间');
+			$table->timestamp('notify_param')->nullable()->comment('异步通知成功所有参数，json存放');
 			$table->tinyInteger('refund_status')->comment('退款状态，0未退款，1已退款');
 			$table->timestamp('refund_time')->nullable()->comment('退款时间');
 			$table->integer('refund_transfer_id')->comment('退款转账ID');

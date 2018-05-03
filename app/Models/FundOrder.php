@@ -12,15 +12,28 @@ class FundOrder extends CommonModel
 {
 	
 	protected $table = 'fund_order';
+	protected $casts = [
+		'notify_param'	=> 'array',
+	];
 	
 	// 支持的支付方式中文名称
 	public $payments = [
-		'wallet_cash'			=> '站内现金',
+		'wallet_cash'			=> '站内现金钱包',
+		'wallet_withdraw'		=> '站内提现钱包',
+		'wallet_credit'			=> '站内授信钱包',
 		'wechat_app'			=> '微信APP',
-		'wechat_jsapi'			=> '微信公众号',
+		'wechat_mp'				=> '微信公众号',
+		'wechat_wap'			=> '微信H5',
+		'wechat_stage'			=> '微信反扫',
+		'wechat_scan'			=> '微信正扫',
+		'wechat_mini'			=> '微信小程序',
+		
 		'alipay_app'			=> '支付宝APP',
-		'alipay_jsapi'			=> '支付宝服务窗',
-		// 更多支付方式自行扩展，[键]为 OrderController 对应里的方法名，[值]为需要展示的中文名称
+		'alipay_web'			=> '支付宝PC网页',
+		'alipay_wab'			=> '支付宝H5',
+		'alipay_stage'			=> '支付宝反扫',
+		'alipay_scan'			=> '支付宝正扫',
+		// 更多支付方式自行扩展，[键]为 OrderController 对应里的方法名，[值]为需要展示的中文名称，如未指定中文则显示方法名
 	];
 	
 	

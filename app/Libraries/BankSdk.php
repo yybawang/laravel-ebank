@@ -235,16 +235,16 @@ class BankSdk {
 	 */
 	public function check_sign(array $param){
 		$param['ebank_appid'] = $this->appid;
-		$sign = strtolower($param['ebank_sign']);
+		$sign = $param['ebank_sign'];
 		$sign_mine = $this->_sign($param);
-		return $sign === $sign_mine;
+		return strcmp($sign,$sign_mine) === 0 ? true : false;
 	}
 	
 	private function _post(string $url,array $param){
 		$param['ebank_appid'] = $this->appid;
 		$param['ebank_sign'] = $this->_sign($param);
 		$decode = $this->_curl_post($url,$param);
-		if($decode['status'] != 1){
+		if($decode['status'] != '1'){
 			$this->_throw($decode['message']);
 		}else{
 			return $decode['data'];

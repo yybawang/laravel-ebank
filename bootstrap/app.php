@@ -41,7 +41,7 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
-// 每日日志记录，windows下无权限问题，所以只在非win下开启这个配置
+// 每天日志记录，重写权限参数
 $app->configureMonologUsing(function (Monolog\Logger $monolog) {
 	$filename = storage_path('logs/laravel.log');
 	$monolog->pushHandler($handler = new Monolog\Handler\RotatingFileHandler($filename, 30,\Monolog\Logger::DEBUG,true,0777));

@@ -21,19 +21,15 @@ class MerchantSign
     public function handle($request, Closure $next)
     {
 		$param = $request->except(['s']);
-		if (empty($param['ebank_appid'])) {
+		if(empty($param['ebank_appid'])) {
 			abort_500('商户appid不存在');
 		}
 		
 		clear_null($param);
 		
 		$sign = $param['ebank_sign'];
-		unset($param['ebank_sign']);
-		ksort($param);
-		$param2 = $param;
 		$secret = FundMerchant::where(['appid' => $param['ebank_appid']])->value('secret');
-		$param2['ebank_secret'] = $secret;
-		$param_sign = strtolower(md5(http_build_query($param2)));
+		$param_sign = sign_merchant($param,$secret);
 		// 如果字符串恒相等
 		if(strcmp($sign,$param_sign) !== 0){
 			abort_500('['.$param['ebank_appid'].']商户验签失败');

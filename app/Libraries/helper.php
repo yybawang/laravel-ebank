@@ -13,6 +13,22 @@ function admin_user($field = null){
 	return $user && $field ? $user->$field : $user;
 }
 
+/**
+ * 初始化后台菜单
+ */
+function init_menu(){
+	$menus = [];
+	collect(app('routes')->getRoutes())->each(function($v,$k) use (&$menus){
+		$name = $v->action['as'];
+		if(stripos($name,'admin.') !== false){
+			$explode = explode('.',$name);
+			if($explode[2] == 'menu'){
+				$menus[$explode[1]][$explode[3]] = str_replace('admin','',$v->uri);
+			}
+		}
+	});
+	return $menus;
+}
 
 
 
@@ -262,58 +278,28 @@ function build_form($url,$post_data,$method = 'post'){
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	 */
 	$html = <<<EOT
-<form method="$method" action="$url" id="form_to_gpu">
+<form method="$method" action="$url" id="form_to_ebank">
 $input_param
 <input type="submit" value="　" style="opacity:0" />
 </form>
-<script>document.getElementById('form_to_gpu').submit();</script>
+<script>document.getElementById('form_to_ebank').submit();</script>
 EOT;
 	$html = str_replace("\r\n",'',$html);
 	$html = str_replace(PHP_EOL,'',$html);
 	return $html;
 }
 
-
-
-
 /**
- * 记文件形式调试信息,也可用于记录日志
- * @param mixed $data 内容
- * @param string $filepath  文件存放名称 自动加上日期文件夹
+ * API 接口商户算签，返回签名字符串
+ * @param array $param
+ * @param string $secret
+ * @return string
  */
-function filedebug($data , $filepath='filedebug.php'){
-	$filepath = './log/'.$filepath;
-	// 如果是日志，则将日志分隔成日期文件夹
-	$date = date('Ym/d');
-	$filepath = str_replace('log/' , "log/$date/" , $filepath);
-	$have = strripos($filepath , '/');
-	$path = (false === $have ? '' :  substr($filepath , 0 , $have+1)); // 文件夹
-	$file = end(explode('/',$filepath)) ?:'default.php'; // 文件名
-	if($path && !is_dir($path)){
-		mkdir($path,0777,true);
-	}
-	$filepath = $path . $file;
-	$f = fopen($filepath , 'a+');
-	
-	fwrite($f , date('Y-m-d H:i:s').'----------'."\n");
-	fwrite($f , var_export($data , true));
-	fwrite($f , "\n".'----------'."\n");
-	fclose($f);
-}
-
-/**
- * 初始化后台菜单
- */
-function init_menu(){
-	$menus = [];
-	collect(app('routes')->getRoutes())->each(function($v,$k) use (&$menus){
-		$name = $v->action['as'];
-		if(stripos($name,'admin.') !== false){
-			$explode = explode('.',$name);
-			if($explode[2] == 'menu'){
-				$menus[$explode[1]][$explode[3]] = str_replace('admin','',$v->uri);
-			}
-		}
-	});
-	return $menus;
+function sign_merchant(array $param,string $secret){
+	unset($param['ebank_sign']);
+	ksort($param);
+	$param2 = $param;
+	$param2['ebank_secret'] = $secret;
+	$sign = strtolower(md5(http_build_query($param2)));
+	return $sign;
 }

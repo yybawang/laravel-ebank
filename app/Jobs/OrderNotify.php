@@ -41,24 +41,22 @@ class OrderNotify implements ShouldQueue
 		
 		$notify_url = $order->notify_url;
 		$param = [
-			'appid'		=> $merchant->appid,
-			'order_no'	=> $order->order_no,
-			'pay_status'=> $order->pay_status
+			'ebank_appid'	=> $merchant->appid,
+			'order_no'		=> $order->order_no,
+			'pay_status'	=> $order->pay_status,
+			'notify_param'	=> $order->notify_param,	// 第二维数组
 		];
-		ksort($param);
-		$param2 = $param;
-		$param2['secret'] = $merchant->secret;
-		$param_sign = strtolower(md5(http_build_query($param2)));
-		// 添加签名
-		$param['sign'] = $param_sign;
+		
+		$param['ebank_sign'] = sign_merchant($param,$merchant->secret);
+		
 		$result = curl_post($notify_url,$param);
-		// 商户输出 success 才表示成功
+		// 商户输出 SUCCESS/success 才表示成功
 		if(strcmp('success',strtolower($result)) === 0){
 			$order->notify_status = 1;
 			$order->notify_time = time2date(time());
 			$order->save();
 		}else{
-			abort_500('未返回 SUCCESS 字符串，标记为失败');
+			abort_500('['.$this->order_no.']未返回 SUCCESS 字符串，标记为失败');
 		}
     }
 	
