@@ -75,7 +75,6 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	
 	Route::prefix('transfer')->name('admin.业务流水管理.')->group(function(){
 		Route::get('/','TransferController@index')->name('menu.流水记录');
-		Route::get('/','TransferController@report')->name('menu.流水统计');
 		Route::post('untransfer','TransferController@untransfer');
 		Route::get('reason','TransferController@reason')->name('menu.转账reason');
 		Route::get('reason_detail','TransferController@reason_detail');
