@@ -219,7 +219,7 @@
 					t.purse_type = data.purse_type;
 					setTimeout(function(){
 						$('.mdui-tab').mutation();
-					});
+					},0);
 				});
 			}
 		},

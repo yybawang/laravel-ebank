@@ -126,7 +126,6 @@
 							t.init();
 						});
 					}
-					
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
 			},
 			check_all(){

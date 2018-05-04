@@ -1,6 +1,11 @@
 <template>
 	<div class="welcome">
-		<div id="order_into" style="width:100%;height:400px"></div>
+		<div class="mdui-typo">
+			<blockquote class="blockquote_normal">
+				<p>注：仅统计[用户身份]的流水收入、支出，包括所有钱包</p>
+			</blockquote>
+		</div>
+		<div id="statistics" style="width:100%;height:400px"></div>
 	</div>
 </template>
 <script>
@@ -20,18 +25,17 @@
 	export default {
 		data(){
 			return {
-				order_into : '',
+				statistics : '',
 			};
 		},
 		mounted(){
 			let t = this;
-			t.$emit('init');
 			
-			t.order_into = echarts.init(document.getElementById('order_into'));
+			t.statistics = echarts.init(document.getElementById('statistics'));
 			let order_options = {
 				title : {
 					left: 'center',
-					text: '近期15天每日订单交易入账金额统计',
+					text: '近期15天每日用户身份收入、支出金额统计',
 					subtext: '按日划分，金额单位：分'
 				},
 				tooltip : {
@@ -49,7 +53,7 @@
 					}
 				},
 				grid : {
-					top : '160px',
+					top : '100px',
 					containLabel: true
 				},
 				calculable : true,
@@ -80,11 +84,11 @@
 				],
 				series : []
 			};
-			get('/welcome',{},function(data){
-				let payments = data.payments;
-				let into = data.into;
-				for(let date in into.date){
-					order_options.xAxis[0].data.push(into.date[date]);
+			get('/user',{},function(data){
+				let series_name = data.series;
+				let statistics = data.statistics;
+				for(let date in statistics.date){
+					order_options.xAxis[0].data.push(statistics.date[date]);
 				}
 				// 基本信息变量
 				let series_template = function(){
@@ -112,22 +116,22 @@
 					};
 				};
 				
-				for(let payment in into.amount){
+				for(let type in statistics.amount){
 					let series = series_template();
-					series.name = payments[payment] || payment;
+					series.name = series_name[type] || type;
 					order_options.legend.data.push(series.name);
-					for(let date in into.amount[payment]){
-						series.data.push(into.amount[payment][date]);
+					for(let date in statistics.amount[type]){
+						series.data.push(statistics.amount[type][date]);
 					}
 					order_options.series.push(series);
 				}
 				
-				t.order_into.setOption(order_options);
+				t.statistics.setOption(order_options);
 			});
 			
 			window.onresize = function(){
 				setTimeout(function(){
-					t.order_into.resize();
+					t.statistics.resize();
 				},200);
 			};
 		}

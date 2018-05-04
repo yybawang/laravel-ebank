@@ -93,17 +93,18 @@ let ajax = function(url,post_data,success,error,method){
 	}).then(function(response){
 		loading(true);
 		let data = response.data;
-		if(data.status == 1){
+		if('1' == data.status){
 			success(data.data,data.message);
-		}else if(data.status == 0){
+		}else if('0' == data.status){
 			tips(data.message);
-		}else if(data.status == 2){
+		}else if('2' == data.status){
 			// tips(data.message);
 			router.push({path:'/login'});
 		}else{
-			tips('失败，未知错误：'+data.message);
+			tips('失败，未正常接收 json 值');
 		}
 	}).catch(function(error_response){
+		logs(error_response);
 		// 返回非 json，404/500 等
 		let status = error_response.response.status,message = '';
 		loading(true);

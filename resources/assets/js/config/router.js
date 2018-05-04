@@ -20,6 +20,11 @@ export default new VueRouter({
 			component: resolve => void(require(['../components/index/welcome.vue'], resolve))
 		},
 		{
+			name: 'user',
+			path: '/user',
+			component: resolve => void(require(['../components/index/user.vue'], resolve))
+		},
+		{
 			path: '/sysinfo',
 			component: resolve => void(require(['../components/index/sysinfo.vue'], resolve))
 		},

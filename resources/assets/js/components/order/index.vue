@@ -176,7 +176,7 @@
 			},
 			complete(id){
 				let t = this;
-				mdui.confirm('手动标记为支付成功，是否收到款项需财务核实，点击【确定】继续', '三方支付漏单/掉单补回', function () {
+				mdui.confirm('手动标记为支付成功并分发通知，是否收到款项需财务核实，点击【确定】继续', '三方支付漏单/掉单补回', function () {
 					post('/order/complete', {id: id}, function (data,msg) {
 						mdui.alert(msg, function () {}, {history: false});
 						t.init();

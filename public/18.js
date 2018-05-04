@@ -1,17 +1,10 @@
 webpackJsonp([18],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/purse/central.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/purse/freeze.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -85,9 +78,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			purse_type: '',
 			keyword: {
 				page: 1,
-				user_id: '',
-				purse_type_id: []
-			}
+				id: ''
+			},
+			status: ['无效状态0', '冻结中', '已解冻']
 		};
 	},
 
@@ -96,9 +89,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.keyword.page = page;
 			this.init();
 		},
+		unfreeze: function unfreeze(id) {
+			var t = this;
+			mdui.confirm('解冻此记录后可能造成业务匹配问题，点击【确定】继续', '确认?', function () {
+				post('/purse/unfreeze', { id: id }, function (data) {
+					mdui.alert('已成功解冻并返还金额', function () {}, { history: false });
+					t.init();
+				});
+			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
+		},
 		init: function init() {
 			var t = this;
-			get('/purse/central', t.keyword, function (data) {
+			get('/purse/freeze', t.keyword, function (data) {
 				t.list = data.list;
 				t.purse_type = data.purse_type;
 			});
@@ -112,19 +114,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d273b21e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/purse/central.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d4f2786a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/purse/freeze.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "purse_central" }, [
+  return _c("div", { staticClass: "purse_freeze" }, [
     _c("div", { staticClass: "mdui-typo" }, [
       _c(
         "blockquote",
         { staticClass: "blockquote_normal" },
         [
+          _vm._v("\n\t\t\t冻结ID："),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.keyword.id,
+                expression: "keyword.id"
+              }
+            ],
+            staticClass: "mdui-textfield-input input_normal",
+            attrs: { type: "text" },
+            domProps: { value: _vm.keyword.id },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.keyword, "id", $event.target.value)
+              }
+            }
+          }),
           _vm._v("\n\t\t\t钱包类型：\n\t\t\t"),
           _vm._l(_vm.purse_type, function(name, id) {
             return _c(
@@ -216,31 +240,38 @@ var render = function() {
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.id) } }),
               _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.user_id) } }),
+              _c("td", { domProps: { textContent: _vm._s(val.purse_id) } }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.amount) } }),
               _vm._v(" "),
               _c("td", {
-                domProps: {
-                  textContent: _vm._s(_vm.purse_type[val.purse_type_id])
-                }
-              }),
-              _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.balance) } }),
-              _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.freeze) } }),
-              _vm._v(" "),
-              _c("td", {
-                domProps: { textContent: _vm._s(val.balance - val.freeze) }
-              }),
-              _vm._v(" "),
-              _c("td", {
-                domProps: { textContent: _vm._s(val.status ? "启用" : "禁用") }
+                domProps: { textContent: _vm._s(_vm.status[val.status]) }
               }),
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.remarks) } }),
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.created_at) } }),
               _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.updated_at) } })
+              _c("td", { domProps: { textContent: _vm._s(val.updated_at) } }),
+              _vm._v(" "),
+              _c("td", [
+                _c("div", { staticClass: "mdui-btn-group" }, [
+                  val.status == 1
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+                          on: {
+                            click: function($event) {
+                              _vm.unfreeze(val.id)
+                            }
+                          }
+                        },
+                        [_vm._v("解冻")]
+                      )
+                    : _vm._e()
+                ])
+              ])
             ])
           })
         )
@@ -278,17 +309,11 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
         _c("th", [_vm._v("钱包ID")]),
         _vm._v(" "),
-        _c("th", [_vm._v("用户ID")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("钱包类型")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("总余额(分)")]),
-        _vm._v(" "),
         _c("th", [_vm._v("冻结余额(分)")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("可用余额(分)")]),
         _vm._v(" "),
         _c("th", [_vm._v("状态")]),
         _vm._v(" "),
@@ -296,7 +321,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("创建时间")]),
         _vm._v(" "),
-        _c("th", [_vm._v("上次修改时间")])
+        _c("th", [_vm._v("上次修改时间")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("操作")])
       ])
     ])
   }
@@ -306,21 +333,21 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-d273b21e", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-d4f2786a", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/purse/central.vue":
+/***/ "./resources/assets/js/components/purse/freeze.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/purse/central.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/purse/freeze.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d273b21e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/purse/central.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-d4f2786a\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/purse/freeze.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -337,7 +364,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\purse\\central.vue"
+Component.options.__file = "resources\\assets\\js\\components\\purse\\freeze.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -346,9 +373,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d273b21e", Component.options)
+    hotAPI.createRecord("data-v-d4f2786a", Component.options)
   } else {
-    hotAPI.reload("data-v-d273b21e", Component.options)
+    hotAPI.reload("data-v-d4f2786a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

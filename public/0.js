@@ -38,7 +38,7 @@ __webpack_require__("./node_modules/echarts/lib/component/toolbox.js");
 		var order_options = {
 			title: {
 				left: 'center',
-				text: '近期15天每日订单交易入账金额',
+				text: '近期15天每日订单交易入账金额统计',
 				subtext: '按日划分，金额单位：分'
 			},
 			tooltip: {

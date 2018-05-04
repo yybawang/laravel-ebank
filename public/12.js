@@ -1,10 +1,58 @@
 webpackJsonp([12],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/report/purse.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/report/reason.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -93,12 +141,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			purse_type: '',
 			dialog: '',
 			dialog_list: [],
-			dialog_reason: [],
 			dialog_keyword: {
 				page: 1,
-				user_type_id: 0,
-				purse_type_id: 0,
-				type: '',
 				reason: ''
 			},
 			keyword: {
@@ -108,11 +152,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	methods: {
-		detail: function detail(user_type_id, purse_type_id, type) {
+		detail: function detail(reason) {
 			this.dialog_keyword.page = 1;
-			this.dialog_keyword.user_type_id = user_type_id;
-			this.dialog_keyword.purse_type_id = purse_type_id;
-			this.dialog_keyword.type = type;
+			this.dialog_keyword.reason = reason;
 			this.detail_init();
 		},
 		detail_search: function detail_search(page) {
@@ -121,9 +163,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		detail_init: function detail_init() {
 			var t = this;
-			get('/report/purse_detail', t.dialog_keyword, function (data) {
-				t.dialog_list = data.list;
-				t.dialog_reason = data.reason;
+			get('/report/reason_detail', t.dialog_keyword, function (data) {
+				t.dialog_list = data;
 				setTimeout(function () {
 					t.dialog.open();
 				}, 0);
@@ -135,7 +176,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		init: function init() {
 			var t = this;
-			get('/report/purse', t.keyword, function (data) {
+			get('/report/reason', t.keyword, function (data) {
 				t.list = data.list;
 				t.user_type = data.user_type;
 				t.purse_type = data.purse_type;
@@ -144,101 +185,92 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	mounted: function mounted() {
 		var t = this;
-		t.dialog = new mdui.Dialog('.detail_dialog', { history: false });
+		t.dialog = new mdui.Dialog('.dialog_detail', { history: false });
 		t.init();
 	}
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-050cf0ce\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/report/purse.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6f5ec225\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/report/reason.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "report_purse" }, [
+  return _c("div", { staticClass: "report_reason" }, [
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "mdui-table-fluid" }, [
       _c("table", { staticClass: "mdui-table mdui-table-hoverable" }, [
-        _c("thead", [
-          _c(
-            "tr",
-            [
-              _c("th"),
-              _vm._v(" "),
-              _vm._l(_vm.user_type, function(name, id) {
-                return _c("th", { staticClass: "mdui-text-center" }, [
-                  _vm._v(_vm._s(name))
-                ])
-              })
-            ],
-            2
-          )
-        ]),
+        _vm._m(1),
         _vm._v(" "),
         _c(
           "tbody",
-          _vm._l(_vm.purse_type, function(purse_type_name, purse_type_id) {
-            return _c(
-              "tr",
-              [
-                _c("td", [_vm._v(_vm._s(purse_type_name) + "(分)")]),
-                _vm._v(" "),
-                _vm._l(_vm.user_type, function(user_type_name, user_type_id) {
-                  return _c("td", { staticClass: "mdui-text-center" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          "mdui-btn mdui-ripple mdui-text-color-orange",
-                        on: {
-                          click: function($event) {
-                            _vm.detail(user_type_id, purse_type_id, "out")
-                          }
+          _vm._l(_vm.list.data, function(val, key, index) {
+            return _c("tr", [
+              _c("td", { domProps: { textContent: _vm._s(key + 1) } }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.reason) } }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.reason_name) } }),
+              _vm._v(" "),
+              _c("td", {
+                domProps: {
+                  textContent: _vm._s(_vm.user_type[val.out_user_type_id])
+                }
+              }),
+              _vm._v(" "),
+              _c("td", {
+                domProps: {
+                  textContent: _vm._s(_vm.purse_type[val.out_purse_type_id])
+                }
+              }),
+              _vm._v(" "),
+              _c("td", {
+                domProps: {
+                  textContent: _vm._s(_vm.user_type[val.into_user_type_id])
+                }
+              }),
+              _vm._v(" "),
+              _c("td", {
+                domProps: {
+                  textContent: _vm._s(_vm.purse_type[val.into_purse_type_id])
+                }
+              }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.amount) } }),
+              _vm._v(" "),
+              _c("td", {
+                domProps: { textContent: _vm._s(val.reason_remarks) }
+              }),
+              _vm._v(" "),
+              _c("td", [
+                _c("div", { staticClass: "mdui-btn-group" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+                      on: {
+                        click: function($event) {
+                          _vm.detail(val.reason)
                         }
-                      },
-                      [
-                        _vm._v(
-                          "出:" +
-                            _vm._s(_vm.list[user_type_id][purse_type_id].out)
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          "mdui-btn mdui-ripple mdui-text-color-green",
-                        on: {
-                          click: function($event) {
-                            _vm.detail(user_type_id, purse_type_id, "into")
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "进:" +
-                            _vm._s(_vm.list[user_type_id][purse_type_id].into)
-                        )
-                      ]
-                    )
-                  ])
-                })
-              ],
-              2
-            )
+                      }
+                    },
+                    [_vm._v("详情")]
+                  )
+                ])
+              ])
+            ])
           })
         )
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "mdui-dialog detail_dialog" }, [
+    _c("div", { staticClass: "mdui-dialog dialog_detail" }, [
       _c("div", { staticClass: "mdui-dialog-title" }, [
-        _vm._v("\n\t\t\t钱包流水详情\n\t\t")
+        _vm._v("\n\t\t\treason 行为流水详情\n\t\t")
       ]),
       _vm._v(" "),
       _c(
@@ -248,9 +280,11 @@ var render = function() {
           staticStyle: { height: "400px" }
         },
         [
-          _c("div", { staticClass: "mdui-table-fluid" }, [
-            _c("table", { staticClass: "mdui-table mdui-table-hoverable" }, [
-              _vm._m(1),
+          _c(
+            "table",
+            { staticClass: "mdui-table mdui-table-hoverable table-data" },
+            [
+              _vm._m(2),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -260,20 +294,42 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", { domProps: { textContent: _vm._s(val.id) } }),
                     _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(val.out_user_id) + "/" + _vm._s(val.into_user_id)
-                      )
-                    ]),
-                    _vm._v(" "),
                     _c("td", { domProps: { textContent: _vm._s(val.reason) } }),
                     _vm._v(" "),
                     _c("td", { domProps: { textContent: _vm._s(val.amount) } }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: {
-                        textContent: _vm._s(_vm.dialog_reason[val.reason])
-                      }
+                      domProps: { textContent: _vm._s(val.out_user_id) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(val.out_purse_id) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(val.out_balance) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(val.into_user_id) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(val.into_purse_id) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(val.into_balance) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(val.parent_id) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", { domProps: { textContent: _vm._s(val.detail) } }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(val.remarks) }
                     }),
                     _vm._v(" "),
                     _c("td", {
@@ -282,8 +338,8 @@ var render = function() {
                   ])
                 })
               )
-            ])
-          ])
+            ]
+          )
         ]
       ),
       _vm._v(" "),
@@ -316,7 +372,28 @@ var render = function() {
         ],
         1
       )
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "mdui-color-white footer" },
+      [
+        _c("pagination", {
+          attrs: {
+            pageInfo: {
+              total: _vm.list.total,
+              current: _vm.list.current_page,
+              pagenum: _vm.list.per_page,
+              page: _vm.list.last_page,
+              pagegroup: 9,
+              skin: "#2196F3"
+            }
+          },
+          on: { change: _vm.search }
+        })
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -326,9 +403,35 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "mdui-typo" }, [
       _c("blockquote", { staticClass: "blockquote_normal" }, [
-        _c("p", [
-          _vm._v("注：钱包进出统计，根据转账流水以及第三方支付订单计算所得")
-        ])
+        _c("p", [_vm._v("注：reason 行为流水统计，根据实际成功的流水计算所得")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("reason")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("行为名称")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("出账用户类型")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("出账钱包类型")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("进账用户类型")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("进账钱包类型")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("交易金额(分)")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("备注")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("操作")])
       ])
     ])
   },
@@ -342,13 +445,27 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("转账ID")]),
         _vm._v(" "),
-        _c("th", [_vm._v("出/进账用户")]),
-        _vm._v(" "),
         _c("th", [_vm._v("转账reason代码")]),
         _vm._v(" "),
         _c("th", [_vm._v("转账金额(分)")]),
         _vm._v(" "),
-        _c("th", [_vm._v("行为名称")]),
+        _c("th", [_vm._v("出账用户ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("出账钱包ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("出账后余额(分)")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("进账用户ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("进账钱包ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("进账后余额(分)")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("上级ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("详情")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("备注")]),
         _vm._v(" "),
         _c("th", [_vm._v("创建时间")])
       ])
@@ -360,21 +477,21 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-050cf0ce", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-6f5ec225", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/report/purse.vue":
+/***/ "./resources/assets/js/components/report/reason.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/report/purse.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/report/reason.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-050cf0ce\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/report/purse.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-6f5ec225\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/report/reason.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -391,7 +508,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\report\\purse.vue"
+Component.options.__file = "resources\\assets\\js\\components\\report\\reason.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -400,9 +517,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-050cf0ce", Component.options)
+    hotAPI.createRecord("data-v-6f5ec225", Component.options)
   } else {
-    hotAPI.reload("data-v-050cf0ce", Component.options)
+    hotAPI.reload("data-v-6f5ec225", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

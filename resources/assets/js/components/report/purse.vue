@@ -119,6 +119,7 @@
 					setTimeout(function(){
 						t.dialog.open();
 					},0);
+					
 				});
 			},
 			search(page){

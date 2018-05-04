@@ -61,6 +61,7 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	
 	Route::name('admin.基本信息管理.')->group(function(){
 		Route::get('welcome','IndexController@welcome')->name('menu.主页');
+		Route::get('user','IndexController@user')->name('menu.用户流水统计');
 		Route::get('sysinfo','IndexController@sysinfo')->name('menu.服务器信息');
 	});
 	
@@ -73,7 +74,8 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	});
 	
 	Route::prefix('transfer')->name('admin.业务流水管理.')->group(function(){
-		Route::get('/','TransferController@index')->name('menu.转账记录');
+		Route::get('/','TransferController@index')->name('menu.流水记录');
+		Route::get('/','TransferController@report')->name('menu.流水统计');
 		Route::post('untransfer','TransferController@untransfer');
 		Route::get('reason','TransferController@reason')->name('menu.转账reason');
 		Route::get('reason_detail','TransferController@reason_detail');
