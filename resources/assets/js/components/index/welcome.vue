@@ -1,6 +1,6 @@
 <template>
 	<div class="welcome">
-		<div id="order_into" style="width:100%;height:400px"></div>
+		<div id="order_into" style="width:100%;height:500px"></div>
 	</div>
 </template>
 <script>

@@ -28941,7 +28941,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "welcome" }, [
       _c("div", {
-        staticStyle: { width: "100%", height: "400px" },
+        staticStyle: { width: "100%", height: "500px" },
         attrs: { id: "order_into" }
       })
     ])
