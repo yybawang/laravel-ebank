@@ -92,7 +92,7 @@ class Handler extends ExceptionHandler
 				$message = 'HTTP 路由请求地址错误';
 			}elseif($exception instanceof QueryException){
 				$production = config('basic.production');
-				$message = $production ? '数据参数错误，请稍后重试' : $exception->getMessage();
+				$message = $production ? '数据参数错误，请稍后重试' : (string)$exception->getMessage();
 			}elseif($exception instanceof ModelNotFoundException){
 				$production = config('basic.production');
 				$message = $production ? '查询数据不存在' : $exception->getMessage();

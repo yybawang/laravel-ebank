@@ -56,15 +56,21 @@ class SystemController extends CommonController {
 	 * @return array
 	 */
 	public function config_add(BasicRequest $request){
-		request()->validate([
-			'key'		=> 'required|unique:fund_config,key',
+		$post = request()->validate([
+			'id'		=> '',
+			'key'		=> [
+				'required',
+				Rule::unique('fund_config','key')->ignore($request->input('id')),
+			],
 			'value'		=> 'required',
 			'tips'		=> 'required',
+			'rank'		=> '',
+			'status'	=> '',
+			'remarks'	=> '',
 		]);
-		$post = $request->all();
 		// 查出排序字段最大的数字，新数据+1
-		$max = FundConfig::max('rank');
-		$post['rank'] = $max + 1;
+//		$max = FundConfig::max('rank');
+//		$post['rank'] = $max;
 		$id = FundConfig::updateOrCreate(['id'=>$post['id']],$post)->id;
 		return json_return($id,'','',['id'=>$id]);
 	}

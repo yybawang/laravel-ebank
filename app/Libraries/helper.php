@@ -127,7 +127,7 @@ function clear_null(&$data = ''){
  * json API 返回成功
  * @param string $msg
  * @param array $data
- * @return \Illuminate\Http\JsonResponse
+ * @return array
  */
 function json_success($msg = '',$data = []){
 	$return = [
@@ -136,14 +136,14 @@ function json_success($msg = '',$data = []){
 		'data'		=> $data,
 	];
 	clear_null($return['data']);
-	return response()->json($return);
+	return $return;
 }
 
 /**
  * json API 返回失败
  * @param $msg
  * @param array $data
- * @return \Illuminate\Http\JsonResponse
+ * @return array
  */
 function json_error($msg,$data = []){
 	$msg = $msg ? : '服务器错误，请稍后重试';
@@ -153,14 +153,14 @@ function json_error($msg,$data = []){
 		'data'		=> $data,
 	];
 	clear_null($return['data']);
-	return response()->json($return);
+	return $return;
 }
 
 /**
  * json API 返回需要登录
  * @param string $msg
  * @param array $data
- * @return \Illuminate\Http\JsonResponse
+ * @return array
  */
 function json_login($msg = '',$data = []){
 	$msg = $msg ? : '登录失效，请重新登录';
@@ -170,7 +170,7 @@ function json_login($msg = '',$data = []){
 		'data'		=> $data,
 	];
 	clear_null($return['data']);
-	return response()->json($return);
+	return $return;
 }
 
 /**
@@ -179,7 +179,7 @@ function json_login($msg = '',$data = []){
  * @param string $error_msg
  * @param string $success_msg
  * @param array $data
- * @return array|\Illuminate\Http\JsonResponse
+ * @return array
  */
 function json_return($var,$error_msg = '服务器错误，请稍后重试',$success_msg = '操作完成',$data = []){
 	if($var === false || $var === null){
