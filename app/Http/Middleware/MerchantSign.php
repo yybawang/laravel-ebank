@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\ApiException;
+use App\Jobs\ApiBehavior;
 use App\Models\FundMerchant;
 use Closure;
 
@@ -36,4 +36,25 @@ class MerchantSign
 		}
         return $next($request);
     }
+	
+	
+	/**
+	 * 记录API日志
+	 * laravel内部方法，在返回浏览器响应之后，自动调用
+	 */
+    public function terminate($request, $response){
+		$now_time_float = microtime(true);
+		$data = [
+			'url'			=> request()->url(),
+			'execute_time'	=> round($now_time_float - request()->server('REQUEST_TIME_FLOAT'),8),
+			'database'		=> print_r(config('database.connections'),true),
+			'$_GET'			=> print_r($_GET,true),
+			'$_POST'		=> print_r($_POST,true),
+			'$_REQUEST'		=> print_r($request->all(),true),
+			'$_SERVER'		=> print_r($_SERVER,true),
+			'$_SESSION'		=> print_r($_SESSION,true),
+			'$_COOKIE'		=> print_r($_COOKIE,true),
+		];
+		ApiBehavior::dispatch($data)->onQueue('behavior');
+	}
 }
