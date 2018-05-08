@@ -7,8 +7,6 @@ namespace App\Libraries\Bank;
 use App\Models\FundOrder;
 use Yansongda\LaravelPay\Facades\Pay;
 
-include __DIR__.'/../wechat_pay/lib/WxPay.Api.php';
-include __DIR__.'/../alipay_sdk/AopSdk.php';
 
 class OrderUnified {
 	protected $error = '';
@@ -229,7 +227,7 @@ class OrderUnified {
 			'total_amount'	=> round($amount / 100,2),
 			'auth_code'		=> $auth_code,
 		];
-		// 需要自己调用摄像头得到用户的付款码auth_code，此接口直接支付成功，等待异步回调即可
+		// 需要自己调用摄像头得到用户的付款码auth_code，此接口调用一次，等待异步回调即可
 		$result = Pay::alipay()->pos($param);
 		return $result;
 	}

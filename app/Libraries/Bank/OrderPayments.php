@@ -68,30 +68,30 @@ class OrderPayments
 //"signType" => "MD5"
 //"paySign" => "C22821291CCBFF40625539A05CB01624"
 //]
+	// 记得把微信授权地址改为此ebank的地址 url('api/form/wechat')
 	public function wechat_mp(){
 		$param = request()->validate([
 			'openid'	=> 'required',
 		]);
 		$order_unified = new OrderUnified();
 		$result = $order_unified->wechatMp($this->order_no,$this->amount_thread,$this->product_name,$param['openid']);
+		$html = build_form(url('api/form/wechat'),['sign'=>json_encode($result),'return_url'=>url('api/return/wechat?pay_status=')]);
 		return [
 			'order_no'	=> $this->order_no,
-			'type'		=> 'mp',
+			'type'		=> 'form',
 			'platform'	=> 'wechat',
-			'content'	=> $result
+			'content'	=> $html
 		];
 	}
 	
-	// 记得把微信授权地址改为此ebank的地址 url('api/form/wechat')
 	public function wechat_wap(){
 		$order_unified = new OrderUnified();
 		$result = $order_unified->wechatWap($this->order_no,$this->amount_thread,$this->product_name);
-		$html = build_form(url('api/form/wechat'),['sign'=>$result,'return_url'=>url('api/return/wechat')]);
 		return [
 			'order_no'	=> $this->order_no,
 			'type'		=> 'url',	// location.href 跳转
 			'platform'	=> 'wechat',
-			'content'	=> $html
+			'content'	=> $result->mweb_url
 		];
 	}
 	
@@ -116,7 +116,7 @@ class OrderPayments
 			'order_no'	=> $this->order_no,
 			'type'		=> 'qrcode',	// location.href 跳转
 			'platform'	=> 'wechat',
-			'content'	=> $result
+			'content'	=> $result->code_url
 		];
 	}
 	
@@ -189,7 +189,7 @@ class OrderPayments
 			'order_no'	=> $this->order_no,
 			'type'		=> 'qrcode',
 			'platform'	=> 'alipay',
-			'content'	=> $result
+			'content'	=> $result->qr_code
 		];
 	}
 	
