@@ -72,49 +72,43 @@
 			<div class="mdui-dialog-content">
 				<form>
 					<div class="mdui-container">
-						<div class="mdui-textfield">
-							所属商户：
-							<select class="mdui-select" mdui-select v-model="form.merchant_id">
-								<option :value="id" v-for="(name,id) of merchant">{{name}}</option>
-							</select>
-						</div>
+						所属商户：
+						<select class="mdui-select" mdui-select v-model="form.merchant_id">
+							<option :value="id" v-for="(name,id) of merchant">{{name}}</option>
+						</select>
 					</div>
 					<div class="mdui-container">
 						<div class="mdui-textfield">
 							<label class="mdui-textfield-label">转账行为名称</label>
-							<input class="mdui-textfield-input" type="text" v-model="form.name" />
+							<input class="mdui-textfield-input" type="text" v-model="form.name" placeholder="中文备注，用户查看流水时展示文案" />
 						</div>
 					</div>
-					<div class="mdui-container">
-						<div class="mdui-textfield">
-							出账用户类型：
-							<select class="mdui-select" mdui-select v-model="form.out_user_type_id">
-								<option :value="id" v-for="(name,id) of user_type">{{name}}</option>
-							</select>
-							　　　　
-							出账钱包类型：
-							<select class="mdui-select" mdui-select v-model="form.out_purse_type_id">
-								<option :value="id" v-for="(name,id) of purse_type">{{name}}</option>
-							</select>
-						</div>
+					<div class="mdui-container mdui-p-y-2">
+						出账用户类型：
+						<select class="mdui-select" mdui-select v-model="form.out_user_type_id">
+							<option :value="id" v-for="(name,id) of user_type">{{name}}</option>
+						</select>
+						　　　　
+						出账钱包类型：
+						<select class="mdui-select" mdui-select v-model="form.out_purse_type_id">
+							<option :value="id" v-for="(name,id) of purse_type">{{name}}</option>
+						</select>
 					</div>
-					<div class="mdui-container">
-						<div class="mdui-textfield">
-							进账用户类型：
-							<select class="mdui-select" mdui-select v-model="form.into_user_type_id">
-								<option :value="id" v-for="(name,id) of user_type">{{name}}</option>
-							</select>
-							　　　　
-							进账钱包类型：
-							<select class="mdui-select" mdui-select v-model="form.into_purse_type_id">
-								<option :value="id" v-for="(name,id) of purse_type">{{name}}</option>
-							</select>
-						</div>
+					<div class="mdui-container mdui-p-y-2">
+						进账用户类型：
+						<select class="mdui-select" mdui-select v-model="form.into_user_type_id">
+							<option :value="id" v-for="(name,id) of user_type">{{name}}</option>
+						</select>
+						　　　　
+						进账钱包类型：
+						<select class="mdui-select" mdui-select v-model="form.into_purse_type_id">
+							<option :value="id" v-for="(name,id) of purse_type">{{name}}</option>
+						</select>
 					</div>
 					<div class="mdui-container">
 						<div class="mdui-textfield">
 							<label class="mdui-textfield-label">reason 代码</label>
-							<input class="mdui-textfield-input" type="text" v-model="form.reason" />
+							<input class="mdui-textfield-input" type="text" v-model="form.reason" placeholder="新增时选择完上方类型后自动生成" />
 						</div>
 					</div>
 					<div class="mdui-container">
@@ -134,7 +128,7 @@
 					<div class="mdui-container">
 						<div class="mdui-textfield">
 							<label class="mdui-textfield-label">备注</label>
-							<input class="mdui-textfield-input" type="text" v-model="form.remarks" />
+							<input class="mdui-textfield-input" type="text" v-model="form.remarks" placeholder="后台详细备注" />
 						</div>
 					</div>
 				</form>
@@ -169,6 +163,7 @@
 				purse_type : '',
 				merchant : '',
 				form : '',
+				max : 1000,		// 自动生成reason需要
 				dialog : '',
 				keyword : {
 					page : 1,
@@ -178,12 +173,30 @@
 				},
 			};
 		},
+		watch : {
+			'form.out_user_type_id' : function(n,old){
+				this.add_purse_change();
+			},
+			'form.out_purse_type_id' : function(n,old){
+				this.add_purse_change();
+			},
+			'form.into_user_type_id' : function(n,old){
+				this.add_purse_change();
+			},
+			'form.into_purse_type_id' : function(n,old){
+				this.add_purse_change();
+			}
+		},
 		methods : {
 			add(id){
 				let t = this;
 				t.dialog.open();
 				get('/transfer/reason_detail',{id:id},function(data){
-					t.form = data;
+					t.form = data.list;
+					t.max = data.max;
+					setTimeout(function(){
+						$('.dialog_add').mutation();
+					},0);
 				});
 			},
 			add_submit(){
@@ -209,6 +222,12 @@
 				this.keyword.page = 1;
 				this.keyword.merchant_id = id;
 				this.init();
+			},
+			add_purse_change(){
+				let form = this.form;
+				if(!form.id && form.out_user_type_id && form.out_purse_type_id && form.into_user_type_id && form.into_purse_type_id){
+					form.reason = this.max + '' + form.out_user_type_id.padStart(2,'0') + '' + form.out_purse_type_id.padStart(2,'0') + '' + form.into_user_type_id.padStart(2,'0') + '' + form.into_purse_type_id.padStart(2,'0');
+				}
 			},
 			init(){
 				let t = this;

@@ -93,7 +93,9 @@ class TransferController extends CommonController {
 	
 	public function reason_detail(BasicRequest $request){
 		$id = $request->input('id');
-		$data = FundTransferReason::firstOrNew(['id'=>$id],[
+		$max = FundTransferReason::orderByDesc('id')->value('id');	// 找出最大的ID，用于自动生成reason
+		$max++;
+		$data['list'] = FundTransferReason::firstOrNew(['id'=>$id],[
 			'merchant_id'		=> 0,
 			'name'				=> '',
 			'out_user_type_id'	=> 0,
@@ -104,6 +106,7 @@ class TransferController extends CommonController {
 			'status'			=> 1,
 			'remarks'			=> '',
 		]);
+		$data['max'] = $max;
 		return json_success('OK',$data);
 	}
 	

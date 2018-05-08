@@ -161,12 +161,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -176,6 +170,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			purse_type: '',
 			merchant: '',
 			form: '',
+			max: 1000, // 自动生成reason需要
 			dialog: '',
 			keyword: {
 				page: 1,
@@ -186,12 +181,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		};
 	},
 
+	watch: {
+		'form.out_user_type_id': function formOut_user_type_id(n, old) {
+			this.add_purse_change();
+		},
+		'form.out_purse_type_id': function formOut_purse_type_id(n, old) {
+			this.add_purse_change();
+		},
+		'form.into_user_type_id': function formInto_user_type_id(n, old) {
+			this.add_purse_change();
+		},
+		'form.into_purse_type_id': function formInto_purse_type_id(n, old) {
+			this.add_purse_change();
+		}
+	},
 	methods: {
 		add: function add(id) {
 			var t = this;
 			t.dialog.open();
 			get('/transfer/reason_detail', { id: id }, function (data) {
-				t.form = data;
+				t.form = data.list;
+				t.max = data.max;
+				setTimeout(function () {
+					$('.dialog_add').mutation();
+				}, 0);
 			});
 		},
 		add_submit: function add_submit() {
@@ -227,6 +240,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.keyword.page = 1;
 			this.keyword.merchant_id = id;
 			this.init();
+		},
+		add_purse_change: function add_purse_change() {
+			var form = this.form;
+			if (!form.id && form.out_user_type_id && form.out_purse_type_id && form.into_user_type_id && form.into_purse_type_id) {
+				form.reason = this.max + '' + form.out_user_type_id.padStart(2, '0') + '' + form.out_purse_type_id.padStart(2, '0') + '' + form.into_user_type_id.padStart(2, '0') + '' + form.into_purse_type_id.padStart(2, '0');
+			}
 		},
 		init: function init() {
 			var t = this;
@@ -519,48 +538,44 @@ var render = function() {
       _c("div", { staticClass: "mdui-dialog-content" }, [
         _c("form", [
           _c("div", { staticClass: "mdui-container" }, [
-            _c("div", { staticClass: "mdui-textfield" }, [
-              _vm._v("\n\t\t\t\t\t\t所属商户：\n\t\t\t\t\t\t"),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.merchant_id,
-                      expression: "form.merchant_id"
-                    }
-                  ],
-                  staticClass: "mdui-select",
-                  attrs: { "mdui-select": "" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form,
-                        "merchant_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
+            _vm._v("\n\t\t\t\t\t所属商户：\n\t\t\t\t\t"),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.merchant_id,
+                    expression: "form.merchant_id"
                   }
-                },
-                _vm._l(_vm.merchant, function(name, id) {
-                  return _c("option", { domProps: { value: id } }, [
-                    _vm._v(_vm._s(name))
-                  ])
-                })
-              )
-            ])
+                ],
+                staticClass: "mdui-select",
+                attrs: { "mdui-select": "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "merchant_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              _vm._l(_vm.merchant, function(name, id) {
+                return _c("option", { domProps: { value: id } }, [
+                  _vm._v(_vm._s(name))
+                ])
+              })
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "mdui-container" }, [
@@ -579,7 +594,10 @@ var render = function() {
                   }
                 ],
                 staticClass: "mdui-textfield-input",
-                attrs: { type: "text" },
+                attrs: {
+                  type: "text",
+                  placeholder: "中文备注，用户查看流水时展示文案"
+                },
                 domProps: { value: _vm.form.name },
                 on: {
                   input: function($event) {
@@ -593,178 +611,166 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "mdui-container" }, [
-            _c("div", { staticClass: "mdui-textfield" }, [
-              _vm._v("\n\t\t\t\t\t\t出账用户类型：\n\t\t\t\t\t\t"),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.out_user_type_id,
-                      expression: "form.out_user_type_id"
-                    }
-                  ],
-                  staticClass: "mdui-select",
-                  attrs: { "mdui-select": "" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form,
-                        "out_user_type_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
+          _c("div", { staticClass: "mdui-container mdui-p-y-2" }, [
+            _vm._v("\n\t\t\t\t\t出账用户类型：\n\t\t\t\t\t"),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.out_user_type_id,
+                    expression: "form.out_user_type_id"
                   }
-                },
-                _vm._l(_vm.user_type, function(name, id) {
-                  return _c("option", { domProps: { value: id } }, [
-                    _vm._v(_vm._s(name))
-                  ])
-                })
-              ),
-              _vm._v(
-                "\n\t\t\t\t\t\t　　　　\n\t\t\t\t\t\t出账钱包类型：\n\t\t\t\t\t\t"
-              ),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.out_purse_type_id,
-                      expression: "form.out_purse_type_id"
-                    }
-                  ],
-                  staticClass: "mdui-select",
-                  attrs: { "mdui-select": "" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form,
-                        "out_purse_type_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
+                ],
+                staticClass: "mdui-select",
+                attrs: { "mdui-select": "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "out_user_type_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
                   }
-                },
-                _vm._l(_vm.purse_type, function(name, id) {
-                  return _c("option", { domProps: { value: id } }, [
-                    _vm._v(_vm._s(name))
-                  ])
-                })
-              )
-            ])
+                }
+              },
+              _vm._l(_vm.user_type, function(name, id) {
+                return _c("option", { domProps: { value: id } }, [
+                  _vm._v(_vm._s(name))
+                ])
+              })
+            ),
+            _vm._v(
+              "\n\t\t\t\t\t　　　　\n\t\t\t\t\t出账钱包类型：\n\t\t\t\t\t"
+            ),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.out_purse_type_id,
+                    expression: "form.out_purse_type_id"
+                  }
+                ],
+                staticClass: "mdui-select",
+                attrs: { "mdui-select": "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "out_purse_type_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              _vm._l(_vm.purse_type, function(name, id) {
+                return _c("option", { domProps: { value: id } }, [
+                  _vm._v(_vm._s(name))
+                ])
+              })
+            )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "mdui-container" }, [
-            _c("div", { staticClass: "mdui-textfield" }, [
-              _vm._v("\n\t\t\t\t\t\t进账用户类型：\n\t\t\t\t\t\t"),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.into_user_type_id,
-                      expression: "form.into_user_type_id"
-                    }
-                  ],
-                  staticClass: "mdui-select",
-                  attrs: { "mdui-select": "" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form,
-                        "into_user_type_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
+          _c("div", { staticClass: "mdui-container mdui-p-y-2" }, [
+            _vm._v("\n\t\t\t\t\t进账用户类型：\n\t\t\t\t\t"),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.into_user_type_id,
+                    expression: "form.into_user_type_id"
                   }
-                },
-                _vm._l(_vm.user_type, function(name, id) {
-                  return _c("option", { domProps: { value: id } }, [
-                    _vm._v(_vm._s(name))
-                  ])
-                })
-              ),
-              _vm._v(
-                "\n\t\t\t\t\t\t　　　　\n\t\t\t\t\t\t进账钱包类型：\n\t\t\t\t\t\t"
-              ),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.into_purse_type_id,
-                      expression: "form.into_purse_type_id"
-                    }
-                  ],
-                  staticClass: "mdui-select",
-                  attrs: { "mdui-select": "" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form,
-                        "into_purse_type_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
+                ],
+                staticClass: "mdui-select",
+                attrs: { "mdui-select": "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "into_user_type_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
                   }
-                },
-                _vm._l(_vm.purse_type, function(name, id) {
-                  return _c("option", { domProps: { value: id } }, [
-                    _vm._v(_vm._s(name))
-                  ])
-                })
-              )
-            ])
+                }
+              },
+              _vm._l(_vm.user_type, function(name, id) {
+                return _c("option", { domProps: { value: id } }, [
+                  _vm._v(_vm._s(name))
+                ])
+              })
+            ),
+            _vm._v(
+              "\n\t\t\t\t\t　　　　\n\t\t\t\t\t进账钱包类型：\n\t\t\t\t\t"
+            ),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.into_purse_type_id,
+                    expression: "form.into_purse_type_id"
+                  }
+                ],
+                staticClass: "mdui-select",
+                attrs: { "mdui-select": "" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "into_purse_type_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              _vm._l(_vm.purse_type, function(name, id) {
+                return _c("option", { domProps: { value: id } }, [
+                  _vm._v(_vm._s(name))
+                ])
+              })
+            )
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "mdui-container" }, [
@@ -783,7 +789,10 @@ var render = function() {
                   }
                 ],
                 staticClass: "mdui-textfield-input",
-                attrs: { type: "text" },
+                attrs: {
+                  type: "text",
+                  placeholder: "新增时选择完上方类型后自动生成"
+                },
                 domProps: { value: _vm.form.reason },
                 on: {
                   input: function($event) {
@@ -869,7 +878,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "mdui-textfield-input",
-                attrs: { type: "text" },
+                attrs: { type: "text", placeholder: "后台详细备注" },
                 domProps: { value: _vm.form.remarks },
                 on: {
                   input: function($event) {
