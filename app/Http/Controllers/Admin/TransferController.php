@@ -47,7 +47,12 @@ class TransferController extends CommonController {
 			->orderBy('id','desc');
 		if($request->input('export')){
 			$model2 = clone $model;
-			(new ExportCsv())->name('导出资金流水')->field(['id'=>'转账ID','reason'=>'转账reason行为','amount'=>'转账金额','out_user_id'=>'出账用户ID','out_user_type_name'=>'出账身份类型','out_purse_type_name'=>'出账钱包类型','out_purse_id'=>'出账钱包ID','out_balance'=>'出账后余额','into_user_id'=>'进账用户ID','into_user_type_name'=>'进账身份类型','into_purse_type_name'=>'进账钱包类型','into_purse_id'=>'进账钱包ID','into_balance'=>'进账后余额','parent_id'=>'父关联转账ID','status'=>'状态：1有效，2已冲正','detail'=>'detail','remarks'=>'备注','created_at'=>'创建时间'])->data($model2->get()->each(function($v){$v->out_user_type_name = $v->out_user_type->name;$v->out_purse_type_name = $v->out_purse_type->name;$v->into_user_type_name = $v->into_user_type->name;$v->into_purse_type_name = $v->into_purse_type->name;}))->save();
+			(new ExportCsv())
+				->name('导出资金流水')
+				->field(['id'=>'转账ID','reason'=>'转账reason行为','amount'=>'转账金额','out_user_id'=>'出账用户ID','out_user_type_id'=>'出账身份类型ID','out_purse_type_id'=>'出账钱包类型ID','out_purse_id'=>'出账钱包ID','out_balance'=>'出账后余额','into_user_id'=>'进账用户ID','into_user_type_id'=>'进账身份类型ID','into_purse_type_id'=>'进账钱包类型ID','into_purse_id'=>'进账钱包ID','into_balance'=>'进账后余额','parent_id'=>'父关联转账ID','status'=>'状态：1有效，2已冲正','detail'=>'detail','remarks'=>'备注','created_at'=>'创建时间'])
+//				->data($model2/*->get()->each(function($v){$v->out_user_type_name = $v->out_user_type->name;$v->out_purse_type_name = $v->out_purse_type->name;$v->into_user_type_name = $v->into_user_type->name;$v->into_purse_type_name = $v->into_purse_type->name;})*/)
+				->data($model2)
+				->save();
 		}
 		$data['list'] = $model->pages();
 		return json_success('OK',$data);
