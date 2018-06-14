@@ -12,6 +12,13 @@
 
 > 项目后台使用 vue 搭建，此项目中已自带编译后前端文件
 
+## DEMO docker沙箱演示地址，每周清理数据库
+[http://ebank_demo.thinkms.com](http://ebank_demo.thinkms.com "ebank_demo")
+
+**后台账号密码**
+- admin
+- 123456
+
 ## 简介
 
 **此电子银行系统集成两大功能**
