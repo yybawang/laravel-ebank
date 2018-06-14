@@ -12,8 +12,11 @@
 
 > 项目后台使用 vue 搭建，此项目中已自带编译后前端文件
 
-## DEMO docker沙箱演示地址，每周清理数据库
-[http://ebank_demo.thinkms.com](http://ebank_demo.thinkms.com "ebank_demo")
+## DEMO 演示
+
+> **docker沙箱演示地址，每周清理数据库**
+
+> [https://ebank-demo.thinkms.com](https://ebank-demo.thinkms.com "ebank演示沙箱站")
 
 **后台账号密码**
 - admin
