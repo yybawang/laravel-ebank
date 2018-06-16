@@ -3,8 +3,8 @@
 		<header class="mdui-appbar mdui-appbar-fixed">
 			<div class="mdui-toolbar mdui-color-theme">
 				<span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#main-drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
-				<router-link :to="{path:'/'}" class="mdui-typo-headline mdui-hidden-md-up">GPU</router-link>
-				<router-link :to="{path:'/'}" class="mdui-typo-title mdui-hidden-sm-down">Global Pay Unit</router-link>
+				<router-link :to="{path:'/'}" class="mdui-typo-headline mdui-hidden-md-up">EBank</router-link>
+				<router-link :to="{path:'/'}" class="mdui-typo-title mdui-hidden-sm-down">EBank 电子银行</router-link>
 				<div class="mdui-toolbar-spacer"></div>
 				<!--<div class="mdui-spinner mdui-spinner-colorful mdui-hidden ajax_loading"></div>-->
 				<span class="mdui-btn mdui-ripple" mdui-menu="{target: '.menu_user'}">

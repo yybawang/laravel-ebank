@@ -1,7 +1,7 @@
 <template>
 	<div class="login">
 		<div class="frame">
-			<div class="title"><h3>全球支付系统后台登录</h3></div>
+			<div class="title"><h3>EBank 电子银行系统</h3></div>
 			<div class="content">
 				<form method="post" class="form" @keydown.enter="submit">
 					<div class="mdui-textfield mdui-textfield-floating-label">
@@ -19,7 +19,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="login_footer">&copy; 2015 Global Pay Unit {{domain}} All rights reserved</div>
+			<div class="login_footer">&copy; 2017 EBank {{domain}} All rights reserved</div>
 		</div>
 	</div>
 </template>

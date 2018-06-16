@@ -92,7 +92,6 @@
 		</div>
 		
 		<div class="mdui-color-white footer">
-			<div class="scrollbar" mdui-tooltip="{content:'便捷滚动条',position:'right'}"><div class="scrollbar-bar"></div></div>
 			<pagination
 					:pageInfo="{
 						total:list.total,

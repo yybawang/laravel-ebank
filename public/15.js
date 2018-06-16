@@ -182,12 +182,18 @@ var render = function() {
                           $$i = _vm._i($$a, $$v)
                         if ($$el.checked) {
                           $$i < 0 &&
-                            (_vm.keyword.purse_type_id = $$a.concat([$$v]))
+                            _vm.$set(
+                              _vm.keyword,
+                              "purse_type_id",
+                              $$a.concat([$$v])
+                            )
                         } else {
                           $$i > -1 &&
-                            (_vm.keyword.purse_type_id = $$a
-                              .slice(0, $$i)
-                              .concat($$a.slice($$i + 1)))
+                            _vm.$set(
+                              _vm.keyword,
+                              "purse_type_id",
+                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                            )
                         }
                       } else {
                         _vm.$set(_vm.keyword, "purse_type_id", $$c)

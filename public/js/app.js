@@ -458,7 +458,7 @@ var render = function() {
               staticClass: "mdui-typo-headline mdui-hidden-md-up",
               attrs: { to: { path: "/" } }
             },
-            [_vm._v("GPU")]
+            [_vm._v("EBank")]
           ),
           _vm._v(" "),
           _c(
@@ -467,7 +467,7 @@ var render = function() {
               staticClass: "mdui-typo-title mdui-hidden-sm-down",
               attrs: { to: { path: "/" } }
             },
-            [_vm._v("Global Pay Unit")]
+            [_vm._v("EBank 电子银行")]
           ),
           _vm._v(" "),
           _c("div", { staticClass: "mdui-toolbar-spacer" }),
@@ -949,7 +949,7 @@ var content = __webpack_require__("./node_modules/css-loader/index.js!./node_mod
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("268111b8", content, false);
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("d0ec13a2", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags

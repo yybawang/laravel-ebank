@@ -113,7 +113,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -274,12 +273,18 @@ var render = function() {
                             $$i = _vm._i($$a, $$v)
                           if ($$el.checked) {
                             $$i < 0 &&
-                              (_vm.keyword.purse_type_id = $$a.concat([$$v]))
+                              _vm.$set(
+                                _vm.keyword,
+                                "purse_type_id",
+                                $$a.concat([$$v])
+                              )
                           } else {
                             $$i > -1 &&
-                              (_vm.keyword.purse_type_id = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
+                              _vm.$set(
+                                _vm.keyword,
+                                "purse_type_id",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
                           }
                         } else {
                           _vm.$set(_vm.keyword, "purse_type_id", $$c)
@@ -335,12 +340,18 @@ var render = function() {
                             $$i = _vm._i($$a, $$v)
                           if ($$el.checked) {
                             $$i < 0 &&
-                              (_vm.keyword.user_type_id = $$a.concat([$$v]))
+                              _vm.$set(
+                                _vm.keyword,
+                                "user_type_id",
+                                $$a.concat([$$v])
+                              )
                           } else {
                             $$i > -1 &&
-                              (_vm.keyword.user_type_id = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
+                              _vm.$set(
+                                _vm.keyword,
+                                "user_type_id",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
                           }
                         } else {
                           _vm.$set(_vm.keyword, "user_type_id", $$c)
@@ -626,8 +637,6 @@ var render = function() {
       "div",
       { staticClass: "mdui-color-white footer" },
       [
-        _vm._m(1),
-        _vm._v(" "),
         _c("pagination", {
           attrs: {
             pageInfo: {
@@ -672,19 +681,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("操作")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "scrollbar",
-        attrs: { "mdui-tooltip": "{content:'便捷滚动条',position:'right'}" }
-      },
-      [_c("div", { staticClass: "scrollbar-bar" })]
-    )
   }
 ]
 render._withStripped = true

@@ -339,12 +339,18 @@ var render = function() {
                             $$i = _vm._i($$a, $$v)
                           if ($$el.checked) {
                             $$i < 0 &&
-                              (_vm.keyword.merchant_id = $$a.concat([$$v]))
+                              _vm.$set(
+                                _vm.keyword,
+                                "merchant_id",
+                                $$a.concat([$$v])
+                              )
                           } else {
                             $$i > -1 &&
-                              (_vm.keyword.merchant_id = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
+                              _vm.$set(
+                                _vm.keyword,
+                                "merchant_id",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
                           }
                         } else {
                           _vm.$set(_vm.keyword, "merchant_id", $$c)
@@ -400,12 +406,18 @@ var render = function() {
                             $$i = _vm._i($$a, $$v)
                           if ($$el.checked) {
                             $$i < 0 &&
-                              (_vm.keyword.order_type = $$a.concat([$$v]))
+                              _vm.$set(
+                                _vm.keyword,
+                                "order_type",
+                                $$a.concat([$$v])
+                              )
                           } else {
                             $$i > -1 &&
-                              (_vm.keyword.order_type = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
+                              _vm.$set(
+                                _vm.keyword,
+                                "order_type",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
                           }
                         } else {
                           _vm.$set(_vm.keyword, "order_type", $$c)
@@ -461,12 +473,18 @@ var render = function() {
                             $$i = _vm._i($$a, $$v)
                           if ($$el.checked) {
                             $$i < 0 &&
-                              (_vm.keyword.pay_status = $$a.concat([$$v]))
+                              _vm.$set(
+                                _vm.keyword,
+                                "pay_status",
+                                $$a.concat([$$v])
+                              )
                           } else {
                             $$i > -1 &&
-                              (_vm.keyword.pay_status = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
+                              _vm.$set(
+                                _vm.keyword,
+                                "pay_status",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
                           }
                         } else {
                           _vm.$set(_vm.keyword, "pay_status", $$c)
@@ -515,12 +533,18 @@ var render = function() {
                             $$i = _vm._i($$a, $$v)
                           if ($$el.checked) {
                             $$i < 0 &&
-                              (_vm.keyword.notify_status = $$a.concat([$$v]))
+                              _vm.$set(
+                                _vm.keyword,
+                                "notify_status",
+                                $$a.concat([$$v])
+                              )
                           } else {
                             $$i > -1 &&
-                              (_vm.keyword.notify_status = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
+                              _vm.$set(
+                                _vm.keyword,
+                                "notify_status",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
                           }
                         } else {
                           _vm.$set(_vm.keyword, "notify_status", $$c)
@@ -569,12 +593,18 @@ var render = function() {
                             $$i = _vm._i($$a, $$v)
                           if ($$el.checked) {
                             $$i < 0 &&
-                              (_vm.keyword.refund_status = $$a.concat([$$v]))
+                              _vm.$set(
+                                _vm.keyword,
+                                "refund_status",
+                                $$a.concat([$$v])
+                              )
                           } else {
                             $$i > -1 &&
-                              (_vm.keyword.refund_status = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
+                              _vm.$set(
+                                _vm.keyword,
+                                "refund_status",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
                           }
                         } else {
                           _vm.$set(_vm.keyword, "refund_status", $$c)
@@ -629,12 +659,19 @@ var render = function() {
                           var $$v = name,
                             $$i = _vm._i($$a, $$v)
                           if ($$el.checked) {
-                            $$i < 0 && (_vm.keyword.payment = $$a.concat([$$v]))
+                            $$i < 0 &&
+                              _vm.$set(
+                                _vm.keyword,
+                                "payment",
+                                $$a.concat([$$v])
+                              )
                           } else {
                             $$i > -1 &&
-                              (_vm.keyword.payment = $$a
-                                .slice(0, $$i)
-                                .concat($$a.slice($$i + 1)))
+                              _vm.$set(
+                                _vm.keyword,
+                                "payment",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
                           }
                         } else {
                           _vm.$set(_vm.keyword, "payment", $$c)

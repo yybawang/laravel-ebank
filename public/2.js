@@ -100,11 +100,11 @@ var render = function() {
               keydown: function($event) {
                 if (
                   !("button" in $event) &&
-                  _vm._k($event.keyCode, "enter", 13, $event.key)
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
                 ) {
                   return null
                 }
-                _vm.submit($event)
+                return _vm.submit($event)
               }
             }
           },
@@ -196,11 +196,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "login_footer" }, [
-        _vm._v(
-          "© 2015 Global Pay Unit " +
-            _vm._s(_vm.domain) +
-            " All rights reserved"
-        )
+        _vm._v("© 2017 EBank " + _vm._s(_vm.domain) + " All rights reserved")
       ])
     ])
   ])
@@ -211,7 +207,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "title" }, [
-      _c("h3", [_vm._v("全球支付系统后台登录")])
+      _c("h3", [_vm._v("EBank 电子银行系统")])
     ])
   }
 ]
@@ -236,7 +232,7 @@ var content = __webpack_require__("./node_modules/css-loader/index.js!./node_mod
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("4f2b2d8a", content, false);
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("54df2eb6", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
