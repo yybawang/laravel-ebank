@@ -3,6 +3,11 @@
 
 
 [![](https://travis-ci.org/yybawang/laravel_ebank.svg?branch=master)](https://travis-ci.org/yybawang/laravel_ebank)
+[![GitHub license](https://img.shields.io/github/license/yybawang/laravel_ebank.svg)](https://github.com/yybawang/laravel_ebank/blob/master/LICENSE)
+[![PHP from Travis config](https://img.shields.io/travis/php-v/symfony/symfony.svg)](https://github.com/yybawang/laravel_ebank)
+[![npm (tag)](https://img.shields.io/npm/v/npm/next.svg)](https://github.com/yybawang/laravel_ebank)
+
+
 
 # laravel_ebank
 
