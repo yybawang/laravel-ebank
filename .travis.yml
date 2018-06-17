@@ -10,8 +10,6 @@ env:
 install:
   - composer install --prefer-dist --optimize-autoloader --quiet
 
-script:
-  - $TRAVIS_BUILD_DIR/vendor/bin/phpunit -c phpunit.xml --coverage-text
 
 notifications:
   email:

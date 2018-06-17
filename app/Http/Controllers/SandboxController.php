@@ -84,7 +84,7 @@ class SandboxController extends Controller
 	}
 	
 	
-	public function index(){
+	public function index(BasicRequest $request){
 		$merchant = FundMerchant::where(['status'=>1])->pluck('name','appid');
 		return view('api.sandbox.index',['merchant'=>$merchant]);
 	}
