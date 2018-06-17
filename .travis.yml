@@ -1,0 +1,21 @@
+language: php
+
+php:
+  - 7.2
+  - nightly
+  
+env:
+  - APP_DEBUG=true
+
+install:
+  - composer install --prefer-dist --optimize-autoloader --quiet
+  
+script:
+  - phpunit -c phpunit.xml --coverage-text
+
+notifications:
+  email:
+    recipients:
+    - 512511253@qq.com
+    on_success: always
+    on_failure: always
