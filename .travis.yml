@@ -9,7 +9,8 @@ env:
 
 install:
   - composer install --prefer-dist --optimize-autoloader --quiet
-
+  - cp .env.example .env
+  - php artisan key:generage
 
 notifications:
   email:
