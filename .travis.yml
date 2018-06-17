@@ -9,9 +9,6 @@ env:
 
 install:
   - composer install --prefer-dist --optimize-autoloader --quiet
-  
-script:
-  - phpunit -c phpunit.xml --coverage-text
 
 notifications:
   email:

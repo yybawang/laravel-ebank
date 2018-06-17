@@ -1,3 +1,9 @@
+![laravel-ebank](https://raw.githubusercontent.com/yybawang/images/master/ebank/laravel-ebank_code.png)
+
+
+
+[![](https://travis-ci.org/yybawang/laravel_ebank.svg?branch=master)](https://travis-ci.org/yybawang/laravel_ebank)
+
 # laravel_ebank
 
 > 项目功能基本满足使用，并流畅运行，持续更新中(编辑于 2018-06-09日)
