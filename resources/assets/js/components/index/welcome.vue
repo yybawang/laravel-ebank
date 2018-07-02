@@ -57,7 +57,7 @@
 					{
 						show: true,
 						realtime: true,
-						start: 60,
+						start: 80,
 						end: 100
 					},
 					{

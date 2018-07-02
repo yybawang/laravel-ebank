@@ -41,7 +41,7 @@ class SandboxController extends Controller
 		 */
 		$transfer = [
 			// 充值测试
-			BankSdk::transfer_add(303010201)->from(1)->to(1)->amount(88000),
+			BankSdk::transfer_add(402030303)->from(1)->to(1)->amount(50000),
 		];
 //		$s = (new BankSdk())->transfer($transfer);
 //		$s = (new BankSdk())->async()->transfer($transfer);

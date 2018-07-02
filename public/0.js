@@ -63,7 +63,7 @@ __webpack_require__("./node_modules/echarts/lib/component/toolbox.js");
 			dataZoom: [{
 				show: true,
 				realtime: true,
-				start: 60,
+				start: 80,
 				end: 100
 			}, {
 				type: 'inside',

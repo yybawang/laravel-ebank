@@ -39,9 +39,9 @@ class IndexController extends CommonController
 		for($i=14;$i>=0;$i--){
 			$date = date('Y-m-d',strtotime("-$i days"));
 			$into['date'][] = $date;
-			$into['amount']['total'][$date] = 0;
+			$into['amount']['total'][$date] = '';
 			foreach($payments as $payment => $payment_name){
-				$into['amount'][$payment][$date] = 0;
+				$into['amount'][$payment][$date] = '';
 			}
 		}
 		
@@ -84,11 +84,11 @@ class IndexController extends CommonController
 		for($i=14;$i>=0;$i--){
 			$date = date('Y-m-d',strtotime("-$i days"));
 			$dates[] = $date;
-//			$out['-total'][$date] = 0;
-//			$into['total'][$date] = 0;
+//			$out['-total'][$date] = '';
+//			$into['total'][$date] = '';
 			$purse_types_all->each(function($v) use (&$out,&$into,$date){
-				$out['-'.$v->alias][$date] = 0;
-				$into[$v->alias][$date] = 0;
+				$out['-'.$v->alias][$date] = '';
+				$into[$v->alias][$date] = '';
 			});
 		}
 		$latest = array_shift(array_slice($dates,0,1));

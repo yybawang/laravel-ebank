@@ -9,6 +9,7 @@
 	</div>
 </template>
 <script>
+	// let echarts = require('echarts');
 	let echarts = require('echarts/lib/echarts');
 	// 引入柱状图
 	require('echarts/lib/chart/bar');
@@ -63,7 +64,7 @@
 					{
 						show: true,
 						realtime: true,
-						start: 60,
+						start: 80,
 						end: 100
 					},
 					{
@@ -105,6 +106,7 @@
 						stack:'',	// 正负轴相同的值会上下顶在一起
 						data:[],
 						// markPoint : {
+						// 	symbol : 'pin',
 						// 	data : [
 						// 		{type : 'max', name: '最大值'},
 						// 		{type : 'min', name: '最小值'}
@@ -116,9 +118,7 @@
 							]
 						},
 						label: {
-							
-								show: true,
-							
+							show: true,
 						}
 					};
 				};
@@ -131,7 +131,16 @@
 					series.stack = type.substr(0,1) == '-' ? type.substr(1) : type;
 					for(let date in amounts[type]){
 						let date_val = amounts[type][date];
-						series.data.push(date_val);
+						series.data.push({
+							value : date_val,
+							// 在柱状条上显示数值
+							label : {
+								normal: {
+									show: true,
+									rotate: 90,
+								}
+							},
+						});
 						// if(date_val < 0){
 						// 	series.markPoint.symbolRotate = 180;
 						// }
