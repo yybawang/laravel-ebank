@@ -213,6 +213,10 @@ class EBank {
 		if($into_user_type_id == 1 || $into_user_type_id == 2){
 			$into_user_id = 0;
 		}
+		// 如果转账用户类型为3，则必传用户ID
+		if($out_user_type_id == 3 && $out_user_id <= 0 || $into_user_type_id == 3 && $into_user_id <= 0){
+			abort_500('转账用户ID参数需大于0');
+		}
 
 		$out_purse = $this->userWalletDetail($out_user_id,$out_purse_type_id,$out_user_type_id);
 		$into_purse = $this->userWalletDetail($into_user_id,$into_purse_type_id,$into_user_type_id);

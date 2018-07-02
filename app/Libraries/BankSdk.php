@@ -96,8 +96,8 @@ class BankSdk {
 			'param'	=> $alias,
 			'async'		=> $this->transfer_async,
 		];
-		// 重置为同步操作，避免对象重用时发生变量共享的问题
-		$this->transfer_async = 0;
+		// 重置为同步操作，避免对象重用时发生变量共享的问题(有待考究)
+//		$this->transfer_async = 0;
 		$result = $this->_post($url,$param);
 		$transfer_ids = $result['transfer_ids'];
 		return $transfer_ids;
