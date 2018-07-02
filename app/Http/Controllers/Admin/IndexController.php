@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\BasicRequest;
 use App\Models\FundOrder;
+use App\Models\FundPurseType;
 use App\Models\FundTransfer;
 use Illuminate\Support\Facades\DB;
 
@@ -63,36 +64,51 @@ class IndexController extends CommonController
 	 * @param BasicRequest $request
 	 * @return array
 	 */
-	public function user(BasicRequest $request){
-		$series = [
+	public function user_transfer(BasicRequest $request){
+		$out = $into = [];
+		$series = [];
+		$purse_types_all = FundPurseType::active()->get(['id','name','alias']);
+		
+		$purse_types = collect([
 			'total'		=> '总额',
-			'out'		=> '支出',
-			'into'		=> '收入',
-		];
-		$statistics = ['date'=>[],'amount'=>[]];
+			'-total'	=> '总额(负)',
+		]);
+		$purse_types_all->each(function($v) use (&$series,&$purse_types){
+			$series[$v->id] = $v->alias;
+			$purse_types[$v->alias] = $v->name.'(收入)';
+			$purse_types['-'.$v->alias] = $v->name.'(支出)';
+		});
+		
+		$dates = [];
+		// 数据初始化为0，图表数据占位
 		for($i=14;$i>=0;$i--){
 			$date = date('Y-m-d',strtotime("-$i days"));
-			$statistics['date'][] = $date;
-			$statistics['amount']['total'][$date] = 0;
-			$statistics['amount']['out'][$date] = 0;
-			$statistics['amount']['into'][$date] = 0;
+			$dates[] = $date;
+//			$out['-total'][$date] = 0;
+//			$into['total'][$date] = 0;
+			$purse_types_all->each(function($v) use (&$out,&$into,$date){
+				$out['-'.$v->alias][$date] = 0;
+				$into[$v->alias][$date] = 0;
+			});
 		}
-		$latest = array_shift(array_slice($statistics['date'],0,1));
+		$latest = array_shift(array_slice($dates,0,1));
 		
-		$model_out = FundTransfer::select(DB::raw('date_format(created_at,\'%Y-%m-%d\') as date,sum(amount) as amount'))
+		$model_out = FundTransfer::select(DB::raw('out_purse_type_id,into_purse_type_id,date_format(created_at,\'%Y-%m-%d\') as date,sum(amount) as amount'))
 			->where('created_at','>=',$latest.' 00:00:00')
 			->where(['status'=>1])
 			->groupBy('date');
 		$model_into = clone $model_out;
 		
-		$model_out->where('out_user_id','!=',0)->get()->each(function($v) use (&$statistics){
-			$statistics['amount']['out'][$v->date] = $v->amount;
+		$model_out->where('out_user_id','!=',0)->where(['out_user_type_id'=>3])->groupBy('out_purse_type_id')->get()->each(function($v) use (&$out,$series){
+			$out['-'.$series[$v->out_purse_type_id]][$v->date] = -$v->amount;
+//			$out['-total'][$v->date] += -$v->amount;
 		});
-		$model_into->where('into_user_id','!=',0)->get()->each(function($v) use (&$statistics){
-			$statistics['amount']['into'][$v->date] = $v->amount;
-			$statistics['amount']['total'][$v->date] = $statistics['amount']['out'][$v->date] + $v->amount;
+		$model_into->where('into_user_id','!=',0)->where(['into_user_type_id'=>3])->groupBy('into_purse_type_id')->get()->each(function($v) use (&$into,$series){
+			$into[$series[$v->into_purse_type_id]][$v->date] = $v->amount;
+//			$into['total'][$v->date] += $v->amount;
 		});
-		return json_success('OK',compact('statistics','series'));
+		$amounts = array_merge($into,$out);
+		return json_success('OK',compact('dates','purse_types','out','into','amounts'));
 	}
 	
 	/**

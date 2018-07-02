@@ -5,7 +5,7 @@
 				<p>注：仅统计[用户身份]的流水收入、支出，包括所有钱包</p>
 			</blockquote>
 		</div>
-		<div id="statistics" style="width:100%;height:400px"></div>
+		<div id="statistics" style="width:100%;height:500px"></div>
 	</div>
 </template>
 <script>
@@ -35,7 +35,7 @@
 			let order_options = {
 				title : {
 					left: 'center',
-					text: '近期15天每日用户身份收入、支出金额统计',
+					text: '近期 15 天每日用户身份收入、支出金额统计',
 					subtext: '按日划分，金额单位：分'
 				},
 				tooltip : {
@@ -45,6 +45,7 @@
 					top : '60px',
 					data: []
 				},
+				// color : ['#7079DF','#D15B7F','#FB6E6C','#FF9F69','#FEB64D','#FFDA43','#FFE88E'],
 				toolbox: {
 					show : true,
 					feature : {
@@ -53,7 +54,8 @@
 					}
 				},
 				grid : {
-					top : '100px',
+					top : '150px',
+					bottom : '50px',
 					containLabel: true
 				},
 				calculable : true,
@@ -74,6 +76,7 @@
 				xAxis : [
 					{
 						type : 'category',
+						nameGap : '60',
 						data : []
 					}
 				],
@@ -84,44 +87,54 @@
 				],
 				series : []
 			};
-			get('/user',{},function(data){
-				let series_name = data.series;
-				let statistics = data.statistics;
-				for(let date in statistics.date){
-					order_options.xAxis[0].data.push(statistics.date[date]);
-				}
+			get('/user_transfer',{},function(data){
+				let dates = data.dates;
+				let purse_types = data.purse_types;
+				let out = data.out;
+				let into = data.into;
+				let amounts = data.amounts;
+				
+				// X 轴数据展示
+				order_options.xAxis[0].data = dates;
+				
 				// 基本信息变量
 				let series_template = function(){
 					return {
 						name:'',
 						type:'bar',
+						stack:'',	// 正负轴相同的值会上下顶在一起
 						data:[],
-						markPoint : {
-							data : [
-								{type : 'max', name: '最大值'},
-								{type : 'min', name: '最小值'}
-							]
-						},
+						// markPoint : {
+						// 	data : [
+						// 		{type : 'max', name: '最大值'},
+						// 		{type : 'min', name: '最小值'}
+						// 	]
+						// },
 						markLine : {
 							data : [
 								{type : 'average', name: '平均值'}
 							]
 						},
 						label: {
-							normal: {
+							
 								show: true,
-								position: 'top'
-							}
+							
 						}
 					};
 				};
 				
-				for(let type in statistics.amount){
+				
+				for(let type in amounts){
 					let series = series_template();
-					series.name = series_name[type] || type;
+					series.name = purse_types[type];
 					order_options.legend.data.push(series.name);
-					for(let date in statistics.amount[type]){
-						series.data.push(statistics.amount[type][date]);
+					series.stack = type.substr(0,1) == '-' ? type.substr(1) : type;
+					for(let date in amounts[type]){
+						let date_val = amounts[type][date];
+						series.data.push(date_val);
+						// if(date_val < 0){
+						// 	series.markPoint.symbolRotate = 180;
+						// }
 					}
 					order_options.series.push(series);
 				}

@@ -5,6 +5,7 @@
 .env.*.php
 .env.php
 .env
+.installed
 npm-debug.log
 /vendor
 /node_modules

@@ -20,9 +20,9 @@ export default new VueRouter({
 			component: resolve => void(require(['../components/index/welcome.vue'], resolve))
 		},
 		{
-			name: 'user',
-			path: '/user',
-			component: resolve => void(require(['../components/index/user.vue'], resolve))
+			name: 'user_transfer',
+			path: '/user_transfer',
+			component: resolve => void(require(['../components/index/user_transfer.vue'], resolve))
 		},
 		{
 			path: '/sysinfo',

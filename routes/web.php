@@ -61,7 +61,7 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	
 	Route::name('admin.基本信息管理.')->group(function(){
 		Route::get('welcome','IndexController@welcome')->name('menu.主页');
-		Route::get('user','IndexController@user')->name('menu.用户流水统计');
+		Route::get('user_transfer','IndexController@user_transfer')->name('menu.用户流水统计');
 		Route::get('sysinfo','IndexController@sysinfo')->name('menu.服务器信息');
 	});
 	

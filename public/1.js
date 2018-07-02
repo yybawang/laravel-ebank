@@ -1,6 +1,6 @@
 webpackJsonp([1],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/index/user.vue":
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/index/user_transfer.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -42,7 +42,7 @@ __webpack_require__("./node_modules/echarts/lib/component/toolbox.js");
 		var order_options = {
 			title: {
 				left: 'center',
-				text: '近期15天每日用户身份收入、支出金额统计',
+				text: '近期 15 天每日用户身份收入、支出金额统计',
 				subtext: '按日划分，金额单位：分'
 			},
 			tooltip: {
@@ -52,6 +52,7 @@ __webpack_require__("./node_modules/echarts/lib/component/toolbox.js");
 				top: '60px',
 				data: []
 			},
+			// color : ['#7079DF','#D15B7F','#FB6E6C','#FF9F69','#FEB64D','#FFDA43','#FFE88E'],
 			toolbox: {
 				show: true,
 				feature: {
@@ -60,7 +61,8 @@ __webpack_require__("./node_modules/echarts/lib/component/toolbox.js");
 				}
 			},
 			grid: {
-				top: '100px',
+				top: '150px',
+				bottom: '50px',
 				containLabel: true
 			},
 			calculable: true,
@@ -77,6 +79,7 @@ __webpack_require__("./node_modules/echarts/lib/component/toolbox.js");
 			}],
 			xAxis: [{
 				type: 'category',
+				nameGap: '60',
 				data: []
 			}],
 			yAxis: [{
@@ -84,39 +87,51 @@ __webpack_require__("./node_modules/echarts/lib/component/toolbox.js");
 			}],
 			series: []
 		};
-		get('/user', {}, function (data) {
-			var series_name = data.series;
-			var statistics = data.statistics;
-			for (var date in statistics.date) {
-				order_options.xAxis[0].data.push(statistics.date[date]);
-			}
+		get('/user_transfer', {}, function (data) {
+			var dates = data.dates;
+			var purse_types = data.purse_types;
+			var out = data.out;
+			var into = data.into;
+			var amounts = data.amounts;
+
+			// X 轴数据展示
+			order_options.xAxis[0].data = dates;
+
 			// 基本信息变量
 			var series_template = function series_template() {
 				return {
 					name: '',
 					type: 'bar',
+					stack: '', // 正负轴相同的值会上下顶在一起
 					data: [],
-					markPoint: {
-						data: [{ type: 'max', name: '最大值' }, { type: 'min', name: '最小值' }]
-					},
+					// markPoint : {
+					// 	data : [
+					// 		{type : 'max', name: '最大值'},
+					// 		{type : 'min', name: '最小值'}
+					// 	]
+					// },
 					markLine: {
 						data: [{ type: 'average', name: '平均值' }]
 					},
 					label: {
-						normal: {
-							show: true,
-							position: 'top'
-						}
+
+						show: true
+
 					}
 				};
 			};
 
-			for (var type in statistics.amount) {
+			for (var type in amounts) {
 				var series = series_template();
-				series.name = series_name[type] || type;
+				series.name = purse_types[type];
 				order_options.legend.data.push(series.name);
-				for (var _date in statistics.amount[type]) {
-					series.data.push(statistics.amount[type][_date]);
+				series.stack = type.substr(0, 1) == '-' ? type.substr(1) : type;
+				for (var date in amounts[type]) {
+					var date_val = amounts[type][date];
+					series.data.push(date_val);
+					// if(date_val < 0){
+					// 	series.markPoint.symbolRotate = 180;
+					// }
 				}
 				order_options.series.push(series);
 			}
@@ -28929,7 +28944,7 @@ module.exports = _default;
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-fa4b16a8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/index/user.vue":
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ae438964\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/index/user_transfer.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -28953,7 +28968,7 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", {
-        staticStyle: { width: "100%", height: "400px" },
+        staticStyle: { width: "100%", height: "500px" },
         attrs: { id: "statistics" }
       })
     ])
@@ -28964,7 +28979,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-fa4b16a8", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-ae438964", module.exports)
   }
 }
 
@@ -44163,15 +44178,15 @@ exports.registerPainter = registerPainter;
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/index/user.vue":
+/***/ "./resources/assets/js/components/index/user_transfer.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/index/user.vue")
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/index/user_transfer.vue")
 /* template */
-var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-fa4b16a8\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/index/user.vue")
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-ae438964\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/index/user_transfer.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -44188,7 +44203,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\index\\user.vue"
+Component.options.__file = "resources\\assets\\js\\components\\index\\user_transfer.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -44197,9 +44212,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-fa4b16a8", Component.options)
+    hotAPI.createRecord("data-v-ae438964", Component.options)
   } else {
-    hotAPI.reload("data-v-fa4b16a8", Component.options)
+    hotAPI.reload("data-v-ae438964", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
