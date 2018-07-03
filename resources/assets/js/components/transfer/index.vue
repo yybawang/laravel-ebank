@@ -4,6 +4,7 @@
 			<blockquote class="blockquote_normal">
 				<p>
 					用户ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.user_id" />
+					reason：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.reason" />
 				</p>
 				<p>
 					日期筛选：<vue-datepicker-local v-model="keyword.date" clearable />
@@ -119,6 +120,7 @@
 					page : 1,
 					export : 0,
 					user_id : '',
+					reason : '',
 					purse_type_id : [],
 					user_type_id : [],
 					date : [],

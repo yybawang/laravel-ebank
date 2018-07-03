@@ -495,7 +495,7 @@ var render = function() {
               _c("div", { staticClass: "mdui-col-xs-9" }, [
                 _c("div", { staticClass: "mdui-textfield" }, [
                   _c("label", { staticClass: "mdui-textfield-label" }, [
-                    _vm._v("接口秘钥")
+                    _vm._v("接口秘钥(secret)")
                   ]),
                   _vm._v(" "),
                   _c("input", {

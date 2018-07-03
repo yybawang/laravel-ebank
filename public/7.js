@@ -113,6 +113,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -126,6 +127,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				page: 1,
 				export: 0,
 				user_id: '',
+				reason: '',
 				purse_type_id: [],
 				user_type_id: [],
 				date: []
@@ -206,6 +208,28 @@ var render = function() {
                   return
                 }
                 _vm.$set(_vm.keyword, "user_id", $event.target.value)
+              }
+            }
+          }),
+          _vm._v("\n\t\t\t\treason："),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.keyword.reason,
+                expression: "keyword.reason"
+              }
+            ],
+            staticClass: "mdui-textfield-input input_normal",
+            attrs: { type: "text" },
+            domProps: { value: _vm.keyword.reason },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.keyword, "reason", $event.target.value)
               }
             }
           })

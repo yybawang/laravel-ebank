@@ -85,7 +85,7 @@
 						<div class="mdui-row">
 							<div class="mdui-col-xs-9">
 								<div class="mdui-textfield">
-									<label class="mdui-textfield-label">接口秘钥</label>
+									<label class="mdui-textfield-label">接口秘钥(secret)</label>
 									<input class="mdui-textfield-input" type="text" v-model="form.secret" />
 								</div>
 							</div>
