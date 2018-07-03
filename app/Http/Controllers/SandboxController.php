@@ -54,6 +54,8 @@ class SandboxController extends Controller
 //		$export = new ExportCsv();
 //		$s = $export->name('导出流水测试')->data(FundTransfer::all())->save();
 		
+		// 查看钱包
+//		$s = BankSdk::wallet(1);
 //		$s = BankSdk::withdraw(1)->amount(18)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
 		// 事务测试
 //		DB::transaction(function(){

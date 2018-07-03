@@ -24,8 +24,8 @@ class BankSdk {
 	
 	public function __construct()
 	{
-		$appid = 'gpu10000';
-		$secret = '10000';
+		$appid = 'gpu10000';	// 必须配置，默认为中央系统本身，后台->接口商户管理
+		$secret = '10000';		// 必须配置，默认为中央系统本身，接口秘钥
 		$url = config('basic.ebank_url').'/api/';
 		$this->appid = $appid;
 		$this->secret = $secret;
@@ -34,20 +34,19 @@ class BankSdk {
 	
 	/**
 	 * 获取用户钱包列表
+	 * 示例代码：
+	 * 		$wallet = BankSdk::wallet(1);
 	 * @param $uid
 	 * @param $purse
 	 * @return mixed
 	 */
-	public function wallet(int $uid,$purse = null){
-		$url = $this->url . 'bank/user_wallet';
+	public static function wallet(int $uid,$purse = null){
+		$sdk = new BankSdk();
+		$url = $sdk->url . 'bank/user_wallet';
 		$param = [
 			'user_id'	=> $uid,
 		];
-		$data = $this->_post($url,$param);
-		foreach($data as &$v){
-			$v['balance'];
-			$v['freeze'];
-		}
+		$data = $sdk->_post($url,$param);
 		if($purse){
 			return $data[$purse];
 		}
@@ -78,6 +77,12 @@ class BankSdk {
 	}
 	
 	/**
+	 * 添加参数后开始转账，有时业务需求复杂，一条转账不能满足需求，所以这里做成多条一起转，避免数据错误后事务难回滚问题
+	 * 示例代码：
+	 * 		$transfer_ids = (new BankSdk())->transfer([
+				BankSdk::transfer_add(402030303)->from(1)->to(1)->amount(1100)->detail(''),
+				BankSdk::transfer_add(202030303)->from(1)->to(1)->amount(300)->detail(''),
+			]);
 	 * @param array $transfer_alias
 	 * @return array		// 返回顺序的转账ID
 	 */
@@ -175,6 +180,8 @@ class BankSdk {
 	
 	/**
 	 * 得到参数后最终下单
+	 * 示例代码：
+	 * 		$unified_param = BankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',100)->returnUrl('http://return.com')->notifyUrl('http://ebank.thinkms.com')->param('openid','o7U3Bs-62euOeUsidmOEotkmUMag')->param('auth_code','101234567891234567')->pay();
 	 * @param array $param
 	 * @return mixed
 	 */
