@@ -171,13 +171,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	mounted: function mounted() {
 		var t = this;
 		t.init();
-		var tableFluidLeft = $('.table-data-fluid')[0];
-		var table_width = $('.table-data').width(),
-		    $scrollBar = $('.scrollbar');
-		$('.scrollbar-bar').width(table_width);
-		$scrollBar[0].addEventListener('scroll', function () {
-			tableFluidLeft.scrollLeft = $scrollBar[0].scrollLeft;
-		});
 	}
 });
 
@@ -423,8 +416,9 @@ var render = function() {
                     "tr",
                     {
                       staticClass: "mdui-color-grey-200",
+                      attrs: { title: "双击切换显示" },
                       on: {
-                        click: function($event) {
+                        dblclick: function($event) {
                           val.more = !val.more
                         }
                       }
@@ -445,7 +439,6 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _c("td", {
-                        staticClass: "mdui-text-color-red-500",
                         domProps: { textContent: _vm._s(val.amount) }
                       }),
                       _vm._v(" "),
@@ -508,13 +501,13 @@ var render = function() {
                       ]
                     },
                     [
-                      _c("td", { domProps: { textContent: _vm._s(key + 1) } }),
+                      _c("td", { staticClass: "mdui-text-color-deep-orange" }),
                       _vm._v(" "),
                       _c("td", { staticClass: "mdui-text-color-deep-orange" }, [
                         _vm._v("出账信息：")
                       ]),
                       _vm._v(" "),
-                      _c("td", [
+                      _c("td", { staticClass: "mdui-text-color-deep-orange" }, [
                         _vm._v("用户ID："),
                         _c("span", {
                           domProps: { textContent: _vm._s(val.out_user_id) }
@@ -539,24 +532,31 @@ var render = function() {
                         }
                       }),
                       _vm._v(" "),
-                      _c("td", [
+                      _c("td", { staticClass: "mdui-text-color-deep-orange" }, [
                         _vm._v("钱包ID："),
                         _c("span", {
                           domProps: { textContent: _vm._s(val.out_purse_id) }
                         })
                       ]),
                       _vm._v(" "),
-                      _c("td", { attrs: { colspan: "3" } }, [
-                        _vm._v("出账后余额(原)："),
-                        _c("span", {
-                          domProps: { textContent: _vm._s(val.out_balance) }
-                        }),
-                        _vm._v("("),
-                        _c("span", {
-                          domProps: { textContent: _vm._s("+" + val.amount) }
-                        }),
-                        _vm._v(")")
-                      ])
+                      _c(
+                        "td",
+                        {
+                          staticClass: "mdui-text-color-deep-orange",
+                          attrs: { colspan: "3" }
+                        },
+                        [
+                          _vm._v("出账后余额(原)："),
+                          _c("span", {
+                            domProps: { textContent: _vm._s(val.out_balance) }
+                          }),
+                          _vm._v("("),
+                          _c("span", {
+                            domProps: { textContent: _vm._s("+" + val.amount) }
+                          }),
+                          _vm._v(")")
+                        ]
+                      )
                     ]
                   ),
                   _vm._v(" "),
@@ -573,13 +573,13 @@ var render = function() {
                       ]
                     },
                     [
-                      _c("td", { domProps: { textContent: _vm._s(key + 1) } }),
+                      _c("td", { staticClass: "mdui-text-color-teal" }),
                       _vm._v(" "),
                       _c("td", { staticClass: "mdui-text-color-teal" }, [
                         _vm._v("进账信息：")
                       ]),
                       _vm._v(" "),
-                      _c("td", [
+                      _c("td", { staticClass: "mdui-text-color-teal" }, [
                         _vm._v("用户ID："),
                         _c("span", {
                           domProps: { textContent: _vm._s(val.into_user_id) }
@@ -604,24 +604,31 @@ var render = function() {
                         }
                       }),
                       _vm._v(" "),
-                      _c("td", [
+                      _c("td", { staticClass: "mdui-text-color-teal" }, [
                         _vm._v("钱包ID："),
                         _c("span", {
                           domProps: { textContent: _vm._s(val.into_purse_id) }
                         })
                       ]),
                       _vm._v(" "),
-                      _c("td", { attrs: { colspan: "3" } }, [
-                        _vm._v("进账后余额(原)："),
-                        _c("span", {
-                          domProps: { textContent: _vm._s(val.into_balance) }
-                        }),
-                        _vm._v("("),
-                        _c("span", {
-                          domProps: { textContent: _vm._s("-" + val.amount) }
-                        }),
-                        _vm._v(")")
-                      ])
+                      _c(
+                        "td",
+                        {
+                          staticClass: "mdui-text-color-teal",
+                          attrs: { colspan: "3" }
+                        },
+                        [
+                          _vm._v("进账后余额(原)："),
+                          _c("span", {
+                            domProps: { textContent: _vm._s(val.into_balance) }
+                          }),
+                          _vm._v("("),
+                          _c("span", {
+                            domProps: { textContent: _vm._s("-" + val.amount) }
+                          }),
+                          _vm._v(")")
+                        ]
+                      )
                     ]
                   )
                 ]

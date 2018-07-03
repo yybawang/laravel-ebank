@@ -268,111 +268,124 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "mdui-dialog dialog_detail" }, [
-      _c("div", { staticClass: "mdui-dialog-title" }, [
-        _vm._v("\n\t\t\treason 行为流水详情\n\t\t")
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "mdui-dialog-content",
-          staticStyle: { height: "400px" }
-        },
-        [
-          _c(
-            "table",
-            { staticClass: "mdui-table mdui-table-hoverable table-data" },
-            [
-              _vm._m(2),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.dialog_list.data, function(val, key, index) {
-                  return _c("tr", [
-                    _c("td", { domProps: { textContent: _vm._s(key + 1) } }),
-                    _vm._v(" "),
-                    _c("td", { domProps: { textContent: _vm._s(val.id) } }),
-                    _vm._v(" "),
-                    _c("td", { domProps: { textContent: _vm._s(val.reason) } }),
-                    _vm._v(" "),
-                    _c("td", { domProps: { textContent: _vm._s(val.amount) } }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(val.out_user_id) }
-                    }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(val.out_purse_id) }
-                    }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(val.out_balance) }
-                    }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(val.into_user_id) }
-                    }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(val.into_purse_id) }
-                    }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(val.into_balance) }
-                    }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(val.parent_id) }
-                    }),
-                    _vm._v(" "),
-                    _c("td", { domProps: { textContent: _vm._s(val.detail) } }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(val.remarks) }
-                    }),
-                    _vm._v(" "),
-                    _c("td", {
-                      domProps: { textContent: _vm._s(val.created_at) }
-                    })
-                  ])
-                })
-              )
-            ]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "mdui-dialog-actions" },
-        [
-          _c("pagination", {
-            attrs: {
-              pageInfo: {
-                total: _vm.dialog_list.total,
-                current: _vm.dialog_list.current_page,
-                pagenum: _vm.dialog_list.per_page,
-                page: _vm.dialog_list.last_page,
-                pagegroup: 5,
-                skin: "#2196F3"
-              }
-            },
-            on: { change: _vm.detail_search }
-          }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "mdui-btn mdui-ripple",
-              attrs: { "mdui-dialog-close": "" }
-            },
-            [_vm._v("关闭")]
-          )
-        ],
-        1
-      )
-    ]),
+    _c(
+      "div",
+      {
+        staticClass: "mdui-dialog dialog_detail",
+        staticStyle: { "max-width": "none" }
+      },
+      [
+        _c("div", { staticClass: "mdui-dialog-title" }, [
+          _vm._v("\n\t\t\treason 行为流水详情\n\t\t")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "mdui-dialog-content",
+            staticStyle: { height: "400px" }
+          },
+          [
+            _c(
+              "table",
+              { staticClass: "mdui-table mdui-table-hoverable table-data" },
+              [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.dialog_list.data, function(val, key, index) {
+                    return _c("tr", [
+                      _c("td", { domProps: { textContent: _vm._s(key + 1) } }),
+                      _vm._v(" "),
+                      _c("td", { domProps: { textContent: _vm._s(val.id) } }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.reason) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.amount) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.out_user_id) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.out_purse_id) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.out_balance) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.into_user_id) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.into_purse_id) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.into_balance) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.parent_id) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.detail) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.remarks) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.created_at) }
+                      })
+                    ])
+                  })
+                )
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "mdui-dialog-actions" },
+          [
+            _c("pagination", {
+              attrs: {
+                pageInfo: {
+                  total: _vm.dialog_list.total,
+                  current: _vm.dialog_list.current_page,
+                  pagenum: _vm.dialog_list.per_page,
+                  page: _vm.dialog_list.last_page,
+                  pagegroup: 5,
+                  skin: "#2196F3"
+                }
+              },
+              on: { change: _vm.detail_search }
+            }),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "mdui-btn mdui-ripple",
+                attrs: { "mdui-dialog-close": "" }
+              },
+              [_vm._v("关闭")]
+            )
+          ],
+          1
+        )
+      ]
+    ),
     _vm._v(" "),
     _c(
       "div",

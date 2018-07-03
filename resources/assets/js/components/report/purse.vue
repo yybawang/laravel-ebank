@@ -25,7 +25,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="mdui-dialog detail_dialog">
+		<div class="mdui-dialog detail_dialog" style="max-width:none;">
 			<div class="mdui-dialog-title">
 				钱包流水详情
 			</div>

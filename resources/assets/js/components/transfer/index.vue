@@ -49,12 +49,12 @@
 				
 				<template v-for="(val,key,index) of list.data">
 					
-					<tr class="mdui-color-grey-200" @click="val.more = !val.more">
+					<tr class="mdui-color-grey-200" @dblclick="val.more = !val.more" title="双击切换显示">
 						<td v-text="key+1"></td>
 						<td v-text="val.id"></td>
 						<td v-text="val.reason"></td>
 						<td v-text="reason[val.reason]"></td>
-						<td class="mdui-text-color-red-500" v-text="val.amount"></td>
+						<td v-text="val.amount"></td>
 						
 						<td v-html="status[val.status]"></td>
 						<!--<td v-text="val.parent_id"></td>-->
@@ -69,22 +69,22 @@
 						</td>
 					</tr>
 					<tr v-show="val.more">
-						<td v-text="key+1"></td>
+						<td class="mdui-text-color-deep-orange"></td>
 						<td class="mdui-text-color-deep-orange">出账信息：</td>
-						<td>用户ID：<span v-text="val.out_user_id"></span></td>
+						<td class="mdui-text-color-deep-orange">用户ID：<span v-text="val.out_user_id"></span></td>
 						<td class="mdui-text-color-deep-orange" v-text="user_type[val.out_user_type_id]"></td>
 						<td class="mdui-text-color-deep-orange" v-text="purse_type[val.out_purse_type_id]"></td>
-						<td>钱包ID：<span v-text="val.out_purse_id"></span></td>
-						<td colspan="3">出账后余额(原)：<span v-text="val.out_balance"></span>(<span v-text="'+'+val.amount"></span>)</td>
+						<td class="mdui-text-color-deep-orange">钱包ID：<span v-text="val.out_purse_id"></span></td>
+						<td class="mdui-text-color-deep-orange" colspan="3">出账后余额(原)：<span v-text="val.out_balance"></span>(<span v-text="'+'+val.amount"></span>)</td>
 					</tr>
 					<tr v-show="val.more">
-						<td v-text="key+1"></td>
+						<td class="mdui-text-color-teal"></td>
 						<td class="mdui-text-color-teal">进账信息：</td>
-						<td>用户ID：<span v-text="val.into_user_id"></span></td>
+						<td class="mdui-text-color-teal">用户ID：<span v-text="val.into_user_id"></span></td>
 						<td class="mdui-text-color-teal" v-text="user_type[val.into_user_type_id]"></td>
 						<td class="mdui-text-color-teal" v-text="purse_type[val.into_purse_type_id]"></td>
-						<td>钱包ID：<span v-text="val.into_purse_id"></span></td>
-						<td colspan="3">进账后余额(原)：<span v-text="val.into_balance"></span>(<span v-text="'-'+val.amount"></span>)</td>
+						<td class="mdui-text-color-teal">钱包ID：<span v-text="val.into_purse_id"></span></td>
+						<td class="mdui-text-color-teal" colspan="3">进账后余额(原)：<span v-text="val.into_balance"></span>(<span v-text="'-'+val.amount"></span>)</td>
 					</tr>
 				</template>
 				</tbody>
@@ -167,12 +167,6 @@
 		mounted(){
 			let t = this;
 			t.init();
-			let tableFluidLeft = $('.table-data-fluid')[0];
-			let table_width = $('.table-data').width(),$scrollBar = $('.scrollbar');
-			$('.scrollbar-bar').width(table_width);
-			$scrollBar[0].addEventListener('scroll', function(){
-				tableFluidLeft.scrollLeft = $scrollBar[0].scrollLeft;
-			});
 		}
 	}
 </script>

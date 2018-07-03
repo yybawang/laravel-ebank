@@ -43,7 +43,7 @@
 			</table>
 		</div>
 		
-		<div class="mdui-dialog dialog_detail">
+		<div class="mdui-dialog dialog_detail" style="max-width:none;">
 			<div class="mdui-dialog-title">
 				reason 行为流水详情
 			</div>
