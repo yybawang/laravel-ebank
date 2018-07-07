@@ -95,7 +95,6 @@
 					'$_REQUEST' : val.$_REQUEST,
 					'$_SESSION' : val.$_SESSION,
 					'$_COOKIE' : val.$_COOKIE,
-					'DATABASE' : val.database,
 					'$_SERVER' : val.$_SERVER,
 					created_at : val.created_at,
 				};

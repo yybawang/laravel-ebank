@@ -588,15 +588,9 @@ var render = function() {
           ]),
           _vm._v(" "),
           _vm.user
-            ? _c(
-                "a",
-                {
-                  staticClass: "mdui-btn",
-                  attrs: { "mdui-tooltip": "{content: '注销登录'}" },
-                  on: { click: _vm.logout }
-                },
-                [_vm._v("\n\t\t\t\t注销\n\t\t\t")]
-              )
+            ? _c("a", { staticClass: "mdui-btn", on: { click: _vm.logout } }, [
+                _vm._v("\n\t\t\t\t注销\n\t\t\t")
+              ])
             : _vm._e()
         ],
         1
@@ -627,10 +621,6 @@ var render = function() {
                         "button",
                         {
                           staticClass: "mdui-btn mdui-text-color-grey",
-                          attrs: {
-                            "mdui-tooltip":
-                              "{content: 'Sign out',position:'left'}"
-                          },
                           on: { click: _vm.logout }
                         },
                         [_vm._v("Logout")]
@@ -913,7 +903,7 @@ var staticRenderFns = [
           { staticClass: "mdui-menu-item-icon mdui-icon material-icons" },
           [_vm._v("last_page")]
         ),
-        _vm._v("上次登录\n\t\t\t\t\t")
+        _vm._v("本次登录\n\t\t\t\t\t")
       ])
     ])
   },
@@ -949,7 +939,7 @@ var content = __webpack_require__("./node_modules/css-loader/index.js!./node_mod
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("d0ec13a2", content, false, {});
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("268111b8", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags

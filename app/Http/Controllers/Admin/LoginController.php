@@ -13,9 +13,9 @@ class LoginController extends Controller {
 	}
 	
 	/**
+	 * post 提交登录，只用路由中间件验证
 	 * @param BasicRequest $request
 	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-	 * post 提交登录，只用路由中间件验证
 	 */
 	public function login_submit(BasicRequest $request){
 		$param = request()->validate([
@@ -43,7 +43,6 @@ class LoginController extends Controller {
 	/**
 	 * @param BasicRequest $request
 	 * @return array
-	 * 注销登录
 	 */
 	public function logout(BasicRequest $request){
 		session(['admin_uid'=>null]);

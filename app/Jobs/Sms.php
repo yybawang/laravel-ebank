@@ -49,6 +49,6 @@ class Sms implements ShouldQueue
 	
 	
 	public function failed(\Exception $exception){
-		bug_email('短信发送失败','请求数据：',$this->mobile,$this->content,$this->template,$this->data,$exception->__toString());
+		email_bug('短信发送失败','请求数据：',$this->mobile,$this->content,$this->template,$this->data,$exception->__toString());
 	}
 }

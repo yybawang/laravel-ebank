@@ -100,11 +100,11 @@ var render = function() {
               keydown: function($event) {
                 if (
                   !("button" in $event) &&
-                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                  _vm._k($event.keyCode, "enter", 13, $event.key)
                 ) {
                   return null
                 }
-                return _vm.submit($event)
+                _vm.submit($event)
               }
             }
           },
@@ -232,7 +232,7 @@ var content = __webpack_require__("./node_modules/css-loader/index.js!./node_mod
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("54df2eb6", content, false, {});
+var update = __webpack_require__("./node_modules/vue-style-loader/lib/addStylesClient.js")("4f2b2d8a", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags

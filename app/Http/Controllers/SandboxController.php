@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Http\Controllers\Api\NotifyController;
 use App\Libraries\Bank\EBank;
-use App\Libraries\BankSdk;
+use App\Libraries\EBankSdk;
 use App\Http\Requests\BasicRequest;
 use App\Jobs\Transfer;
 use App\Libraries\ExportCsv;
@@ -28,9 +28,9 @@ class SandboxController extends Controller
 {
 	public function test(BasicRequest $request){
 //		$s = $request->all();		// 会多个 s 参数
-//		bug_email('ssss','复古');
+//		email_bug('ssss','复古');
 //		echo FundAdmin::md5('123456');
-//		$bank = new BankSdk();
+//		$bank = new EBankSdk();
 		$bank = new EBank();
 //		$bank->init();
 //		$s = $bank->userPurseDetail(4);
@@ -41,22 +41,22 @@ class SandboxController extends Controller
 		 */
 		$transfer = [
 			// 充值测试
-			BankSdk::transfer_add(402030303)->from(1)->to(1)->amount(50000),
+			EBankSdk::transfer_add(402030303)->from(1)->to(1)->amount(50000),
 		];
-//		$s = (new BankSdk())->transfer($transfer);
-//		$s = (new BankSdk())->async()->transfer($transfer);
+//		$s = (new EBankSdk())->transfer($transfer);
+//		$s = (new EBankSdk())->async()->transfer($transfer);
 //		$s = (new Bank())->systemCashToUserCash(0,1,100,10001);
 		/**
 		 * payType 方法可以多次调用，实现组合支付
 		 */
-//		$s =  BankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',100)->returnUrl('http://return.com')->notifyUrl('http://ebank.thinkms.com')->param('openid','o7U3Bs-62euOeUsidmOEotkmUMag')->param('auth_code','101234567891234567')->pay();
+//		$s =  EBankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',100)->returnUrl('http://return.com')->notifyUrl('http://ebank.thinkms.com')->param('openid','o7U3Bs-62euOeUsidmOEotkmUMag')->param('auth_code','101234567891234567')->pay();
 		
 //		$export = new ExportCsv();
 //		$s = $export->name('导出流水测试')->data(FundTransfer::all())->save();
 		
 		// 查看钱包
-//		$s = BankSdk::wallet(1);
-//		$s = BankSdk::withdraw(1)->amount(18)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
+//		$s = EBankSdk::wallet(1);
+//		$s = EBankSdk::withdraw(1)->amount(18)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
 		// 事务测试
 //		DB::transaction(function(){
 //			(new Bank())->transfer(0,0,100,20001);
@@ -88,7 +88,7 @@ class SandboxController extends Controller
 	
 	public function index(BasicRequest $request){
 		$merchant = FundMerchant::where(['status'=>1])->pluck('name','appid');
-		return view('api.sandbox.index',['merchant'=>$merchant]);
+		return view('sandbox',['merchant'=>$merchant]);
 	}
 	
 	public function submit(BasicRequest $request){
@@ -102,16 +102,16 @@ class SandboxController extends Controller
 			$post[$v] = $value[$k];
 		}
 		$data = $curl_data = $post;
-		unset($data['sign'],$data['url'],$curl_data['sign'],$curl_data['url']);
+		unset($data['ebank_sign'],$data['url'],$curl_data['ebank_sign'],$curl_data['url']);
 		ksort($data);
 		$data2 = $data;
 		// 查询API商户的秘钥
-		if($secret = FundMerchant::where(['appid'=>$post['appid']])->value('secret')){
-			$data2['secret'] = $secret;
+		if($secret = FundMerchant::where(['appid'=>$post['ebank_appid']])->value('secret')){
+			$data2['ebank_secret'] = $secret;
 		}
 		
-		$sign = $post['sign'] = strtolower(md5(http_build_query($data2)));	// sign 算法
-		$curl_data['sign'] = $sign;
+		$sign = $post['ebank_sign'] = strtolower(md5(http_build_query($data2)));	// sign 算法
+		$curl_data['ebank_sign'] = $sign;
 		$this->script_log('生成sign：'.$sign);
 		// 设置sign
 		$this->script_sign($sign);

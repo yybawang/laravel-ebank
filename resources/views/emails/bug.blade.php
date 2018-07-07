@@ -1,6 +1,6 @@
 <div>
 	<p>
-		【env:{{config('app.env')}}】{{time2date()}}
+		[env:{{config('app.env')}}]{{time2date()}}
 	</p>
 	
 	<div>

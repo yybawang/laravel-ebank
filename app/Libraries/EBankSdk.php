@@ -6,11 +6,11 @@ namespace App\Libraries;
  * 用户钱包接口类，涉及到查询余额，转账操作
  * 此为转账业务SDK封装，可复制到 ThinkPhp/CI等框架使用，纯原生代码，php 版本需 >= 7.1
  * 
- * Class BankSdk
+ * Class EBankSdk
  * @author yybawang
  * @package App\Libraries
  */
-class BankSdk {
+class EBankSdk {
 	
 	
 	public $transfer_param = [];	// 转账参数
@@ -35,13 +35,13 @@ class BankSdk {
 	/**
 	 * 获取用户钱包列表
 	 * 示例代码：
-	 * 		$wallet = BankSdk::wallet(1);
+	 * 		$wallet = EBankSdk::wallet(1);
 	 * @param $uid
 	 * @param $purse
 	 * @return mixed
 	 */
 	public static function wallet(int $uid,$purse = null){
-		$sdk = new BankSdk();
+		$sdk = new EBankSdk();
 		$url = $sdk->url . 'bank/user_wallet';
 		$param = [
 			'user_id'	=> $uid,
@@ -79,9 +79,9 @@ class BankSdk {
 	/**
 	 * 添加参数后开始转账，有时业务需求复杂，一条转账不能满足需求，所以这里做成多条一起转，避免数据错误后事务难回滚问题
 	 * 示例代码：
-	 * 		$transfer_ids = (new BankSdk())->transfer([
-				BankSdk::transfer_add(402030303)->from(1)->to(1)->amount(1100)->detail(''),
-				BankSdk::transfer_add(202030303)->from(1)->to(1)->amount(300)->detail(''),
+	 * 		$transfer_ids = (new EBankSdk())->transfer([
+				EBankSdk::transfer_add(402030303)->from(1)->to(1)->amount(1100)->detail(''),
+				EBankSdk::transfer_add(202030303)->from(1)->to(1)->amount(300)->detail(''),
 			]);
 	 * @param array $transfer_alias
 	 * @return array		// 返回顺序的转账ID
@@ -181,7 +181,7 @@ class BankSdk {
 	/**
 	 * 得到参数后最终下单
 	 * 示例代码：
-	 * 		$unified_param = BankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',100)->returnUrl('http://return.com')->notifyUrl('http://ebank.thinkms.com')->param('openid','o7U3Bs-62euOeUsidmOEotkmUMag')->param('auth_code','101234567891234567')->pay();
+	 * 		$unified_param = EBankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',100)->returnUrl('http://return.com')->notifyUrl('http://ebank.thinkms.com')->param('openid','o7U3Bs-62euOeUsidmOEotkmUMag')->param('auth_code','101234567891234567')->pay();
 	 * @param array $param
 	 * @return mixed
 	 */
@@ -376,7 +376,7 @@ class Unified {
 	}
 	
 	public function pay(){
-		$bank_sdk = new BankSdk();
+		$bank_sdk = new EBankSdk();
 		return $bank_sdk->pay($this->param);
 	}
 }
@@ -432,15 +432,15 @@ class Withdraw {
 	}
 	
 	public function bank(){
-		$bank_sdk = new BankSdk();
+		$bank_sdk = new EBankSdk();
 		return $bank_sdk->bank($this->param);
 	}
 	public function alipay(){
-		$bank_sdk = new BankSdk();
+		$bank_sdk = new EBankSdk();
 		return $bank_sdk->alipay($this->param);
 	}
 	public function wechat(){
-		$bank_sdk = new BankSdk();
+		$bank_sdk = new EBankSdk();
 		return $bank_sdk->wechat($this->param);
 	}
 }

@@ -47,7 +47,6 @@ class MerchantSign
 		$data = [
 			'url'			=> request()->url(),
 			'execute_time'	=> round($now_time_float - request()->server('REQUEST_TIME_FLOAT'),8),
-			'database'		=> print_r(config('database.connections'),true),
 			'$_GET'			=> print_r($_GET,true),
 			'$_POST'		=> print_r($_POST,true),
 			'$_REQUEST'		=> print_r($request->all(),true),

@@ -412,20 +412,12 @@ var render = function() {
                                     $$i = _vm._i($$a, $$v)
                                   if ($$el.checked) {
                                     $$i < 0 &&
-                                      _vm.$set(
-                                        _vm.form,
-                                        "rule",
-                                        $$a.concat([$$v])
-                                      )
+                                      (_vm.form.rule = $$a.concat([$$v]))
                                   } else {
                                     $$i > -1 &&
-                                      _vm.$set(
-                                        _vm.form,
-                                        "rule",
-                                        $$a
-                                          .slice(0, $$i)
-                                          .concat($$a.slice($$i + 1))
-                                      )
+                                      (_vm.form.rule = $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1)))
                                   }
                                 } else {
                                   _vm.$set(_vm.form, "rule", $$c)

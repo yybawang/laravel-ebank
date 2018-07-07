@@ -62,6 +62,6 @@ class OrderNotify implements ShouldQueue
 	
 	
 	public function failed(\Exception $exception){
-		bug_email($this->order_no.'订单异步通知到商户失败，请通知商户及时处理程序错误',$exception->__toString());
+		email_bug($this->order_no.'订单异步通知到商户失败，请通知商户及时处理程序错误',$exception->__toString());
 	}
 }

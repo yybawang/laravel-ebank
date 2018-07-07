@@ -86,7 +86,7 @@ class AppInstall extends Command
 		$this->comment('3、重启nginx，访问域名测试');
 		$this->comment('4、访问 [域名]/admin 登录后台，账号密码：admin/123456');
 		$this->comment('5、访问 [域名]/sandbox 进行沙盒接口调试');
-		$this->comment('6、进行队列测试，可调用 bug_email() 方法测试(配置好 .env下的 SMTP)');
+		$this->comment('6、进行队列测试，可调用 email_bug() 方法测试(配置好 .env下的 SMTP)');
 	}
 	
 	

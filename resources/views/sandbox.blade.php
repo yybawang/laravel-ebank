@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>接口测试</title>
+	<title>接口测试,模拟EBankSDK</title>
 	<meta content="text/html;charset=utf-8" http-equiv="content-type">
 	<script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
 	<style type="text/css">
@@ -97,7 +97,7 @@
 			<form action="{{url('sandbox/submit')}}" method="post" enctype="multipart/form-data" class="form">
 				<table cellspacing="0" cellpadding="0" border="0" class="table_param">
 					<tr><th width="80">商户名称</th><td>
-							<select name="appid">
+							<select name="ebank_appid">
 								<option value="">无商户--普通算签</option>
 								@foreach($merchant as $appid => $name)
 								<option value="{{$appid}}">{{$name}}({{$appid}})</option>
@@ -107,7 +107,7 @@
 					</tr>
 					<tr><th>device</th><td><input type="text" name="ClientVersion" value="20180101" /></td></tr>
 					<tr><th>ticket</th><td><input type="text" name="ticket" value="" /></td></tr>
-					<tr><th>sign</th><td><input type="text" name="sign" value="" /></td></tr>
+					<tr><th>sign</th><td><input type="text" name="ebank_sign" value="" /></td></tr>
 					<tr><th>接口地址</th><td>api/<input type="text" name="url" value="bank/test_sign" style="width:167px;" /></td></tr>
 					
 				</table>

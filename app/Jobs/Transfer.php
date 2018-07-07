@@ -54,6 +54,6 @@ class Transfer implements ShouldQueue
     }
 	
 	public function failed(\Exception $exception){
-		bug_email('转账失败，数据已回滚','请求数据：',$this->posts,$exception->__toString());
+		email_bug('转账失败，数据已回滚','请求数据：',$this->posts,$exception->__toString());
 	}
 }

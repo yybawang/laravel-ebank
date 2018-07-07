@@ -92,7 +92,6 @@ class FundOrder extends CommonModel
 			return true;
 		}else{
 			logger('异步通知订单号['.$order_no.']未找到');
-			bug_email('异步通知订单号['.$order_no.']未找到');
 			return false;
 		}
 	}

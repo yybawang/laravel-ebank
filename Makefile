@@ -7,7 +7,7 @@ help:
 	@echo 'make install -- download dependencies and install'
 
 dependency-install:
-	composer install -o --no-dev
+	composer install
 
 npm-install:
 	npm install

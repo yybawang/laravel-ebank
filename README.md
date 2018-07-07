@@ -132,7 +132,7 @@ php artisan clear-compiled
 
 ## 未来开发计划
 
-- [x] SDK 封装，给API对接商户下发使用的请求接口请求类，位于 [app/Libraries/BankSdk.php](https://github.com/yybawang/laravel-ebank/blob/master/app/Libraries/BankSdk.php "查看代码") 复制任意其他php框架中都可使用，同样要求 php >= 7.1
+- [x] SDK 封装，给API对接商户下发使用的请求接口请求类，位于 [app/Libraries/EBankSdk.php](https://github.com/yybawang/laravel-ebank/blob/master/app/Libraries/EBankSdk.php "查看代码") 复制任意其他php框架中都可使用，同样要求 php >= 7.1
 - [ ] 中央系统式，多项目对应多商户，积分互不干预，实现搭建一套，多项目可用
 - [ ] 多语言
 - [ ] 国外支付接口

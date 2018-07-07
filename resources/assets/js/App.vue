@@ -29,7 +29,7 @@
 					<div class="mdui-divider"></div>
 					<li class="mdui-menu-item">
 						<a href="javascript:;" class="mdui-ripple">
-							<i class="mdui-menu-item-icon mdui-icon material-icons">last_page</i>上次登录
+							<i class="mdui-menu-item-icon mdui-icon material-icons">last_page</i>本次登录
 						</a>
 					</li>
 					<li class="mdui-menu-item">
@@ -44,7 +44,7 @@
 						</a>
 					</li>
 				</ul>
-				<a class="mdui-btn" mdui-tooltip="{content: '注销登录'}" v-if="user" @click="logout">
+				<a class="mdui-btn" v-if="user" @click="logout">
 					注销
 				</a>
 			</div>
@@ -56,7 +56,7 @@
 					<!-- 卡片中可以包含一个或多个菜单按钮 -->
 					<div class="mdui-card-menu">
 						<router-link :to="{path : '/logout'}">
-							<button class="mdui-btn mdui-text-color-grey" mdui-tooltip="{content: 'Sign out',position:'left'}" v-if="user" @click="logout">Logout</button>
+							<button class="mdui-btn mdui-text-color-grey" v-if="user" @click="logout">Logout</button>
 						</router-link>
 					</div>
 					<div class="mdui-card-media-covered mdui-card-media-covered-transparent">

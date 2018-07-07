@@ -222,10 +222,10 @@ function abort_500($message = '',$var = false){
  * @param $msg
  * @return bool
  */
-function bug_email(...$msg){
+function email_bug(...$msg){
 	$receives = config('basic.bug_receives');
 	$url = request()->fullUrl();
-	\Illuminate\Support\Facades\Mail::to($receives)->queue((new \App\Mail\Bug($url,config('database.connections'),$_GET,$_POST,$_REQUEST,$_SERVER,$_COOKIE,$_SESSION,$msg))->onQueue('email'));
+	\Illuminate\Support\Facades\Mail::to($receives)->queue((new \App\Mail\Bug($url,$_GET,$_POST,$_REQUEST,$_SERVER,$_COOKIE,$_SESSION,$msg))->onQueue('email'));
 	return true;
 }
 
@@ -234,8 +234,8 @@ function bug_email(...$msg){
  * @param $title
  * @param array ...$msg
  */
-function bug_wechat($title,...$msg){
-	$reveives = collect(config('basic.bug_wechat'));
+function wechat_bug($title,...$msg){
+	$reveives = collect(config('basic.wechat_bug'));
 	$msgs = '';
 	foreach($msg as $m){
 		$msgs .= '<div><pre>'.print_r($m,true).'</pre></div>';

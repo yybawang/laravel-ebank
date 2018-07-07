@@ -75,6 +75,6 @@ class ExportCsv implements ShouldQueue
 	public function failed(Exception $exception)
 	{
 		FundAdminExport::where(['id'=>$this->id])->update(['status'=>2,'remarks'=>$exception->getMessage()]);
-//		bug_email('导出任务：['.$this->id.']导出失败',$exception->__toString());
+//		email_bug('导出任务：['.$this->id.']导出失败',$exception->__toString());
 	}
 }
