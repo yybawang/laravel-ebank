@@ -71,7 +71,7 @@ class AppInstall extends Command
 		// 4、生成 storage link 链接
 		$this->call('storage:link');
 		
-		// 5、缓存配置和路由，生产环境使用
+		// 5、缓存配置和路由，生产环境使用.
 //		$this->clearCaches();
 		
 		// 6、初始化钱包
