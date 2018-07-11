@@ -116,6 +116,30 @@ CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 **Windows 下手动步骤安装**
+**Linux 下使用 Makefile 自动安装**
+
+```
+// 项目目录下运行以下命令，如遇错误，可按照windows安装方式按步骤执行
+1、cp .env.example .env
+// 连接数据库执行语句建立数据库
+CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+2、 编辑 .env 文件配置数据库、redis、SMTP 等，然后再继续执行以下命令
+3、make && make install
+```
+
+**Windows 下手动步骤安装**
+
+```
+// 项目目录下运行以下命令
+1、copy .env.example .env
+// 连接数据库执行语句建立数据库
+2、CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+// 编辑 .env 文件配置数据库、redis、SMTP 等，然后再继续执行以下命令
+3、composer install
+4、php artisan app:install
+5、php artisan clear-compiled
+```
 
 ```
 // 项目目录下运行以下命令
