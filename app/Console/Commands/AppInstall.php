@@ -85,7 +85,7 @@ class AppInstall extends Command
 		$this->comment('2、配置队列环境，推荐使用 Supervisor，可参考本项目目录下的 ebank_supervior.conf');
 		$this->comment('3、重启nginx，访问域名测试');
 		$this->comment('4、访问 [域名]/admin 登录后台，账号密码：admin/123456');
-		$this->comment('5、访问 [域名]/sandbox 进行沙盒接口调试');
+		$this->comment('5、访问 [域名]/sandbox 进行沙盒接口调试(模拟 EBankSdk.php)');
 		$this->comment('6、进行队列测试，可调用 email_bug() 方法测试(配置好 .env下的 SMTP)');
 	}
 	

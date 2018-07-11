@@ -109,7 +109,9 @@ _laravel-ebank项目开发者交流群(新群，欢迎@群主踊跃发问)_
 ```
 // 项目目录下运行以下命令，如遇错误，可按照windows安装方式按步骤执行
 1、cp .env.example .env
-2、 编辑 .env 文件配置数据库、redis、email 等，需提前建立好数据库(字符集：utf8mb4 排序规则：utf8mb4_unicode_ci)，然后再继续执行以下命令
+// 连接数据库执行语句建立数据库
+CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+2、 编辑 .env 文件配置数据库、redis、SMTP 等，然后再继续执行以下命令
 3、make && make install
 ```
 
@@ -117,11 +119,14 @@ _laravel-ebank项目开发者交流群(新群，欢迎@群主踊跃发问)_
 
 ```
 // 项目目录下运行以下命令
-copy .env.example .env
-// 编辑 .env 文件配置数据库、redis、email 等，需提前建立好数据库(字符集：utf8mb4 排序规则：utf8mb4_unicode_ci)，然后再继续执行以下命令
-composer install
-php artisan app:install
-php artisan clear-compiled
+1、copy .env.example .env
+// 连接数据库执行语句建立数据库
+2、CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+// 编辑 .env 文件配置数据库、redis、SMTP 等，然后再继续执行以下命令
+3、composer install
+4、php artisan app:install
+5、php artisan clear-compiled
 ```
 
 ## 最后一步

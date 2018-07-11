@@ -16,7 +16,7 @@
         "overtrue/laravel-wechat": "~4.0",
         "pda/pheanstalk": "^3.1",
         "predis/predis": "^1.1",
-        "sentry/sentry-laravel": "^0.8.0",
+        "sentry/sentry-laravel": "^0.9.1",
         "yansongda/laravel-pay": "^2.0"
     },
     "require-dev": {
