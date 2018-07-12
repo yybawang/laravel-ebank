@@ -72,14 +72,6 @@
 ## 文档
 [阅读在线文档](http://doc.thinkms.com/project/1 "Doc")
 
-## 联系
-**交流QQ群**
-
-_laravel-ebank项目开发者交流群(新群，欢迎@群主踊跃发问)_
-
-454247844
-
-![群二维码](https://raw.githubusercontent.com/yybawang/images/master/ebank/454247844.png)
 
 **github**
 
@@ -97,11 +89,8 @@ _laravel-ebank项目开发者交流群(新群，欢迎@群主踊跃发问)_
 
 > 因项目中涉及大金额运算(万亿以上)，需使用 php >= 7.1.12，推荐学习并使用 docker + laradock 搭建开发环境
 
-[laradock](https://github.com/laradock/laradock "laradock")
+[laradock 搭建开发、测试、生产环境](https://github.com/laradock/laradock "laradock")
 
-> 可使用我修改过的版本(php7.2)，加快了下载速度，增加 gogs、drone、sentry、firebird 服务 (前提会配置laradock)
-
-[yanyong/laradock-yy](http://gogs.thinkms.com/yanyong/laradock-yy.git "yanyong/laradock-yy")
 
 
 **Linux 下使用 Makefile 自动安装**
@@ -115,17 +104,6 @@ CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 3、make && make install
 ```
 
-**Windows 下手动步骤安装**
-**Linux 下使用 Makefile 自动安装**
-
-```
-// 项目目录下运行以下命令，如遇错误，可按照windows安装方式按步骤执行
-1、cp .env.example .env
-// 连接数据库执行语句建立数据库
-CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-2、 编辑 .env 文件配置数据库、redis、SMTP 等，然后再继续执行以下命令
-3、make && make install
-```
 
 **Windows 下手动步骤安装**
 
@@ -141,17 +119,6 @@ CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 5、php artisan clear-compiled
 ```
 
-```
-// 项目目录下运行以下命令
-1、copy .env.example .env
-// 连接数据库执行语句建立数据库
-2、CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-// 编辑 .env 文件配置数据库、redis、SMTP 等，然后再继续执行以下命令
-3、composer install
-4、php artisan app:install
-5、php artisan clear-compiled
-```
 
 ## 最后一步
 

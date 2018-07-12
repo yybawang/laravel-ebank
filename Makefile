@@ -20,7 +20,7 @@ app-install:
 file-permission:
 	chmod -R 777 storage/
 	chmod -R 777 bootstrap/cache/
-	chmod -R 777 public/
+	chmod -R 777 public/export
 
 
 dump-autoload:
