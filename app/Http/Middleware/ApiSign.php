@@ -36,7 +36,7 @@ class ApiSign
 		$param_sign = strtolower(md5(implode('&',$param2)));
 		// 如果字符串恒相等
 		if(strcmp($sign,$param_sign) !== 0){
-			abort_500('接口验签失败');
+			exception('接口验签失败');
 		}
         return $response;
     }

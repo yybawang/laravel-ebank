@@ -37,7 +37,7 @@ class AdminUser
 				$rule_names = json_decode($rule,true);
 				// 如果在菜单里面并且不在权限组里面
 				if(in_array($rule_name,$menu) && !in_array($rule_name,$rule_names)){
-					abort_500('用户组无权限');
+					exception('用户组无权限');
 				}
 			}
 			

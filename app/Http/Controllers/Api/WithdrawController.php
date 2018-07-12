@@ -32,7 +32,7 @@ class WithdrawController extends CommonController {
 		$post['pay_type']	= '银行卡提现';
 		$post['amount_actual'] = $post['amount'] - $post['fee'];
 		if($post['amount_actual'] <= 0){
-			abort_500('计算错误，手续费大于提现金额');
+			exception('计算错误，手续费大于提现金额');
 		}
 		
 		$purse = $request->input('purse');
@@ -65,7 +65,7 @@ class WithdrawController extends CommonController {
 		$post['pay_type']	= '支付宝提现';
 		$post['amount_actual'] = $post['amount'] - $post['fee'];
 		if($post['amount_actual'] <= 0){
-			abort_500('计算错误，手续费大于提现金额');
+			exception('计算错误，手续费大于提现金额');
 		}
 		
 		$purse = $request->input('purse');
@@ -98,7 +98,7 @@ class WithdrawController extends CommonController {
 		$post['pay_type']	= '微信提现';
 		$post['amount_actual'] = $post['amount'] - $post['fee'];
 		if($post['amount_actual'] <= 0){
-			abort_500('计算错误，手续费大于提现金额');
+			exception('计算错误，手续费大于提现金额');
 		}
 		
 		$purse = $request->input('purse');

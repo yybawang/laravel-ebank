@@ -99,7 +99,7 @@ class OrderController extends CommonController {
 			'amount'	=> 'required|integer|min:1|max:'.$order->amount,
 		]);
 		if ($order->status != 1 || $order->pay_status != 1) {
-			abort_500('订单状态与退款条件不足');
+			exception('订单状态与退款条件不足');
 		}
 		DB::transaction(function () use ($amount, $order) {
 			$bank = new EBank();

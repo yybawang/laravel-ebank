@@ -56,7 +56,7 @@ class OrderNotify implements ShouldQueue
 			$order->notify_time = time2date(time());
 			$order->save();
 		}else{
-			abort_500('['.$this->order_no.']未返回 SUCCESS 字符串，标记为失败');
+			exception('['.$this->order_no.']未返回 SUCCESS 字符串，标记为失败');
 		}
     }
 	

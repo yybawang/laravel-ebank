@@ -22,7 +22,7 @@ class MerchantSign
     {
 		$param = $request->except(['s']);
 		if(empty($param['ebank_appid'])) {
-			abort_500('商户appid不存在');
+			exception('商户appid不存在');
 		}
 		
 		clear_null($param);
@@ -32,7 +32,7 @@ class MerchantSign
 		$param_sign = sign_merchant($param,$secret);
 		// 如果字符串恒相等
 		if(strcmp($sign,$param_sign) !== 0){
-			abort_500('['.$param['ebank_appid'].']商户验签失败');
+			exception('['.$param['ebank_appid'].']商户验签失败');
 		}
         return $next($request);
     }

@@ -33,7 +33,7 @@ class LoginController extends Controller {
 		$param['password'] = FundAdmin::md5($param['password']);
 		$uid = FundAdmin::where($param)->value('id');
 		if(!$uid){
-			abort_500('登录密码错误');
+			exception('登录密码错误');
 		}
 		FundAdmin::where(['id'=>$uid])->update(['last_login'=>time2date()]);
 		session(['admin_uid'=>$uid]);

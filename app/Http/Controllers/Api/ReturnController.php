@@ -22,7 +22,7 @@ class ReturnController extends CommonController {
 			$html = build_form($order->return_url,compact('order_no','pay_status','amount','pay_time'),'get');
 			return $html;
 		}else{
-			abort_500('微信同步回调参数错误：订单号['.$order_no.']不存在');
+			exception('微信同步回调参数错误：订单号['.$order_no.']不存在');
 		}
 	}
 	
@@ -43,7 +43,7 @@ class ReturnController extends CommonController {
 			$html = build_form($order->return_url,compact('order_no','pay_status','amount','pay_time'),'get');
 			return $html;
 		}else{
-			abort_500('支付宝同步回调参数错误：订单号['.$order_no.']不存在');
+			exception('支付宝同步回调参数错误：订单号['.$order_no.']不存在');
 		}
 	}
 }

@@ -69,7 +69,7 @@ class EBank {
 
 		$transfer_name = explode('_',snake_case($name));
 		if(count($transfer_name) != 5){
-			abort_500('转账 alias 拼接参数有误');
+			exception('转账 alias 拼接参数有误');
 		}
 
 		\Validator::make([
@@ -215,7 +215,7 @@ class EBank {
 		}
 		// 如果转账用户类型为3，则必传用户ID
 		if($out_user_type_id == 3 && $out_user_id <= 0 || $into_user_type_id == 3 && $into_user_id <= 0){
-			abort_500('转账用户ID参数需大于0');
+			exception('转账用户ID参数需大于0');
 		}
 
 		$out_purse = $this->userWalletDetail($out_user_id,$out_purse_type_id,$out_user_type_id);
@@ -283,28 +283,28 @@ class EBank {
 		$out_purse = FundUserPurse::find($out_purse_id);
 		$into_purse = FundUserPurse::find($into_purse_id);
 		if($out_purse->status == 0){
-			abort_500('转出钱包已被设置为禁用');
+			exception('转出钱包已被设置为禁用');
 		}
 		if($out_purse->status == 9){
-			abort_500('转出钱包已被临时禁用');
+			exception('转出钱包已被临时禁用');
 		}
 		if($into_purse->status == 0){
-			abort_500('转入钱包已被设置为禁用');
+			exception('转入钱包已被设置为禁用');
 		}
 		if($into_purse->status == 9){
-			abort_500('转入钱包已被临时禁用');
+			exception('转入钱包已被临时禁用');
 		}
 		
 		$transfer_id = DB::transaction(function() use ($out_purse_id,$into_purse_id,$out_purse,$into_purse,$amount,$parent_id,$reason,$detail,$remarks){
 			// 出账钱包扣款
 			$var = FundUserPurse::where(['id'=>$out_purse_id])->decrement('balance',$amount);
 			if(!$var){
-				abort_500('转出钱包扣款失败');
+				exception('转出钱包扣款失败');
 			}
 			// 进账钱包收款
 			$var = FundUserPurse::where(['id'=>$into_purse_id])->increment('balance',$amount);
 			if(!$var){
-				abort_500('转入钱包收款失败');
+				exception('转入钱包收款失败');
 			}
 			
 			$transfer_add = [
@@ -357,7 +357,7 @@ class EBank {
 		$detail = FundTransfer::findOrFail($transfer_id);
 		
 		if($detail->status != 1){
-			abort_500('该数据已被处理过');
+			exception('该数据已被处理过');
 		}
 		$out_purse_id = $detail->into_purse_id;	// 解析后需转出的钱包id
 		$into_purse_id = $detail->out_purse_id;	// 解析后需转入的钱包id
@@ -367,12 +367,12 @@ class EBank {
 			// 出账钱包扣款
 			$var = FundUserPurse::where(['id'=>$out_purse_id])->decrement('balance',$amount);
 			if(!$var){
-				abort_500('转出钱包扣款失败');
+				exception('转出钱包扣款失败');
 			}
 			// 进账钱包收款
 			$var = FundUserPurse::where(['id'=>$into_purse_id])->increment('balance',$amount);
 			if(!$var){
-				abort_500('转入钱包收款失败');
+				exception('转入钱包收款失败');
 			}
 			$detail->status = 2;
 			$detail->remarks = $remarks;
@@ -547,13 +547,13 @@ class EBank {
 		// 防多次点击
 		$cache_key = 'Bank_freeze'.$purse_id.'_'.$amount;
 		if(Cache::has($cache_key)){
-			abort_500('钱包冻结请求频繁，请稍后再试');
+			exception('钱包冻结请求频繁，请稍后再试');
 		}
 		Cache::add($cache_key,1,0.1);		// 6秒钟
 		
 		$purse = FundUserPurse::where(['status'=>1,'id'=>$purse_id])->firstOrFail();
 		if($purse->balance - $purse->freeze < $amount){
-			abort_500('账户余额不足');
+			exception('账户余额不足');
 		}
 		
 		$id = DB::transaction(function() use ($amount,$purse,$purse_id,$remarks){
@@ -579,7 +579,7 @@ class EBank {
 		// 防多次点击
 		$cache_key = 'Bank_unfreeze'.$freeze_id;
 		if(Cache::has($cache_key)){
-			abort_500('钱包解冻请求频繁，请稍后再试');
+			exception('钱包解冻请求频繁，请稍后再试');
 		}
 		Cache::add($cache_key,1,0.1);		// 6秒钟
 		
@@ -587,7 +587,7 @@ class EBank {
 		$purse = FundUserPurse::where(['status'=>1,'id'=>$freeze->purse_id])->firstOrFail();
 		
 		if($freeze->status != 1){
-			abort_500('冻结记录['.$freeze_id.']已被处理过');
+			exception('冻结记录['.$freeze_id.']已被处理过');
 		}
 		
 		$bool = DB::transaction(function() use ($purse,$freeze){

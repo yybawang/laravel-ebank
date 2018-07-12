@@ -125,7 +125,7 @@ class RuleController extends CommonController {
 		$password_old_md5 = FundAdmin::md5($post['password_old']);
 		$password_new_md5 = FundAdmin::md5($post['password_new']);
 		if(strcmp($user->password,$password_old_md5) !== 0){
-			abort_500('原登录密码不匹配');
+			exception('原登录密码不匹配');
 		}
 		$var = FundAdmin::where(['id'=>$user->id])->update(['password'=>$password_new_md5]);
 		return json_return($var);

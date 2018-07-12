@@ -27,7 +27,7 @@ class OrderUnified {
 		$status = $order->complete($order_no,$amount);
 		if(!$status){
 			logger('['.$order_no.']纯钱包支付最终结果失败');
-			abort_500('内部钱包支付扣款失败，请稍后再试');
+			exception('内部钱包支付扣款失败，请稍后再试');
 		}
 		return true;
 	}

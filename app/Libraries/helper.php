@@ -206,7 +206,7 @@ function abort_404($message = null,$var = false){
  * @param false $var		// 判断变量是[假]才抛错
  * @return bool
  */
-function abort_500($message = '',$var = false){
+function exception($message = '',$var = false){
 	if(!$var){
 		abort(500,$message);
 //		throw new \App\Exceptions\ApiException($message);

@@ -60,14 +60,14 @@ class OrderController extends CommonController {
 		
 		// 如果第三方支付+内部钱包支付不登录组合支付数量，就是参数有误
 		if($pay_type_thread_count + $pay_type_wallet_count != count($pay_type_group)){
-			abort_500('组合支付参数中存在不支持的扣款类型');
+			exception('组合支付参数中存在不支持的扣款类型');
 		}
 		if($this->amount < 1){
-			abort_500('订单金额不能少于 0.01 元');
+			exception('订单金额不能少于 0.01 元');
 		}
 
 		if($pay_type_thread && $pay_type_thread_count != 1){
-			abort_500('存在多个第三方支付，请修改组合支付方式');
+			exception('存在多个第三方支付，请修改组合支付方式');
 		}
 		
 		// 下单存表
@@ -76,12 +76,12 @@ class OrderController extends CommonController {
 		$exist = FundOrder::where(['merchant_id'=>$merchant_id,'order_no'=>$this->order_no])->first();
 		// 如果已支付，订单就不用再支付了
 		if($exist && $exist->pay_status == 1){
-			abort_500('商户订单已支付完成，无需再次支付');
+			exception('商户订单已支付完成，无需再次支付');
 		}
 		
 		// 如果是已存在订单则判断参数是否统一，不统一无法继续支付
 		if($exist && $param_all != $exist->param){
-			abort_500('商户订单号已存在但参数不同，无法继续支付');
+			exception('商户订单号已存在但参数不同，无法继续支付');
 		}
 		$return = DB::transaction(function() use ($basic_param,$merchant_id,$param_all,$pay_type_group,$pay_type_thread){
 			$add = [

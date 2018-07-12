@@ -35,7 +35,7 @@ class OrderPayments
 		$cache_key = md5(serialize(request()->all()));
 		$cache_val = Cache::has($cache_key);
 		if($cache_val){
-			abort_500('请求频繁，请稍后再试');
+			exception('请求频繁，请稍后再试');
 		}
 		Cache::add($cache_key,1,0.1);	// 6秒钟
 		$order_unified = new OrderUnified();
