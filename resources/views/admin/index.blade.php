@@ -10,7 +10,6 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta name="csrf-token" content="{{csrf_token()}}" />
 	<link rel="stylesheet" href="{{mix('css/app.css')}}" />
-	<link rel="stylesheet" href="{{asset('css/pagination.css')}}" />
 	<title>EBank@电子银行--站内虚拟积分与聚合支付解决方案</title>
 </head>
 <body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-blue mdui-theme-accent-blue mdui-color-grey-100 mdui-loaded">

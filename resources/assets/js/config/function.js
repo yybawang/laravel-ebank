@@ -87,7 +87,7 @@ let ajax = function(url,post_data,success,error,method){
 	// ajax 请求封装
 	loading();
 	axios({
-		url : '/admin'+url,
+		url : APP_URL+'/admin'+url,
 		method : method,
 		data : post_data,
 	}).then(function(response){
