@@ -69,11 +69,4 @@ Route::namespace('Api')->group(function(){
 	
 	Route::any('notify/wechat','NotifyController@wechat');
 	Route::any('notify/alipay','NotifyController@alipay');
-	
-	
-	// 短信发送
-	Route::prefix('sms')->group(function(){
-		Route::post('template','SmsController@template');
-		Route::post('content','SmsController@content');
-	});
 });

@@ -12,8 +12,6 @@
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "mews/captcha": "^2.1",
-        "overtrue/easy-sms": "^1.0",
-        "overtrue/laravel-wechat": "~4.0",
         "pda/pheanstalk": "^3.1",
         "predis/predis": "^1.1",
         "sentry/sentry-laravel": "^0.9.1",

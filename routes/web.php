@@ -23,31 +23,6 @@ Route::group(['prefix'=>'sandbox'],function(){
 });
 
 
-/********************************************** 微信接口模块 ******************************************/
-Route::name('微信接口部分')->namespace('Wechat')->prefix('wechat')->group(function(){
-	Route::any('index','IndexController@index');	// 初始化服务器托管，填写托管地址时，可填写此地址验证
-	
-	Route::any('access_token','ApiController@access_token');	// 获取服务器 access_token ，可暴露给其他服务器访问
-	Route::any('qr/forever','QrcodeController@forever');
-	Route::any('qr/temporary','QrcodeController@temporary');
-	Route::any('template/send','TemplatePushController@send');
-	Route::any('template/queue','TemplatePushController@queue');
-	Route::any('menu/get','MenuController@get');
-	Route::any('menu/set','MenuController@set');
-	Route::any('user/list','UserController@list');
-	Route::any('user/get','UserController@get');
-	Route::any('user/select','UserController@select');
-	Route::any('user/remarks','UserController@remarks');
-	Route::any('jssdk/sign','JssdkController@sign');
-});
-
-
-Route::name('微信网页授权部分')->middleware(['wechat.oauth:snsapi_userinfo'])->namespace('Wechat')->prefix('wechat')->group(function(){
-	Route::get('oauth','OauthController@index');
-});
-
-
-
 /********************************************** 后台管理模块 ******************************************/
 Route::get('admin','Admin\IndexController@index');
 Route::get('admin/index','Admin\IndexController@index');
