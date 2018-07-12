@@ -2,9 +2,9 @@
 1、cp .env.example .env // 修改.env 数据库、redis、SMTP邮箱等
 2、php artisan key:generate
 3、composer install
-4、非必须：npm install		// 系统已自带前端打包文件，如果需要自己开发，请安装lavavel的前端开发方式自行开发
+4、非必须：npm install		// 系统已自带前端打包文件，如果需要自己开发，请按照lavavel的前端开发方式自行开发
 5、非必须：npm run production
-6、php artisan migrate --seed 初始化数据库和数据
+6、php artisan migrate --seed 初始化数据库和数据，如提示没有数据库，请先建立数据库 CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 7、复制项目根目录下的 ebank_supervisor.ini 文件到 /etc/supervisord.d/conf.d 中配置队列监听
 8、复制项目根目录下的 ebank_nginx.conf 到 /etc/nginx/conf.d 中配置虚拟站点
 
@@ -16,5 +16,8 @@ php artisan queue:work --queue=default,email,export,order_notify,transfer,export
 
 
 我的一些调试代码在 app/Http/Controllers/SandboxController.php 里能查看到，可自行更改后访问 /sandbox/test 调试
-项目推荐 laradock 搭建运行环境(php7.2)，可使用我修改过的版本，增加 gogs、drone、sentry 服务 (前提会配置laradock)：http://gogs.thinkms.com/yanyong/laradock-yy.git
+
+可以访问 /sandbox 来进行调试，此页面就是模拟 EBankSdk 的效果
+
+项目推荐 laradock 搭建运行环境，https://github.com/laradock/laradock，推荐学习 docker 并 docker 化部署开发环境，抛弃 phpStudy
 

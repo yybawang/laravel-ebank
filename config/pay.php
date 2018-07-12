@@ -11,10 +11,10 @@ return [
         // 支付成功后同步通知地址
         'return_url' =>  config('app.url').'/api/return/alipay',	// 无需改动
 
-        // 阿里公共密钥，验证签名时使用
+        // 阿里公共密钥，验证签名时使用，一行字符串，不包括 "--- PUBLIC KEY ---" 等前后内容
         'ali_public_key' => '',
 
-        // 自己的私钥，签名时使用
+        // 自己的私钥，签名时使用，一行字符串，不包括 "--- PRIMARY KEY ---" 等前后内容
         'private_key' => '',
 
         // optional，默认 warning；日志路径为：sys_get_temp_dir().'/logs/yansongda.pay.log'
