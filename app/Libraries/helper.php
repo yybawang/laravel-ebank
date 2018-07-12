@@ -190,17 +190,6 @@ function json_return($var,$error_msg = '服务器错误，请稍后重试',$succ
 }
 
 /**
- * 给http响应发送一个 404 未找到异常
- * @param null $message
- * @param false $var		// 判断变量是[假]才抛错
- */
-function abort_404($message = null,$var = false){
-	if(!$var) {
-		abort(404, $message);
-	}
-}
-
-/**
  * 给http响应发送一个 500 服务器异常
  * @param string $message
  * @param false $var		// 判断变量是[假]才抛错
@@ -209,7 +198,6 @@ function abort_404($message = null,$var = false){
 function exception($message = '',$var = false){
 	if(!$var){
 		abort(500,$message);
-//		throw new \App\Exceptions\ApiException($message);
 	}
 	return true;
 }
@@ -227,26 +215,6 @@ function email_bug(...$msg){
 	$url = request()->fullUrl();
 	\Illuminate\Support\Facades\Mail::to($receives)->queue((new \App\Mail\Bug($url,$_GET,$_POST,$_REQUEST,$_SERVER,$_COOKIE,$_SESSION,$msg))->onQueue('email'));
 	return true;
-}
-
-/**
- * bug 微信推送，收件人为数组配置
- * @param $title
- * @param array ...$msg
- */
-function wechat_bug($title,...$msg){
-	$reveives = collect(config('basic.wechat_bug'));
-	$msgs = '';
-	foreach($msg as $m){
-		$msgs .= '<div><pre>'.print_r($m,true).'</pre></div>';
-
-	}
-	$reveives->each(function($v) use ($title,$msgs){
-		curl_post($v,[
-			'text'	=> $title,
-			'desp'	=> $msgs
-		]);
-	});
 }
 
 

@@ -73,7 +73,7 @@ class Handler extends ExceptionHandler
 //		return parent::render($request, $exception);
 		// 得到错误发送到邮件
 		if($this->shouldReport($exception)){
-			email_bug($exception->getMessage(),$exception->__toString());
+			email_bug($exception->__toString());
 		}
 		
     	if($exception instanceof LoginException){

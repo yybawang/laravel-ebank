@@ -2,9 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Exceptions\ApiException;
 use App\Models\FundMerchant;
-use App\Models\FundNotifyJobs;
 use App\Models\FundOrder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;

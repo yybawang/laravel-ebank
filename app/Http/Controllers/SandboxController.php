@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ApiException;
 use App\Http\Controllers\Api\NotifyController;
 use App\Libraries\Bank\EBank;
 use App\Libraries\EBankSdk;

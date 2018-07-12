@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\ApiException;
 use App\Models\FundMerchant;
 use Closure;
 
