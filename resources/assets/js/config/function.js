@@ -93,11 +93,11 @@ let ajax = function(url,post_data,success,error,method){
 	}).then(function(response){
 		loading(true);
 		let data = response.data;
-		if('1' == data.status){
+		if('1' === data.status){
 			success(data.data,data.message);
-		}else if('0' == data.status){
+		}else if('0' === data.status){
 			tips(data.message);
-		}else if('2' == data.status){
+		}else if('2' === data.status){
 			// tips(data.message);
 			router.push({path:'/login'});
 		}else{
