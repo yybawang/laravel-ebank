@@ -87,7 +87,7 @@
 
 ## 安装
 
-> 因项目中涉及大金额运算(万亿以上)，需使用 php >= 7.1.12，推荐学习并使用 docker + laradock 搭建开发环境
+> 因项目中涉及大金额运算(万亿以上)，需使用 php >= 7.1.12，推荐学习并使用 docker + laradock 搭建开发环境(系统带有laravel/horizon，不支持windows下运行)
 
 [laradock 搭建开发、测试、生产环境](https://github.com/laradock/laradock "laradock")
 

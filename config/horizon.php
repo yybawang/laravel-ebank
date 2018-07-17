@@ -26,7 +26,7 @@ return [
 	|
 	*/
 	
-	'prefix' => env('HORIZON_PREFIX', 'horizon:'),
+	'prefix' => env('HORIZON_PREFIX', 'horizon:') . env('APP_KEY'),
 	
 	/*
 	|--------------------------------------------------------------------------
@@ -71,33 +71,57 @@ return [
 	*/
 	
 	'environments' => [
+		// 生产环境
 		'production' => [
 			'supervisor-1' => [
 				'connection' => 'redis',
-				'queue' => ['default','email','export','order_notify','transfer'],
-				'balance' => 'false',	// auto 会平均分发
-				'processes' => 20,
-				'tries' => 0,	// 重试次数（不包含本身执行的一次）
+				'queue' => ['default', 'email', 'export', 'behavior'],
+				'balance' => 'false',
+				'processes' => 5,
+				'tries' => 3,
+			],
+			'supervisor-2' => [
+				'connection' => 'redis',
+				'queue' => ['order_notify', 'transfer'],
+				'balance' => 'false',
+				'processes' => 15,
+				'tries' => 3,
 			],
 		],
 		
+		// 测试环境
 		'dev' => [
 			'supervisor-1' => [
 				'connection' => 'redis',
-				'queue' => ['default','email','export','order_notify','transfer'],
+				'queue' => ['default', 'email', 'export', 'behavior'],
 				'balance' => 'false',
-				'processes' => 3,
-				'tries' => 0,
+				'processes' => 2,
+				'tries' => 3,
+			],
+			'supervisor-2' => [
+				'connection' => 'redis',
+				'queue' => ['order_notify', 'transfer'],
+				'balance' => 'false',
+				'processes' => 5,
+				'tries' => 3,
 			],
 		],
 		
+		// 本地开发环境
 		'local' => [
 			'supervisor-1' => [
 				'connection' => 'redis',
-				'queue' => ['default','email','export','order_notify','transfer'],
+				'queue' => ['default', 'email', 'export', 'behavior'],
 				'balance' => 'false',
-				'processes' => 3,
-				'tries' => 0,
+				'processes' => 2,
+				'tries' => 3,
+			],
+			'supervisor-2' => [
+				'connection' => 'redis',
+				'queue' => ['order_notify', 'transfer'],
+				'balance' => 'false',
+				'processes' => 2,
+				'tries' => 3,
 			],
 		],
 	],
