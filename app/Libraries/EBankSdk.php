@@ -14,7 +14,6 @@ class EBankSdk {
 	
 	
 	public $transfer_param = [];	// 转账参数
-	public $transfer_async = 0;		// 是否异步,1异步、0同步
 	public $unified_param = [];		// 下单参数
 	public $withdraw_param = [];	// 提现参数
 
@@ -32,18 +31,17 @@ class EBankSdk {
 	/**
 	 * 获取用户钱包列表
 	 * 示例代码：
-	 * 		$wallet = EBankSdk::wallet(1);
+	 * 		$wallet = (new EBankSdk())->wallet(1);
 	 * @param $uid
 	 * @param $purse
 	 * @return mixed
 	 */
-	public static function wallet(int $uid,$purse = null){
-		$sdk = new EBankSdk();
-		$url = $sdk->url . 'bank/user_wallet';
+	public function wallet(int $uid,$purse = null){
+		$url = $this->url . 'bank/user_wallet';
 		$param = [
 			'user_id'	=> $uid,
 		];
-		$data = $sdk->_post($url,$param);
+		$data = $this->_post($url,$param);
 		if($purse){
 			return $data[$purse];
 		}
@@ -65,15 +63,6 @@ class EBankSdk {
 	
 	
 	/**
-	 * 设置为异步
-	 * @return $this
-	 */
-	public function async(){
-		$this->transfer_async = 1;
-		return $this;
-	}
-	
-	/**
 	 * 添加参数后开始转账，有时业务需求复杂，一条转账不能满足需求，所以这里做成多条一起转，避免数据错误后事务难回滚问题
 	 * 示例代码：
 	 * 		$transfer_ids = (new EBankSdk())->transfer([
@@ -81,9 +70,10 @@ class EBankSdk {
 				EBankSdk::transfer_add(202030303)->from(1)->to(1)->amount(300)->detail(''),
 			]);
 	 * @param array $transfer_alias
+	 * @param mixed $async 是否异步操作，进入队列处理，不用等待结果
 	 * @return array		// 返回顺序的转账ID
 	 */
-	public function transfer(array $transfer_alias){
+	public function transfer(array $transfer_alias,$async = false){
 		$url = $this->url . 'bank/transfer';
 		$alias = [];
 		foreach($transfer_alias as $class){
@@ -96,10 +86,8 @@ class EBankSdk {
 		// 返回多条转账产生的转账ID数组，原始顺序排序
 		$param = [
 			'param'	=> $alias,
-			'async'		=> $this->transfer_async,
+			'async'	=> $async ? 1 : 0,
 		];
-		// 重置为同步操作，避免对象重用时发生变量共享的问题(有待考究)
-//		$this->transfer_async = 0;
 		$result = $this->_post($url,$param);
 		$transfer_ids = $result['transfer_ids'];
 		return $transfer_ids;
@@ -135,7 +123,7 @@ class EBankSdk {
 		$purse_id = $this->wallet($uid)[$purse_type]['id'];
 		$param = [
 			'purse_id'	=> $purse_id,
-			'amount'	=> $amount * 100,
+			'amount'	=> $amount,
 		];
 		
 		$data = $this->_post($url,$param);
@@ -170,7 +158,7 @@ class EBankSdk {
 	*
 	*******************************************************************************************/
 	
-	public static function unified(int $user_id){
+	public function unified(int $user_id){
 		$unified = new Unified($user_id);
 		return $unified;
 	} 
@@ -196,7 +184,7 @@ class EBankSdk {
 	 *
 	 *******************************************************************************************/
 	
-	public static function withdraw(int $user_id){
+	public function withdraw(int $user_id){
 		$withdraw = new Withdraw($user_id);
 		return $withdraw;
 	}

@@ -31,6 +31,7 @@ class SandboxController extends Controller
 //		echo FundAdmin::md5('123456');
 //		$bank = new EBankSdk();
 		$bank = new EBank();
+		$sdk = new EBankSdk();
 //		$bank->init();
 //		$s = $bank->userPurseDetail(4);
 //		$s = $bank->unfreeze(1);
@@ -43,19 +44,19 @@ class SandboxController extends Controller
 			EBankSdk::transfer_add(402030303)->from(1)->to(1)->amount(50000),
 		];
 //		$s = (new EBankSdk())->transfer($transfer);
-//		$s = (new EBankSdk())->async()->transfer($transfer);
+//		$s = (new EBankSdk())->transfer($transfer,true);
 //		$s = (new Bank())->systemCashToUserCash(0,1,100,10001);
 		/**
 		 * payType 方法可以多次调用，实现组合支付
 		 */
-//		$s =  EBankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',100)->returnUrl('http://return.com')->notifyUrl('http://ebank.thinkms.com')->param('openid','o7U3Bs-62euOeUsidmOEotkmUMag')->param('auth_code','101234567891234567')->pay();
+//		$s =  (new EBankSdk())->unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',100)->returnUrl('http://return.com')->notifyUrl('http://ebank.thinkms.com')->param('openid','o7U3Bs-62euOeUsidmOEotkmUMag')->param('auth_code','101234567891234567')->pay();
 		
 //		$export = new ExportCsv();
 //		$s = $export->name('导出流水测试')->data(FundTransfer::all())->save();
 		
 		// 查看钱包
-//		$s = EBankSdk::wallet(1);
-//		$s = EBankSdk::withdraw(1)->amount(18)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
+//		$s =$sdk->wallet(1);
+//		$s = (new EBankSdk())->withdraw(1)->amount(18)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
 		// 事务测试
 //		DB::transaction(function(){
 //			(new Bank())->transfer(0,0,100,20001);
