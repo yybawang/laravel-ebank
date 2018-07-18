@@ -15,11 +15,12 @@
 
 > 项目功能基本满足使用，并流畅运行，持续更新中，如有使用方式问题可在QQ群里@群主
 
+- **已进入维护期**
 - **现已加入豪华午餐**
 - **推荐中小型项目使用**
 
 
-> 此项目功能已完成全部代码并满足基本需求（已服务三家电商公司），会一直吸取上线项目遇到的问题来优化项目，dev 分支会更新公测代码，master 分支为稳定版本，功能还在调整与完善中，但已满足中小型电商项目使用，欢迎阅读文档学习并使用。！
+> 此项目完全开源且功能已完成全部代码并满足基本需求（已服务多家电商公司），会一直汲取上线项目遇到的业务等问题来优化项目，dev 分支会更新公测代码，master 分支为稳定版本，功能还在调整与完善中，但已满足中小型电商项目使用，欢迎阅读文档学习并使用
 
 > 项目使用 PHP7.1+ & Laravel5.5 & Mysql5.7+ & npm & vue2 & mdui4 搭建
 
@@ -87,7 +88,7 @@
 
 ## 安装
 
-> 因项目中涉及大金额运算(万亿以上)，需使用 php >= 7.1.12，推荐学习并使用 docker + laradock 搭建开发环境(系统带有laravel/horizon，不支持windows下运行)
+> 因项目中涉及大金额运算(万亿以上)，需使用 php >= 7.1.12，推荐学习并使用 docker + laradock 搭建开发环境
 
 [laradock 搭建开发、测试、生产环境](https://github.com/laradock/laradock "laradock")
 
@@ -96,7 +97,7 @@
 **Linux 下使用 Makefile 自动安装**
 
 ```
-// 项目目录下运行以下命令，如遇错误，可按照windows安装方式按步骤执行
+// cd 到项目目录下运行以下命令，如遇错误，请按照报错信息修正（报无扩展，PHP版本等）
 1、cp .env.example .env
 // 连接数据库执行语句建立数据库
 CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -108,7 +109,7 @@ CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 **Windows 下手动步骤安装**
 
 ```
-// 项目目录下运行以下命令
+// cd 到项目目录下运行以下命令
 1、copy .env.example .env
 // 连接数据库执行语句建立数据库
 2、CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -129,7 +130,7 @@ CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ## 未来开发计划
 
 - [x] SDK 封装，给API对接商户下发使用的请求接口请求类，位于 [app/Libraries/EBankSdk.php](https://github.com/yybawang/laravel-ebank/blob/master/app/Libraries/EBankSdk.php "查看代码") 复制任意其他php框架中都可使用，同样要求 php >= 7.1
-- [ ] 中央系统式，多项目对应多商户，积分互不干预，实现搭建一套，多项目可用
+- [ ] 中央系统式，多项目对应多商户，积分互不干预，实现搭建一套，多项目可用(x 弃用，mysql无法支撑问题以及大量搜索和支付秘钥问题，后期坑更大)
 - [ ] 多语言
 - [ ] 国外支付接口
 - [ ] 后台功能点说明文案
