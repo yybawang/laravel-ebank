@@ -82,8 +82,6 @@ class Handler extends ExceptionHandler
 		}else{
 			if($exception instanceof ValidationException){
 				$message = $exception->validator->errors()->first();
-			}elseif($exception instanceof HttpException){
-				$message = '路由地址错误';
 			}elseif($exception instanceof NotFoundHttpException){
 				$message = '404 Not Found';
 			}elseif($exception instanceof QueryException){
