@@ -19,8 +19,8 @@ class TransferController extends CommonController {
 	 * @return array
 	 */
 	public function index(BasicRequest $request){
-		$data['user_type'] = FundUserType::where(['status'=>1])->pluck('name','id');
-		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('name','id');
+		$data['user_type'] = FundUserType::active()->pluck('name','id');
+		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
 		$data['merchant'] = FundMerchant::where(['status'=>1])->pluck('name','id');
 		$data['reason'] = FundTransferReason::where(['status'=>1])->pluck('name','reason');
 		$model = FundTransfer::select(DB::raw('*,1 as more'))->when($request->input('user_id'),function($query) use ($request){
@@ -77,8 +77,8 @@ class TransferController extends CommonController {
 	 * @return array
 	 */
 	public function reason(BasicRequest $request){
-		$data['user_type'] = FundUserType::where(['status'=>1])->pluck('name','id');
-		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('name','id');
+		$data['user_type'] = FundUserType::active()->pluck('name','id');
+		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
 		$data['merchant'] = FundMerchant::where(['status'=>1])->pluck('name','id');
 		$data['list'] = FundTransferReason::where(['merchant_id'=>$request->input('merchant_id')])
 			->when($request->input('name'),function($query) use ($request){

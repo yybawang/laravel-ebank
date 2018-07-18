@@ -39,7 +39,7 @@ class OrderController extends CommonController {
 		
 		// 钱包类型列表
 		$purse_type = collect();
-		FundPurseType::where(['status'=>1])->pluck('alias')->each(function($v) use (&$purse_type){
+		FundPurseType::active()->pluck('alias')->each(function($v) use (&$purse_type){
 			$purse_type->push('wallet_'.$v);
 		});
 		$purse_type = $purse_type->flip();

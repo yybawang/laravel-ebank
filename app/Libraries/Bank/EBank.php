@@ -37,7 +37,7 @@ class EBank {
 	 * 初始化数据，数据清空后可调用此方法重新生成系统钱包id
 	 */
 	public function init(int $balance = 100000000000000){
-		$user_type = FundUserType::where(['status'=>1])->pluck('id');
+		$user_type = FundUserType::active()->pluck('id');
 		$user_type->each(function($purse_type_id) use ($balance){
 			$wallet = $this->userWallet(0,$purse_type_id);
 			$wallet->each(function($v) use ($balance){
@@ -406,7 +406,7 @@ class EBank {
 		])->validate();
 		
 		$wallet = collect([]);
-		$purse_type = FundPurseType::where(['status'=>1])->pluck('id','alias');
+		$purse_type = FundPurseType::active()->pluck('id','alias');
 		$purse_type->each(function($purse_type_id,$purse_type_alias) use ($user_id,$user_type,&$wallet){
 			$wallet_detail = $this->userWalletDetail($user_id,$purse_type_id,$user_type);
 			$wallet->put($purse_type_alias,$wallet_detail);
@@ -475,7 +475,7 @@ class EBank {
 	 */
 	public function userType(){
 		$return = collect([]);
-		FundUserType::where(['status'=>1])->get()->each(function($v,$k) use (&$return){
+		FundUserType::active()->get()->each(function($v,$k) use (&$return){
 			$return->put($v->alias,$v);
 		});
 		return $return;
@@ -497,7 +497,7 @@ class EBank {
 	 */
 	public function purseType(){
 		$return = collect([]);
-		FundPurseType::where(['status'=>1])->get()->each(function($v,$k) use (&$return){
+		FundPurseType::active()->get()->each(function($v,$k) use (&$return){
 			$return->put($v->alias,$v);
 		});
 		return $return;

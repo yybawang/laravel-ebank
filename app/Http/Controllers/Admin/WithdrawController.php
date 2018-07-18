@@ -17,7 +17,7 @@ class WithdrawController extends CommonController {
 	 * @return array
 	 */
 	public function bank(BasicRequest $request){
-		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('id','name');
+		$data['purse_type'] = FundPurseType::active()->pluck('id','name');
 		$model = FundWithdraw::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})
@@ -43,7 +43,7 @@ class WithdrawController extends CommonController {
 	 * @return array
 	 */
 	public function alipay(BasicRequest $request){
-		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('id','name');
+		$data['purse_type'] = FundPurseType::active()->pluck('id','name');
 		$model = FundWithdrawAlipay::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})
@@ -68,7 +68,7 @@ class WithdrawController extends CommonController {
 	 * @return array
 	 */
 	public function wechat(BasicRequest $request){
-		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('id','name');
+		$data['purse_type'] = FundPurseType::active()->pluck('id','name');
 		$model = FundWithdrawWechat::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})

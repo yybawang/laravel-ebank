@@ -1,1 +1,0 @@
-{!! json_encode(json_login($msg)) !!}

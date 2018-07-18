@@ -160,6 +160,10 @@ class BankController extends CommonController {
 	public function transfer(BasicRequest $request){
 		$EBank = new EBank();
 		$transfer_ids = [];
+		request()->validate([
+			'param'		=> 'required|array',
+			'async'		=> 'integer',
+		]);
 		$posts = $request->input('param');	// 二维数组，循环一次后才是真正的参数列表
 		$async = $request->input('async');	// 是否是异步操作，异步操作无返回值
 		if($async){
@@ -169,10 +173,10 @@ class BankController extends CommonController {
 				$parent_id = 0;
 				
 				foreach($posts as $k => $post){
-					$from_user_id = $post['from_user_id'] ?? 0;
-					$to_user_id = $post['to_user_id'] ?? 0;
-					$amount = $post['amount'];
-					$reason = $post['reason'];
+					$from_user_id = $post['from_user_id'] ?: 0;
+					$to_user_id = $post['to_user_id'] ?: 0;
+					$amount = $post['amount'] ?: 0;
+					$reason = $post['reason'] ?: 0;
 					$detail = $post['detail'];
 					$remarks = $post['remarks'];
 					$transfer_ids[] = $parent_id = $EBank->transfer($from_user_id,$to_user_id,$amount,$reason,$parent_id,$detail,$remarks);

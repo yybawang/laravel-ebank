@@ -99,7 +99,12 @@ class SandboxController extends Controller
 		unset($post['key'],$post['value']);
 		foreach($keys as $k=>$v){
 			if(empty($v)) continue;
-			$post[$v] = $value[$k];
+			if(is_array($v)){
+				$v2 = array_shift($value[$k]);
+				$post[array_keys(array_slice($v[0],0,1))[0]][0][array_keys($v2)[0]] = array_shift($v2);
+			}else{
+				$post[$v] = $value[$k];
+			}
 		}
 		$data = $curl_data = $post;
 		unset($data['ebank_sign'],$data['url'],$curl_data['ebank_sign'],$curl_data['url']);
@@ -115,19 +120,17 @@ class SandboxController extends Controller
 		$this->script_log('生成sign：'.$sign);
 		// 设置sign
 		$this->script_sign($sign);
-		echo '发送的参数：';
+		echo '<strong>发送的参数：</strong>',"\n";
 		print_r($post);
 		// 执行请求
 		$sJson = $this->curlpost($curl_data);
-		echo "\n".'返回源JSON：'."\n";
+		echo "\n",'<strong>返回源JSON：</strong>',"\n";
 		print_r($sJson);
 		
 		$json = json_decode($sJson,true);
-		echo "\n".'格式化JSON：'."\n";
+		echo "\n",'<br /><strong>格式化JSON：</strong>',"\n";
 		print_r($json);
 		
-		// 设置 token
-		if($post['_cmd'] == 'user_login') $this->script_token($json['data']['ticket']);
 	}
 	
 	private function script_log($log){
@@ -137,9 +140,6 @@ class SandboxController extends Controller
 	
 	private function script_sign($sign){
 		echo '<script type="text/javascript">sign("'.$sign.'");</script>';
-	}
-	private function script_token($ticket){
-		echo '<script type="text/javascript">ticket("'.$ticket.'");</script>';
 	}
 	
 	public function curlpost($array){

@@ -16,8 +16,8 @@ class ReportController extends CommonController {
 	 * @return array
 	 */
 	public function reason(BasicRequest $request){
-		$data['user_type'] = FundUserType::where(['status'=>1])->pluck('name','id');
-		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('name','id');
+		$data['user_type'] = FundUserType::active()->pluck('name','id');
+		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
 		$data['list'] = FundTransfer::select(DB::raw('r.reason,sum(amount) amount,r.name reason_name,r.out_user_type_id,r.out_purse_type_id,r.into_user_type_id,r.into_purse_type_id,r.remarks reason_remarks'))
 			->leftJoin('fund_transfer_reason as r','r.reason','=','fund_transfer.reason')
 			->where(['fund_transfer.status'=>1])
@@ -44,8 +44,8 @@ class ReportController extends CommonController {
 	 * @return array
 	 */
 	public function purse(BasicRequest $request){
-		$user_type = FundUserType::where(['status'=>1])->pluck('name','id');
-		$purse_type = FundPurseType::where(['status'=>1])->pluck('name','id');
+		$user_type = FundUserType::active()->pluck('name','id');
+		$purse_type = FundPurseType::active()->pluck('name','id');
 		$list = [];
 		$user_type->each(function($v,$user_type_id) use (&$list,$purse_type){
 			$purse_type->each(function($v,$purse_type_id) use (&$list,$user_type_id){

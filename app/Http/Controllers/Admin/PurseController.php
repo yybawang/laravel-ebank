@@ -11,7 +11,7 @@ use App\Models\FundUserType;
 class PurseController extends CommonController {
 	// 中央银行钱包管理--无增删改
 	public function central(BasicRequest $request){
-		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('name','id');
+		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
 		$data['list'] = FundUserPurse::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})
@@ -24,7 +24,7 @@ class PurseController extends CommonController {
 	
 	// 系统钱包管理--无增删改
 	public function system(BasicRequest $request){
-		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('name','id');
+		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
 		$data['list'] = FundUserPurse::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})
@@ -37,7 +37,7 @@ class PurseController extends CommonController {
 	
 	// 用户钱包管理--无增删改
 	public function user(BasicRequest $request){
-		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('name','id');
+		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
 		$data['list'] = FundUserPurse::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})
@@ -54,7 +54,7 @@ class PurseController extends CommonController {
 	 * @return array
 	 */
 	public function freeze(BasicRequest $request){
-		$data['purse_type'] = FundPurseType::where(['status'=>1])->pluck('name','id');
+		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
 		$data['list'] = FundFreeze::orderBy('id','desc')->pages();
 		return json_success('OK',$data);
 	}
