@@ -31,9 +31,9 @@ class ApiUserTypeWalletRequest extends BasicRequest
 	
 	public function messages(){
 		return [
-			'user_type.required'		=> '用户类型参数必传',
-			'user_type.string'			=> '用户类型参数只能为字符串类型',
-			'user_type.exists'			=> '用户类型参数不存在',
+			'user_type.required'		=> '身份类型参数必传',
+			'user_type.string'			=> '身份类型参数只能为字符串类型',
+			'user_type.exists'			=> '身份类型参数不存在',
 		];
 	}
 }

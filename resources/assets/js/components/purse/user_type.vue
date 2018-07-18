@@ -51,7 +51,7 @@
 		<!--修改弹窗-->
 		<div class="mdui-dialog dialog_add">
 			<div class="mdui-dialog-title">
-				用户类型新增/修改
+				身份类型新增/修改
 			</div>
 			<div class="mdui-dialog-content">
 				<form>

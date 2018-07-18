@@ -20,13 +20,13 @@ class CreateFundTransferTable extends Migration
             $table->decimal('amount',30,0)->comment('出/进账金额');
             
             $table->integer('out_user_id')->comment('出账用户ID');
-            $table->integer('out_user_type_id')->comment('出账用户类型ID');
+            $table->integer('out_user_type_id')->comment('出账身份类型ID');
             $table->integer('out_purse_type_id')->comment('出账钱包类型ID');
             $table->integer('out_purse_id')->comment('出账钱包ID');
             $table->decimal('out_balance',30,0)->comment('出账后钱包余额');
 	
 			$table->integer('into_user_id')->comment('进账用户ID');
-			$table->integer('into_user_type_id')->comment('进账用户类型ID');
+			$table->integer('into_user_type_id')->comment('进账身份类型ID');
 			$table->integer('into_purse_type_id')->comment('进账钱包类型ID');
 			$table->integer('into_purse_id')->comment('进账钱包ID');
 			$table->decimal('into_balance',30,0)->comment('进账后钱包余额');

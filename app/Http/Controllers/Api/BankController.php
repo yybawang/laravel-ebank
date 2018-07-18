@@ -42,7 +42,7 @@ class BankController extends CommonController {
 	}
 	
 	/**
-	 * 用户类型列表
+	 * 身份类型列表
 	 * @return array
 	 */
 	public function user_type(){
@@ -62,7 +62,7 @@ class BankController extends CommonController {
 	}
 	
 	/**
-	 * 获取用户类型下的所有钱包
+	 * 获取身份类型下的所有钱包
 	 * @param ApiUserTypeWalletRequest $request
 	 * @return array
 	 */

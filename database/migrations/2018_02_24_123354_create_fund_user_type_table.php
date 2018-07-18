@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 class CreateFundUserTypeTable extends Migration
 {
     /**
-	 * 用户类型表
+	 * 身份类型表
      * Run the migrations.
      *
      * @return void

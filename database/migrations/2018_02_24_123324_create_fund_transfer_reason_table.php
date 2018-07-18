@@ -18,9 +18,9 @@ class CreateFundTransferReasonTable extends Migration
             $table->increments('id');
             $table->integer('merchant_id')->comment('所属API商户ID');
             $table->string('name')->comment('转账业务说明');
-            $table->integer('out_user_type_id')->comment('出账用户类型ID');
+            $table->integer('out_user_type_id')->comment('出账身份类型ID');
             $table->integer('out_purse_type_id')->comment('出账钱包类型ID');
-            $table->integer('into_user_type_id')->comment('进账用户类型ID');
+            $table->integer('into_user_type_id')->comment('进账身份类型ID');
             $table->integer('into_purse_type_id')->comment('进账钱包类型ID');
             $table->decimal('reason',30,0)->comment('转账reason行为代码，业务不同reason不同');
 			$table->tinyInteger('status')->comment('0无效，1有效');

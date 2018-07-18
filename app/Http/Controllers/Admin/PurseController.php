@@ -68,7 +68,7 @@ class PurseController extends CommonController {
 	}
 	
 	/**
-	 * 用户类型管理
+	 * 身份类型管理
 	 * @param BasicRequest $request
 	 * @return array
 	 */

@@ -66,7 +66,7 @@
 				<form>
 					<div class="mdui-container">
 						选择权限组：
-						<select class="mdui-select"  mdui-select v-model="form.group_id">
+						<select class="mdui-select"  v-model="form.group_id">
 							<option :value="key" v-for="(val,key) of group">{{val}}</option>
 						</select>
 					</div>

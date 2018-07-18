@@ -17,7 +17,7 @@ class CreateFundUserPurseTable extends Migration
         Schema::create('fund_user_purse', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->comment('用户ID');
-            $table->integer('user_type_id')->comment('user_type表的id，区分用户类型');
+            $table->integer('user_type_id')->comment('user_type表的id，区分身份类型');
             $table->integer('purse_type_id')->comment('purse_type表的ID，区分钱包类型');
             $table->decimal('balance',30,0)->comment('用户钱包余额，单位分');
             $table->decimal('freeze',30,0)->comment('冻结余额，单位分');

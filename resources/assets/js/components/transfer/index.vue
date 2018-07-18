@@ -17,7 +17,7 @@
 					</label>
 				</p>
 				<p>
-					用户类型：
+					身份类型：
 					<label class="mdui-checkbox" v-for="(name,id) of user_type" style="margin-right:2rem;">
 						<input type="checkbox" :value="id" v-model="keyword.user_type_id" />
 						<i class="mdui-checkbox-icon"></i>

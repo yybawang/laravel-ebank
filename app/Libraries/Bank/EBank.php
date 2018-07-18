@@ -20,13 +20,13 @@ use Illuminate\Validation\Rule;
 /**
  * 电子银行核心类
  *
- * 用户类型定死的三种类型，id 可以不固定
+ * 身份类型定死的三种类型，id 可以不固定
  * 1、中央银行
  * 2、系统银行
  * 3、用户银行
  * 可扩展其他类型，如商家
  *
- * 用户类型定死一种类型，id 可以不固定.
+ * 身份类型定死一种类型，id 可以不固定.
  * 1、现金
  */
 class EBank {
@@ -52,7 +52,7 @@ class EBank {
 	
 	
 	/**
-	 * 开始转账，使用用户类型&钱包类型别名驼峰拼接的形式解析
+	 * 开始转账，使用身份类型&钱包类型别名驼峰拼接的形式解析
 	 * 内部使用，不暴露给外部SDK
 	 * @param $name
 	 * @param $arguments
@@ -112,12 +112,12 @@ class EBank {
 			'amount.required'			=> '金额参数必传',
 			'amount.integer'			=> '金额参数只能为正整数',
 			'amount.min'				=> '金额参数只能为正整数',
-			'out_user_type.required'	=> '转出用户类型参数必传',
-			'out_user_type.exists'		=> '转出用户类型不存在',
+			'out_user_type.required'	=> '转出身份类型参数必传',
+			'out_user_type.exists'		=> '转出身份类型不存在',
 			'out_purse_type.required'	=> '转出钱包类型参数必传',
 			'out_purse_type.exists'		=> '转出钱包类型不存在',
-			'into_user_type.required'	=> '转入用户类型参数必传',
-			'into_user_type.exists'		=> '转入用户类型不存在',
+			'into_user_type.required'	=> '转入身份类型参数必传',
+			'into_user_type.exists'		=> '转入身份类型不存在',
 			'into_purse_type.required'	=> '转入钱包类型参数必传',
 			'into_purse_type.exists'	=> '转入钱包类型不存在',
 		])->validate();
@@ -141,7 +141,7 @@ class EBank {
 
 		$out_purse = $this->userWalletDetail($out_user_id,$out_purse_type_id,$out_user_type_id);
 		$into_purse = $this->userWalletDetail($into_user_id,$into_purse_type_id,$into_user_type_id);
-		// 自动生成 reason，商户为系统商户(ID:1)，格式为：业务组+出账用户类型+出账钱包类型+'2'+进账用户类型+进账钱包类型
+		// 自动生成 reason，商户为系统商户(ID:1)，格式为：业务组+出账身份类型+出账钱包类型+'2'+进账身份类型+进账钱包类型
 		$reason = $flag.str_pad($out_user_type_id,2,'0',STR_PAD_LEFT).str_pad($out_purse_type_id,2,'0',STR_PAD_LEFT).'2'.str_pad($into_user_type_id,2,'0',STR_PAD_LEFT).str_pad($into_purse_type_id,2,'0',STR_PAD_LEFT);
 		FundTransferReason::firstOrCreate(['merchant_id'=>1,'reason'=>$reason],[
 			'name'				=> $reason_name ?? '钱包内部变动，系统自动处理',
@@ -213,7 +213,7 @@ class EBank {
 		if($into_user_type_id == 1 || $into_user_type_id == 2){
 			$into_user_id = 0;
 		}
-		// 如果转账用户类型为3，则必传用户ID
+		// 如果转账身份类型为3，则必传用户ID
 		if($out_user_type_id == 3 && $out_user_id <= 0 || $into_user_type_id == 3 && $into_user_id <= 0){
 			exception('转账用户ID参数需大于0');
 		}
@@ -400,9 +400,9 @@ class EBank {
 		],[
 			'user_id.required'		=> '用户ID参数必传',
 			'user_id.integer'		=> '用户ID参数类型错误',
-			'user_type.required'	=> '用户类型参数必传',
-			'user_type.integer'		=> '用户类型参数类型错误',
-			'user_type.exists'		=> '用户类型不存在',
+			'user_type.required'	=> '身份类型参数必传',
+			'user_type.integer'		=> '身份类型参数类型错误',
+			'user_type.exists'		=> '身份类型不存在',
 		])->validate();
 		
 		$wallet = collect([]);
@@ -441,9 +441,9 @@ class EBank {
 			'purse_type.required'		=> '钱包类型ID参数必传',
 			'purse_type.integer'		=> '钱包类型ID参数类型错误',
 			'purse_type.exists'			=> '钱包类型不存在',
-			'user_type.required'		=> '用户类型参数必传',
-			'user_type.integer'			=> '用户类型参数类型错误',
-			'user_type.exists'			=> '用户类型不存在',
+			'user_type.required'		=> '身份类型参数必传',
+			'user_type.integer'			=> '身份类型参数类型错误',
+			'user_type.exists'			=> '身份类型不存在',
 		])->validate();
 		
 		// 如果是中央或系统，用户ID都是0
@@ -471,7 +471,7 @@ class EBank {
 	
 	/**
 	 * @return \Illuminate\Support\Collection
-	 * 用户类型
+	 * 身份类型
 	 */
 	public function userType(){
 		$return = collect([]);
@@ -484,7 +484,7 @@ class EBank {
 	/**
 	 * @param int $type_id
 	 * @return \Illuminate\Support\Collection
-	 * 用户类型详情
+	 * 身份类型详情
 	 */
 	public function userTypeDetail(int $type_id){
 		$return = FundUserType::findOrFail($type_id);
@@ -506,7 +506,7 @@ class EBank {
 	/**
 	 * @param int $type_id
 	 * @return \Illuminate\Support\Collection
-	 * 用户类型详情
+	 * 身份类型详情
 	 */
 	public function purseTypeDetail(int $type_id){
 		$return = FundPurseType::findOrFail($type_id);

@@ -55,9 +55,9 @@
 					<img src="../images/snow_square_tiny.png" style="height:190px;" />
 					<!-- 卡片中可以包含一个或多个菜单按钮 -->
 					<div class="mdui-card-menu">
-						<router-link :to="{path : '/logout'}">
-							<button class="mdui-btn mdui-text-color-grey" v-if="user" @click="logout">Logout</button>
-						</router-link>
+						<a target="_blank" href="//github.com/yybawang/laravel-ebank">
+							<button class="mdui-btn mdui-text-color-grey">github</button>
+						</a>
 					</div>
 					<div class="mdui-card-media-covered mdui-card-media-covered-transparent">
 						<div class="mdui-card-primary">
