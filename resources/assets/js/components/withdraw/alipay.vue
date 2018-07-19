@@ -91,6 +91,7 @@
 				purse_type : '',
 				form : '',
 				dialog : '',
+				check_all_status : false,
 				success_all_id : [],
 				keyword : {
 					page : 1,
@@ -101,8 +102,8 @@
 				},
 				status : [
 					'申请中',
-					'<span style="color:#16A05D">提现成功</span>',
-					'<span style="color:#DE5145">提现失败</span>',
+					'<span class="mdui-text-color-teal">提现成功</span>',
+					'<span class="mdui-text-color-deep-orange">提现失败</span>',
 				]
 			};
 		},
@@ -128,7 +129,8 @@
 			},
 			check_all(){
 				let t = this;
-				if(t.success_all_id.length >= t.list.data.length){
+				t.check_all_status = !t.check_all_status;
+				if(!t.check_all_status){
 					t.success_all_id = [];
 				}else{
 					let success_all_id = [];
@@ -141,7 +143,7 @@
 			success_all(){
 				let t = this;
 				mdui.confirm('确认后将从用户对应钱包扣除相应金额，确认请点击【确定】按钮', '将进行批量打款成功操作', function(){
-					let waiting = mdui.alert('请耐心等待批量作业完成，切勿关闭网页等操作。','批量处理中...',function(){},{history:false,confirmText:'',modal:true,closeOnEsc:false});
+					let waiting = mdui.alert('请耐心等待批量作业完成，切勿关闭网页等操作','批量处理中...',function(){},{history:false,confirmText:'',modal:true,closeOnEsc:false});
 					post('/withdraw/success',{id:t.success_all_id,type:'alipay'},function(){
 						t.init();
 						waiting.close();
@@ -173,12 +175,6 @@
 		mounted(){
 			let t = this;
 			t.init();
-			let tableFluidLeft = $('.table-data-fluid')[0];
-			let table_width = $('.table-data').width(),$scrollBar = $('.scrollbar');
-			$('.scrollbar-bar').width(table_width);
-			$scrollBar[0].addEventListener('scroll', function(){
-				tableFluidLeft.scrollLeft = $scrollBar[0].scrollLeft;
-			});
 		}
 	}
 </script>

@@ -24,7 +24,7 @@
 		}
 		.layout .left {
 			padding:20px 0;
-			width:670px;
+			width:720px;
 			height:80%;
 			overflow-y:auto;
 			vertical-align: top;
@@ -87,6 +87,18 @@
 			display:block;
 			line-height:25px;
 			border-bottom:1px dashed #CCC;
+		}
+		.api_lists {
+		
+		}
+		.api_lists th {
+			border-top:1px solid #000;
+			border-bottom:1px solid #000;
+		}
+		.api_lists td {
+			border-top:1px solid #000;
+			border-right:1px solid #000;
+			border-bottom:1px solid #000;
 		}
 		.api_list > .title {
 			padding:10px 0;
@@ -301,9 +313,11 @@
 	$(function(){
 		$('.param_mock input').attr('disabled',true);
 		$('.form').submit(function(){
-			var $t = $(this),action = $t.attr('action'),post = $t.serialize();
+			var $t = $(this),action = $t.attr('action'),post = $t.serialize(),rand = Math.ceil(Math.random()*100000000);
 			var $right = $('.right > pre');
+			log('开始请求');
 			$.post(action,post,function(msg){
+				log('结束请求');
 				$right.html(msg);
 			},'html');
 			return false;
@@ -329,11 +343,17 @@
 	
 	function log(log){
 		var $log = $('.footer');
-		$log.prepend('<span>'+log+'</span>');
+		$log.prepend('<span>'+log+'----'+date()+'</span>');
 	}
 	function sign(sign){
 		var $sign = $('[name=ebank_sign]');
 		$sign.val(sign);
+	}
+	function date(){
+		var d = new Date();
+		var YMDHMS = d.getFullYear() + "-" +(d.getMonth()+1) + "-" + d.getDate() + " " +
+			d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+		return YMDHMS;
 	}
 </script>
 </body>

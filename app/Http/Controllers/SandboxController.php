@@ -101,7 +101,7 @@ class SandboxController extends Controller
 			if(empty($v)) continue;
 			if(is_array($v)){
 				$v2 = array_shift($value[$k]);
-				$post[array_keys(array_slice($v[0],0,1))[0]][0][array_keys($v2)[0]] = array_shift($v2);
+				$post[array_keys($v)[0]][0][array_keys($v2)[0]] = array_shift($v2);
 			}else{
 				$post[$v] = $value[$k];
 			}
@@ -117,7 +117,7 @@ class SandboxController extends Controller
 		
 		$sign = $post['ebank_sign'] = strtolower(md5(http_build_query($data2)));	// sign 算法
 		$curl_data['ebank_sign'] = $sign;
-		$this->script_log('生成sign：'.$sign);
+		$this->script_log('生成签名：'.$sign);
 		// 设置sign
 		$this->script_sign($sign);
 		echo '<strong>发送的参数：</strong>',"\n";
@@ -134,8 +134,7 @@ class SandboxController extends Controller
 	}
 	
 	private function script_log($log){
-		$date = date('Y-m-d H:i:s');
-		echo '<script type="text/javascript">log("'.$log.'----'.$date.'");</script>';
+		echo '<script type="text/javascript">log("'.$log.'");</script>';
 	}
 	
 	private function script_sign($sign){

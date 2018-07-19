@@ -50,7 +50,7 @@
 				
 				<template v-for="(val,key,index) of list.data">
 					
-					<tr class="mdui-color-grey-200" @dblclick="val.more = !val.more" title="双击切换显示">
+					<tr class="mdui-color-grey-200" @dblclick="val.more = !val.more">
 						<td v-text="key+1"></td>
 						<td v-text="val.id"></td>
 						<td v-text="val.reason"></td>
@@ -65,7 +65,7 @@
 						<td>
 							<div class="mdui-btn-group">
 								<a class="mdui-btn mdui-ripple mdui-color-theme" v-if="val.status == 1" @click.stop="untransfer(val.id,val.amount)">单笔冲正</a>
-								<a class="mdui-btn" disabled v-if="val.status == 2">已冲正</a>
+								<a class="mdui-btn" disabled v-if="val.status == 2" mdui-tooltip="{content:'此流水已不再具有参考价值，标记为废弃，仅做记录查询用途',delay:1000}">已冲正</a>
 							</div>
 						</td>
 					</tr>
