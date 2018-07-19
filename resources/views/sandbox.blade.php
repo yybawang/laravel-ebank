@@ -337,11 +337,13 @@
 			$('[name=url]').val(url);
 			$('.param_mock').hide().find('input').attr('disabled',true);
 			$('.mock_'+tab).show().find('input').attr('disabled',false);
-			setInterval(function(){
-				$('.unified_order_no').val('sandbox'+Math.ceil(Math.random()*100000000000));
-			},5000);
 			
 		});
+		
+		
+		setInterval(function(){
+			$('.unified_order_no').val('sandbox'+Math.ceil(Math.random()*100000000000));
+		},5000);
 	});
 	
 	function log(log){
