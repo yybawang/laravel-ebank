@@ -337,7 +337,10 @@
 			$('[name=url]').val(url);
 			$('.param_mock').hide().find('input').attr('disabled',true);
 			$('.mock_'+tab).show().find('input').attr('disabled',false);
-			$('.unified_order_no').val('sandbox'+Math.random()*1000000000);
+			setInterval(function(){
+				$('.unified_order_no').val('sandbox'+Math.ceil(Math.random()*100000000000));
+			},5000);
+			
 		});
 	});
 	
