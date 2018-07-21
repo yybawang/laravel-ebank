@@ -141,8 +141,8 @@ class EBank {
 
 		$out_purse = $this->userWalletDetail($out_user_id,$out_purse_type_id,$out_user_type_id);
 		$into_purse = $this->userWalletDetail($into_user_id,$into_purse_type_id,$into_user_type_id);
-		// 自动生成 reason，商户为系统商户(ID:1)，格式为：业务组+出账身份类型+出账钱包类型+'2'+进账身份类型+进账钱包类型
-		$reason = $flag.str_pad($out_user_type_id,2,'0',STR_PAD_LEFT).str_pad($out_purse_type_id,2,'0',STR_PAD_LEFT).'2'.str_pad($into_user_type_id,2,'0',STR_PAD_LEFT).str_pad($into_purse_type_id,2,'0',STR_PAD_LEFT);
+		// 自动生成 reason，商户为系统商户(ID:1)，格式为：业务组+出账身份类型+出账钱包类型+商户ID+进账身份类型+进账钱包类型
+		$reason = $flag.str_pad($out_user_type_id,2,'0',STR_PAD_LEFT).str_pad($out_purse_type_id,2,'0',STR_PAD_LEFT).'1'.str_pad($into_user_type_id,2,'0',STR_PAD_LEFT).str_pad($into_purse_type_id,2,'0',STR_PAD_LEFT);
 		FundTransferReason::firstOrCreate(['merchant_id'=>1,'reason'=>$reason],[
 			'name'				=> $reason_name ?? '钱包内部变动，系统自动处理',
 			'out_user_type_id'	=> $out_user_type_id,

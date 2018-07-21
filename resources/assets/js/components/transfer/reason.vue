@@ -223,7 +223,7 @@
 			add_purse_change(){
 				let form = this.form;
 				if(!form.id && form.out_user_type_id && form.out_purse_type_id && form.into_user_type_id && form.into_purse_type_id){
-					form.reason = this.max + '' + form.out_user_type_id.padStart(2,'0') + '' + form.out_purse_type_id.padStart(2,'0') + '3' + form.into_user_type_id.padStart(2,'0') + '' + form.into_purse_type_id.padStart(2,'0');
+					form.reason = this.max + '' + form.out_user_type_id.padStart(2,'0') + '' + form.out_purse_type_id.padStart(2,'0') + form.merchant_id + form.into_user_type_id.padStart(2,'0') + '' + form.into_purse_type_id.padStart(2,'0');
 				}
 			},
 			init(){
