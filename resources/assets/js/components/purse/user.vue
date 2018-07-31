@@ -33,7 +33,7 @@
 				<tbody>
 				
 				<tr v-for="(val,key,index) of list.data">
-					<td v-text="key+1"></td>
+					<td v-text="'#'+(key+1)"></td>
 					<td v-text="val.id"></td>
 					<td v-text="val.user_id"></td>
 					<td v-text="purse_type[val.purse_type_id]"></td>

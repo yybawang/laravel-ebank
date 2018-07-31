@@ -401,7 +401,9 @@ var render = function() {
               return [
                 _c("tr", { class: { "mdui-color-grey-200": true } }, [
                   _c("td", [
-                    _c("span", { domProps: { textContent: _vm._s(key + 1) } })
+                    _c("span", {
+                      domProps: { textContent: _vm._s("#" + (key + 1)) }
+                    })
                   ]),
                   _vm._v(" "),
                   _c("td", [

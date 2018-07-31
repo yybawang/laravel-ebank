@@ -33,7 +33,7 @@
 				<tbody>
 				
 				<tr v-for="(val,key,index) of list.data">
-					<td v-text="key+1"></td>
+					<td v-text="'#'+(key+1)"></td>
 					<td v-text="val.key"></td>
 					<td v-text="val.value"></td>
 					<td v-text="val.tips"></td>

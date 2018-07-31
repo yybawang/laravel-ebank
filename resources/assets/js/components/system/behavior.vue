@@ -24,7 +24,7 @@
 				<tbody>
 				
 				<tr v-for="(val,key,index) of list.data">
-					<td v-text="key+1"></td>
+					<td v-text="'#'+(key+1)"></td>
 					<td v-text="val.url"></td>
 					<td v-text="val.execute_time"></td>
 					<td><a class="mdui-btn mdui-ripple mdui-color-theme" @click="detail(val)">view</a></td>

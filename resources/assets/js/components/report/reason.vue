@@ -24,7 +24,7 @@
 				<tbody>
 				
 				<tr v-for="(val,key,index) in list.data">
-					<td v-text="key+1"></td>
+					<td v-text="'#'+(key+1)"></td>
 					<td v-text="val.reason"></td>
 					<td v-text="val.reason_name"></td>
 					<td v-text="user_type[val.out_user_type_id]"></td>
@@ -73,7 +73,7 @@
 					<tbody>
 					
 					<tr v-for="(val,key,index) of dialog_list.data">
-						<td v-text="key+1"></td>
+						<td v-text="'#'+(key+1)"></td>
 						<td v-text="val.id"></td>
 						<td v-text="val.reason"></td>
 						<td v-text="val.amount"></td>

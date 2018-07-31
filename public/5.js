@@ -414,7 +414,9 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(key + 1) } }),
+                _c("td", {
+                  domProps: { textContent: _vm._s("#" + (key + 1)) }
+                }),
                 _vm._v(" "),
                 _c("td", { domProps: { textContent: _vm._s(val.id) } }),
                 _vm._v(" "),

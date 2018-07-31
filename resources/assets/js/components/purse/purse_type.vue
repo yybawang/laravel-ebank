@@ -29,7 +29,7 @@
 				<tbody>
 				
 				<tr v-for="(val,key,index) in list.data">
-					<td v-text="key+1"></td>
+					<td v-text="'#'+(key+1)"></td>
 					<td v-text="val.id"></td>
 					<td v-text="val.name"></td>
 					<td v-text="val.alias"></td>

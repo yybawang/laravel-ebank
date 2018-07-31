@@ -36,7 +36,7 @@
 				<tbody>
 				<template v-for="(val,key) in list.data">
 					<tr :class="{'mdui-color-grey-200':true}">
-						<td><span v-text="key+1"></span></td>
+						<td><span v-text="'#'+(key+1)"></span></td>
 						<td><span v-text="val.id"></span></td>
 						<td><span v-text="merchant[val.merchant_id]"></span></td>
 						<td><span v-text="val.name"></span></td>

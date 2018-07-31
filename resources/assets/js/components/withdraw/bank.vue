@@ -44,7 +44,7 @@
 				
 				<tr v-for="(val,key,index) in list.data">
 					<td><label class="mdui-checkbox"><input type="checkbox" :value="val.id" v-model="success_all_id" /><i class="mdui-checkbox-icon"></i></label></td>
-					<td v-text="key+1"></td>
+					<td v-text="'#'+(key+1)"></td>
 					<td v-text="val.id"></td>
 					<td v-text="val.user_id"></td>
 					<td v-text="val.pay_type"></td>

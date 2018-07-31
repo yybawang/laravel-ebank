@@ -210,7 +210,7 @@ var render = function() {
           "tbody",
           _vm._l(_vm.list.data, function(val, key, index) {
             return _c("tr", [
-              _c("td", { domProps: { textContent: _vm._s(key + 1) } }),
+              _c("td", { domProps: { textContent: _vm._s("#" + (key + 1)) } }),
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.reason) } }),
               _vm._v(" "),
@@ -296,7 +296,9 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.dialog_list.data, function(val, key, index) {
                     return _c("tr", [
-                      _c("td", { domProps: { textContent: _vm._s(key + 1) } }),
+                      _c("td", {
+                        domProps: { textContent: _vm._s("#" + (key + 1)) }
+                      }),
                       _vm._v(" "),
                       _c("td", { domProps: { textContent: _vm._s(val.id) } }),
                       _vm._v(" "),

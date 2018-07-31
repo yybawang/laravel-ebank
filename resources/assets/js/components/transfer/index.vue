@@ -51,7 +51,7 @@
 				<template v-for="(val,key,index) of list.data">
 					
 					<tr class="mdui-color-grey-200" @dblclick="val.more = !val.more">
-						<td v-text="key+1"></td>
+						<td v-text="'#'+(key+1)"></td>
 						<td v-text="val.id"></td>
 						<td v-text="val.reason"></td>
 						<td v-text="reason[val.reason]"></td>
