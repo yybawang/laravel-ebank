@@ -1,4 +1,4 @@
-![laravel-ebank](https://raw.githubusercontent.com/yybawang/images/master/ebank/laravel-ebank_code.png)
+![ebank](https://raw.githubusercontent.com/yybawang/images/master/ebank/laravel-ebank_code.png)
 
 
 
@@ -9,20 +9,32 @@
 
 
 
-# laravel-ebank
+# ebank
 
-> 电商类虚拟积分与聚合支付通用解决方案
+> 电商类站内虚拟积分与聚合支付通用解决方案
 
-> 项目功能基本满足使用，并流畅运行，持续更新中，如有使用方式问题可在QQ群里@群主
+> 项目功能基本满足使用，并流畅运行，持续维护中，如有使用问题可提交 issue
 
-- **已进入维护期**
-- **现已加入豪华午餐**
+
+- **已进入平滑维护期**
 - **推荐中小型项目使用**
 
 
 > 此项目完全开源且功能已完成全部代码并满足基本需求（已服务多家电商公司），会一直汲取上线项目遇到的业务等问题来优化项目，dev 分支会更新公测代码，master 分支为稳定版本，功能还在调整与完善中，但已满足中小型电商项目使用，欢迎阅读文档学习并使用
 
-> 项目使用 PHP7.1+ & Laravel5.5 & Mysql5.7+ & npm & vue2 & mdui4 搭建
+## 项目技术选型
+ 
+[PHP7.1+]("http://www.laruence.com/")
+ 
+[Laravel5.5]("https://github.com/laravel/laravel")
+
+Mysql5.7+ / MariaDB
+
+[Vue2]("https://github.com/vuejs/vue")
+
+[MDUI]("https://github.com/zdhxiong/mdui")
+
+
 
 > 项目后台使用 vue 搭建，此项目中已自带编译后前端文件
 
@@ -55,7 +67,7 @@
 - 微信APP
 - 微信刷卡(反扫)
 - 微信扫码(正扫)
-- 小程序支付
+- 微信小程序支付
 
 所有支付方式调用后返回值的使用方式可在 【[统一下单](https://doc.thinkms.com/project/1?p=5 "查看聚合支付返回参数")】 中查看即可，无需看 [laravel-pay 的文档](https://yansongda.gitbooks.io/pay/ "laravel-pay") 了<br />支持同时选择积分一起组合支付(三方支付只能一个，内部钱包可无限个)，实现积分抵扣等需求，其他三方支付需查阅源码自行封装开发
 
@@ -88,7 +100,7 @@
 
 ## 安装
 
-> 因项目中涉及大金额运算(万亿以上)，需使用 php >= 7.1.12，推荐学习并使用 docker + laradock 搭建开发环境
+> 因项目中涉及大金额运算(万亿以上，未使用 bcmath)，需使用 php >= 7.1.12，推荐学习并使用 docker + laradock 搭建开发环境，避免 php 计算整数长度问题
 
 [laradock 搭建开发、测试、生产环境](https://github.com/laradock/laradock "laradock")
 
@@ -97,27 +109,26 @@
 **Linux 下使用 Makefile 自动安装**
 
 ```
-// cd 到项目目录下运行以下命令，如遇错误，请按照报错信息修正（报无扩展，PHP版本等）
-1、cp .env.example .env
+1. cd [项目目录]
+2. cp .env.example .env
 // 连接数据库执行语句建立数据库
 CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-2、 编辑 .env 文件配置数据库、redis、SMTP 等，然后再继续执行以下命令
-3、make && make install
+3.  编辑 .env 文件配置数据库、redis、SMTP 等，然后再继续执行以下命令
+4. make && make install
 ```
 
 
 **Windows 下手动步骤安装**
 
 ```
-// cd 到项目目录下运行以下命令
-1、copy .env.example .env
+1. cd [项目目录]
+2. copy .env.example .env
 // 连接数据库执行语句建立数据库
-2、CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+3. CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 // 编辑 .env 文件配置数据库、redis、SMTP 等，然后再继续执行以下命令
-3、composer install
-4、php artisan app:install
-5、php artisan clear-compiled
+4. composer install
+5. php artisan app:install
 ```
 
 
