@@ -74,8 +74,8 @@
                 <div class="links">
                     <a href="/admin">管理后台</a>
                     <a href="/sandbox">沙盒调试</a>
-                    <a href="//doc.thinkms.com/project/1">接口文档</a>
-                    <a href="//github.com/yybawang/laravel-ebank">github</a>
+                    <a target="_blank" href="//doc.thinkms.com/project/1">接口文档</a>
+                    <a target="_blank" href="//github.com/yybawang/ebank">github</a>
                 </div>
             </div>
         </div>

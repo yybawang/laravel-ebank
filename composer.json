@@ -1,5 +1,5 @@
 {
-    "name": "yybawang/laravel-ebank",
+    "name": "yybawang/ebank",
     "description": "电商类项目站内虚拟积分与聚合支付通用解决方案",
     "keywords": ["电商", "laravel","ebank","laravel-ebank","yybawang","积分系统","聚合支付","发红包"],
     "license": "MIT",

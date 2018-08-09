@@ -55,7 +55,7 @@
 					<img src="../images/snow_square_tiny.png" style="height:190px;" />
 					<!-- 卡片中可以包含一个或多个菜单按钮 -->
 					<div class="mdui-card-menu">
-						<a target="_blank" href="//github.com/yybawang/laravel-ebank">
+						<a target="_blank" href="//github.com/yybawang/ebank">
 							<button class="mdui-btn mdui-text-color-grey">github</button>
 						</a>
 					</div>
