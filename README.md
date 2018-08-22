@@ -141,11 +141,10 @@ CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ## 未来开发计划
 
 - [x] SDK 封装，给API对接商户下发使用的请求接口请求类，位于 [app/Libraries/EBankSdk.php](https://github.com/yybawang/laravel-ebank/blob/master/app/Libraries/EBankSdk.php "查看代码") 复制任意其他php框架中都可使用，同样要求 php >= 7.1
-- [ ] 中央系统式，多项目对应多商户，积分互不干预，实现搭建一套，多项目可用(x 弃用，mysql无法支撑问题以及大量搜索和支付秘钥问题，后期坑更大)
-- [ ] 多语言
-- [ ] 国外支付接口
+- [ ] 中央系统式，多项目对应多商户，积分互不干预，实现搭建一套，多项目可用
+- [ ] 支付秘钥后台设置
 - [ ] 后台功能点说明文案
-- [ ] 对接 hhxsv5/laravel-s 可选常驻内存式部署
+- [ ] 对接 hhxsv5/laravel-s 可选常驻内存式部署，好像不成熟，有时候返回头部
 
 ## Example
 

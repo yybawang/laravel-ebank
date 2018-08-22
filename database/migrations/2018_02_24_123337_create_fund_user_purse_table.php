@@ -16,6 +16,7 @@ class CreateFundUserPurseTable extends Migration
     {
         Schema::create('fund_user_purse', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('merchant_id')->comment('商户ID，每个商户钱包不共享');
             $table->integer('user_id')->comment('用户ID');
             $table->integer('user_type_id')->comment('user_type表的id，区分身份类型');
             $table->integer('purse_type_id')->comment('purse_type表的ID，区分钱包类型');

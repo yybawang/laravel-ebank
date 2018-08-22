@@ -57,7 +57,7 @@ class InitDataSeeder extends Seeder
 			'name'		=> '授信钱包',
 			'alias'		=> 'credit',
 			'status'	=> 1,
-			'remarks'	=> '提前消费负债资金',
+			'remarks'	=> '提前消费负债资金，正数表示用户负债款',
 		]);
 		
 		

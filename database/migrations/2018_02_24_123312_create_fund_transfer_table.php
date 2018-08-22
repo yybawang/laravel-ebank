@@ -16,6 +16,7 @@ class CreateFundTransferTable extends Migration
     {
         Schema::create('fund_transfer', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('merchant_id')->comment('商户ID');
             $table->integer('reason')->comment('转账reason，业务不同reason不同');
             $table->decimal('amount',30,0)->comment('出/进账金额');
             

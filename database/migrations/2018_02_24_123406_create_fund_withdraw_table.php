@@ -16,6 +16,7 @@ class CreateFundWithdrawTable extends Migration
     {
         Schema::create('fund_withdraw', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('merchant_id')->comment('提现发起商户ID');
             $table->integer('user_id')->comment('提现人用户ID');
             $table->string('purse',50)->comment('出账钱包类型，对应 purse_type 的 alias');
             $table->string('pay_type',40)->comment('结算类型，可存中文，即时到账、T+1、T+2等');
@@ -30,6 +31,11 @@ class CreateFundWithdrawTable extends Migration
 			$table->tinyInteger('status')->comment('0申请中，1打款成功，2申请拒绝');
 			$table->string('remarks')->nullable();
             $table->timestamps();
+            
+            $table->index(['user_id'],'user_id');
+            $table->index(['realname'],'realname');
+            $table->index(['bank_no'],'bank_no');
+            $table->index(['pay_type'],'pay_type');
         });
     }
 
