@@ -3,6 +3,7 @@
 use App\Models\FundAdmin;
 use App\Models\FundAdminGroup;
 use App\Models\FundMerchant;
+use App\Models\FundMerchantGroup;
 use App\Models\FundPurseType;
 use App\Models\FundTransferReason;
 use App\Models\FundUserType;
@@ -31,6 +32,12 @@ class InitDataSeeder extends Seeder
 			'realname'	=> '系统管理员',
 			'group_id'	=> 1,
 			'status'	=> 1,
+		]);
+		
+		FundMerchantGroup::create([
+			'name'		=> '系统商户分组',
+			'status'	=> 1,
+			'remarks'	=> '系统保留商户分组',
 		]);
 		
 		FundMerchant::create([

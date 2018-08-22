@@ -41,6 +41,10 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	});
 	
 	Route::prefix('merchant')->name('admin.接口商户管理.')->group(function(){
+		Route::get('group','MerchantController@group')->name('menu.商户分组');
+		Route::post('group','MerchantController@group_add');
+		Route::delete('group','MerchantController@group_delete');
+		Route::get('group_detail','MerchantController@group_detail');
 		Route::get('/','MerchantController@index')->name('menu.商户列表');
 		Route::post('/','MerchantController@add');
 		Route::delete('/','MerchantController@delete');

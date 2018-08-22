@@ -29,13 +29,13 @@ export default new VueRouter({
 			component: resolve => void(require(['../components/index/sysinfo.vue'], resolve))
 		},
 		{
+			path: '/merchant/group',
+			component: resolve => void(require(['../components/merchant/group.vue'], resolve))
+		},
+		{
 			path: '/merchant',
 			component: resolve => void(require(['../components/merchant/index.vue'], resolve))
 		},
-		// {
-		// 	path: '/merchant/api',
-		// 	component: resolve => void(require(['../components/merchant/index.vue'], resolve))
-		// },
 		{
 			path: '/transfer',
 			component: resolve => void(require(['../components/transfer/index.vue'], resolve))

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\BasicRequest;
 use App\Models\FundMerchant;
+use App\Models\FundMerchantGroup;
 
 class MerchantController extends CommonController {
 	
@@ -55,4 +56,43 @@ class MerchantController extends CommonController {
 		return json_return($var);
 	}
 	
+	
+	public function group(BasicRequest $request){
+		$data = FundMerchantGroup::when($request->input('name'),function($query) use ($request){
+			$query->where('name','like','%'.$request->input('name').'%');
+		})
+			->when($request->input('date'),function($query) use ($request){
+				$query->where('created_at','>',$request->input('date.0').' 00:00:00')->where('created_at','<=',$request->input('date.1').' 23:59:59');
+			})
+			->orderBy('id','desc')
+			->pages();
+		return json_success('OK',$data);
+	}
+	
+	public function group_detail(BasicRequest $request){
+		$id = $request->input('id');
+		$data = FundMerchantGroup::firstOrNew(['id'=>$id],
+			[
+				'name'		=> '',
+				'status'	=> 1,
+				'remarks'	=> '',
+			]
+		);
+		return json_success('OK',$data);
+	}
+	
+	public function group_add(BasicRequest $request){
+		request()->validate([
+			'name'	=> 'required',
+		]);
+		$post = $request->all();
+		$id = FundMerchantGroup::updateOrCreate(['id'=>$post['id']],$post)->id;
+		return json_return($id,'','',['id'=>$id]);
+	}
+	
+	public function group_delete(BasicRequest $request){
+		$id = $request->input('id');
+		$var = FundMerchantGroup::destroy($id);
+		return json_return($var);
+	}
 }
