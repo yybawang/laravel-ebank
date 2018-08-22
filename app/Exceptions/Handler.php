@@ -52,7 +52,6 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-		
 		if (app()->bound('sentry') && $this->shouldReport($exception)) {
 			app('sentry')->captureException($exception);
 		}
@@ -97,36 +96,5 @@ class Handler extends ExceptionHandler
 			}
 			return response()->json(json_error($message),200,['Content-type'=>'Application/json']);
 		}
-//		logger($request->all());
-//		logger($exception->getMessage());
-//		logger($exception->getTraceAsString());
-//		if($exception instanceof QueryException || $exception instanceof ModelNotFoundException){
-//			if(config('basic.test')){
-//				return SymfonyResponse::create(json_encode(json_error($exception->getMessage())),200,['Content-type'=>'Application/json']);
-//			}else{
-//				logger('API 数据参数错误：错误信息'.$exception->getMessage());
-//				logger($request->all());
-//				return SymfonyResponse::create(json_encode(json_error('数据参数错误，如有疑问请联系管理员')),200,['Content-type'=>'Application/json']);
-//			}
-//		}elseif($exception instanceof NotFoundHttpException){
-//			return SymfonyResponse::create(json_encode(json_error('HTTP 路由请求异常')),200,['Content-type'=>'Application/json']);
-//		}elseif($exception instanceof NotLoginException){
-//			return SymfonyResponse::create(json_encode(json_login($exception->getMessage())),200,['Content-type'=>'Application/json']);
-//		}elseif($exception instanceof ApiException){
-//			return SymfonyResponse::create(json_encode(json_error($exception->getMessage())),200,['Content-type'=>'Application/json']);
-//		}else
-//		if($exception instanceof ValidationException){
-//			$message = $exception->validator->errors()->first();
-//			return SymfonyResponse::create(json_encode(json_error($message)),200,['Content-type'=>'Application/json']);
-//		}elseif($exception instanceof MethodNotAllowedHttpException){
-//			return SymfonyResponse::create(json_encode(json_error('非法HTTP请求类型')),200,['Content-type'=>'Application/json']);
-//		}
-////		elseif($exception instanceof HttpException){
-////			return parent::render($request, $exception);
-////		}
-//		else{
-//			return SymfonyResponse::create(json_encode(json_error($exception->getMessage())),200,['Content-type'=>'Application/json']);
-//		}
-    
     }
 }
