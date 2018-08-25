@@ -16,7 +16,7 @@ class CreateFundConfigTable extends Migration
     {
         Schema::create('fund_config', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('key')->comment('配置键');
+            $table->string('key',191)->comment('配置键');
             $table->text('value')->comment('配置值');
             $table->string('tips')->comment('配置提示');
             $table->integer('rank')->comment('排序，越小越靠前');

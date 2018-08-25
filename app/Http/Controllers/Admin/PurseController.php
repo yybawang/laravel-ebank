@@ -4,45 +4,47 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\BasicRequest;
 use App\Libraries\Bank\EBank;
 use App\Models\FundFreeze;
+use App\Models\FundMerchant;
 use App\Models\FundPurseType;
 use App\Models\FundUserPurse;
 use App\Models\FundUserType;
 
 class PurseController extends CommonController {
-	// 中央银行钱包管理--无增删改
-	public function central(BasicRequest $request){
-		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
-		$data['list'] = FundUserPurse::when($request->input('user_id'),function($query) use ($request){
-			$query->where('user_id','like','%'.$request->input('user_id').'%');
-		})
-			->when($request->input('purse_type_id'),function($query) use ($request){
-				$query->whereIn('purse_type_id',$request->input('purse_type_id'));
-			})
-			->where(['user_id'=>0,'user_type_id'=>1])->orderBy('user_id','desc')->pages();
-		return json_success('OK',$data);
-	}
 	
-	// 系统钱包管理--无增删改
-	public function system(BasicRequest $request){
-		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
-		$data['list'] = FundUserPurse::when($request->input('user_id'),function($query) use ($request){
-			$query->where('user_id','like','%'.$request->input('user_id').'%');
+	// 中央银行钱包管理--无增删改
+	public function purse(BasicRequest $request){
+		$data['purse_type'] = FundPurseType::pluck('name','id');
+		$data['user_type'] = FundUserType::pluck('name','id');
+		$data['merchant'] = FundMerchant::pluck('name','id');
+		$data['list'] = FundUserPurse::when($request->input('merchant_id'),function($query) use ($request){
+			$query->where('merchant_id',$request->input('merchant_id'));
 		})
+			->when($request->input('user_id'),function($query) use ($request){
+				$query->where('user_id','like','%'.$request->input('user_id').'%');
+			})
 			->when($request->input('purse_type_id'),function($query) use ($request){
 				$query->whereIn('purse_type_id',$request->input('purse_type_id'));
 			})
-			->where(['user_id'=>0,'user_type_id'=>2])->orderBy('user_id','desc')->pages();
+			->when($request->input('user_type_id'),function($query) use ($request){
+				$query->whereIn('user_type_id',$request->input('user_type_id'));
+			})
+			->where(['user_id' => 0])
+			->orderBy('user_id','desc')->pages();
 		return json_success('OK',$data);
 	}
 	
 	// 用户钱包管理--无增删改
 	public function user(BasicRequest $request){
 		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
+		$data['merchant'] = FundMerchant::pluck('name','id');
 		$data['list'] = FundUserPurse::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})
 			->when($request->input('purse_type_id'),function($query) use ($request){
 				$query->whereIn('purse_type_id',$request->input('purse_type_id'));
+			})
+			->when($request->input('merchant_id'),function($query) use ($request){
+				$query->whereIn('merchant_id',$request->input('merchant_id'));
 			})
 			->where(['user_type_id'=>3])->where('user_id','>',0)->orderBy('user_id','desc')->orderBy('purse_type_id','asc')->pages();
 		return json_success('OK',$data);

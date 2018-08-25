@@ -16,6 +16,7 @@ use App\Http\Requests\ApiUserWalletRequest;
 use App\Http\Requests\BasicRequest;
 use App\Jobs\Transfer;
 use App\Libraries\Bank\EBank;
+use App\Models\FundMerchant;
 use App\Models\FundUserType;
 use Illuminate\Support\Facades\DB;
 
@@ -80,10 +81,12 @@ class BankController extends CommonController {
 	 * @return array
 	 */
 	public function central_wallet(BasicRequest $request){
+		$appid = $request->input('ebank_appid');
 		$user_type = 'central';
+		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
 		$EBank = new EBank();
 		$user_type_id = FundUserType::where(['alias'=>$user_type])->value('id');
-		$data = $EBank->userWallet(0,$user_type_id);
+		$data = $EBank->userWallet(0,$user_type_id,$merchant_id);
 		return json_success('OK',$data);
 	}
 	
@@ -93,10 +96,12 @@ class BankController extends CommonController {
 	 * @return array
 	 */
 	public function system_wallet(BasicRequest $request){
+		$appid = $request->input('ebank_appid');
 		$user_type = 'system';
+		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
 		$EBank = new EBank();
 		$user_type_id = FundUserType::where(['alias'=>$user_type])->value('id');
-		$data = $EBank->userWallet(0,$user_type_id);
+		$data = $EBank->userWallet(0,$user_type_id,$merchant_id);
 		return json_success('OK',$data);
 	}
 	
@@ -106,9 +111,11 @@ class BankController extends CommonController {
 	 * @return array
 	 */
 	public function user_wallet(ApiUserWalletRequest $request){
+		$appid = $request->input('ebank_appid');
 		$user_id = $request->input('user_id');
+		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
 		$EBank = new EBank();
-		$data = $EBank->userWallet($user_id);
+		$data = $EBank->userWallet($user_id,3,$merchant_id);
 		return json_success('OK',$data);
 	}
 	
@@ -166,10 +173,13 @@ class BankController extends CommonController {
 		]);
 		$posts = $request->input('param');	// 二维数组，循环一次后才是真正的参数列表
 		$async = $request->input('async');	// 是否是异步操作，异步操作无返回值
+		$appid = $request->input('ebank_appid');	// 是否是异步操作，异步操作无返回值
+		
+		$merchant_id = FundMerchant::where(['appid' => $appid])->value('id');
 		if($async){
 			Transfer::dispatch($posts)->onQueue('transfer');
 		}else{
-			DB::transaction(function() use (&$transfer_ids,$EBank,$posts){
+			DB::transaction(function() use (&$transfer_ids,$EBank,$posts,$merchant_id){
 				$parent_id = 0;
 				
 				foreach($posts as $k => $post){
@@ -179,7 +189,7 @@ class BankController extends CommonController {
 					$reason = $post['reason'] ?: 0;
 					$detail = $post['detail'];
 					$remarks = $post['remarks'];
-					$transfer_ids[] = $parent_id = $EBank->transfer($from_user_id,$to_user_id,$amount,$reason,$parent_id,$detail,$remarks);
+					$transfer_ids[] = $parent_id = $EBank->transfer($merchant_id,$from_user_id,$to_user_id,$amount,$reason,$parent_id,$detail,$remarks);
 				}
 			});
 		}

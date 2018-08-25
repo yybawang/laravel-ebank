@@ -19,7 +19,7 @@ class ExportController extends CommonController
 			$request->where('name','like','%'.$request->input('name').'%');
 		})
 			->when($request->input('date'),function($query) use ($request){
-				$query->where('created_at','>',$request->input('date')[0].' 00:00:00')->where('created_at','<=',$request->input('date')[1].' 23:59:59');
+				$query->where('created_at','>',$request->input('date.0').' 00:00:00')->where('created_at','<=',$request->input('date.1').' 23:59:59');
 			})
 			->when($request->input('date_end'),function($query) use ($request){
 				$query->where('created_at','<=',$request->input('date_end').' 23:59:59');

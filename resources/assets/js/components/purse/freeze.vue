@@ -2,14 +2,20 @@
 	<div class="purse_freeze">
 		<div class="mdui-typo">
 			<blockquote class="blockquote_normal">
-				冻结ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.id" />
-				钱包类型：
-				<label class="mdui-checkbox" v-for="(name,id) of purse_type" style="margin-right:2rem;">
-					<input type="checkbox" :value="id" v-model="keyword.purse_type_id" />
-					<i class="mdui-checkbox-icon"></i>
-					{{name}}
-				</label>
-				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
+				<p>
+					冻结ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.id" />
+				</p>
+				<p>
+					钱包类型：
+					<label class="mdui-checkbox" v-for="(name,id) of purse_type" style="margin-right:2rem;">
+						<input type="checkbox" :value="id" v-model="keyword.purse_type_id" />
+						<i class="mdui-checkbox-icon"></i>
+						{{name}}
+					</label>
+				</p>
+				<p>
+					<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
+				</p>
 			</blockquote>
 		</div>
 		<div class="mdui-table-fluid">

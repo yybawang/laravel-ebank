@@ -24,6 +24,14 @@
 						{{name}}
 					</label>
 				</p>
+				<p>
+					商户：
+					<label class="mdui-checkbox" v-for="(name,id) of merchant" style="margin-right:2rem;">
+						<input type="checkbox" :value="id" v-model="keyword.merchant_id" />
+						<i class="mdui-checkbox-icon"></i>
+						{{name}}
+					</label>
+				</p>
 				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
 				<a class="mdui-btn mdui-ripple mdui-color-pink" @click="exports"><i class="mdui-icon mdui-icon-left material-icons">file_upload</i>导出</a>
 			</blockquote>
@@ -33,12 +41,12 @@
 				<thead>
 				<tr>
 					<th>#</th>
+					<th>商户</th>
 					<th>转账ID</th>
 					<th>转账reason</th>
 					<th>reason说明</th>
 					<th>转账金额(分)</th>
 					
-					<th>状态</th>
 					<!--<th>上级ID</th>-->
 					<!--<th>详情</th>-->
 					<th>创建时间</th>
@@ -52,12 +60,12 @@
 					
 					<tr class="mdui-color-grey-200" @dblclick="val.more = !val.more">
 						<td v-text="'#'+(key+1)"></td>
+						<td v-html="merchant[val.merchant_id]"></td>
 						<td v-text="val.id"></td>
 						<td v-text="val.reason"></td>
 						<td v-text="reason[val.reason]"></td>
 						<td v-text="val.amount"></td>
 						
-						<td v-html="status[val.status]"></td>
 						<!--<td v-text="val.parent_id"></td>-->
 						<!--<td v-text="val.detail"></td>-->
 						<td v-text="val.created_at"></td>
@@ -65,7 +73,7 @@
 						<td>
 							<div class="mdui-btn-group">
 								<a class="mdui-btn mdui-ripple mdui-color-theme" v-if="val.status == 1" @click.stop="untransfer(val.id,val.amount)">单笔冲正</a>
-								<a class="mdui-btn" disabled v-if="val.status == 2" mdui-tooltip="{content:'此流水已不再具有参考价值，标记为废弃，仅做记录查询用途',delay:1000}">已冲正</a>
+								<a class="mdui-btn" disabled v-if="val.status == 2" mdui-tooltip="{content:'此流水已不再具有参考价值，标记为废弃，仅做记录查询用途',delay:500}">已冲正</a>
 							</div>
 						</td>
 					</tr>
@@ -115,6 +123,7 @@
 				list : [],
 				purse_type : '',
 				user_type : '',
+				merchant : '',
 				reason : '',
 				keyword : {
 					page : 1,
@@ -123,13 +132,9 @@
 					reason : '',
 					purse_type_id : [],
 					user_type_id : [],
+					merchant_id : [],
 					date : [],
 				},
-				status : [
-					'无效状态0',
-					'有效',
-					'<span class="mdui-text-color-deep-orange">已冲正</span>',
-				]
 			};
 		},
 		methods : {
@@ -159,6 +164,7 @@
 					t.list = data.list;
 					t.purse_type = data.purse_type;
 					t.user_type = data.user_type;
+					t.merchant = data.merchant;
 					t.reason = data.reason;
 					if(t.keyword.export){
 						mdui.alert('可在左侧【导出任务】菜单查看任务状态并下载文件','已放入导出任务',function(){},{history:false});

@@ -1,1 +1,1015 @@
-webpackJsonp([6],{305:function(t,e,a){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={data:function(){return{list:[],user_type:"",purse_type:"",merchant:"",form:"",max:1e3,dialog:"",keyword:{page:1,name:"",merchant_id:1,reason:""}}},watch:{"form.out_user_type_id":function(t,e){this.add_purse_change()},"form.out_purse_type_id":function(t,e){this.add_purse_change()},"form.into_user_type_id":function(t,e){this.add_purse_change()},"form.into_purse_type_id":function(t,e){this.add_purse_change()}},methods:{add:function(t){var e=this;e.dialog.open(),get("/transfer/reason_detail",{id:t},function(t){e.form=t.detail,e.max=t.max})},add_submit:function(){var t=this;post("/transfer/reason",t.form,function(){t.dialog.close(),t.init()})},del:function(t){function e(e){return t.apply(this,arguments)}return e.toString=function(){return t.toString()},e}(function(t){var e=this;mdui.confirm("删除后数据不可恢复，确认删除请点击【确定】按钮","确认？",function(){del("/transfer/reason",{id:t},function(){e.init()})},function(){},{history:!1,confirmText:"确定",cancelText:"取消"})}),search:function(t){this.keyword.page=t,this.init()},tab_change:function(t){this.keyword.page=1,this.keyword.merchant_id=t,this.init()},add_purse_change:function(){var t=this.form;!t.id&&t.out_user_type_id&&t.out_purse_type_id&&t.into_user_type_id&&t.into_purse_type_id&&(t.reason=this.max+""+t.out_user_type_id.padStart(2,"0")+t.out_purse_type_id.padStart(2,"0")+t.merchant_id+t.into_user_type_id.padStart(2,"0")+t.into_purse_type_id.padStart(2,"0"))},init:function(){var t=this;get("/transfer/reason",t.keyword,function(e){t.list=e.list,t.merchant=e.merchant,t.user_type=e.user_type,t.purse_type=e.purse_type,setTimeout(function(){$(".mdui-tab").mutation()},0)})}},mounted:function(){this.dialog=new mdui.Dialog(".dialog_add",{history:!1}),this.init()}}},306:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,a=t._self._c||e;return a("div",{staticClass:"transfer_reason"},[a("div",{staticClass:"mdui-typo"},[a("blockquote",{staticClass:"blockquote_normal"},[a("a",{staticClass:"mdui-btn mdui-ripple mdui-color-theme",on:{click:function(e){t.add(0)}}},[a("i",{staticClass:"mdui-icon mdui-icon-left material-icons"},[t._v("add")]),t._v("添加")])]),t._v(" "),a("div",{staticClass:"mdui-divider"}),t._v(" "),a("blockquote",{staticClass:"blockquote_normal"},[a("p",[t._v("\n\t\t\t\t转账行为名称："),a("input",{directives:[{name:"model",rawName:"v-model",value:t.keyword.name,expression:"keyword.name"}],staticClass:"mdui-textfield-input input_normal",attrs:{type:"text"},domProps:{value:t.keyword.name},on:{input:function(e){e.target.composing||t.$set(t.keyword,"name",e.target.value)}}}),t._v("\n\t\t\t\treason："),a("input",{directives:[{name:"model",rawName:"v-model",value:t.keyword.reason,expression:"keyword.reason"}],staticClass:"mdui-textfield-input input_normal",attrs:{type:"text"},domProps:{value:t.keyword.reason},on:{input:function(e){e.target.composing||t.$set(t.keyword,"reason",e.target.value)}}})]),t._v(" "),a("a",{staticClass:"mdui-btn mdui-ripple mdui-color-theme",on:{click:function(e){t.search(1)}}},[a("i",{staticClass:"mdui-icon mdui-icon-left material-icons"},[t._v("search")]),t._v("搜索")])])]),t._v(" "),a("div",{staticClass:"mdui-tab",attrs:{"mdui-tab":""}},t._l(t.merchant,function(e,i,s){return a("a",{class:{"mdui-btn":!0,"mdui-ripple":!0,"mdui-tab-active":0==s},attrs:{href:"#tab_"+s},domProps:{textContent:t._s(e)},on:{click:function(e){t.tab_change(i)}}})})),t._v(" "),a("div",{staticClass:"mdui-table-fluid"},[a("table",{staticClass:"mdui-table mdui-table-hoverable"},[t._m(0),t._v(" "),a("tbody",[t._l(t.list.data,function(e,i){return[a("tr",{class:{"mdui-color-grey-200":!0}},[a("td",[a("span",{domProps:{textContent:t._s("#"+(i+1))}})]),t._v(" "),a("td",[a("span",{domProps:{textContent:t._s(e.id)}})]),t._v(" "),a("td",[a("span",{domProps:{textContent:t._s(t.merchant[e.merchant_id])}})]),t._v(" "),a("td",[a("span",{domProps:{textContent:t._s(e.name)}})]),t._v(" "),a("td",[a("span",{domProps:{textContent:t._s(e.reason)}})]),t._v(" "),a("td",[a("span",{domProps:{textContent:t._s(e.created_at)}})]),t._v(" "),a("td",[a("span",{domProps:{textContent:t._s(e.updated_at)}})]),t._v(" "),a("td",[a("div",{staticClass:"mdui-btn-group"},[a("a",{staticClass:"mdui-btn mdui-ripple mdui-color-theme",on:{click:function(a){t.add(e.id)}}},[t._v("修改")]),t._v(" "),a("a",{staticClass:"mdui-btn mdui-ripple mdui-color-deep-orange",on:{click:function(a){t.del(e.id)}}},[t._v("删除")])])])]),t._v(" "),a("tr",[a("td"),t._v(" "),a("td",[t._v("出账身份："),a("span",{staticClass:"mdui-text-color-deep-orange"},[t._v(t._s(t.user_type[e.out_user_type_id]))])]),t._v(" "),a("td",[t._v("出账钱包："),a("span",{staticClass:"mdui-text-color-deep-orange"},[t._v(t._s(t.purse_type[e.out_purse_type_id]))])]),t._v(" "),a("td",[t._v("进账身份："),a("span",{staticClass:"mdui-text-color-teal"},[t._v(t._s(t.user_type[e.into_user_type_id]))])]),t._v(" "),a("td",[t._v("进账钱包："),a("span",{staticClass:"mdui-text-color-teal"},[t._v(t._s(t.purse_type[e.into_purse_type_id]))])]),t._v(" "),a("td",[t._v("状态："),e.status?a("span",{staticClass:"mdui-text-color-green"},[t._v("启用")]):a("span",{staticClass:"mdui-text-color-red"},[t._v("禁用")])]),t._v(" "),a("td",{attrs:{colspan:"2"}},[t._v("备注："),a("span",{domProps:{textContent:t._s(e.remarks)}})])])]})],2)])]),t._v(" "),a("div",{staticClass:"mdui-dialog dialog_add"},[a("div",{staticClass:"mdui-dialog-title"},[t._v("\n\t\t\t转账 reason 新增/修改\n\t\t")]),t._v(" "),a("div",{staticClass:"mdui-dialog-content"},[a("form",[a("div",{staticClass:"mdui-container"},[t._v("\n\t\t\t\t\t所属商户：\n\t\t\t\t\t"),a("select",{directives:[{name:"model",rawName:"v-model",value:t.form.merchant_id,expression:"form.merchant_id"}],staticClass:"mdui-select",on:{change:function(e){var a=Array.prototype.filter.call(e.target.options,function(t){return t.selected}).map(function(t){return"_value"in t?t._value:t.value});t.$set(t.form,"merchant_id",e.target.multiple?a:a[0])}}},t._l(t.merchant,function(e,i){return a("option",{domProps:{value:i}},[t._v(t._s(e))])}))]),t._v(" "),a("div",{staticClass:"mdui-container"},[a("div",{staticClass:"mdui-textfield"},[a("label",{staticClass:"mdui-textfield-label"},[t._v("转账行为名称")]),t._v(" "),a("input",{directives:[{name:"model",rawName:"v-model",value:t.form.name,expression:"form.name"}],staticClass:"mdui-textfield-input",attrs:{type:"text",placeholder:"中文备注，用户查看流水时展示文案"},domProps:{value:t.form.name},on:{input:function(e){e.target.composing||t.$set(t.form,"name",e.target.value)}}})])]),t._v(" "),a("div",{staticClass:"mdui-container mdui-p-y-2"},[t._v("\n\t\t\t\t\t出账身份类型：\n\t\t\t\t\t"),a("select",{directives:[{name:"model",rawName:"v-model",value:t.form.out_user_type_id,expression:"form.out_user_type_id"}],staticClass:"mdui-select",on:{change:function(e){var a=Array.prototype.filter.call(e.target.options,function(t){return t.selected}).map(function(t){return"_value"in t?t._value:t.value});t.$set(t.form,"out_user_type_id",e.target.multiple?a:a[0])}}},t._l(t.user_type,function(e,i){return a("option",{domProps:{value:i}},[t._v(t._s(e))])})),t._v("\n\t\t\t\t\t　　　　\n\t\t\t\t\t出账钱包类型：\n\t\t\t\t\t"),a("select",{directives:[{name:"model",rawName:"v-model",value:t.form.out_purse_type_id,expression:"form.out_purse_type_id"}],staticClass:"mdui-select",on:{change:function(e){var a=Array.prototype.filter.call(e.target.options,function(t){return t.selected}).map(function(t){return"_value"in t?t._value:t.value});t.$set(t.form,"out_purse_type_id",e.target.multiple?a:a[0])}}},t._l(t.purse_type,function(e,i){return a("option",{domProps:{value:i}},[t._v(t._s(e))])}))]),t._v(" "),a("div",{staticClass:"mdui-container mdui-p-y-2"},[t._v("\n\t\t\t\t\t进账身份类型：\n\t\t\t\t\t"),a("select",{directives:[{name:"model",rawName:"v-model",value:t.form.into_user_type_id,expression:"form.into_user_type_id"}],staticClass:"mdui-select",on:{change:function(e){var a=Array.prototype.filter.call(e.target.options,function(t){return t.selected}).map(function(t){return"_value"in t?t._value:t.value});t.$set(t.form,"into_user_type_id",e.target.multiple?a:a[0])}}},t._l(t.user_type,function(e,i){return a("option",{domProps:{value:i}},[t._v(t._s(e))])})),t._v("\n\t\t\t\t\t　　　　\n\t\t\t\t\t进账钱包类型：\n\t\t\t\t\t"),a("select",{directives:[{name:"model",rawName:"v-model",value:t.form.into_purse_type_id,expression:"form.into_purse_type_id"}],staticClass:"mdui-select",on:{change:function(e){var a=Array.prototype.filter.call(e.target.options,function(t){return t.selected}).map(function(t){return"_value"in t?t._value:t.value});t.$set(t.form,"into_purse_type_id",e.target.multiple?a:a[0])}}},t._l(t.purse_type,function(e,i){return a("option",{domProps:{value:i}},[t._v(t._s(e))])}))]),t._v(" "),a("div",{staticClass:"mdui-container"},[a("div",{staticClass:"mdui-textfield"},[a("label",{staticClass:"mdui-textfield-label"},[t._v("reason 代码")]),t._v(" "),a("input",{directives:[{name:"model",rawName:"v-model",value:t.form.reason,expression:"form.reason"}],staticClass:"mdui-textfield-input",attrs:{type:"text",placeholder:"新增时自动生成"},domProps:{value:t.form.reason},on:{input:function(e){e.target.composing||t.$set(t.form,"reason",e.target.value)}}})])]),t._v(" "),a("div",{staticClass:"mdui-container"},[a("label",{staticClass:"mdui-radio"},[a("input",{directives:[{name:"model",rawName:"v-model",value:t.form.status,expression:"form.status"}],attrs:{type:"radio",name:"status",value:"1"},domProps:{checked:!!t.form.status,checked:t._q(t.form.status,"1")},on:{change:function(e){t.$set(t.form,"status","1")}}}),t._v(" "),a("i",{staticClass:"mdui-radio-icon"}),t._v("\n\t\t\t\t\t\t启用\n\t\t\t\t\t")])]),t._v(" "),a("div",{staticClass:"mdui-container"},[a("label",{staticClass:"mdui-radio"},[a("input",{directives:[{name:"model",rawName:"v-model",value:t.form.status,expression:"form.status"}],attrs:{type:"radio",name:"status",value:"0"},domProps:{checked:!t.form.status,checked:t._q(t.form.status,"0")},on:{change:function(e){t.$set(t.form,"status","0")}}}),t._v(" "),a("i",{staticClass:"mdui-radio-icon"}),t._v("\n\t\t\t\t\t\t禁用\n\t\t\t\t\t")])]),t._v(" "),a("div",{staticClass:"mdui-container"},[a("div",{staticClass:"mdui-textfield"},[a("label",{staticClass:"mdui-textfield-label"},[t._v("备注")]),t._v(" "),a("input",{directives:[{name:"model",rawName:"v-model",value:t.form.remarks,expression:"form.remarks"}],staticClass:"mdui-textfield-input",attrs:{type:"text",placeholder:"后台详细备注"},domProps:{value:t.form.remarks},on:{input:function(e){e.target.composing||t.$set(t.form,"remarks",e.target.value)}}})])])])]),t._v(" "),a("div",{staticClass:"mdui-dialog-actions"},[a("a",{staticClass:"mdui-btn mdui-ripple",attrs:{"mdui-dialog-close":""}},[t._v("取消")]),t._v(" "),a("a",{staticClass:"mdui-btn mdui-ripple mdui-color-theme",on:{click:t.add_submit}},[t._v("提交")])])]),t._v(" "),a("div",{staticClass:"mdui-color-white footer"},[a("pagination",{attrs:{pageInfo:{total:t.list.total,current:t.list.current_page,pagenum:t.list.per_page,page:t.list.last_page,pagegroup:9,skin:"#2196F3"}},on:{change:t.search}})],1)])},staticRenderFns:[function(){var t=this,e=t.$createElement,a=t._self._c||e;return a("thead",[a("tr",[a("th",[t._v("#")]),t._v(" "),a("th",[t._v("ID")]),t._v(" "),a("th",[t._v("所属商户")]),t._v(" "),a("th",[t._v("转账行为名称")]),t._v(" "),a("th",[t._v("reason 代码")]),t._v(" "),a("th",[t._v("创建时间")]),t._v(" "),a("th",[t._v("修改时间")]),t._v(" "),a("th",[t._v("操作")])])])}]}},348:function(t,e,a){var i=a(1)(a(305),a(306),!1,null,null,null);t.exports=i.exports}});
+webpackJsonp([6],{
+
+/***/ 331:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			list: [],
+			user_type: '',
+			purse_type: '',
+			merchant: '',
+			form: '',
+			max: 1000, // 自动生成reason需要
+			dialog: '',
+			keyword: {
+				page: 1,
+				name: '',
+				merchant_id: 1,
+				reason: ''
+			}
+		};
+	},
+
+	watch: {
+		'form.out_user_type_id': function formOut_user_type_id(n, old) {
+			this.add_purse_change();
+		},
+		'form.out_purse_type_id': function formOut_purse_type_id(n, old) {
+			this.add_purse_change();
+		},
+		'form.into_user_type_id': function formInto_user_type_id(n, old) {
+			this.add_purse_change();
+		},
+		'form.into_purse_type_id': function formInto_purse_type_id(n, old) {
+			this.add_purse_change();
+		}
+	},
+	methods: {
+		add: function add(id) {
+			var t = this;
+			t.dialog.open();
+			get('/transfer/reason_detail', { id: id }, function (data) {
+				t.form = data.detail;
+				t.max = data.max;
+			});
+		},
+		add_submit: function add_submit() {
+			var t = this;
+			post('/transfer/reason', t.form, function () {
+				t.dialog.close();
+				t.init();
+			});
+		},
+		del: function (_del) {
+			function del(_x) {
+				return _del.apply(this, arguments);
+			}
+
+			del.toString = function () {
+				return _del.toString();
+			};
+
+			return del;
+		}(function (id) {
+			var t = this;
+			mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认？', function () {
+				del('/transfer/reason', { id: id }, function () {
+					t.init();
+				});
+			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
+		}),
+		search: function search(page) {
+			this.keyword.page = page;
+			this.init();
+		},
+		tab_change: function tab_change(id) {
+			this.keyword.page = 1;
+			this.keyword.merchant_id = id;
+			this.init();
+		},
+		add_purse_change: function add_purse_change() {
+			var form = this.form;
+			if (!form.id && form.out_user_type_id && form.out_purse_type_id && form.into_user_type_id && form.into_purse_type_id) {
+				form.reason = this.max + '' + form.out_user_type_id.padStart(2, '0') + '' + form.out_purse_type_id.padStart(2, '0') + form.merchant_id + form.into_user_type_id.padStart(2, '0') + '' + form.into_purse_type_id.padStart(2, '0');
+			}
+		},
+		init: function init() {
+			var t = this;
+			get('/transfer/reason', t.keyword, function (data) {
+				t.list = data.list;
+				t.merchant = data.merchant;
+				t.user_type = data.user_type;
+				t.purse_type = data.purse_type;
+				setTimeout(function () {
+					$('.mdui-tab').mutation();
+				}, 0);
+			});
+		}
+	},
+	mounted: function mounted() {
+		var t = this;
+		t.dialog = new mdui.Dialog('.dialog_add', { history: false });
+		t.init();
+	}
+});
+
+/***/ }),
+
+/***/ 332:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "transfer_reason" }, [
+    _c("div", { staticClass: "mdui-typo" }, [
+      _c("blockquote", { staticClass: "blockquote_normal" }, [
+        _c(
+          "a",
+          {
+            staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+            on: {
+              click: function($event) {
+                _vm.add(0)
+              }
+            }
+          },
+          [
+            _c(
+              "i",
+              { staticClass: "mdui-icon mdui-icon-left material-icons" },
+              [_vm._v("add")]
+            ),
+            _vm._v("添加")
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mdui-divider" }),
+      _vm._v(" "),
+      _c("blockquote", { staticClass: "blockquote_normal" }, [
+        _c("p", [
+          _vm._v("\n\t\t\t\t转账行为名称："),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.keyword.name,
+                expression: "keyword.name"
+              }
+            ],
+            staticClass: "mdui-textfield-input input_normal",
+            attrs: { type: "text" },
+            domProps: { value: _vm.keyword.name },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.keyword, "name", $event.target.value)
+              }
+            }
+          }),
+          _vm._v("\n\t\t\t\treason："),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.keyword.reason,
+                expression: "keyword.reason"
+              }
+            ],
+            staticClass: "mdui-textfield-input input_normal",
+            attrs: { type: "text" },
+            domProps: { value: _vm.keyword.reason },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.keyword, "reason", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+            on: {
+              click: function($event) {
+                _vm.search(1)
+              }
+            }
+          },
+          [
+            _c(
+              "i",
+              { staticClass: "mdui-icon mdui-icon-left material-icons" },
+              [_vm._v("search")]
+            ),
+            _vm._v("搜索")
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "mdui-tab", attrs: { "mdui-tab": "" } },
+      _vm._l(_vm.merchant, function(name, id, key) {
+        return _c("a", {
+          class: {
+            "mdui-btn": true,
+            "mdui-ripple": true,
+            "mdui-tab-active": key == 0
+          },
+          attrs: { href: "#tab_" + key },
+          domProps: { textContent: _vm._s(name) },
+          on: {
+            click: function($event) {
+              _vm.tab_change(id)
+            }
+          }
+        })
+      })
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "mdui-table-fluid" }, [
+      _c("table", { staticClass: "mdui-table mdui-table-hoverable" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          [
+            _vm._l(_vm.list.data, function(val, key) {
+              return [
+                _c("tr", { class: { "mdui-color-grey-200": true } }, [
+                  _c("td", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s("#" + (key + 1)) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", { domProps: { textContent: _vm._s(val.id) } })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", {
+                      domProps: {
+                        textContent: _vm._s(_vm.merchant[val.merchant_id])
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", { domProps: { textContent: _vm._s(val.name) } })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(val.reason) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(val.created_at) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(val.updated_at) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("div", { staticClass: "mdui-btn-group" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+                          on: {
+                            click: function($event) {
+                              _vm.add(val.id)
+                            }
+                          }
+                        },
+                        [_vm._v("修改")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass:
+                            "mdui-btn mdui-ripple mdui-color-deep-orange",
+                          on: {
+                            click: function($event) {
+                              _vm.del(val.id)
+                            }
+                          }
+                        },
+                        [_vm._v("删除")]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("tr", [
+                  _c("td"),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v("出账身份："),
+                    _c("span", { staticClass: "mdui-text-color-deep-orange" }, [
+                      _vm._v(_vm._s(_vm.user_type[val.out_user_type_id]))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v("出账钱包："),
+                    _c("span", { staticClass: "mdui-text-color-deep-orange" }, [
+                      _vm._v(_vm._s(_vm.purse_type[val.out_purse_type_id]))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v("进账身份："),
+                    _c("span", { staticClass: "mdui-text-color-teal" }, [
+                      _vm._v(_vm._s(_vm.user_type[val.into_user_type_id]))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v("进账钱包："),
+                    _c("span", { staticClass: "mdui-text-color-teal" }, [
+                      _vm._v(_vm._s(_vm.purse_type[val.into_purse_type_id]))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v("状态："),
+                    val.status
+                      ? _c("span", { staticClass: "mdui-text-color-green" }, [
+                          _vm._v("启用")
+                        ])
+                      : _c("span", { staticClass: "mdui-text-color-red" }, [
+                          _vm._v("禁用")
+                        ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { attrs: { colspan: "2" } }, [
+                    _vm._v("备注："),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(val.remarks) }
+                    })
+                  ])
+                ])
+              ]
+            })
+          ],
+          2
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "mdui-dialog dialog_add" }, [
+      _c("div", { staticClass: "mdui-dialog-title" }, [
+        _vm._v("\n\t\t\t转账 reason 新增/修改\n\t\t")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mdui-dialog-content" }, [
+        _c("form", [
+          _c("div", { staticClass: "mdui-container" }, [
+            _vm._v("\n\t\t\t\t\t所属商户：\n\t\t\t\t\t"),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.merchant_id,
+                    expression: "form.merchant_id"
+                  }
+                ],
+                staticClass: "mdui-select",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "merchant_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              _vm._l(_vm.merchant, function(name, id) {
+                return _c("option", { domProps: { value: id } }, [
+                  _vm._v(_vm._s(name))
+                ])
+              })
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdui-container" }, [
+            _c("div", { staticClass: "mdui-textfield" }, [
+              _c("label", { staticClass: "mdui-textfield-label" }, [
+                _vm._v("转账行为名称")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.name,
+                    expression: "form.name"
+                  }
+                ],
+                staticClass: "mdui-textfield-input",
+                attrs: {
+                  type: "text",
+                  placeholder: "中文备注，用户查看流水时展示文案"
+                },
+                domProps: { value: _vm.form.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "name", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdui-container mdui-p-y-2" }, [
+            _vm._v("\n\t\t\t\t\t出账身份类型：\n\t\t\t\t\t"),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.out_user_type_id,
+                    expression: "form.out_user_type_id"
+                  }
+                ],
+                staticClass: "mdui-select",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "out_user_type_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              _vm._l(_vm.user_type, function(name, id) {
+                return _c("option", { domProps: { value: id } }, [
+                  _vm._v(_vm._s(name))
+                ])
+              })
+            ),
+            _vm._v(
+              "\n\t\t\t\t\t　　　　\n\t\t\t\t\t出账钱包类型：\n\t\t\t\t\t"
+            ),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.out_purse_type_id,
+                    expression: "form.out_purse_type_id"
+                  }
+                ],
+                staticClass: "mdui-select",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "out_purse_type_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              _vm._l(_vm.purse_type, function(name, id) {
+                return _c("option", { domProps: { value: id } }, [
+                  _vm._v(_vm._s(name))
+                ])
+              })
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdui-container mdui-p-y-2" }, [
+            _vm._v("\n\t\t\t\t\t进账身份类型：\n\t\t\t\t\t"),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.into_user_type_id,
+                    expression: "form.into_user_type_id"
+                  }
+                ],
+                staticClass: "mdui-select",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "into_user_type_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              _vm._l(_vm.user_type, function(name, id) {
+                return _c("option", { domProps: { value: id } }, [
+                  _vm._v(_vm._s(name))
+                ])
+              })
+            ),
+            _vm._v(
+              "\n\t\t\t\t\t　　　　\n\t\t\t\t\t进账钱包类型：\n\t\t\t\t\t"
+            ),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.into_purse_type_id,
+                    expression: "form.into_purse_type_id"
+                  }
+                ],
+                staticClass: "mdui-select",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.form,
+                      "into_purse_type_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              _vm._l(_vm.purse_type, function(name, id) {
+                return _c("option", { domProps: { value: id } }, [
+                  _vm._v(_vm._s(name))
+                ])
+              })
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdui-container" }, [
+            _c("div", { staticClass: "mdui-textfield" }, [
+              _c("label", { staticClass: "mdui-textfield-label" }, [
+                _vm._v("reason 代码")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.reason,
+                    expression: "form.reason"
+                  }
+                ],
+                staticClass: "mdui-textfield-input",
+                attrs: { type: "text", placeholder: "新增时自动生成" },
+                domProps: { value: _vm.form.reason },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "reason", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdui-container" }, [
+            _c("label", { staticClass: "mdui-radio" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.status,
+                    expression: "form.status"
+                  }
+                ],
+                attrs: { type: "radio", name: "status", value: "1" },
+                domProps: {
+                  checked: !!_vm.form.status,
+                  checked: _vm._q(_vm.form.status, "1")
+                },
+                on: {
+                  change: function($event) {
+                    _vm.$set(_vm.form, "status", "1")
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("i", { staticClass: "mdui-radio-icon" }),
+              _vm._v("\n\t\t\t\t\t\t启用\n\t\t\t\t\t")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdui-container" }, [
+            _c("label", { staticClass: "mdui-radio" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.status,
+                    expression: "form.status"
+                  }
+                ],
+                attrs: { type: "radio", name: "status", value: "0" },
+                domProps: {
+                  checked: !_vm.form.status,
+                  checked: _vm._q(_vm.form.status, "0")
+                },
+                on: {
+                  change: function($event) {
+                    _vm.$set(_vm.form, "status", "0")
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("i", { staticClass: "mdui-radio-icon" }),
+              _vm._v("\n\t\t\t\t\t\t禁用\n\t\t\t\t\t")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdui-container" }, [
+            _c("div", { staticClass: "mdui-textfield" }, [
+              _c("label", { staticClass: "mdui-textfield-label" }, [
+                _vm._v("备注")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.remarks,
+                    expression: "form.remarks"
+                  }
+                ],
+                staticClass: "mdui-textfield-input",
+                attrs: { type: "text", placeholder: "后台详细备注" },
+                domProps: { value: _vm.form.remarks },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "remarks", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mdui-dialog-actions" }, [
+        _c(
+          "a",
+          {
+            staticClass: "mdui-btn mdui-ripple",
+            attrs: { "mdui-dialog-close": "" }
+          },
+          [_vm._v("取消")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+            on: { click: _vm.add_submit }
+          },
+          [_vm._v("提交")]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "mdui-color-white footer" },
+      [
+        _c("pagination", {
+          attrs: {
+            pageInfo: {
+              total: _vm.list.total,
+              current: _vm.list.current_page,
+              pagenum: _vm.list.per_page,
+              page: _vm.list.last_page,
+              pagegroup: 9,
+              skin: "#2196F3"
+            }
+          },
+          on: { change: _vm.search }
+        })
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("所属商户")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("转账行为名称")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("reason 代码")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("创建时间")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("修改时间")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("操作")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-19e4f2ce", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 74:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(331)
+/* template */
+var __vue_template__ = __webpack_require__(332)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\transfer\\reason.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-19e4f2ce", Component.options)
+  } else {
+    hotAPI.reload("data-v-19e4f2ce", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ })
+
+});

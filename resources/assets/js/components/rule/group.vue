@@ -6,8 +6,12 @@
 			</blockquote>
 			<div class="mdui-divider"></div>
 			<blockquote class="blockquote_normal">
-				名称：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.name" />
-				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
+				<p>
+					名称：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.name" />
+				</p>
+				<p>
+					<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
+				</p>
 			</blockquote>
 		</div>
 		<div class="mdui-table-fluid">

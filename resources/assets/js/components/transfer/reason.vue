@@ -14,7 +14,6 @@
 			</blockquote>
 		</div>
 		
-		<!--tab标签-->
 		<div class="mdui-tab" mdui-tab>
 			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(name,id,key) of merchant" v-text="name" @click="tab_change(id)"></a>
 		</div>

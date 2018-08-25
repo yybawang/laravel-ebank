@@ -16,6 +16,11 @@
 				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
 			</blockquote>
 		</div>
+		
+		<div class="mdui-tab" mdui-tab>
+			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(name,id,key) of group" v-text="name" @click="tab_change(id)"></a>
+		</div>
+		
 		<div class="mdui-table-fluid">
 			<table class="mdui-table mdui-table-hoverable">
 				<thead>
@@ -62,6 +67,12 @@
 			</div>
 			<div class="mdui-dialog-content">
 				<form>
+					<div class="mdui-container">
+						选择商户分组：
+						<select class="mdui-select"  v-model="form.group_id">
+							<option :value="key" v-for="(val,key) of group">{{val}}</option>
+						</select>
+					</div>
 					<div class="mdui-container">
 						<div class="mdui-textfield">
 							<label class="mdui-textfield-label">商户名称</label>
@@ -141,12 +152,14 @@
 		data(){
 			return {
 				list : [],
+				group : [],
 				form : '',
 				dialog : '',
 				keyword : {
 					page : 1,
 					name : '',
 					appid : '',
+					group_id : 1,
 					date : [],
 				},
 			};
@@ -187,10 +200,19 @@
 				this.keyword.page = page;
 				this.init();
 			},
+			tab_change(id){
+				this.keyword.page = 1;
+				this.keyword.group_id = id;
+				this.init();
+			},
 			init(){
 				let t = this;
 				get('/merchant',t.keyword,function(data){
-					t.list = data;
+					t.list = data.list;
+					t.group = data.group;
+					setTimeout(function(){
+						$('.mdui-tab').mutation();
+					},0);
 				});
 			}
 		},

@@ -25,7 +25,7 @@ class CreateFundUserPurseTable extends Migration
 			$table->tinyInteger('status')->comment('0无效，1有效');
 			$table->string('remarks')->nullable();
 			
-			$table->unique(['user_id', 'user_type_id', 'purse_type_id'],'钱包唯一');
+			$table->unique(['merchant_id','user_id', 'user_type_id', 'purse_type_id'],'钱包唯一');
             $table->timestamps();
         });
     }

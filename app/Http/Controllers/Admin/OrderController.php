@@ -44,7 +44,7 @@ class OrderController extends CommonController {
 				$query->whereIn('payment.type',$request->input('payment'));
 			})
 			->when($request->input('date'),function($query) use ($request){
-				$query->where('fund_order.created_at','>',$request->input('date')[0].' 00:00:00')->where('fund_order.created_at','<=',$request->input('date')[1].' 23:59:59');
+				$query->where('fund_order.created_at','>',$request->input('date.0').' 00:00:00')->where('fund_order.created_at','<=',$request->input('date.1').' 23:59:59');
 			})
 			
 			->orderBy('fund_order.id','desc');

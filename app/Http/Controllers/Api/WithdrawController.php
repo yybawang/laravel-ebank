@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\BasicRequest;
 use App\Libraries\Bank\EBank;
+use App\Models\FundMerchant;
 use App\Models\FundPurseType;
 use App\Models\FundWithdraw;
 use App\Models\FundWithdrawAlipay;
@@ -35,10 +36,13 @@ class WithdrawController extends CommonController {
 			exception('计算错误，手续费大于提现金额');
 		}
 		
+		$appid = $request->input('ebank_appid');
 		$purse = $request->input('purse');
+		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
 		$purse_id = FundPurseType::where(['alias'=>$purse,'status'=>1])->value('id');
+		
 		$bank = new EBank();
-		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id);
+		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id,3,$merchant_id);
 		$id = $bank->freeze($wallet->id,$post['amount']);
 		$post['freeze_id']	= $id;
 		$withdraw_id = FundWithdraw::create($post)->id;
@@ -68,10 +72,13 @@ class WithdrawController extends CommonController {
 			exception('计算错误，手续费大于提现金额');
 		}
 		
+		$appid = $request->input('ebank_appid');
 		$purse = $request->input('purse');
+		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
 		$purse_id = FundPurseType::where(['alias'=>$purse,'status'=>1])->value('id');
+		
 		$bank = new EBank();
-		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id);
+		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id,3,$merchant_id);
 		$id = $bank->freeze($wallet->id,$post['amount']);
 		$post['freeze_id']	= $id;
 		$withdraw_id = FundWithdrawAlipay::create($post)->id;
@@ -101,10 +108,13 @@ class WithdrawController extends CommonController {
 			exception('计算错误，手续费大于提现金额');
 		}
 		
+		$appid = $request->input('ebank_appid');
 		$purse = $request->input('purse');
+		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
 		$purse_id = FundPurseType::where(['alias'=>$purse,'status'=>1])->value('id');
+		
 		$bank = new EBank();
-		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id);
+		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id,3,$merchant_id);
 		$id = $bank->freeze($wallet->id,$post['amount']);
 		$post['freeze_id']	= $id;
 		$withdraw_id = FundWithdrawWechat::create($post)->id;

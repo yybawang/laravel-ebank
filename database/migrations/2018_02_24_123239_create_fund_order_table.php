@@ -18,7 +18,7 @@ class CreateFundOrderTable extends Migration
             $table->increments('id');
             $table->integer('merchant_id')->comment('商户ID');
             $table->integer('user_id')->comment('用户ID，用于用户钱包扣款');
-            $table->string('order_no',150)->comment('唯一订单号');
+            $table->string('order_no',50)->comment('唯一订单号');
             $table->string('order_type')->comment('订单类型，商户自由区分，可存中文或英文');
             $table->string('product_name')->comment('商品名');
             $table->decimal('amount',30,0)->comment('组合支付总金额，单位分');

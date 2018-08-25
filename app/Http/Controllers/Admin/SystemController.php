@@ -28,7 +28,7 @@ class SystemController extends CommonController {
 			$query->where('value','like','%'.$request->input('value').'%');
 		})
 			->when($request->input('date'),function($query) use ($request){
-				$query->where('created_at','>',$request->input('date')[0].' 00:00:00')->where('created_at','<=',$request->input('date')[1].' 23:59:59');
+				$query->where('created_at','>',$request->input('date.0').' 00:00:00')->where('created_at','<=',$request->input('date.1').' 23:59:59');
 			})
 			->orderBy('status','desc')->orderBy('rank','asc')->pages();
 		return json_success('OK',$data);

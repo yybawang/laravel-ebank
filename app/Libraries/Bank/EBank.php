@@ -35,18 +35,27 @@ class EBank {
 	 * @param int $balance	// 如果钱包余额为0，则重新赋此值
 	 * @return bool
 	 * 初始化数据，数据清空后可调用此方法重新生成系统钱包id
+	 * 一层商户，一层
 	 */
 	public function init(int $balance = 100000000000000){
+		$merchant = FundMerchant::active()->pluck('id');
 		$user_type = FundUserType::active()->pluck('id');
-		$user_type->each(function($purse_type_id) use ($balance){
-			$wallet = $this->userWallet(0,$purse_type_id);
-			$wallet->each(function($v) use ($balance){
-				if(empty($v->balance)){
-					$v->balance = $balance;
-					$v->save();
-				}
+		$merchant->each(function($merchant_id) use ($user_type,$balance){
+			
+			$user_type->each(function($purse_type_id) use ($merchant_id,$balance){
+				
+				$wallet = $this->userWallet(0,$purse_type_id,$merchant_id);
+				
+				$wallet->each(function($v) use ($merchant_id,$balance){
+					if(empty($v->balance)){
+						$v->merchant_id = $merchant_id;
+						$v->balance = $balance;
+						$v->save();
+					}
+				});
 			});
 		});
+		
 		return true;
 	}
 	
@@ -159,17 +168,19 @@ class EBank {
 	
 	/**
 	 * 转账暴露方法
-	 * @param $out_user_id
-	 * @param $into_user_id
-	 * @param $amount
-	 * @param $reason
+	 * @param int $merchant_id
+	 * @param int $out_user_id
+	 * @param int $into_user_id
+	 * @param int $amount
+	 * @param int $reason
 	 * @param int $parent_id
 	 * @param null|string $detail
 	 * @param null|string $remarks
-	 * @return int
+	 * @return mixed
 	 */
-	public function transfer(int $out_user_id,int $into_user_id,int $amount,int $reason,int $parent_id = 0,?string $detail = null,?string $remarks = null){
+	public function transfer(int $merchant_id,int $out_user_id,int $into_user_id,int $amount,int $reason,int $parent_id = 0,?string $detail = null,?string $remarks = null){
 		\Validator::make([
+			'merchant_id'			=> $merchant_id,
 			'out_user_id'			=> $out_user_id,
 			'into_user_id'			=> $into_user_id,
 			'amount'				=> $amount,
@@ -177,15 +188,19 @@ class EBank {
 			'detail'				=> $detail,
 			'remarks'				=> $remarks
 		],[
+			'merchant_id'			=> 'required|integer|min:1',
 			'out_user_id'			=> 'required|integer|min:0',
 			'into_user_id'			=> 'required|integer|min:0',
 			'amount'				=> 'required|integer|min:1',
 			'reason'				=> [
 				'required',
 				'integer',
-				Rule::exists('fund_transfer_reason','reason')->where('status',1),
+//				Rule::exists('fund_transfer_reason','reason')->where('status',1),		// 底层已验证过
 			],
 		],[
+			'merchant_id.required'	=> '转账商户参数必传',
+			'merchant_id.integer'	=> '转账商户参数只能为正整数',
+			'merchant_id.min'		=> '转账商户参数只能为正整数',
 			'out_user_id.required'	=> '转出用户ID参数必传',
 			'out_user_id.integer'	=> '转出用户ID参数只能为正整数',
 			'out_user_id.min'		=> '转出用户ID参数只能为正整数',
@@ -220,11 +235,12 @@ class EBank {
 
 		$out_purse = $this->userWalletDetail($out_user_id,$out_purse_type_id,$out_user_type_id);
 		$into_purse = $this->userWalletDetail($into_user_id,$into_purse_type_id,$into_user_type_id);
-		$transfer_id = $this->_transfer($out_purse->id,$into_purse->id,$amount,$reason,$parent_id,$detail,$remarks);
+		$transfer_id = $this->_transfer($merchant_id,$out_purse->id,$into_purse->id,$amount,$reason,$parent_id,$detail,$remarks);
 		return $transfer_id;
 	}
 	
 	/**
+	 * @param int $merchant_id
 	 * @param int $out_purse_id
 	 * @param int $into_purse_id
 	 * @param int $amount
@@ -235,7 +251,7 @@ class EBank {
 	 * @return mixed
 	 * 转账核心方法
 	 */
-	private function _transfer(int $out_purse_id,int $into_purse_id,int $amount,int $reason,int $parent_id = 0,?string $detail = null,?string $remarks = null){
+	private function _transfer(int $merchant_id,int $out_purse_id,int $into_purse_id,int $amount,int $reason,int $parent_id = 0,?string $detail = null,?string $remarks = null){
 		// 出账钱包最大可用金额，如果超过了此金额，就不能转账
 		$out_purse_balance = FundUserPurse::where(['id'=>$out_purse_id])->value(DB::raw('balance - freeze'));
 		\Validator::make([
@@ -295,7 +311,7 @@ class EBank {
 			exception('转入钱包已被临时禁用');
 		}
 		
-		$transfer_id = DB::transaction(function() use ($out_purse_id,$into_purse_id,$out_purse,$into_purse,$amount,$parent_id,$reason,$detail,$remarks){
+		$transfer_id = DB::transaction(function() use ($merchant_id,$out_purse_id,$into_purse_id,$out_purse,$into_purse,$amount,$parent_id,$reason,$detail,$remarks){
 			// 出账钱包扣款
 			$var = FundUserPurse::where(['id'=>$out_purse_id])->decrement('balance',$amount);
 			if(!$var){
@@ -308,6 +324,7 @@ class EBank {
 			}
 			
 			$transfer_add = [
+				'merchant_id'		=> $merchant_id,
 				'reason'			=> $reason,
 				'amount'			=> $amount,
 				
@@ -386,11 +403,13 @@ class EBank {
 	/**
 	 * @param int $user_id
 	 * @param int $user_type
+	 * @param int $merchant_id
 	 * @return \Illuminate\Support\Collection
 	 * 用户钱包
 	 */
-	public function userWallet(int $user_id,$user_type = 3){
-		\Validator::make(['user_id'=>$user_id,'user_type'=>$user_type],[
+	public function userWallet(int $user_id,int $user_type = 3,int $merchant_id = 1){
+		\Validator::make(['user_id'=>$user_id,'user_type'=>$user_type,'merchant_id'=>$merchant_id],[
+			'merchant_id'	=> 'required|integer|min:1',
 			'user_id'		=> 'required|integer',
 			'user_type'		=> [
 				'required',
@@ -398,6 +417,8 @@ class EBank {
 				Rule::exists('fund_user_type','id')->where('status',1),
 			],
 		],[
+			'merchant_id.required'	=> '商户ID参数必传',
+			'merchant_id.min'		=> '用户ID参数只能为正整数',
 			'user_id.required'		=> '用户ID参数必传',
 			'user_id.integer'		=> '用户ID参数类型错误',
 			'user_type.required'	=> '身份类型参数必传',
@@ -407,8 +428,8 @@ class EBank {
 		
 		$wallet = collect([]);
 		$purse_type = FundPurseType::active()->pluck('id','alias');
-		$purse_type->each(function($purse_type_id,$purse_type_alias) use ($user_id,$user_type,&$wallet){
-			$wallet_detail = $this->userWalletDetail($user_id,$purse_type_id,$user_type);
+		$purse_type->each(function($purse_type_id,$purse_type_alias) use ($user_id,$user_type,$merchant_id,&$wallet){
+			$wallet_detail = $this->userWalletDetail($user_id,$purse_type_id,$user_type,$merchant_id);
 			$wallet->put($purse_type_alias,$wallet_detail);
 		});
 		
@@ -419,11 +440,13 @@ class EBank {
 	 * @param int $user_id
 	 * @param int $purse_type_id
 	 * @param int $user_type
+	 * @param int $merchant_id
 	 * @return mixed
 	 * 获取用户下某一个钱包详情
 	 */
-	public function userWalletDetail(int $user_id,int $purse_type_id,int $user_type = 3){
-		\Validator::make(['user_id'=>$user_id,'purse_type'=>$purse_type_id,'user_type'=>$user_type],[
+	public function userWalletDetail(int $user_id,int $purse_type_id,int $user_type = 3,int $merchant_id = 1){
+		\Validator::make(['user_id'=>$user_id,'purse_type'=>$purse_type_id,'user_type'=>$user_type,'merchant_id'=>$merchant_id],[
+			'merchant_id'	=> 'required|integer|min:1',
 			'user_id'		=> 'required|integer',
 			'purse_type'	=> [
 				'required',
@@ -436,8 +459,10 @@ class EBank {
 				Rule::exists('fund_user_type','id')->where('status',1),
 			],
 		],[
+			'merchant_id.required'		=> '商户ID参数必传',
+			'merchant_id.min'			=> '商户ID参数只能为正整数',
 			'user_id.required'			=> '用户ID参数必传',
-			'user_id.integral'			=> '用户ID参数类型错误',
+			'user_id.integer'			=> '用户ID参数类型错误',
 			'purse_type.required'		=> '钱包类型ID参数必传',
 			'purse_type.integer'		=> '钱包类型ID参数类型错误',
 			'purse_type.exists'			=> '钱包类型不存在',
@@ -450,7 +475,7 @@ class EBank {
 		if($user_type == 1 || $user_type == 2){
 			$user_id = 0;
 		}
-		$FundUserPurse = FundUserPurse::firstOrCreate(['user_id'=>$user_id,'user_type_id'=>$user_type,'purse_type_id'=>$purse_type_id],['balance'=>0,'freeze'=>0,'remarks'=>null,'status'=>1]);
+		$FundUserPurse = FundUserPurse::firstOrCreate(['merchant_id'=>$merchant_id,'user_id'=>$user_id,'user_type_id'=>$user_type,'purse_type_id'=>$purse_type_id],['balance'=>0,'freeze'=>0,'remarks'=>null,'status'=>1]);
 		return $FundUserPurse;
 	}
 	

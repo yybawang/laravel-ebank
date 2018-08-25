@@ -41,14 +41,10 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
-// 每天日志记录，重写权限参数
-$log_filepath= storage_path('logs').'/laravel-'.time2date_date().'.log';
-file_put_contents($log_filepath,'',FILE_APPEND);
-chmod($log_filepath,0777);
-//$app->configureMonologUsing(function (Monolog\Logger $monolog) {
-//	$filename = storage_path('logs/laravel.log');
-//	$monolog->pushHandler($handler = new Monolog\Handler\RotatingFileHandler($filename, 30,\Monolog\Logger::DEBUG,true,0777));
-//});
+// 每天日志记录，重写权限参数，2018-08-26 修改为单文件日志
+//$log_filepath= storage_path('logs').'/laravel-'.time2date_date().'.log';
+//file_put_contents($log_filepath,'',FILE_APPEND);
+//chmod($log_filepath,0777);
 
 /*
 |--------------------------------------------------------------------------

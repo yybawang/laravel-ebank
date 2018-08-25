@@ -62,11 +62,8 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	});
 	
 	Route::prefix('purse')->name('admin.业务资金管理.')->group(function(){
-		Route::get('central','PurseController@central')->name('menu.中央钱包余额');
-		Route::get('system','PurseController@system')->name('menu.系统钱包余额');
+		Route::get('purse','PurseController@purse')->name('menu.身份类型余额');
 		Route::get('user','PurseController@user')->name('menu.用户钱包余额');
-		Route::get('freeze','PurseController@freeze')->name('menu.余额冻结记录');
-		Route::post('unfreeze','PurseController@unfreeze');
 		Route::get('user_type','PurseController@user_type')->name('menu.身份类型列表');
 		Route::get('user_type_detail','PurseController@user_type_detail');
 		Route::post('user_type','PurseController@user_type_add');
@@ -75,6 +72,8 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 		Route::get('purse_type_detail','PurseController@purse_type_detail');
 		Route::post('purse_type','PurseController@purse_type_add');
 		Route::delete('purse_type','PurseController@purse_type_delete');
+		Route::get('freeze','PurseController@freeze')->name('menu.余额冻结记录');
+		Route::post('unfreeze','PurseController@unfreeze');
 	});
 	
 	Route::prefix('report')->name('admin.财务报表.')->group(function(){

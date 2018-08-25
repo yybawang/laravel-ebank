@@ -21,7 +21,7 @@ class TransferController extends CommonController {
 	public function index(BasicRequest $request){
 		$data['user_type'] = FundUserType::active()->pluck('name','id');
 		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
-		$data['merchant'] = FundMerchant::where(['status'=>1])->pluck('name','id');
+		$data['merchant'] = FundMerchant::active()->pluck('name','id');
 		$data['reason'] = FundTransferReason::where(['status'=>1])->pluck('name','reason');
 		$model = FundTransfer::select(DB::raw('*,1 as more'))->when($request->input('user_id'),function($query) use ($request){
 			$query->where(function($query) use ($request){
@@ -42,11 +42,14 @@ class TransferController extends CommonController {
 					});
 				});
 			})
+			->when($request->input('merchant_id'),function($query) use ($request){
+				$query->whereIn('merchant_id',$request->input('merchant_id'));
+			})
 			->when($request->input('reason'),function($query) use ($request){
 				$query->where('reason',$request->input('reason'));
 			})
 			->when($request->input('date'),function($query) use ($request){
-				$query->where('created_at','>',$request->input('date')[0].' 00:00:00')->where('created_at','<=',$request->input('date')[1].' 23:59:59');
+				$query->where('created_at','>',$request->input('date.0').' 00:00:00')->where('created_at','<=',$request->input('date.1').' 23:59:59');
 			})
 			->orderBy('id','desc');
 		if($request->input('export')){
@@ -87,9 +90,9 @@ class TransferController extends CommonController {
 			->when($request->input('reason'),function($query) use ($request){
 				$query->where('reason','like','%'.$request->input('reason').'%');
 			})
-//			->when($request->input('merchant_id'),function($query) use ($request){
-//				$query->whereIn('merchant_id',$request->input('merchant_id'));
-//			})
+			->when($request->input('merchant_id'),function($query) use ($request){
+				$query->where('merchant_id',$request->input('merchant_id'));
+			})
 			->orderBy('id','desc')
 			->pages();
 		return json_success('OK',$data);

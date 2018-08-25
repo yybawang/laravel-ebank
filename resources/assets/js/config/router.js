@@ -53,12 +53,8 @@ export default new VueRouter({
 			component: resolve => void(require(['../components/report/purse.vue'], resolve))
 		},
 		{
-			path: '/purse/central',
-			component: resolve => void(require(['../components/purse/central.vue'], resolve))
-		},
-		{
-			path: '/purse/system',
-			component: resolve => void(require(['../components/purse/system.vue'], resolve))
+			path: '/purse/purse',
+			component: resolve => void(require(['../components/purse/purse.vue'], resolve))
 		},
 		{
 			path: '/purse/user',

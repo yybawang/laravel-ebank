@@ -5,8 +5,12 @@
 				注：此行为数据只统计API模块接口，其他暂不列入范围内
 			</blockquote>
 			<blockquote class="blockquote_normal">
-				匹配url：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.url" />
-				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
+				<p>
+					匹配url：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.url" />
+				</p>
+				<p>
+					<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
+				</p>
 			</blockquote>
 		</div>
 		<div class="mdui-table-fluid">
