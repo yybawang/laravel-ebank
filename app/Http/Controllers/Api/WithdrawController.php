@@ -45,6 +45,7 @@ class WithdrawController extends CommonController {
 		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id,3,$merchant_id);
 		$id = $bank->freeze($wallet->id,$post['amount']);
 		$post['freeze_id']	= $id;
+		$post['merchant_id']= $merchant_id;
 		$withdraw_id = FundWithdraw::create($post)->id;
 		return json_return($withdraw_id,'','',['withdraw_id'=>$withdraw_id]);
 	}
@@ -81,6 +82,7 @@ class WithdrawController extends CommonController {
 		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id,3,$merchant_id);
 		$id = $bank->freeze($wallet->id,$post['amount']);
 		$post['freeze_id']	= $id;
+		$post['merchant_id']= $merchant_id;
 		$withdraw_id = FundWithdrawAlipay::create($post)->id;
 		return json_return($withdraw_id,'','',['withdraw_id'=>$withdraw_id]);
 	}
@@ -117,6 +119,7 @@ class WithdrawController extends CommonController {
 		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id,3,$merchant_id);
 		$id = $bank->freeze($wallet->id,$post['amount']);
 		$post['freeze_id']	= $id;
+		$post['merchant_id']= $merchant_id;
 		$withdraw_id = FundWithdrawWechat::create($post)->id;
 		return json_return($withdraw_id,'','',['withdraw_id'=>$withdraw_id]);
 	}
