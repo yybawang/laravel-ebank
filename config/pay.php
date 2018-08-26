@@ -1,5 +1,6 @@
 <?php
 
+// ebank 重写，支付方式根据商户组配置为准，商户组配置优于此配置
 return [
     'alipay' => [
         // 支付宝分配的 APPID
@@ -41,7 +42,7 @@ return [
         'mch_id' => '',
 
         // 微信支付异步通知地址
-        'notify_url' =>  config('app.url').'api/notify/wechat',	// 无需改动
+        'notify_url' =>  config('app.url').'/api/notify/wechat',	// 无需改动
 
         // 微信支付签名秘钥
         'key' => '',

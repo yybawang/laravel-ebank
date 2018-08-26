@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\BasicRequest;
 use App\Libraries\Bank\EBank;
+use App\Libraries\Bank\PayFieldsConfig;
 use App\Models\FundMerchant;
 use App\Models\FundMerchantGroup;
 
@@ -14,7 +15,7 @@ class MerchantController extends CommonController {
 	 * @return array
 	 */
 	public function group(BasicRequest $request){
-		$data = FundMerchantGroup::when($request->input('name'),function($query) use ($request){
+		$data['list'] = FundMerchantGroup::when($request->input('name'),function($query) use ($request){
 			$query->where('name','like','%'.$request->input('name').'%');
 		})
 			->when($request->input('date'),function($query) use ($request){
@@ -27,13 +28,19 @@ class MerchantController extends CommonController {
 	
 	public function group_detail(BasicRequest $request){
 		$id = $request->input('id');
+		$PayFieldsConfig = new PayFieldsConfig();
 		$data = FundMerchantGroup::firstOrNew(['id'=>$id],
 			[
 				'name'		=> '',
 				'status'	=> 1,
+				'pay_config'=> [],
 				'remarks'	=> '',
 			]
 		);
+		// 填充默认支付字段配置
+//		if(empty($data->pay_config)){
+			$data->pay_config = $PayFieldsConfig->mergeConfig($data->pay_config);
+//		}
 		return json_success('OK',$data);
 	}
 	

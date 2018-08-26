@@ -64,6 +64,20 @@
 						</div>
 					</div>
 					<div class="mdui-container">
+						<div class="mdui-p-y-1"><strong>支付秘钥配置</strong></div>
+						<div class="mdui-tab" mdui-tab>
+							<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(config,name,key) of form.pay_config" v-text="name" @click="tab_change(name)"></a>
+						</div>
+						<div class="mdui-divider"></div>
+						<div class="payment_field" v-for="(val,key) of form.pay_config[pay_config_name]">
+							<div class="mdui-textfield">
+								<label class="mdui-textfield-label" v-text="key"></label>
+								<input class="mdui-textfield-input" :disabled="val.disabled" type="text" v-model="val.value" />
+								<span class="mdui-textfield-helper" v-text="val.description"></span>
+							</div>
+						</div>
+					</div>
+					<div class="mdui-container">
 						<label class="mdui-radio">
 							<input type="radio" name="status" v-model="form.status" value="1" :checked="!!form.status" />
 							<i class="mdui-radio-icon"></i>
@@ -110,8 +124,9 @@
 		data(){
 			return {
 				list : [],
-				form : '',
+				form : {pay_config:''},
 				dialog : '',
+				pay_config_name : 'alipay',
 				keyword : {
 					page : 1,
 					name : '',
@@ -122,9 +137,13 @@
 		methods : {
 			add(id){
 				let t = this;
-				t.dialog.open();
 				get('/merchant/group_detail',{id:id},function(data){
 					t.form = data;
+					setTimeout(function(){
+						t.dialog.open();
+						$('.mdui-tab').mutation();
+						$('.payment_field').mutation();
+					},0);
 				});
 			},
 			add_submit(){
@@ -146,10 +165,16 @@
 				this.keyword.page = page;
 				this.init();
 			},
+			tab_change(name){
+				this.pay_config_name = name;
+				setTimeout(function(){
+					$('.payment_field').mutation();
+				},0);
+			},
 			init(){
 				let t = this;
 				get('/merchant/group',t.keyword,function(data){
-					t.list = data;
+					t.list = data.list;
 				});
 			}
 		},

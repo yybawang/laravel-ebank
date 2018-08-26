@@ -250,7 +250,4 @@ class OrderUnified {
 		$result = Pay::alipay()->scan($param);
 		return $result;
 	}
-	
-	
-	
 }

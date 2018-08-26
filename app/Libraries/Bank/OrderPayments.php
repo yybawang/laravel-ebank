@@ -23,6 +23,7 @@ class OrderPayments
 		$this->amount_thread = $amount_thread;
 		$this->amount_wallet = $amount_wallet;
 		$this->product_name = $product_name;
+		
 	}
 	
 	
@@ -192,6 +193,4 @@ class OrderPayments
 			'content'	=> $result->qr_code
 		];
 	}
-	
-	
 }

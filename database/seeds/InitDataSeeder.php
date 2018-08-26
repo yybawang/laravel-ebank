@@ -42,7 +42,7 @@ class InitDataSeeder extends Seeder
 		
 		FundMerchant::create([
 			'name'		=> '系统商户',
-			'appid'		=> 'gpu10000',
+			'appid'		=> 'ebank10000',
 			'secret'	=> '10000',
 			'status'	=> 1,
 			'remarks'	=> '系统保留商户',

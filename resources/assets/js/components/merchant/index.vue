@@ -180,7 +180,7 @@
 				});
 			},
 			rand_appid(){
-				let appid = 'gpu';
+				let appid = 'ebank';
 				appid += Math.floor(Math.random() * 1000) +''+ Math.floor(Math.random() * 1000) +''+ Math.floor(Math.random() * 1000)  +''+ Math.floor(Math.random() * 1000);
 				this.form.appid = appid;
 			},

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\NotifyController;
 use App\Libraries\Bank\EBank;
+use App\Libraries\Bank\PayFieldsConfig;
 use App\Libraries\EBankSdk;
 use App\Http\Requests\BasicRequest;
 use App\Jobs\Transfer;
@@ -12,6 +13,7 @@ use App\Mail\Bug;
 use App\Models\FundAdmin;
 use App\Models\FundFreeze;
 use App\Models\FundMerchant;
+use App\Models\FundMerchantGroup;
 use App\Models\FundOrderPayment;
 use App\Models\FundTransfer;
 use App\Models\FundTransferReason;
