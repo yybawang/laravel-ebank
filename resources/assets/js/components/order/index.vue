@@ -4,6 +4,8 @@
 			<blockquote class="blockquote_normal">
 				<p>
 					下单用户ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.user_id" />
+				</p>
+				<p>
 					订单号：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.order_no" />
 				</p>
 				<p>

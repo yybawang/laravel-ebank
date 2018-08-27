@@ -6,12 +6,7 @@
 					冻结ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.id" />
 				</p>
 				<p>
-					钱包类型：
-					<label class="mdui-checkbox" v-for="(name,id) of purse_type" style="margin-right:2rem;">
-						<input type="checkbox" :value="id" v-model="keyword.purse_type_id" />
-						<i class="mdui-checkbox-icon"></i>
-						{{name}}
-					</label>
+					钱包ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.purse_id" />
 				</p>
 				<p>
 					<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
@@ -78,6 +73,7 @@
 				keyword : {
 					page : 1,
 					id : '',
+					purse_id : '',
 				},
 				status : [
 					'无效状态0',

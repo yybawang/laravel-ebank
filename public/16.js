@@ -124,6 +124,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -227,7 +229,7 @@ var render = function() {
       _vm._v(" "),
       _c("blockquote", { staticClass: "blockquote_normal" }, [
         _c("p", [
-          _vm._v("\n\t\t\t名称："),
+          _vm._v("\n\t\t\t\t名称："),
           _c("input", {
             directives: [
               {
@@ -248,8 +250,11 @@ var render = function() {
                 _vm.$set(_vm.keyword, "name", $event.target.value)
               }
             }
-          }),
-          _vm._v("\n\t\t\tAlias："),
+          })
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v("\n\t\t\t\tAlias："),
           _c("input", {
             directives: [
               {

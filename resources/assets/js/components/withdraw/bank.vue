@@ -4,6 +4,8 @@
 			<blockquote class="blockquote_normal">
 				<p>
 					用户ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.user_id" />
+				</p>
+				<p>
 					银行户名：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.realname" />
 				</p>
 				<p>

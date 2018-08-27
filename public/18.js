@@ -71,11 +71,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -84,7 +79,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			purse_type: '',
 			keyword: {
 				page: 1,
-				id: ''
+				id: '',
+				purse_id: ''
 			},
 			status: ['无效状态0', '冻结中', '已解冻']
 		};
@@ -155,72 +151,30 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c(
-          "p",
-          [
-            _vm._v("\n\t\t\t\t钱包类型：\n\t\t\t\t"),
-            _vm._l(_vm.purse_type, function(name, id) {
-              return _c(
-                "label",
-                {
-                  staticClass: "mdui-checkbox",
-                  staticStyle: { "margin-right": "2rem" }
-                },
-                [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.keyword.purse_type_id,
-                        expression: "keyword.purse_type_id"
-                      }
-                    ],
-                    attrs: { type: "checkbox" },
-                    domProps: {
-                      value: id,
-                      checked: Array.isArray(_vm.keyword.purse_type_id)
-                        ? _vm._i(_vm.keyword.purse_type_id, id) > -1
-                        : _vm.keyword.purse_type_id
-                    },
-                    on: {
-                      change: function($event) {
-                        var $$a = _vm.keyword.purse_type_id,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = id,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 &&
-                              _vm.$set(
-                                _vm.keyword,
-                                "purse_type_id",
-                                $$a.concat([$$v])
-                              )
-                          } else {
-                            $$i > -1 &&
-                              _vm.$set(
-                                _vm.keyword,
-                                "purse_type_id",
-                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                              )
-                          }
-                        } else {
-                          _vm.$set(_vm.keyword, "purse_type_id", $$c)
-                        }
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("i", { staticClass: "mdui-checkbox-icon" }),
-                  _vm._v("\n\t\t\t\t\t" + _vm._s(name) + "\n\t\t\t\t")
-                ]
-              )
-            })
-          ],
-          2
-        ),
+        _c("p", [
+          _vm._v("\n\t\t\t\t钱包ID："),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.keyword.purse_id,
+                expression: "keyword.purse_id"
+              }
+            ],
+            staticClass: "mdui-textfield-input input_normal",
+            attrs: { type: "text" },
+            domProps: { value: _vm.keyword.purse_id },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.keyword, "purse_id", $event.target.value)
+              }
+            }
+          })
+        ]),
         _vm._v(" "),
         _c("p", [
           _c(

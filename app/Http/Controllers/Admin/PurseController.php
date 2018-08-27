@@ -57,7 +57,13 @@ class PurseController extends CommonController {
 	 */
 	public function freeze(BasicRequest $request){
 		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
-		$data['list'] = FundFreeze::orderBy('id','desc')->pages();
+		$data['list'] = FundFreeze::when($request->input('id'),function($query) use ($request){
+			$query->where('id',$request->input('id'));
+		})
+			->when($request->input('purse_id'),function($query) use ($request){
+			$query->where('purse_id',$request->input('purse_id'));
+		})
+			->orderBy('id','desc')->pages();
 		return json_success('OK',$data);
 	}
 	

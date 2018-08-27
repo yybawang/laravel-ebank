@@ -626,7 +626,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -800,13 +799,16 @@ var render = function() {
             _vm._m(1),
             _vm._v(" "),
             _c("li", { staticClass: "mdui-menu-item" }, [
-              _c("a", { attrs: { href: "javascript:;", classdiv: "" } }, [
-                _vm._v('\n-ripple">\n\t\t\t\t\t\t'),
-                _c("i", { staticClass: "mdui-menu-item-icon" }),
-                _vm._v(
-                  _vm._s(_vm.user.last_login || "无历史登录") + "\n\t\t\t\t\t"
-                )
-              ])
+              _c(
+                "a",
+                { staticClass: "mdui-ripple", attrs: { href: "javascript:;" } },
+                [
+                  _c("i", { staticClass: "mdui-menu-item-icon" }),
+                  _vm._v(
+                    _vm._s(_vm.user.last_login || "无历史登录") + "\n\t\t\t\t\t"
+                  )
+                ]
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "mdui-divider" }),

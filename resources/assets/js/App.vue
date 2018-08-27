@@ -33,8 +33,7 @@
 						</a>
 					</li>
 					<li class="mdui-menu-item">
-						<a href="javascript:;" classdiv>
-	-ripple">
+						<a href="javascript:;" class="mdui-ripple">
 							<i class="mdui-menu-item-icon"></i>{{user.last_login || '无历史登录'}}
 						</a>
 					</li>

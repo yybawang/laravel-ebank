@@ -7,8 +7,10 @@
 			<div class="mdui-divider"></div>
 			<blockquote class="blockquote_normal">
 				<p>
-					商户名：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.name" />
 					appid：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.appid" />
+				</p>
+				<p>
+					商户名：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.name" />
 				</p>
 				<p>
 					日期筛选：<vue-datepicker-local v-model="keyword.date" clearable />

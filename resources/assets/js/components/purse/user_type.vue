@@ -8,6 +8,8 @@
 			<blockquote class="blockquote_normal">
 				<p>
 					名称：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.name" />
+				</p>
+				<p>
 					Alias：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.alias" />
 				</p>
 				<p>

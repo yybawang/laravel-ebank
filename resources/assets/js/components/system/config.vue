@@ -8,6 +8,8 @@
 			<blockquote class="blockquote_normal">
 				<p>
 					键：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.key" />
+				</p>
+				<p>
 					值：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.value" />
 				</p>
 				<p>
