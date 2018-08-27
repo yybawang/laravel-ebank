@@ -6,7 +6,7 @@ use App\Libraries\Bank\OrderPayments;
 use App\Libraries\Bank\OrderUnified;
 use App\Libraries\Bank\PayFieldsConfig;
 use App\Models\FundMerchant;
-use App\Models\FundMerchantGroup;
+use App\Models\FundPayConfig;
 use App\Models\FundOrder;
 use App\Models\FundOrderPayment;
 use App\Models\FundPurseType;
@@ -73,9 +73,9 @@ class OrderController extends CommonController {
 		}
 		
 		// 获取商户信息
-		$merchant = FundMerchant::where(['appid'=>$basic_param['ebank_appid']])->first(['id','group_id']);
+		$merchant = FundMerchant::where(['appid'=>$basic_param['ebank_appid']])->first(['id','pay_config_id']);
 		$merchant_id = $merchant->id;
-		$pay_config = $merchant_group_id = FundMerchantGroup::where(['id'=>$merchant->group_id])->value('pay_config');
+		$pay_config = $merchant_group_id = FundPayConfig::where(['id'=>$merchant->pay_config_id])->value('pay_config');
 		
 		$exist = FundOrder::where(['merchant_id'=>$merchant_id,'order_no'=>$this->order_no])->first();
 		// 如果已支付，订单就不用再支付了

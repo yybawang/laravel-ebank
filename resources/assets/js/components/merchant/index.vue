@@ -18,7 +18,7 @@
 		</div>
 		
 		<div class="mdui-tab" mdui-tab>
-			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(name,id,key) of group" v-text="name" @click="tab_change(id)"></a>
+			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(name,id,key) of pay_config" v-text="name" @click="tab_change(id)"></a>
 		</div>
 		
 		<div class="mdui-table-fluid">
@@ -68,9 +68,9 @@
 			<div class="mdui-dialog-content">
 				<form>
 					<div class="mdui-container">
-						选择商户分组：
-						<select class="mdui-select"  v-model="form.group_id">
-							<option :value="key" v-for="(val,key) of group">{{val}}</option>
+						选择支付配置：
+						<select class="mdui-select"  v-model="form.pay_config_id">
+							<option :value="key" v-for="(val,key) of pay_config">{{val}}</option>
 						</select>
 					</div>
 					<div class="mdui-container">
@@ -152,14 +152,14 @@
 		data(){
 			return {
 				list : [],
-				group : [],
+				pay_config : [],
 				form : '',
 				dialog : '',
 				keyword : {
 					page : 1,
 					name : '',
 					appid : '',
-					group_id : 1,
+					pay_config_id : 1,
 					date : [],
 				},
 			};
@@ -202,14 +202,14 @@
 			},
 			tab_change(id){
 				this.keyword.page = 1;
-				this.keyword.group_id = id;
+				this.keyword.pay_config_id = id;
 				this.init();
 			},
 			init(){
 				let t = this;
 				get('/merchant',t.keyword,function(data){
 					t.list = data.list;
-					t.group = data.group;
+					t.pay_config = data.pay_config;
 					setTimeout(function(){
 						$('.mdui-tab').mutation();
 					},0);

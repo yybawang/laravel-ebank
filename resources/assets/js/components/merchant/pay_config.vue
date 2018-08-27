@@ -53,7 +53,7 @@
 		<!--修改弹窗-->
 		<div class="mdui-dialog dialog_add">
 			<div class="mdui-dialog-title">
-				API 商户分组新增/修改
+				支付方式新增/修改
 			</div>
 			<div class="mdui-dialog-content">
 				<form>
@@ -64,7 +64,6 @@
 						</div>
 					</div>
 					<div class="mdui-container">
-						<div class="mdui-p-y-1"><strong>支付秘钥配置</strong></div>
 						<div class="mdui-tab" mdui-tab>
 							<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(config,name,key) of form.pay_config" v-text="name" @click="tab_change(name)"></a>
 						</div>
@@ -137,17 +136,17 @@
 		methods : {
 			add(id){
 				let t = this;
-				get('/merchant/group_detail',{id:id},function(data){
+				get('/merchant/pay_config_detail',{id:id},function(data){
 					t.form = data;
 					setTimeout(function(){
-						t.dialog.open();
 						$('.mdui-tab').mutation();
+						t.dialog.open();
 					},0);
 				});
 			},
 			add_submit(){
 				let t = this;
-				post('/merchant/group',t.form,function(){
+				post('/merchant/pay_config',t.form,function(){
 					t.dialog.close();
 					t.init();
 				});
@@ -155,7 +154,7 @@
 			del(id){
 				let t = this;
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认?', function(){
-					del('/merchant/group',{id:id},function(){
+					del('/merchant/pay_config',{id:id},function(){
 						t.init();
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
@@ -169,7 +168,7 @@
 			},
 			init(){
 				let t = this;
-				get('/merchant/group',t.keyword,function(data){
+				get('/merchant/pay_config',t.keyword,function(data){
 					t.list = data.list;
 				});
 			}

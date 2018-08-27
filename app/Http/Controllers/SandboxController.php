@@ -13,7 +13,7 @@ use App\Mail\Bug;
 use App\Models\FundAdmin;
 use App\Models\FundFreeze;
 use App\Models\FundMerchant;
-use App\Models\FundMerchantGroup;
+use App\Models\FundPayConfig;
 use App\Models\FundOrderPayment;
 use App\Models\FundTransfer;
 use App\Models\FundTransferReason;
@@ -85,7 +85,6 @@ class SandboxController extends Controller
 //		$s = FundUserPurse::where(['id'=>2])->update(['balance'=>99999999999900]);
 //		$s = curl_post(url('api/sms/content'),['mobile'=>'17099912460','content'=>'发送短信。。。']);
 //		curl_post('http://sdfd1204545.com',['df'=>333]);
-		$s = FundAdmin::first(['id','name']);
 		dump($s);
 	}
 	

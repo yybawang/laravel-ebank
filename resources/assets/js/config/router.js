@@ -29,8 +29,8 @@ export default new VueRouter({
 			component: resolve => void(require(['../components/index/sysinfo.vue'], resolve))
 		},
 		{
-			path: '/merchant/group',
-			component: resolve => void(require(['../components/merchant/group.vue'], resolve))
+			path: '/merchant/pay_config',
+			component: resolve => void(require(['../components/merchant/pay_config.vue'], resolve))
 		},
 		{
 			path: '/merchant',

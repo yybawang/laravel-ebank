@@ -3,7 +3,7 @@
 use App\Models\FundAdmin;
 use App\Models\FundAdminGroup;
 use App\Models\FundMerchant;
-use App\Models\FundMerchantGroup;
+use App\Models\FundPayConfig;
 use App\Models\FundPurseType;
 use App\Models\FundTransferReason;
 use App\Models\FundUserType;
@@ -34,15 +34,15 @@ class InitDataSeeder extends Seeder
 			'status'	=> 1,
 		]);
 		
-		$merchant_group_id = FundMerchantGroup::create([
-			'name'		=> '系统商户分组',
-			'pay_config'=> '[]',
+		$pay_config_id = FundPayConfig::create([
+			'name'		=> '系统商户',
+			'pay_config'=> [],
 			'status'	=> 1,
-			'remarks'	=> '系统保留商户分组',
+			'remarks'	=> '系统保留支付配置',
 		])->id;
 		
 		FundMerchant::create([
-			'group_id'	=> $merchant_group_id,
+			'pay_config_id'	=> $pay_config_id,
 			'name'		=> '系统商户',
 			'appid'		=> 'ebank10000',
 			'secret'	=> '10000',
