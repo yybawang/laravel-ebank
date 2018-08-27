@@ -860,7 +860,7 @@ module.exports = defaults;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.5.16
+ * Vue.js v2.5.17
  * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
@@ -5949,7 +5949,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.5.16';
+Vue.version = '2.5.17';
 
 /*  */
 
@@ -24208,6 +24208,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return Array.isArray(this.value) ? this.dates : this.dates[0];
     },
     cls: function cls() {
+      this.$emit('clear');
       this.$emit('input', this.range ? [] : '');
     },
     vi: function vi(val) {
@@ -24268,6 +24269,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.show = false;
     },
     cancel: function cancel() {
+      this.$emit('cancel');
       this.show = false;
     }
   },
@@ -24365,7 +24367,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.calendar {\n  float: left;\n  display: inline-block;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n.calendar+.calendar{\n  border-left: solid 1px #eaeaea;\n  margin-left: 5px;\n  padding-left: 5px;\n}\n.calendar-head {\n  line-height: 34px;\n  height: 34px;\n  text-align: center;\n  position: relative;\n}\n.calendar-head a {\n  color: #666;\n  font-weight: bold;\n  cursor: pointer;\n  display: inline-block;\n  text-align: center;\n  position: absolute;\n  padding: 0 5px;\n  font-size: 16px;\n}\n.calendar-head a:hover {\n  color: #1284e7;\n}\n.calendar-head .calendar-year-select,\n.calendar-head .calendar-month-select {\n  font-size: 12px;\n  padding: 0 2px;\n  position: relative;\n}\n.calendar-prev-decade-btn,\n.calendar-prev-year-btn {\n  left: 6px;\n}\n.calendar-prev-month-btn {\n  left: 24px;\n}\n.calendar-next-decade-btn,\n.calendar-next-year-btn {\n  right: 6px;\n}\n.calendar-next-month-btn {\n  right: 24px;\n}\n.calendar-body {\n  position: relative;\n  width: 196px;\n  height: 196px;\n}\n.calendar-days {\n  width: 100%;\n  height: 100%;\n}\n.calendar-week,\n.calendar-date {\n  font-weight: normal;\n  width: 14.28%;\n  height: 14.28%;\n  text-align: center;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  display: inline-block;\n  overflow: hidden;\n  float: left;\n}\n.calendar-week:before,\n.calendar-date:before {\n  content: \"\";\n  display: inline-block;\n  height: 100%;\n  vertical-align: middle;\n}\n.calendar-date {\n  cursor: pointer;\n}\n.calendar-date-out {\n  color: #ccc;\n}\n.calendar-date:hover,\n.calendar-date-on {\n  background: #eaf8fe;\n}\n.calendar-date-selected,\n.calendar-date-selected:hover {\n  color: #fff;\n  font-weight: bold;\n  background: #1284e7;\n}\n.calendar-date-disabled {\n  cursor: not-allowed !important;\n  color: #bcbcbc !important;\n  background: #f3f3f3 !important;\n}\n.calendar-foot {\n  margin-top: 5px;\n}\n.calendar-hour {\n  display: inline-block;\n  border: 1px solid #e6e5e5;\n  color: #9e9e9e;\n}\n.calendar-hour a {\n  display: inline-block;\n  padding: 2px 4px;\n  cursor: pointer;\n}\n.calendar-hour a:hover,\n.calendar-hour a.on {\n  color: #1284e7;\n}\n.calendar-years,\n.calendar-months,\n.calendar-hours,\n.calendar-minutes,\n.calendar-seconds {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  background: #fff;\n  left: 0;\n  top: 0;\n}\n.calendar-months a {\n  width: 33.33%;\n  height: 25%;\n}\n.calendar-years a {\n  width: 33.33%;\n  height: 25%;\n}\n.calendar-hours a {\n  width: 20%;\n  height: 20%;\n}\n.calendar-minutes a,\n.calendar-seconds a {\n  width: 16.66%;\n  height: 10%;\n}\n.calendar-title {\n  margin-top: -30px;\n  height: 30px;\n  line-height: 30px;\n  background: #fff;\n  text-align: center;\n  font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.calendar {\n  float: left;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n.calendar+.calendar{\n  border-left: solid 1px #eaeaea;\n  margin-left: 5px;\n  padding-left: 5px;\n}\n.calendar-head {\n  line-height: 34px;\n  height: 34px;\n  text-align: center;\n  position: relative;\n}\n.calendar-head a {\n  color: #666;\n  font-weight: bold;\n  cursor: pointer;\n  display: inline-block;\n  text-align: center;\n  position: absolute;\n  padding: 0 5px;\n  font-size: 16px;\n}\n.calendar-head a:hover {\n  color: #1284e7;\n}\n.calendar-head .calendar-year-select,\n.calendar-head .calendar-month-select {\n  font-size: 12px;\n  padding: 0 2px;\n  position: relative;\n}\n.calendar-prev-decade-btn,\n.calendar-prev-year-btn {\n  left: 6px;\n}\n.calendar-prev-month-btn {\n  left: 24px;\n}\n.calendar-next-decade-btn,\n.calendar-next-year-btn {\n  right: 6px;\n}\n.calendar-next-month-btn {\n  right: 24px;\n}\n.calendar-body {\n  position: relative;\n  width: 196px;\n  height: 196px;\n}\n.calendar-days {\n  width: 100%;\n  height: 100%;\n}\n.calendar-week,\n.calendar-date {\n  font-weight: normal;\n  width: 14.28%;\n  height: 14.28%;\n  text-align: center;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n  overflow: hidden;\n  float: left;\n}\n.calendar-week:before,\n.calendar-date:before {\n  content: \"\";\n  display: inline-block;\n  height: 100%;\n  vertical-align: middle;\n}\n.calendar-date {\n  cursor: pointer;\n}\n.calendar-date-out {\n  color: #ccc;\n}\n.calendar-date:hover,\n.calendar-date-on {\n  background: #eaf8fe;\n}\n.calendar-date-selected,\n.calendar-date-selected:hover {\n  color: #fff;\n  font-weight: bold;\n  background: #1284e7;\n}\n.calendar-date-disabled {\n  cursor: not-allowed !important;\n  color: #bcbcbc !important;\n  background: #f3f3f3 !important;\n}\n.calendar-foot {\n  margin-top: 5px;\n}\n.calendar-hour {\n  display: inline-block;\n  border: 1px solid #e6e5e5;\n  color: #9e9e9e;\n}\n.calendar-hour a {\n  display: inline-block;\n  padding: 2px 4px;\n  cursor: pointer;\n}\n.calendar-hour a:hover,\n.calendar-hour a.on {\n  color: #1284e7;\n}\n.calendar-years,\n.calendar-months,\n.calendar-hours,\n.calendar-minutes,\n.calendar-seconds {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  background: #fff;\n  left: 0;\n  top: 0;\n}\n.calendar-months a {\n  width: 33.33%;\n  height: 25%;\n}\n.calendar-years a {\n  width: 33.33%;\n  height: 25%;\n}\n.calendar-hours a {\n  width: 20%;\n  height: 20%;\n}\n.calendar-minutes a,\n.calendar-seconds a {\n  width: 16.66%;\n  height: 10%;\n}\n.calendar-title {\n  margin-top: -30px;\n  height: 30px;\n  line-height: 30px;\n  background: #fff;\n  text-align: center;\n  font-weight: bold;\n}\n", ""]);
 
 // exports
 
@@ -24573,7 +24575,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         flag = f($this.value, format) === f(time, format);
       }
       classObj[$this.pre + '-date'] = true;
-      classObj[$this.pre + '-date-disabled'] = $this.right && t < $this.start || $this.left && t > $this.end || $this.$parent.disabledDate(time, format);
+      classObj[$this.pre + '-date-disabled'] = $this.right && t < $this.start || $this.$parent.disabledDate(time, format);
       classObj[$this.pre + '-date-on'] = $this.left && t > $this.start || $this.right && t < $this.end;
       classObj[$this.pre + '-date-selected'] = flag;
       return classObj;
@@ -24608,7 +24610,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         year = time.year;
         month = time.month;
       }
-      $this.$emit('input', new Date(year || $this.year, month || $this.month, $this.day, $this.hour, $this.minute, $this.second));
+      var _time = new Date(year || $this.year, month || $this.month, $this.day, $this.hour, $this.minute, $this.second);
+      if ($this.left && parseInt(_time.getTime() / 1000) > $this.end) {
+        this.$parent.dates[1] = _time;
+      }
+      $this.$emit('input', _time);
       $this.$parent.ok(info === 'h');
     }
   },

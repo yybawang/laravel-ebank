@@ -43,7 +43,7 @@ class TransferController extends CommonController {
 				});
 			})
 			->when($request->input('merchant_id'),function($query) use ($request){
-				$query->whereIn('merchant_id',$request->input('merchant_id'));
+				$query->where('merchant_id',$request->input('merchant_id'));
 			})
 			->when($request->input('reason'),function($query) use ($request){
 				$query->where('reason',$request->input('reason'));

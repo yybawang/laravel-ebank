@@ -24,18 +24,15 @@
 						{{name}}
 					</label>
 				</p>
-				<p>
-					商户：
-					<label class="mdui-checkbox" v-for="(name,id) of merchant" style="margin-right:2rem;">
-						<input type="checkbox" :value="id" v-model="keyword.merchant_id" />
-						<i class="mdui-checkbox-icon"></i>
-						{{name}}
-					</label>
-				</p>
 				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
 				<a class="mdui-btn mdui-ripple mdui-color-pink" @click="exports"><i class="mdui-icon mdui-icon-left material-icons">file_upload</i>导出</a>
 			</blockquote>
 		</div>
+		
+		<div class="mdui-tab" mdui-tab>
+			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(name,id,key) of merchant" v-text="name" @click="tab_change(id)"></a>
+		</div>
+		
 		<div class="mdui-table-fluid table-data-fluid">
 			<table class="mdui-table mdui-table-hoverable table-data">
 				<thead>
@@ -119,7 +116,6 @@
 	export default {
 		data(){
 			return {
-				Vue : Vue,
 				list : [],
 				purse_type : '',
 				user_type : '',
@@ -132,7 +128,7 @@
 					reason : '',
 					purse_type_id : [],
 					user_type_id : [],
-					merchant_id : [],
+					merchant_id : 1,
 					date : [],
 				},
 			};
@@ -158,6 +154,11 @@
 					}
 				}, function () {}, {history: false, confirmText: '确定', cancelText: '取消'});
 			},
+			tab_change(id){
+				this.keyword.page = 1;
+				this.keyword.merchant_id = id;
+				this.init();
+			},
 			init(){
 				let t = this;
 				get('/transfer',t.keyword,function(data){
@@ -169,6 +170,9 @@
 					if(t.keyword.export){
 						mdui.alert('可在左侧【导出任务】菜单查看任务状态并下载文件','已放入导出任务',function(){},{history:false});
 					}
+					setTimeout(function(){
+						$('.mdui-tab').mutation();
+					},0);
 				});
 			}
 		},

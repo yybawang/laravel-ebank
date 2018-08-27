@@ -304,7 +304,7 @@ var render = function() {
         _c(
           "p",
           [
-            _vm._v("\n\t\t\t\tAPI商户：\n\t\t\t\t"),
+            _vm._v("\n\t\t\t\t商户：\n\t\t\t\t"),
             _vm._l(_vm.merchant, function(name, id) {
               return _c(
                 "label",

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\BasicRequest;
 use App\Libraries\Bank\EBank;
 use App\Libraries\ExportCsv;
+use App\Models\FundMerchant;
 use App\Models\FundPurseType;
 use App\Models\FundWithdraw;
 use App\Models\FundWithdrawAlipay;
@@ -17,10 +18,14 @@ class WithdrawController extends CommonController {
 	 * @return array
 	 */
 	public function bank(BasicRequest $request){
-		$data['purse_type'] = FundPurseType::active()->pluck('id','name');
+		$data['merchant'] = FundMerchant::pluck('name','id');
+		$data['purse_type'] = FundPurseType::pluck('name','alias');
 		$model = FundWithdraw::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})
+			->when($request->input('merchant_id'),function($query) use ($request){
+				$query->where('merchant_id',$request->input('merchant_id'));
+			})
 			->when($request->input('realname'),function($query) use ($request){
 				$query->where('realname','like','%'.$request->input('realname').'%');
 			})
@@ -33,7 +38,7 @@ class WithdrawController extends CommonController {
 //			dd($model2);
 			(new ExportCsv())->name('导出用户银行卡提现')->field(['id'=>'id','user_id'=>'提现用户ID','pay_type'=>'提现方式','amount'=>'申请提现金额(分)','fee'=>'手续费(分)','amount_actual'=>'实际到账金额(分)','realname'=>'银行卡户名','bank_name'=>'银行名称','bank_no'=>'银行卡号','status'=>'状态，0申请中，1提现成功，2提现失败','created_at'=>'创建时间'])->data($model2)->save();
 		}
-		$data['data'] = $model->pages();
+		$data['list'] = $model->pages();
 		return json_success('OK',$data);
 	}
 	
@@ -43,10 +48,14 @@ class WithdrawController extends CommonController {
 	 * @return array
 	 */
 	public function alipay(BasicRequest $request){
-		$data['purse_type'] = FundPurseType::active()->pluck('id','name');
+		$data['merchant'] = FundMerchant::pluck('name','id');
+		$data['purse_type'] = FundPurseType::pluck('name','alias');
 		$model = FundWithdrawAlipay::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})
+			->when($request->input('merchant_id'),function($query) use ($request){
+				$query->where('merchant_id',$request->input('merchant_id'));
+			})
 			->when($request->input('realname'),function($query) use ($request){
 				$query->where('realname','like','%'.$request->input('realname').'%');
 			})
@@ -58,7 +67,7 @@ class WithdrawController extends CommonController {
 			$model2 = clone $model;
 			(new ExportCsv())->name('导出用户支付宝提现')->field(['id'=>'id','user_id'=>'提现用户ID','pay_type'=>'提现方式','amount'=>'申请提现金额(分)','fee'=>'手续费(分)','amount_actual'=>'实际到账金额(分)','realname'=>'支付宝实名','account'=>'支付宝账户','status'=>'状态，0申请中，1提现成功，2提现失败','created_at'=>'创建时间'])->data($model2)->save();
 		}
-		$data['data'] = $model->pages();
+		$data['list'] = $model->pages();
 		return json_success('OK',$data);
 	}
 	
@@ -68,10 +77,14 @@ class WithdrawController extends CommonController {
 	 * @return array
 	 */
 	public function wechat(BasicRequest $request){
-		$data['purse_type'] = FundPurseType::active()->pluck('id','name');
+		$data['merchant'] = FundMerchant::pluck('name','id');
+		$data['purse_type'] = FundPurseType::pluck('name','alias');
 		$model = FundWithdrawWechat::when($request->input('user_id'),function($query) use ($request){
 			$query->where('user_id','like','%'.$request->input('user_id').'%');
 		})
+			->when($request->input('merchant_id'),function($query) use ($request){
+				$query->where('merchant_id',$request->input('merchant_id'));
+			})
 			->when($request->input('realname'),function($query) use ($request){
 				$query->where('realname','like','%'.$request->input('realname').'%');
 			})
@@ -83,7 +96,7 @@ class WithdrawController extends CommonController {
 			$model2 = clone $model;
 			(new ExportCsv())->name('导出用户支付宝提现')->field(['id'=>'id','user_id'=>'提现用户ID','pay_type'=>'提现方式','amount'=>'申请提现金额(分)','fee'=>'手续费(分)','amount_actual'=>'实际到账金额(分)','realname'=>'支付宝实名','account'=>'支付宝账户','status'=>'状态，0申请中，1提现成功，2提现失败','created_at'=>'创建时间'])->data($model2)->save();
 		}
-		$data['data'] = $model->pages();
+		$data['list'] = $model->pages();
 		return json_success('OK',$data);
 	}
 	

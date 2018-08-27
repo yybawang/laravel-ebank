@@ -5,6 +5,11 @@
 				<p>注：reason 行为流水统计，根据实际成功的流水计算所得</p>
 			</blockquote>
 		</div>
+		
+		<div class="mdui-tab" mdui-tab>
+			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(name,id,key) of merchant" v-text="name" @click="tab_change(id)"></a>
+		</div>
+		
 		<div class="mdui-table-fluid">
 			<table class="mdui-table mdui-table-hoverable">
 				<thead>
@@ -42,7 +47,6 @@
 				</tbody>
 			</table>
 		</div>
-		
 		<div class="mdui-dialog dialog_detail" style="max-width:none;">
 			<div class="mdui-dialog-title">
 				reason 行为流水详情
@@ -132,6 +136,7 @@
 				list : [],
 				user_type : '',
 				purse_type : '',
+				merchant : '',
 				dialog : '',
 				dialog_list : [],
 				dialog_keyword : {
@@ -139,7 +144,8 @@
 					reason : '',
 				},
 				keyword : {
-					page : 1
+					page : 1,
+					merchant_id : 1,
 				}
 			}
 		},
@@ -166,12 +172,21 @@
 				this.keyword.page = page;
 				this.init();
 			},
+			tab_change(id){
+				this.keyword.page = 1;
+				this.keyword.merchant_id = id;
+				this.init();
+			},
 			init(){
 				let t = this;
 				get('/report/reason',t.keyword,function(data){
 					t.list = data.list;
+					t.merchant = data.merchant;
 					t.user_type = data.user_type;
 					t.purse_type = data.purse_type;
+					setTimeout(function(){
+						$('.mdui-tab').mutation();
+					},0);
 				});
 			}
 		},

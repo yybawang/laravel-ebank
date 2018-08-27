@@ -44,7 +44,7 @@ class PurseController extends CommonController {
 				$query->whereIn('purse_type_id',$request->input('purse_type_id'));
 			})
 			->when($request->input('merchant_id'),function($query) use ($request){
-				$query->whereIn('merchant_id',$request->input('merchant_id'));
+				$query->where('merchant_id',$request->input('merchant_id'));
 			})
 			->where(['user_type_id'=>3])->where('user_id','>',0)->orderBy('user_id','desc')->orderBy('purse_type_id','asc')->pages();
 		return json_success('OK',$data);

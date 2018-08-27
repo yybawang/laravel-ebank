@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\BasicRequest;
+use App\Models\FundMerchant;
 use App\Models\FundPurseType;
 use App\Models\FundTransfer;
 use App\Models\FundTransferReason;
@@ -16,10 +17,14 @@ class ReportController extends CommonController {
 	 * @return array
 	 */
 	public function reason(BasicRequest $request){
-		$data['user_type'] = FundUserType::active()->pluck('name','id');
-		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
+		$data['merchant'] = FundMerchant::pluck('name','id');
+		$data['user_type'] = FundUserType::pluck('name','id');
+		$data['purse_type'] = FundPurseType::pluck('name','id');
 		$data['list'] = FundTransfer::select(DB::raw('r.reason,sum(amount) amount,r.name reason_name,r.out_user_type_id,r.out_purse_type_id,r.into_user_type_id,r.into_purse_type_id,r.remarks reason_remarks'))
 			->leftJoin('fund_transfer_reason as r','r.reason','=','fund_transfer.reason')
+			->when($request->input('merchant_id'),function($query) use ($request){
+				$query->where('fund_transfer.merchant_id',$request->input('merchant_id'));
+			})
 			->where(['fund_transfer.status'=>1])
 			->groupBy('r.reason')
 			->orderBy('r.reason','desc')
@@ -44,18 +49,28 @@ class ReportController extends CommonController {
 	 * @return array
 	 */
 	public function purse(BasicRequest $request){
-		$user_type = FundUserType::active()->pluck('name','id');
-		$purse_type = FundPurseType::active()->pluck('name','id');
+		$merchant = FundMerchant::pluck('name','id');
+		$user_type = FundUserType::pluck('name','id');
+		$purse_type = FundPurseType::pluck('name','id');
 		$list = [];
-		$user_type->each(function($v,$user_type_id) use (&$list,$purse_type){
-			$purse_type->each(function($v,$purse_type_id) use (&$list,$user_type_id){
-				$amount_into = FundTransfer::where(['status'=>1,'into_user_type_id'=>$user_type_id,'into_purse_type_id'=>$purse_type_id])->sum('amount');
-				$amount_out = FundTransfer::where(['status'=>1,'out_user_type_id'=>$user_type_id,'out_purse_type_id'=>$purse_type_id])->sum('amount');
+		$user_type->each(function($v,$user_type_id) use (&$list,$purse_type,$request){
+			$purse_type->each(function($v,$purse_type_id) use (&$list,$user_type_id,$request){
+				$amount_into = FundTransfer::when($request->input('merchant_id'),function($query) use ($request){
+					$query->where('merchant_id',$request->input('merchant_id'));
+				})
+					->where(['status'=>1,'into_user_type_id'=>$user_type_id,'into_purse_type_id'=>$purse_type_id])
+					->sum('amount');
+				$amount_out = FundTransfer::when($request->input('merchant_id'),function($query) use ($request){
+					$query->where('merchant_id',$request->input('merchant_id'));
+				})
+					->where(['status'=>1,'out_user_type_id'=>$user_type_id,'out_purse_type_id'=>$purse_type_id])
+					->sum('amount');
 //				$list[$user_type_id][$purse_type_id] = '出:'.$amount_out.'　进:'.$amount_into;
 				$list[$user_type_id][$purse_type_id] = ['out'=> $amount_out,'into'=>$amount_into];
 			});
 		});
 		$data = [
+			'merchant'		=> $merchant,
 			'user_type'		=> $user_type,
 			'purse_type'	=> $purse_type,
 			'list'			=> $list,

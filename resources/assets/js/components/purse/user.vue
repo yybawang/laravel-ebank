@@ -6,14 +6,6 @@
 					用户ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.user_id"/>
 				</p>
 				<p>
-					调用商户：
-					<label class="mdui-checkbox" v-for="(name,id) of merchant" style="margin-right:2rem;">
-						<input type="checkbox" :value="id" v-model="keyword.merchant_id"/>
-						<i class="mdui-checkbox-icon"></i>
-						{{name}}
-					</label>
-				</p>
-				<p>
 					钱包类型：
 					<label class="mdui-checkbox" v-for="(name,id) of purse_type" style="margin-right:2rem;">
 						<input type="checkbox" :value="id" v-model="keyword.purse_type_id"/>
@@ -24,6 +16,11 @@
 				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
 			</blockquote>
 		</div>
+		
+		<div class="mdui-tab" mdui-tab>
+			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(name,id,key) of merchant" v-text="name" @click="tab_change(id)"></a>
+		</div>
+		
 		<div class="mdui-table-fluid">
 			<table class="mdui-table mdui-table-hoverable">
 				<thead>
@@ -93,7 +90,7 @@
 					page: 1,
 					user_id: '',
 					purse_type_id: [],
-					merchant_id: [],
+					merchant_id: 1,
 				},
 			};
 		},
@@ -102,12 +99,20 @@
 				this.keyword.page = page;
 				this.init();
 			},
+			tab_change(id){
+				this.keyword.page = 1;
+				this.keyword.merchant_id = id;
+				this.init();
+			},
 			init() {
 				let t = this;
 				get('/purse/user', t.keyword, function (data) {
 					t.list = data.list;
 					t.merchant = data.merchant;
 					t.purse_type = data.purse_type;
+					setTimeout(function(){
+						$('.mdui-tab').mutation();
+					},0);
 				});
 			}
 		},

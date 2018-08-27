@@ -41,14 +41,14 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	});
 	
 	Route::prefix('merchant')->name('admin.接口商户管理.')->group(function(){
-		Route::get('/','MerchantController@index')->name('menu.商户列表');
-		Route::post('/','MerchantController@add');
-		Route::delete('/','MerchantController@delete');
-		Route::get('detail','MerchantController@detail');
 		Route::get('pay_config','PayConfigController@index')->name('menu.商户支付配置');
 		Route::post('pay_config','PayConfigController@add');
 		Route::delete('pay_config','PayConfigController@delete');
 		Route::get('pay_config_detail','PayConfigController@detail');
+		Route::get('/','MerchantController@index')->name('menu.商户列表');
+		Route::post('/','MerchantController@add');
+		Route::delete('/','MerchantController@delete');
+		Route::get('detail','MerchantController@detail');
 	});
 	
 	Route::prefix('transfer')->name('admin.业务流水管理.')->group(function(){

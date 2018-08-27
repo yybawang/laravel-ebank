@@ -150,10 +150,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -166,7 +162,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				page: 1,
 				name: '',
 				appid: '',
-				pay_config_id: 1,
 				date: []
 			}
 		};
@@ -216,11 +211,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}),
 		search: function search(page) {
 			this.keyword.page = page;
-			this.init();
-		},
-		tab_change: function tab_change(id) {
-			this.keyword.page = 1;
-			this.keyword.pay_config_id = id;
 			this.init();
 		},
 		init: function init() {
@@ -363,27 +353,6 @@ var render = function() {
         )
       ])
     ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "mdui-tab", attrs: { "mdui-tab": "" } },
-      _vm._l(_vm.pay_config, function(name, id, key) {
-        return _c("a", {
-          class: {
-            "mdui-btn": true,
-            "mdui-ripple": true,
-            "mdui-tab-active": key == 0
-          },
-          attrs: { href: "#tab_" + key },
-          domProps: { textContent: _vm._s(name) },
-          on: {
-            click: function($event) {
-              _vm.tab_change(id)
-            }
-          }
-        })
-      })
-    ),
     _vm._v(" "),
     _c("div", { staticClass: "mdui-table-fluid" }, [
       _c("table", { staticClass: "mdui-table mdui-table-hoverable" }, [

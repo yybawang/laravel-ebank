@@ -16,6 +16,11 @@
 				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="success_all"><i class="mdui-icon mdui-icon-left material-icons">check</i>批量同意</a>
 			</blockquote>
 		</div>
+		
+		<div class="mdui-tab" mdui-tab>
+			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(name,id,key) of merchant" v-text="name" @click="tab_change(id)"></a>
+		</div>
+		
 		<div class="mdui-table-fluid table-data-fluid">
 			<table class="mdui-table mdui-table-hoverable table-data">
 				<thead>
@@ -24,7 +29,7 @@
 					<th>#</th>
 					<th>ID</th>
 					<th>用户ID</th>
-					<th>到账类型</th>
+					<th>提现钱包</th>
 					<th>申请金额(分)</th>
 					<th>手续费(分)</th>
 					<th>打款金额(分)</th>
@@ -46,7 +51,7 @@
 					<td v-text="'#'+(key+1)"></td>
 					<td v-text="val.id"></td>
 					<td v-text="val.user_id"></td>
-					<td v-text="val.pay_type"></td>
+					<td v-text="purse_type[val.purse]"></td>
 					<td v-text="val.amount"></td>
 					<td v-text="val.fee"></td>
 					<td v-text="val.amount_actual"></td>
@@ -88,6 +93,7 @@
 		data(){
 			return {
 				list : [],
+				merchant : '',
 				purse_type : '',
 				form : '',
 				dialog : '',
@@ -99,6 +105,7 @@
 					user_id : '',
 					realname : '',
 					date : [],
+					merchant_id : 1,
 				},
 				status : [
 					'申请中',
@@ -161,14 +168,23 @@
 				this.keyword.export = 1;
 				this.init();
 			},
+			tab_change(id){
+				this.keyword.page = 1;
+				this.keyword.merchant_id = id;
+				this.init();
+			},
 			init(){
 				let t = this;
 				get('/withdraw/alipay',t.keyword,function(data){
-					t.list = data.data;
+					t.list = data.list;
+					t.merchant = data.merchant;
 					t.purse_type = data.purse_type;
 					if(t.keyword.export){
 						mdui.alert('可在左侧【导出任务】菜单查看任务状态并下载文件','已放入导出任务',function(){},{history:false});
 					}
+					setTimeout(function(){
+						$('.mdui-tab').mutation();
+					},0);
 				});
 			}
 		},

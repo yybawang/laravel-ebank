@@ -9,7 +9,7 @@
 				<p>
 					日期筛选：<vue-datepicker-local v-model="keyword.date" clearable />
 				<p>
-					API商户：
+					商户：
 					<label class="mdui-checkbox" v-for="(name,id) of merchant" style="margin-right:2rem;">
 						<input type="checkbox" :value="id" v-model="keyword.merchant_id" />
 						<i class="mdui-checkbox-icon"></i>

@@ -17,10 +17,6 @@
 			</blockquote>
 		</div>
 		
-		<div class="mdui-tab" mdui-tab>
-			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(name,id,key) of pay_config" v-text="name" @click="tab_change(id)"></a>
-		</div>
-		
 		<div class="mdui-table-fluid">
 			<table class="mdui-table mdui-table-hoverable">
 				<thead>
@@ -159,7 +155,6 @@
 					page : 1,
 					name : '',
 					appid : '',
-					pay_config_id : 1,
 					date : [],
 				},
 			};
@@ -198,11 +193,6 @@
 			},
 			search(page){
 				this.keyword.page = page;
-				this.init();
-			},
-			tab_change(id){
-				this.keyword.page = 1;
-				this.keyword.pay_config_id = id;
 				this.init();
 			},
 			init(){

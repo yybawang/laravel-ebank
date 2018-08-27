@@ -86,9 +86,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -100,7 +97,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				page: 1,
 				user_id: '',
 				purse_type_id: [],
-				merchant_id: []
+				merchant_id: 1
 			}
 		};
 	},
@@ -110,12 +107,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.keyword.page = page;
 			this.init();
 		},
+		tab_change: function tab_change(id) {
+			this.keyword.page = 1;
+			this.keyword.merchant_id = id;
+			this.init();
+		},
 		init: function init() {
 			var t = this;
 			get('/purse/user', t.keyword, function (data) {
 				t.list = data.list;
 				t.merchant = data.merchant;
 				t.purse_type = data.purse_type;
+				setTimeout(function () {
+					$('.mdui-tab').mutation();
+				}, 0);
 			});
 		}
 	},
@@ -161,73 +166,6 @@ var render = function() {
             }
           })
         ]),
-        _vm._v(" "),
-        _c(
-          "p",
-          [
-            _vm._v("\n\t\t\t\t调用商户：\n\t\t\t\t"),
-            _vm._l(_vm.merchant, function(name, id) {
-              return _c(
-                "label",
-                {
-                  staticClass: "mdui-checkbox",
-                  staticStyle: { "margin-right": "2rem" }
-                },
-                [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.keyword.merchant_id,
-                        expression: "keyword.merchant_id"
-                      }
-                    ],
-                    attrs: { type: "checkbox" },
-                    domProps: {
-                      value: id,
-                      checked: Array.isArray(_vm.keyword.merchant_id)
-                        ? _vm._i(_vm.keyword.merchant_id, id) > -1
-                        : _vm.keyword.merchant_id
-                    },
-                    on: {
-                      change: function($event) {
-                        var $$a = _vm.keyword.merchant_id,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = id,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 &&
-                              _vm.$set(
-                                _vm.keyword,
-                                "merchant_id",
-                                $$a.concat([$$v])
-                              )
-                          } else {
-                            $$i > -1 &&
-                              _vm.$set(
-                                _vm.keyword,
-                                "merchant_id",
-                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                              )
-                          }
-                        } else {
-                          _vm.$set(_vm.keyword, "merchant_id", $$c)
-                        }
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("i", { staticClass: "mdui-checkbox-icon" }),
-                  _vm._v("\n\t\t\t\t\t" + _vm._s(name) + "\n\t\t\t\t")
-                ]
-              )
-            })
-          ],
-          2
-        ),
         _vm._v(" "),
         _c(
           "p",
@@ -317,6 +255,27 @@ var render = function() {
         )
       ])
     ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "mdui-tab", attrs: { "mdui-tab": "" } },
+      _vm._l(_vm.merchant, function(name, id, key) {
+        return _c("a", {
+          class: {
+            "mdui-btn": true,
+            "mdui-ripple": true,
+            "mdui-tab-active": key == 0
+          },
+          attrs: { href: "#tab_" + key },
+          domProps: { textContent: _vm._s(name) },
+          on: {
+            click: function($event) {
+              _vm.tab_change(id)
+            }
+          }
+        })
+      })
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "mdui-table-fluid" }, [
       _c("table", { staticClass: "mdui-table mdui-table-hoverable" }, [

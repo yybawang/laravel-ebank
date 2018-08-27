@@ -5,6 +5,11 @@
 				<p>注：钱包进出统计，根据转账流水以及第三方支付订单计算所得</p>
 			</blockquote>
 		</div>
+		
+		<div class="mdui-tab" mdui-tab>
+			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(name,id,key) of merchant" v-text="name" @click="tab_change(id)"></a>
+		</div>
+		
 		<div class="mdui-table-fluid">
 			<table class="mdui-table mdui-table-hoverable">
 				<thead>
@@ -82,6 +87,7 @@
 		data(){
 			return {
 				list : [],
+				merchant : '',
 				user_type : '',
 				purse_type : '',
 				dialog : '',
@@ -95,7 +101,8 @@
 					reason : '',
 				},
 				keyword : {
-					page : 1
+					page : 1,
+					merchant_id : 1,
 				}
 			}
 		},
@@ -126,12 +133,21 @@
 				this.keyword.page = page;
 				this.init();
 			},
+			tab_change(id){
+				this.keyword.page = 1;
+				this.keyword.merchant_id = id;
+				this.init();
+			},
 			init(){
 				let t = this;
 				get('/report/purse',t.keyword,function(data){
 					t.list = data.list;
+					t.merchant = data.merchant;
 					t.user_type = data.user_type;
 					t.purse_type = data.purse_type;
+					setTimeout(function(){
+						$('.mdui-tab').mutation();
+					},0);
 				});
 			}
 		},

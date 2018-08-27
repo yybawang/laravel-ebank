@@ -33,7 +33,8 @@
 						</a>
 					</li>
 					<li class="mdui-menu-item">
-						<a href="javascript:;" class="mdui-ripple">
+						<a href="javascript:;" classdiv>
+	-ripple">
 							<i class="mdui-menu-item-icon"></i>{{user.last_login || '无历史登录'}}
 						</a>
 					</li>
@@ -52,7 +53,7 @@
 		<div class="mdui-drawer mdui-color-white" id="main-drawer">
 			<div class="mdui-card">
 				<div class="mdui-card-media">
-					<img src="../images/snow_square_tiny.png" style="height:190px;" />
+					<img src="../images/snow_square_tiny.png" style="height:200px;" />
 					<!-- 卡片中可以包含一个或多个菜单按钮 -->
 					<div class="mdui-card-menu">
 						<a target="_blank" href="//github.com/yybawang/ebank">
