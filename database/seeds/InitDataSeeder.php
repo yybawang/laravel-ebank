@@ -34,13 +34,15 @@ class InitDataSeeder extends Seeder
 			'status'	=> 1,
 		]);
 		
-		FundMerchantGroup::create([
+		$merchant_group_id = FundMerchantGroup::create([
 			'name'		=> '系统商户分组',
+			'pay_config'=> '[]',
 			'status'	=> 1,
 			'remarks'	=> '系统保留商户分组',
-		]);
+		])->id;
 		
 		FundMerchant::create([
+			'group_id'	=> $merchant_group_id,
 			'name'		=> '系统商户',
 			'appid'		=> 'ebank10000',
 			'secret'	=> '10000',

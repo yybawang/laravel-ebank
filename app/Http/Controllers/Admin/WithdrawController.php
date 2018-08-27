@@ -110,8 +110,8 @@ class WithdrawController extends CommonController {
 				$purse_type = ucfirst($withdraw->purse);
 				$transfer_alias_user = 'user'.$purse_type.'ToUserWithdraw';
 				$transfer_alias_system = 'userWithdrawToSystemWithdraw';
-				$bank->$transfer_alias_user($withdraw->user_id,$withdraw->user_id,$withdraw->amount,$withdraw->id,'提现成功，钱包中转',6);
-				$transfer_id = $bank->$transfer_alias_system($withdraw->user_id,0,$withdraw->amount,$withdraw->id,'提现成功，资金回收',7);
+				$bank->$transfer_alias_user($withdraw->merchant_id,$withdraw->user_id,$withdraw->user_id,$withdraw->amount,$withdraw->id,'提现成功，钱包中转',6);
+				$transfer_id = $bank->$transfer_alias_system($withdraw->merchant_id,$withdraw->user_id,0,$withdraw->amount,$withdraw->id,'提现成功，资金回收',7);
 				$withdraw->status = 1;
 				$withdraw->transfer_id = $transfer_id;
 				$withdraw->save();

@@ -40,8 +40,8 @@
 					<td v-text="val.created_at"></td>
 					<td v-text="val.updated_at"></td>
 					<td>
+						<a class="mdui-btn mdui-ripple mdui-color-theme" @click="add(val.id)">修改</a>
 						<div class="mdui-btn-group" v-if="val.id > 1">
-							<a class="mdui-btn mdui-ripple mdui-color-theme" @click="add(val.id)">修改</a>
 							<a class="mdui-btn mdui-ripple mdui-color-deep-orange" @click="del(val.id)">删除</a>
 						</div>
 					</td>
@@ -70,9 +70,9 @@
 						</div>
 						<div class="mdui-divider"></div>
 						<div class="payment_field" v-for="(val,key) of form.pay_config[pay_config_name]">
-							<div class="mdui-textfield">
-								<label class="mdui-textfield-label" v-text="key"></label>
-								<input class="mdui-textfield-input" :disabled="val.disabled" type="text" v-model="val.value" />
+							<div :class="{'mdui-textfield':true,'mdui-textfield-has-bottom':true,'mdui-textfield-disabled':!!val.disabled}">
+								<label class="mdui-textfield-label" v-text="val.field"></label>
+								<input class="mdui-textfield-input" :disabled="!!val.disabled" type="text" v-model="val.value" />
 								<span class="mdui-textfield-helper" v-text="val.description"></span>
 							</div>
 						</div>
@@ -142,7 +142,6 @@
 					setTimeout(function(){
 						t.dialog.open();
 						$('.mdui-tab').mutation();
-						$('.payment_field').mutation();
 					},0);
 				});
 			},
@@ -167,9 +166,6 @@
 			},
 			tab_change(name){
 				this.pay_config_name = name;
-				setTimeout(function(){
-					$('.payment_field').mutation();
-				},0);
 			},
 			init(){
 				let t = this;

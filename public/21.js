@@ -150,7 +150,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				setTimeout(function () {
 					t.dialog.open();
 					$('.mdui-tab').mutation();
-					$('.payment_field').mutation();
 				}, 0);
 			});
 		},
@@ -185,9 +184,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		tab_change: function tab_change(name) {
 			this.pay_config_name = name;
-			setTimeout(function () {
-				$('.payment_field').mutation();
-			}, 0);
 		},
 		init: function init() {
 			var t = this;
@@ -329,21 +325,21 @@ var render = function() {
               _c("td", { domProps: { textContent: _vm._s(val.updated_at) } }),
               _vm._v(" "),
               _c("td", [
+                _c(
+                  "a",
+                  {
+                    staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+                    on: {
+                      click: function($event) {
+                        _vm.add(val.id)
+                      }
+                    }
+                  },
+                  [_vm._v("修改")]
+                ),
+                _vm._v(" "),
                 val.id > 1
                   ? _c("div", { staticClass: "mdui-btn-group" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "mdui-btn mdui-ripple mdui-color-theme",
-                          on: {
-                            click: function($event) {
-                              _vm.add(val.id)
-                            }
-                          }
-                        },
-                        [_vm._v("修改")]
-                      ),
-                      _vm._v(" "),
                       _c(
                         "a",
                         {
@@ -437,39 +433,49 @@ var render = function() {
                 key
               ) {
                 return _c("div", { staticClass: "payment_field" }, [
-                  _c("div", { staticClass: "mdui-textfield" }, [
-                    _c("label", {
-                      staticClass: "mdui-textfield-label",
-                      domProps: { textContent: _vm._s(key) }
-                    }),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: val.value,
-                          expression: "val.value"
-                        }
-                      ],
-                      staticClass: "mdui-textfield-input",
-                      attrs: { disabled: val.disabled, type: "text" },
-                      domProps: { value: val.value },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(val, "value", $event.target.value)
-                        }
+                  _c(
+                    "div",
+                    {
+                      class: {
+                        "mdui-textfield": true,
+                        "mdui-textfield-has-bottom": true,
+                        "mdui-textfield-disabled": !!val.disabled
                       }
-                    }),
-                    _vm._v(" "),
-                    _c("span", {
-                      staticClass: "mdui-textfield-helper",
-                      domProps: { textContent: _vm._s(val.description) }
-                    })
-                  ])
+                    },
+                    [
+                      _c("label", {
+                        staticClass: "mdui-textfield-label",
+                        domProps: { textContent: _vm._s(val.field) }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: val.value,
+                            expression: "val.value"
+                          }
+                        ],
+                        staticClass: "mdui-textfield-input",
+                        attrs: { disabled: !!val.disabled, type: "text" },
+                        domProps: { value: val.value },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(val, "value", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", {
+                        staticClass: "mdui-textfield-helper",
+                        domProps: { textContent: _vm._s(val.description) }
+                      })
+                    ]
+                  )
                 ])
               })
             ],

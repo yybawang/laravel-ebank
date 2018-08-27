@@ -177,7 +177,7 @@ class BankController extends CommonController {
 		
 		$merchant_id = FundMerchant::where(['appid' => $appid])->value('id');
 		if($async){
-			Transfer::dispatch($posts)->onQueue('transfer');
+			Transfer::dispatch($merchant_id,$posts)->onQueue('transfer');
 		}else{
 			DB::transaction(function() use (&$transfer_ids,$EBank,$posts,$merchant_id){
 				$parent_id = 0;

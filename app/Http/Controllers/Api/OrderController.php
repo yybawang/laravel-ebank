@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\OrderUnifiedRequest;
 use App\Libraries\Bank\OrderPayments;
 use App\Libraries\Bank\OrderUnified;
+use App\Libraries\Bank\PayFieldsConfig;
 use App\Models\FundMerchant;
+use App\Models\FundMerchantGroup;
 use App\Models\FundOrder;
 use App\Models\FundOrderPayment;
 use App\Models\FundPurseType;
@@ -70,8 +72,10 @@ class OrderController extends CommonController {
 			exception('存在多个第三方支付，请修改组合支付方式');
 		}
 		
-		// 下单存表
-		$merchant_id = FundMerchant::where(['appid'=>$basic_param['ebank_appid']])->value('id');
+		// 获取商户信息
+		$merchant = FundMerchant::where(['appid'=>$basic_param['ebank_appid']])->first(['id','group_id']);
+		$merchant_id = $merchant->id;
+		$pay_config = $merchant_group_id = FundMerchantGroup::where(['id'=>$merchant->group_id])->value('pay_config');
 		
 		$exist = FundOrder::where(['merchant_id'=>$merchant_id,'order_no'=>$this->order_no])->first();
 		// 如果已支付，订单就不用再支付了
@@ -83,6 +87,11 @@ class OrderController extends CommonController {
 		if($exist && $param_all != $exist->param){
 			exception('商户订单号已存在但参数不同，无法继续支付');
 		}
+		
+		// 三方支付，格式化配置为键值对
+		$PayFieldsConfig = new PayFieldsConfig();
+		config(['pay' => $PayFieldsConfig->parseConfig($pay_config)]);
+		
 		$return = DB::transaction(function() use ($basic_param,$merchant_id,$param_all,$pay_type_group,$pay_type_thread){
 			$add = [
 				'user_id'		=> $basic_param['user_id'],
