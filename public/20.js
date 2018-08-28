@@ -363,7 +363,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "mdui-dialog dialog_add" }, [
       _c("div", { staticClass: "mdui-dialog-title" }, [
-        _vm._v("\n\t\t\t支付方式新增/修改\n\t\t")
+        _vm._v("\n\t\t\t支付渠道新增/修改\n\t\t")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "mdui-dialog-content" }, [
@@ -371,7 +371,7 @@ var render = function() {
           _c("div", { staticClass: "mdui-container" }, [
             _c("div", { staticClass: "mdui-textfield" }, [
               _c("label", { staticClass: "mdui-textfield-label" }, [
-                _vm._v("分组名称")
+                _vm._v("支付渠道名称")
               ]),
               _vm._v(" "),
               _c("input", {
@@ -621,7 +621,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("ID")]),
         _vm._v(" "),
-        _c("th", [_vm._v("商户分组名")]),
+        _c("th", [_vm._v("支付渠道名称")]),
         _vm._v(" "),
         _c("th", [_vm._v("状态")]),
         _vm._v(" "),

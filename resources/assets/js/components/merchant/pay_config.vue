@@ -21,7 +21,7 @@
 				<tr>
 					<th>#</th>
 					<th>ID</th>
-					<th>商户分组名</th>
+					<th>支付渠道名称</th>
 					<th>状态</th>
 					<th>备注</th>
 					<th>创建时间</th>
@@ -53,13 +53,13 @@
 		<!--修改弹窗-->
 		<div class="mdui-dialog dialog_add">
 			<div class="mdui-dialog-title">
-				支付方式新增/修改
+				支付渠道新增/修改
 			</div>
 			<div class="mdui-dialog-content">
 				<form>
 					<div class="mdui-container">
 						<div class="mdui-textfield">
-							<label class="mdui-textfield-label">分组名称</label>
+							<label class="mdui-textfield-label">支付渠道名称</label>
 							<input class="mdui-textfield-input" type="text" v-model="form.name" />
 						</div>
 					</div>

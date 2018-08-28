@@ -7,17 +7,13 @@ export default new VueRouter({
 	routes: [
 		{
 			path: '/',
-			redirect : '/welcome',
+			name : 'welcome',
+			component: resolve => void(require(['../components/index/welcome.vue'], resolve))
 		},
 		{
 			name: 'login',
 			path: '/login',
 			component: resolve => void(require(['../components/login.vue'], resolve))
-		},
-		{
-			name: 'welcome',
-			path: '/welcome',
-			component: resolve => void(require(['../components/index/welcome.vue'], resolve))
 		},
 		{
 			name: 'user_transfer',
