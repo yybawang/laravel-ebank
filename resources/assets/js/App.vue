@@ -78,7 +78,7 @@
 					</div>
 					<div class="mdui-collapse-item-body mdui-list">
 						<div v-for="(val2,key2,index2) in val" @click="menu_active">
-						<router-link :to="{path:val2}" class="mdui-list-item mdui-ripple">{{key2}}</router-link>
+						<router-link :to="{path:val2.url}" class="mdui-list-item mdui-ripple">{{val2.name}}</router-link>
 						</div>
 					</div>
 				</div>

@@ -952,9 +952,9 @@ var render = function() {
                           "router-link",
                           {
                             staticClass: "mdui-list-item mdui-ripple",
-                            attrs: { to: { path: val2 } }
+                            attrs: { to: { path: val2.url } }
                           },
-                          [_vm._v(_vm._s(key2))]
+                          [_vm._v(_vm._s(val2.name))]
                         )
                       ],
                       1
@@ -1203,15 +1203,18 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 	saveScrollPosition: true,
 	routes: [{
 		path: '/',
+		redirect: '/welcome'
+	}, {
+		path: '/welcome',
 		name: 'welcome',
 		component: function component(resolve) {
-			return void __webpack_require__.e/* require */(2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(68)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+			return void __webpack_require__.e/* require */(0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(67)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
 		}
 	}, {
 		name: 'login',
 		path: '/login',
 		component: function component(resolve) {
-			return void __webpack_require__.e/* require */(0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(67)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+			return void __webpack_require__.e/* require */(2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(68)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
 		}
 	}, {
 		name: 'user_transfer',

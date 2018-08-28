@@ -103,6 +103,15 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 		Route::delete('/','ExportController@delete');
 	});
 	
+	Route::prefix('system')->name('admin.系统管理.')->group(function(){
+		Route::get('config','SystemController@config')->name('menu.系统设置');
+		Route::get('config_detail','SystemController@config_detail');
+		Route::post('config','SystemController@config_add');
+		Route::delete('config','SystemController@config_delete');
+		Route::post('config_rank','SystemController@config_rank');
+		Route::get('behavior','SystemController@behavior')->name('menu.行为记录');
+	});
+	
 	Route::prefix('rule')->name('admin.权限管理.')->group(function(){
 		Route::get('user','RuleController@user')->name('menu.用户列表');
 		Route::get('user_detail','RuleController@user_detail');
@@ -113,14 +122,5 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 		Route::post('group','RuleController@group_add');
 		Route::delete('group','RuleController@group_delete');
 		Route::post('password_reset','RuleController@password_reset');
-	});
-	
-	Route::prefix('system')->name('admin.系统管理.')->group(function(){
-		Route::get('config','SystemController@config')->name('menu.系统设置');
-		Route::get('config_detail','SystemController@config_detail');
-		Route::post('config','SystemController@config_add');
-		Route::delete('config','SystemController@config_delete');
-		Route::post('config_rank','SystemController@config_rank');
-		Route::get('behavior','SystemController@behavior')->name('menu.行为记录');
 	});
 });

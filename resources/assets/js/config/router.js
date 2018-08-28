@@ -7,6 +7,10 @@ export default new VueRouter({
 	routes: [
 		{
 			path: '/',
+			redirect : '/welcome',
+		},
+		{
+			path: '/welcome',
 			name : 'welcome',
 			component: resolve => void(require(['../components/index/welcome.vue'], resolve))
 		},

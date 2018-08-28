@@ -13,7 +13,7 @@ class RuleController extends CommonController {
 	 * @return array
 	 */
 	public function user(BasicRequest $request){
-		$data['group'] = FundAdminGroup::where(['status'=>1])->pluck('name','id');
+		$data['group'] = FundAdminGroup::active()->pluck('name','id');
 		$data['list'] = FundAdmin::when($request->input('name'),function($query) use ($request){
 			$query->where('name','like','%'.$request->input('name').'%');
 		})
@@ -36,7 +36,7 @@ class RuleController extends CommonController {
 			'realname'	=> '',
 			'email'		=> '',
 			'mobile'	=> '',
-			'group_id'	=> 0,
+			'group_id'	=> '',
 			'status'	=> 1,
 			'remarks'	=> '',
 		]);
@@ -46,7 +46,7 @@ class RuleController extends CommonController {
 	
 	public function user_add(BasicRequest $request){
 		request()->validate([
-			'group_id'		=> 'required',
+			'group_id'		=> 'required|integer|min:1',
 			'name'			=> 'required',
 			'realname'		=> 'required',
 		]);
@@ -96,7 +96,7 @@ class RuleController extends CommonController {
 	
 	public function group_add(BasicRequest $request){
 		request()->validate([
-			'name'	=> 'required',
+			'name'		=> 'required',
 		]);
 		$post = $request->all();
 		$post['rule'] = json_encode($post['rule']);

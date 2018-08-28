@@ -23,7 +23,11 @@ function init_menu(){
 		if(stripos($name,'admin.') !== false){
 			$explode = explode('.',$name);
 			if($explode[2] == 'menu'){
-				$menus[$explode[1]][$explode[3]] = str_replace('admin','',$v->uri);
+				$menus[$explode[1]][$explode[3]] = [
+					'name'	=> $explode[3],
+					'name_full'	=> $name,
+					'url'	=> str_replace('admin','',$v->uri),
+				];
 			}
 		}
 	});

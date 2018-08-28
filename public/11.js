@@ -386,7 +386,7 @@ var render = function() {
                   [
                     _c("h4", { domProps: { textContent: _vm._s(key) } }),
                     _vm._v(" "),
-                    _vm._l(val, function(url, key2) {
+                    _vm._l(val, function(val2, key2) {
                       return _c(
                         "label",
                         {
@@ -405,9 +405,9 @@ var render = function() {
                             ],
                             attrs: { type: "checkbox" },
                             domProps: {
-                              value: key2,
+                              value: val2.name_full,
                               checked: Array.isArray(_vm.form.rule)
-                                ? _vm._i(_vm.form.rule, key2) > -1
+                                ? _vm._i(_vm.form.rule, val2.name_full) > -1
                                 : _vm.form.rule
                             },
                             on: {
@@ -416,7 +416,7 @@ var render = function() {
                                   $$el = $event.target,
                                   $$c = $$el.checked ? true : false
                                 if (Array.isArray($$a)) {
-                                  var $$v = key2,
+                                  var $$v = val2.name_full,
                                     $$i = _vm._i($$a, $$v)
                                   if ($$el.checked) {
                                     $$i < 0 &&
@@ -445,7 +445,7 @@ var render = function() {
                           _c("i", { staticClass: "mdui-checkbox-icon" }),
                           _vm._v(
                             "\n\t\t\t\t\t\t\t\t" +
-                              _vm._s(key2) +
+                              _vm._s(val2.name) +
                               "\n\t\t\t\t\t\t\t"
                           )
                         ]

@@ -28,14 +28,12 @@
 					<th>ID</th>
 					<th>登录名</th>
 					<th>真实姓名</th>
-					<th>邮箱</th>
 					<th>移动手机</th>
 					<th>所属权限组</th>
 					<th>状态</th>
 					<th>备注</th>
 					<th>最后登录时间</th>
 					<th>创建时间</th>
-					<th>修改时间</th>
 					<th>操作</th>
 				</tr>
 				</thead>
@@ -46,14 +44,12 @@
 					<td v-text="val.id"></td>
 					<td v-text="val.name"></td>
 					<td v-text="val.realname"></td>
-					<td v-text="val.email"></td>
 					<td v-text="val.mobile"></td>
 					<td v-text="group[val.group_id]"></td>
 					<td v-text="val.status ? '启用' : '禁用'"></td>
 					<td v-text="val.remarks"></td>
 					<td v-text="val.last_login"></td>
 					<td v-text="val.created_at"></td>
-					<td v-text="val.updated_at"></td>
 					<td>
 						<div class="mdui-btn-group">
 							<a class="mdui-btn mdui-ripple mdui-color-theme" @click="add(val.id)">修改</a>

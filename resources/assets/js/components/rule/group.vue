@@ -66,10 +66,10 @@
 						<div class="mdui-typo">
 							<blockquote class="blockquote_normal" v-for="(val,key) of menu">
 								<h4 v-text="key"></h4>
-								<label class="mdui-checkbox" v-for="(url,key2) of val" style="margin-right:2rem;">
-									<input type="checkbox" :value="key2" v-model="form.rule" />
+								<label class="mdui-checkbox" v-for="(val2,key2) of val" style="margin-right:2rem;">
+									<input type="checkbox" :value="val2.name_full" v-model="form.rule" />
 									<i class="mdui-checkbox-icon"></i>
-									{{key2}}
+									{{val2.name}}
 								</label>
 							</blockquote>
 						</div>

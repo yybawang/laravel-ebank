@@ -154,10 +154,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -378,8 +374,6 @@ var render = function() {
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.realname) } }),
               _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.email) } }),
-              _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.mobile) } }),
               _vm._v(" "),
               _c("td", {
@@ -395,8 +389,6 @@ var render = function() {
               _c("td", { domProps: { textContent: _vm._s(val.last_login) } }),
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.created_at) } }),
-              _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.updated_at) } }),
               _vm._v(" "),
               _c("td", [
                 _c("div", { staticClass: "mdui-btn-group" }, [
@@ -779,8 +771,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("真实姓名")]),
         _vm._v(" "),
-        _c("th", [_vm._v("邮箱")]),
-        _vm._v(" "),
         _c("th", [_vm._v("移动手机")]),
         _vm._v(" "),
         _c("th", [_vm._v("所属权限组")]),
@@ -792,8 +782,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("最后登录时间")]),
         _vm._v(" "),
         _c("th", [_vm._v("创建时间")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("修改时间")]),
         _vm._v(" "),
         _c("th", [_vm._v("操作")])
       ])
