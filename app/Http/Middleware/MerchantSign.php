@@ -41,12 +41,16 @@ class MerchantSign
 	/**
 	 * 记录API日志
 	 * laravel内部方法，在返回浏览器响应之后，自动调用
+	 * @param $request
+	 * @param $response
 	 */
     public function terminate($request, $response){
 		$now_time_float = microtime(true);
 		$data = [
+			'appid'=> $request->input('ebank_appid'),	// 直接记录appid，避免每次查询数据库
 			'url'			=> request()->url(),
 			'execute_time'	=> round($now_time_float - request()->server('REQUEST_TIME_FLOAT'),8),
+			'response'		=> print_r(json_decode($response->getContent(),true),true),	// 输出的结果集
 			'$_GET'			=> print_r($_GET,true),
 			'$_POST'		=> print_r($_POST,true),
 			'$_REQUEST'		=> print_r($request->all(),true),

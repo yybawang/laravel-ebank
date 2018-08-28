@@ -35,7 +35,7 @@ class CreateFundWithdrawTable extends Migration
             $table->index(['user_id'],'user_id');
             $table->index(['realname'],'realname');
             $table->index(['bank_no'],'bank_no');
-            $table->index(['pay_type'],'pay_type');
+            $table->index(['purse'],'purse');
         });
     }
 

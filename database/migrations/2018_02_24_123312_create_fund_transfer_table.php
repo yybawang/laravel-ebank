@@ -36,13 +36,11 @@ class CreateFundTransferTable extends Migration
 			$table->tinyInteger('status')->comment('0无效/删除，1有效，2已冲正');
 			$table->string('detail')->nullable()->comment('详情，预留，可根据业务自行存入');
 			$table->string('remarks')->nullable();
-			
-			$table->index('reason','reason');
-			$table->index('out_user_id','out_user_id');
-			$table->index('out_user_type_id','out_user_type_id');
-			$table->index('into_user_id','into_user_id');
-			$table->index('into_user_type_id','into_user_type_id');
             $table->timestamps();
+	
+			$table->index('reason','reason');
+			$table->index(['out_user_id','out_user_type_id','out_purse_type_id','out_purse_id'],'out_user');
+			$table->index(['into_user_id','into_user_type_id','into_purse_type_id','into_purse_id'],'into_user');
         });
     }
 

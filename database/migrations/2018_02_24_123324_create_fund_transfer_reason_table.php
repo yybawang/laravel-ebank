@@ -25,9 +25,9 @@ class CreateFundTransferReasonTable extends Migration
             $table->decimal('reason',30,0)->comment('转账reason行为代码，业务不同reason不同');
 			$table->tinyInteger('status')->comment('0无效，1有效');
 			$table->string('remarks')->nullable();
+            $table->timestamps();
 	
 			$table->unique(['merchant_id','reason'],'reason');		// 商户id与reason复合唯一索引
-            $table->timestamps();
         });
     }
 

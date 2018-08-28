@@ -33,7 +33,7 @@ class CreateFundWithdrawWechatTable extends Migration
 			$table->index(['user_id'],'user_id');
 			$table->index(['realname'],'realname');
 			$table->index(['account'],'account');
-			$table->index(['pay_type'],'pay_type');
+			$table->index(['purse'],'purse');
         });
     }
 

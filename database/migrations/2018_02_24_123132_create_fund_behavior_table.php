@@ -16,8 +16,10 @@ class CreateFundBehaviorTable extends Migration
     {
         Schema::create('fund_behavior', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('appid')->comment('商户 appid');
             $table->string('url')->comment('操作地址 fullUrl()');
             $table->float('execute_time')->comment('执行时间，php microtime时间');
+            $table->text('response')->comment('返回的结果集');
             $table->text('$_GET');
             $table->text('$_POST');
             $table->text('$_REQUEST');
@@ -26,6 +28,8 @@ class CreateFundBehaviorTable extends Migration
             $table->text('$_COOKIE');
 			$table->string('remarks')->nullable();
             $table->timestamps();
+            
+            $table->index(['appid'],'appid');
         });
     }
 

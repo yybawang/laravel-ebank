@@ -18,10 +18,10 @@
 				<thead>
 				<tr>
 					<th>#</th>
+					<th>商户</th>
 					<th>Url</th>
 					<th>执行时间(S)</th>
 					<th>参数明细</th>
-					<th>备注</th>
 					<th>创建时间</th>
 				</tr>
 				</thead>
@@ -29,10 +29,10 @@
 				
 				<tr v-for="(val,key,index) of list.data">
 					<td v-text="'#'+(key+1)"></td>
+					<td v-text="merchant[val.appid]"></td>
 					<td v-text="val.url"></td>
 					<td v-text="val.execute_time"></td>
 					<td><a class="mdui-btn mdui-ripple mdui-color-theme" @click="detail(val)">view</a></td>
-					<td v-text="val.remarks"></td>
 					<td v-text="val.created_at"></td>
 				</tr>
 				</tbody>
@@ -77,6 +77,7 @@
 		data(){
 			return {
 				list : [],
+				merchant : '',
 				dialog : '',
 				dialog_data : '',
 				keyword : {
@@ -93,14 +94,17 @@
 			detail(val){
 				let t = this;
 				t.dialog_data = {
-					'URI' : val.url,
+					'商户' : t.merchant[val.appid] + '(' + val.appid + ')',
+					'接口' : val.url,
+					'返回值' : val.response,
 					'$_GET' : val.$_GET,
 					'$_POST' : val.$_POST,
 					'$_REQUEST' : val.$_REQUEST,
 					'$_SESSION' : val.$_SESSION,
 					'$_COOKIE' : val.$_COOKIE,
 					'$_SERVER' : val.$_SERVER,
-					created_at : val.created_at,
+					'备注' : val.remarks,
+					'请求时间' : val.created_at,
 				};
 				setTimeout(function(){
 					t.dialog.open();
@@ -111,6 +115,7 @@
 				let t = this;
 				get('/system/behavior',t.keyword,function(data){
 					t.list = data.list;
+					t.merchant = data.merchant;
 				});
 			}
 		},

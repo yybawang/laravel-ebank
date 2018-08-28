@@ -20,10 +20,10 @@ class CreateFundUserTypeTable extends Migration
 			$table->string('alias',50)->comment('类型英文别名，转账用');
 			$table->tinyInteger('status')->comment('0无效，1有效');
 			$table->string('remarks')->nullable();
+            $table->timestamps();
 	
 			$table->unique('name','name');
 			$table->unique('alias','alias');
-            $table->timestamps();
         });
     }
 

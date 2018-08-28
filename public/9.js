@@ -84,6 +84,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	data: function data() {
 		return {
 			list: [],
+			merchant: '',
 			dialog: '',
 			dialog_data: '',
 			keyword: {
@@ -101,14 +102,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		detail: function detail(val) {
 			var t = this;
 			t.dialog_data = {
-				'URI': val.url,
+				'商户': t.merchant[val.appid] + '(' + val.appid + ')',
+				'接口': val.url,
+				'返回值': val.response,
 				'$_GET': val.$_GET,
 				'$_POST': val.$_POST,
 				'$_REQUEST': val.$_REQUEST,
 				'$_SESSION': val.$_SESSION,
 				'$_COOKIE': val.$_COOKIE,
 				'$_SERVER': val.$_SERVER,
-				created_at: val.created_at
+				'备注': val.remarks,
+				'请求时间': val.created_at
 			};
 			setTimeout(function () {
 				t.dialog.open();
@@ -118,6 +122,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var t = this;
 			get('/system/behavior', t.keyword, function (data) {
 				t.list = data.list;
+				t.merchant = data.merchant;
 			});
 		}
 	},
@@ -205,6 +210,10 @@ var render = function() {
             return _c("tr", [
               _c("td", { domProps: { textContent: _vm._s("#" + (key + 1)) } }),
               _vm._v(" "),
+              _c("td", {
+                domProps: { textContent: _vm._s(_vm.merchant[val.appid]) }
+              }),
+              _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.url) } }),
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.execute_time) } }),
@@ -223,8 +232,6 @@ var render = function() {
                   [_vm._v("view")]
                 )
               ]),
-              _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.remarks) } }),
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.created_at) } })
             ])
@@ -289,13 +296,13 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
+        _c("th", [_vm._v("商户")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Url")]),
         _vm._v(" "),
         _c("th", [_vm._v("执行时间(S)")]),
         _vm._v(" "),
         _c("th", [_vm._v("参数明细")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("备注")]),
         _vm._v(" "),
         _c("th", [_vm._v("创建时间")])
       ])

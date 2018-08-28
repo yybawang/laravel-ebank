@@ -23,6 +23,7 @@ class CreateFundMerchantTable extends Migration
 			$table->tinyInteger('status')->comment('0无效，1有效');
 			$table->string('remarks')->nullable();
 			
+			$table->unique('name','name');
 			$table->unique('appid','appid');
             $table->timestamps();
         });

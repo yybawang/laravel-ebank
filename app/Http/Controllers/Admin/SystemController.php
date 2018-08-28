@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\BasicRequest;
 use App\Models\FundBehavior;
 use App\Models\FundConfig;
+use App\Models\FundMerchant;
 use App\Models\Log;
 use Illuminate\Validation\Rule;
 
@@ -105,6 +106,7 @@ class SystemController extends CommonController {
 	 * @return array
 	 */
 	public function behavior(BasicRequest $request){
+		$data['merchant'] = FundMerchant::pluck('name','appid');
 		$data['list'] = FundBehavior::when($request->input('url'),function($query) use ($request){
 			$query->where('url','like','%'.$request->input('url').'%');
 		})->orderBy('id','desc')->pages();

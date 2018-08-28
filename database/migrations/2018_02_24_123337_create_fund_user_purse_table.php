@@ -24,9 +24,9 @@ class CreateFundUserPurseTable extends Migration
             $table->decimal('freeze',30,0)->comment('冻结余额，单位分');
 			$table->tinyInteger('status')->comment('0无效，1有效');
 			$table->string('remarks')->nullable();
-			
-			$table->unique(['merchant_id','user_id', 'user_type_id', 'purse_type_id'],'钱包唯一');
             $table->timestamps();
+	
+			$table->unique(['merchant_id','user_id', 'user_type_id', 'purse_type_id'],'钱包唯一');
         });
     }
 
