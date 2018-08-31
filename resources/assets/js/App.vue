@@ -52,7 +52,7 @@
 		<div class="mdui-drawer mdui-color-white" id="main-drawer">
 			<div class="mdui-card">
 				<div class="mdui-card-media">
-					<img src="../images/snow_square_tiny.png" style="height:240px;" />
+					<img src="../images/snow_square_tiny.png" style="height:200px;" />
 					<!-- 卡片中可以包含一个或多个菜单按钮 -->
 					<div class="mdui-card-menu">
 						<a target="_blank" href="//github.com/yybawang/ebank">
@@ -168,7 +168,6 @@
 						t.initing = false;
 					});
 				// }
-				logs(router);
 			},
 			initClear(){
 				let t = this;

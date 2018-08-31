@@ -7,7 +7,8 @@
 
 // Bootstrap
 //@import "~bootstrap-sass/assets/stylesheets/bootstrap";
-@import "~mdui/dist/css/mdui.min.css";
+//@import "~mdui/dist/css/mdui.min.css";
+@import "mdui.min.css";
 @import "pagination.css";
 #app {
 	padding-bottom:7rem;
