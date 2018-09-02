@@ -48,10 +48,10 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	});
 	
 	Route::prefix('pay')->name('admin.支付秘钥管理.')->group(function(){
-		Route::get('/','PayConfigController@index')->name('menu.商户支付配置');
-		Route::post('/','PayConfigController@add');
-		Route::delete('/','PayConfigController@delete');
-		Route::get('detail','PayConfigController@detail');
+		Route::get('/','PayController@index')->name('menu.商户支付配置');
+		Route::post('/','PayController@add');
+		Route::delete('/','PayController@delete');
+		Route::get('detail','PayController@detail');
 	});
 	
 	Route::prefix('transfer')->name('admin.业务流水管理.')->group(function(){

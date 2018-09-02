@@ -13,7 +13,7 @@ use App\Http\Requests\BasicRequest;
 use App\Libraries\Bank\PayFieldsConfig;
 use App\Models\FundPayConfig;
 
-class PayConfigController extends CommonController
+class PayController extends CommonController
 {
 	
 	
