@@ -144,7 +144,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		add: function add(id) {
 			var t = this;
-			get('/detail', { id: id }, function (data) {
+			get('/pay/detail', { id: id }, function (data) {
 				t.form = data;
 				setTimeout(function () {
 					$('.mdui-tab').mutation();

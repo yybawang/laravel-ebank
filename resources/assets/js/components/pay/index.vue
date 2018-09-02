@@ -136,7 +136,7 @@
 		methods : {
 			add(id){
 				let t = this;
-				get('/detail',{id:id},function(data){
+				get('/pay/detail',{id:id},function(data){
 					t.form = data;
 					setTimeout(function(){
 						$('.mdui-tab').mutation();
