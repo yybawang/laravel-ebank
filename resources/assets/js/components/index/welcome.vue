@@ -25,7 +25,6 @@
 		},
 		mounted(){
 			let t = this;
-			t.$emit('init');
 			
 			t.order_into = echarts.init(document.getElementById('order_into'));
 			let order_options = {

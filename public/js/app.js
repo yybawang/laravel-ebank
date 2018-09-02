@@ -2076,14 +2076,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
 		return {
 			user: '',
 			menu: '',
+			menu_active_url: location.href.split('#')[1],
 			initing: false,
 			password_reset_dialog: '',
 			password_reset: {
@@ -2095,9 +2094,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	methods: {
-		menu_active: function menu_active(t) {
-			$('.mdui-list-item-actived').removeClass('mdui-list-item-actived mdui-color-theme');
-			$(t.currentTarget).addClass('mdui-list-item-actived mdui-color-theme');
+		menu_active: function menu_active(url) {
+			this.menu_active_url = url;
 		},
 		password_reset_submit: function password_reset_submit() {
 			var t = this;
@@ -2392,23 +2390,29 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c(
-                  "div",
-                  { staticClass: "mdui-collapse-item-body mdui-list" },
+                  "ul",
+                  {
+                    staticClass:
+                      "mdui-collapse-item-body mdui-list mdui-list-dense"
+                  },
                   _vm._l(val, function(val2, key2, index2) {
                     return _c(
-                      "div",
-                      { on: { click: _vm.menu_active } },
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            staticClass: "mdui-list-item mdui-ripple",
-                            attrs: { to: { path: val2.url } }
-                          },
-                          [_vm._v(_vm._s(val2.name))]
-                        )
-                      ],
-                      1
+                      "router-link",
+                      {
+                        key: val2.name,
+                        staticClass: "mdui-list-item mdui-ripple",
+                        attrs: {
+                          tag: "li",
+                          to: { path: val2.url },
+                          "active-class": "mdui-color-theme"
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.menu_active(val2.url)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(val2.name))]
                     )
                   })
                 )
@@ -2679,9 +2683,9 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 			return void __webpack_require__.e/* require */(22).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(70)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
 		}
 	}, {
-		path: '/merchant/pay_config',
+		path: '/pay',
 		component: function component(resolve) {
-			return void __webpack_require__.e/* require */(20).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(71)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+			return void __webpack_require__.e/* require */(20).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(396)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
 		}
 	}, {
 		path: '/merchant',
@@ -2694,9 +2698,9 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 			return void __webpack_require__.e/* require */(7).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(73)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
 		}
 	}, {
-		path: '/transfer/reason',
+		path: '/reason',
 		component: function component(resolve) {
-			return void __webpack_require__.e/* require */(6).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(74)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+			return void __webpack_require__.e/* require */(6).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(399)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
 		}
 	}, {
 		path: '/report/reason',

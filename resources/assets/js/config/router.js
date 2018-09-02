@@ -29,8 +29,8 @@ export default new VueRouter({
 			component: resolve => void(require(['../components/index/sysinfo.vue'], resolve))
 		},
 		{
-			path: '/merchant/pay_config',
-			component: resolve => void(require(['../components/merchant/pay_config.vue'], resolve))
+			path: '/pay',
+			component: resolve => void(require(['../components/pay/index.vue'], resolve))
 		},
 		{
 			path: '/merchant',
@@ -41,8 +41,8 @@ export default new VueRouter({
 			component: resolve => void(require(['../components/transfer/index.vue'], resolve))
 		},
 		{
-			path: '/transfer/reason',
-			component: resolve => void(require(['../components/transfer/reason.vue'], resolve))
+			path: '/reason',
+			component: resolve => void(require(['../components/reason/index.vue'], resolve))
 		},
 		{
 			path: '/report/reason',

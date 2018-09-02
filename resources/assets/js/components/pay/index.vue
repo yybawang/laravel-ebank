@@ -40,9 +40,9 @@
 					<td v-text="val.created_at"></td>
 					<td v-text="val.updated_at"></td>
 					<td>
-						<a class="mdui-btn mdui-ripple mdui-color-theme" @click="add(val.id)">修改</a>
-						<div class="mdui-btn-group" v-if="val.id > 1">
-							<a class="mdui-btn mdui-ripple mdui-color-deep-orange" @click="del(val.id)">删除</a>
+						<div class="mdui-btn-group">
+							<a class="mdui-btn mdui-ripple mdui-color-theme" @click="add(val.id)">修改</a>
+							<a v-if="val.id > 1" class="mdui-btn mdui-ripple mdui-color-deep-orange" @click="del(val.id)">删除</a>
 						</div>
 					</td>
 				</tr>
@@ -136,7 +136,7 @@
 		methods : {
 			add(id){
 				let t = this;
-				get('/merchant/pay_config_detail',{id:id},function(data){
+				get('/detail',{id:id},function(data){
 					t.form = data;
 					setTimeout(function(){
 						$('.mdui-tab').mutation();
@@ -146,7 +146,7 @@
 			},
 			add_submit(){
 				let t = this;
-				post('/merchant/pay_config',t.form,function(){
+				post('/pay',t.form,function(){
 					t.dialog.close();
 					t.init();
 				});
@@ -154,7 +154,7 @@
 			del(id){
 				let t = this;
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认?', function(){
-					del('/merchant/pay_config',{id:id},function(){
+					del('/pay',{id:id},function(){
 						t.init();
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
@@ -168,7 +168,7 @@
 			},
 			init(){
 				let t = this;
-				get('/merchant/pay_config',t.keyword,function(data){
+				get('/pay',t.keyword,function(data){
 					t.list = data.list;
 				});
 			}

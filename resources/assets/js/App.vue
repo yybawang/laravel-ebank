@@ -76,11 +76,9 @@
 						<div class="mdui-list-item-content" v-text="key"></div>
 						<i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
 					</div>
-					<div class="mdui-collapse-item-body mdui-list">
-						<div v-for="(val2,key2,index2) in val" @click="menu_active">
-						<router-link :to="{path:val2.url}" class="mdui-list-item mdui-ripple">{{val2.name}}</router-link>
-						</div>
-					</div>
+					<ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+						<router-link tag="li" :to="{path:val2.url}" v-for="(val2,key2,index2) in val" :key="val2.name" @click="menu_active(val2.url)" class="mdui-list-item mdui-ripple" active-class="mdui-color-theme">{{val2.name}}</router-link>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -134,6 +132,7 @@
 			return {
 				user : '',
 				menu : '',
+				menu_active_url : location.href.split('#')[1],
 				initing : false,
 				password_reset_dialog : '',
 				password_reset : {
@@ -144,9 +143,8 @@
 			}
 		},
 		methods : {
-			menu_active(t){
-				$('.mdui-list-item-actived').removeClass('mdui-list-item-actived mdui-color-theme');
-				$(t.currentTarget).addClass('mdui-list-item-actived mdui-color-theme');
+			menu_active(url){
+				this.menu_active_url = url;
 			},
 			password_reset_submit(){
 				let t = this;

@@ -192,14 +192,14 @@
 			add(id){
 				let t = this;
 				t.dialog.open();
-				get('/transfer/reason_detail',{id:id},function(data){
+				get('/reason/detail',{id:id},function(data){
 					t.form = data.detail;
 					t.max = data.max;
 				});
 			},
 			add_submit(){
 				let t = this;
-				post('/transfer/reason',t.form,function(){
+				post('/reason',t.form,function(){
 					t.dialog.close();
 					t.init();
 				});
@@ -207,7 +207,7 @@
 			del(id){
 				let t = this;
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认？', function(){
-					del('/transfer/reason',{id:id},function(){
+					del('/reason',{id:id},function(){
 						t.init();
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
@@ -229,7 +229,7 @@
 			},
 			init(){
 				let t = this;
-				get('/transfer/reason',t.keyword,function(data){
+				get('/reason',t.keyword,function(data){
 					t.list = data.list;
 					t.merchant = data.merchant;
 					t.user_type = data.user_type;

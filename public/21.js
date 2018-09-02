@@ -388,22 +388,22 @@ var render = function() {
               _c("td", { domProps: { textContent: _vm._s(val.updated_at) } }),
               _vm._v(" "),
               _c("td", [
-                val.id > 1
-                  ? _c("div", { staticClass: "mdui-btn-group" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "mdui-btn mdui-ripple mdui-color-theme",
-                          on: {
-                            click: function($event) {
-                              _vm.add(val.id)
-                            }
-                          }
-                        },
-                        [_vm._v("修改")]
-                      ),
-                      _vm._v(" "),
-                      _c(
+                _c("div", { staticClass: "mdui-btn-group" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+                      on: {
+                        click: function($event) {
+                          _vm.add(val.id)
+                        }
+                      }
+                    },
+                    [_vm._v("修改")]
+                  ),
+                  _vm._v(" "),
+                  val.id > 1
+                    ? _c(
                         "a",
                         {
                           staticClass:
@@ -416,8 +416,8 @@ var render = function() {
                         },
                         [_vm._v("删除")]
                       )
-                    ])
-                  : _vm._e()
+                    : _vm._e()
+                ])
               ])
             ])
           })

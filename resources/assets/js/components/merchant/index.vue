@@ -48,9 +48,9 @@
 					<td v-text="val.created_at"></td>
 					<td v-text="val.updated_at"></td>
 					<td>
-						<div class="mdui-btn-group" v-if="val.id > 1">
+						<div class="mdui-btn-group">
 							<a class="mdui-btn mdui-ripple mdui-color-theme" @click="add(val.id)">修改</a>
-							<a class="mdui-btn mdui-ripple mdui-color-deep-orange" @click="del(val.id)">删除</a>
+							<a v-if="val.id > 1" class="mdui-btn mdui-ripple mdui-color-deep-orange" @click="del(val.id)">删除</a>
 						</div>
 					</td>
 				</tr>

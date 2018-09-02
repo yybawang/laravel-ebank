@@ -41,23 +41,29 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	});
 	
 	Route::prefix('merchant')->name('admin.接口商户管理.')->group(function(){
-		Route::get('pay_config','PayConfigController@index')->name('menu.商户支付配置');
-		Route::post('pay_config','PayConfigController@add');
-		Route::delete('pay_config','PayConfigController@delete');
-		Route::get('pay_config_detail','PayConfigController@detail');
 		Route::get('/','MerchantController@index')->name('menu.商户列表');
 		Route::post('/','MerchantController@add');
 		Route::delete('/','MerchantController@delete');
 		Route::get('detail','MerchantController@detail');
 	});
 	
+	Route::prefix('pay')->name('admin.支付秘钥管理.')->group(function(){
+		Route::get('/','PayConfigController@index')->name('menu.商户支付配置');
+		Route::post('/','PayConfigController@add');
+		Route::delete('/','PayConfigController@delete');
+		Route::get('detail','PayConfigController@detail');
+	});
+	
 	Route::prefix('transfer')->name('admin.业务流水管理.')->group(function(){
 		Route::get('/','TransferController@index')->name('menu.流水记录');
 		Route::post('untransfer','TransferController@untransfer');
-		Route::get('reason','TransferController@reason')->name('menu.转账reason');
-		Route::get('reason_detail','TransferController@reason_detail');
-		Route::post('reason','TransferController@reason_add');
-		Route::delete('reason','TransferController@reason_delete');
+	});
+	
+	Route::prefix('reason')->name('admin.转账行为管理.')->group(function(){
+		Route::get('/','ReasonController@index')->name('menu.转账reason');
+		Route::get('detail','ReasonController@detail');
+		Route::post('/','ReasonController@add');
+		Route::delete('/','ReasonController@delete');
 	});
 	
 	Route::prefix('purse')->name('admin.业务资金管理.')->group(function(){

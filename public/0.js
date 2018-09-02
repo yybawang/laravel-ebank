@@ -43866,7 +43866,6 @@ __webpack_require__(299);
 	},
 	mounted: function mounted() {
 		var t = this;
-		t.$emit('init');
 
 		t.order_into = echarts.init(document.getElementById('order_into'));
 		var order_options = {

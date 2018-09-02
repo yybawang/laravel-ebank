@@ -94,6 +94,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var t = this;
 			post('/login', this.form, function (data, message) {
 				tips(message);
+				t.$emit('init');
 				t.$router.push({ path: '/welcome' });
 			});
 		}

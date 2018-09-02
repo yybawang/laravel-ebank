@@ -1,6 +1,54 @@
 webpackJsonp([6],{
 
-/***/ 330:
+/***/ 399:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(400)
+/* template */
+var __vue_template__ = __webpack_require__(401)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\reason\\index.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0e327f11", Component.options)
+  } else {
+    hotAPI.reload("data-v-0e327f11", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 400:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -200,14 +248,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		add: function add(id) {
 			var t = this;
 			t.dialog.open();
-			get('/transfer/reason_detail', { id: id }, function (data) {
+			get('/reason/detail', { id: id }, function (data) {
 				t.form = data.detail;
 				t.max = data.max;
 			});
 		},
 		add_submit: function add_submit() {
 			var t = this;
-			post('/transfer/reason', t.form, function () {
+			post('/reason', t.form, function () {
 				t.dialog.close();
 				t.init();
 			});
@@ -225,7 +273,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}(function (id) {
 			var t = this;
 			mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认？', function () {
-				del('/transfer/reason', { id: id }, function () {
+				del('/reason', { id: id }, function () {
 					t.init();
 				});
 			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
@@ -247,7 +295,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		init: function init() {
 			var t = this;
-			get('/transfer/reason', t.keyword, function (data) {
+			get('/reason', t.keyword, function (data) {
 				t.list = data.list;
 				t.merchant = data.merchant;
 				t.user_type = data.user_type;
@@ -267,7 +315,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 331:
+/***/ 401:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -963,57 +1011,9 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-19e4f2ce", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-0e327f11", module.exports)
   }
 }
-
-/***/ }),
-
-/***/ 74:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(330)
-/* template */
-var __vue_template__ = __webpack_require__(331)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\transfer\\reason.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-19e4f2ce", Component.options)
-  } else {
-    hotAPI.reload("data-v-19e4f2ce", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
 
 /***/ })
 
