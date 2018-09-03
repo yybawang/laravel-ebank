@@ -24,15 +24,15 @@
 
 ## 项目技术选型
  
-[PHP7.1+]("http://www.laruence.com/")
+[PHP7.1+](http://www.laruence.com/)
  
-[Laravel5.5]("https://github.com/laravel/laravel")
+[Laravel5.5](https://github.com/laravel/laravel)
 
 Mysql5.7+ / MariaDB
 
-[Vue2]("https://github.com/vuejs/vue")
+[Vue2](https://github.com/vuejs/vue)
 
-[MDUI]("https://github.com/zdhxiong/mdui")
+[MDUI](https://github.com/zdhxiong/mdui)
 
 
 
@@ -138,13 +138,18 @@ CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 > 项目目录下带有 ebank_nginx.conf 和 ebank_supervisor.ini 示例文件，自行配置即可
 
-## 未来开发计划
+## 开发计划
 
 - [x] SDK 封装，给API对接商户下发使用的请求接口请求类，位于 [app/Libraries/EBankSdk.php](https://github.com/yybawang/laravel-ebank/blob/master/app/Libraries/EBankSdk.php "查看代码") 复制任意其他php框架中都可使用，同样要求 php >= 7.1
 - [x] 中央系统式，多项目对应多商户，积分互不干预，实现搭建一套，多项目可用
 - [x] 支付秘钥后台设置，后台 > 支付秘钥管理
-- [ ] 后台功能点说明文案
-- [ ] 对接 hhxsv5/laravel-s 可选常驻内存式部署，好像不成熟，有时候返回头部
+- [x] 商户接口记录出参，便于排查
+- [ ] 费率设置，可切换给下游渠道对接，对应结算更改，实现类似四方支付功能
+- [ ] 丰富图表，今日、昨日用户增长，消费，收入统计等等
+- [ ] 商户接口错误率统计
+- [ ] 后台菜单丰富，全部使用 restful api
+- [ ] 后台功能点帮助文案
+- [ ] 对接 hhxsv5/laravel-s 可选常驻内存式部署
 
 ## Example
 
