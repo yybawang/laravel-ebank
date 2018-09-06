@@ -234,9 +234,9 @@
 					t.merchant = data.merchant;
 					t.user_type = data.user_type;
 					t.purse_type = data.purse_type;
-					setTimeout(function(){
+					t.$nextTick(function(){
 						$('.mdui-tab').mutation();
-					},0);
+					});
 				});
 			}
 		},

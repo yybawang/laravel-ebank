@@ -123,10 +123,9 @@
 				get('/report/purse_detail',t.dialog_keyword,function(data){
 					t.dialog_list = data.list;
 					t.dialog_reason = data.reason;
-					setTimeout(function(){
+					t.$nextTick(function(){
 						t.dialog.open();
-					},0);
-					
+					});
 				});
 			},
 			search(page){
@@ -145,9 +144,9 @@
 					t.merchant = data.merchant;
 					t.user_type = data.user_type;
 					t.purse_type = data.purse_type;
-					setTimeout(function(){
+					t.$nextTick(function(){
 						$('.mdui-tab').mutation();
-					},0);
+					});
 				});
 			}
 		},

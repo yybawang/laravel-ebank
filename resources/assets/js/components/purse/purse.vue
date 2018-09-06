@@ -120,9 +120,9 @@
 					t.merchant = data.merchant;
 					t.purse_type = data.purse_type;
 					t.user_type = data.user_type;
-					setTimeout(function(){
+					t.$nextTick(function(){
 						$('.mdui-tab').mutation();
-					},0);
+					});
 				});
 			}
 		},

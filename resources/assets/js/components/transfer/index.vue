@@ -172,9 +172,9 @@
 					if(t.keyword.export){
 						mdui.alert('可在左侧【导出任务】菜单查看任务状态并下载文件','已放入导出任务',function(){},{history:false});
 					}
-					setTimeout(function(){
+					t.$nextTick(function(){
 						$('.mdui-tab').mutation();
-					},0);
+					});
 				});
 			}
 		},

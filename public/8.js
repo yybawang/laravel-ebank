@@ -114,9 +114,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				'备注': val.remarks,
 				'请求时间': val.created_at
 			};
-			setTimeout(function () {
+			t.$nextTick(function () {
 				t.dialog.open();
-			}, 0);
+			});
 		},
 		init: function init() {
 			var t = this;

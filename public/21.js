@@ -220,9 +220,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			get('/merchant', t.keyword, function (data) {
 				t.list = data.list;
 				t.pay_config = data.pay_config;
-				setTimeout(function () {
+				t.$nextTick(function () {
 					$('.mdui-tab').mutation();
-				}, 0);
+				});
 			});
 		}
 	},

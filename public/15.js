@@ -118,9 +118,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				t.list = data.list;
 				t.merchant = data.merchant;
 				t.purse_type = data.purse_type;
-				setTimeout(function () {
+				t.$nextTick(function () {
 					$('.mdui-tab').mutation();
-				}, 0);
+				});
 			});
 		}
 	},

@@ -146,10 +146,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var t = this;
 			get('/pay/detail', { id: id }, function (data) {
 				t.form = data;
-				setTimeout(function () {
+				t.$nextTick(function () {
 					$('.mdui-tab').mutation();
 					t.dialog.open();
-				}, 0);
+				});
 			});
 		},
 		add_submit: function add_submit() {

@@ -106,10 +106,9 @@
 					'备注' : val.remarks,
 					'请求时间' : val.created_at,
 				};
-				setTimeout(function(){
+				t.$nextTick(function(){
 					t.dialog.open();
-				},0);
-				
+				});
 			},
 			init(){
 				let t = this;
