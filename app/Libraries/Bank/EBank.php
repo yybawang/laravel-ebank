@@ -196,7 +196,7 @@ class EBank {
 			'reason'				=> [
 				'required',
 				'integer',
-//				Rule::exists('fund_transfer_reason','reason')->where('status',1),		// 底层已验证过
+//				Rule::exists('fund_transfer_reason','reason')->where('merchant_id',$merchant_id)->where('status',1),		// 底层已验证过
 			],
 		],[
 			'merchant_id.required'	=> '转账商户参数必传',
@@ -276,7 +276,7 @@ class EBank {
 			'reason'			=> [
 				'required',
 				'integer',
-				Rule::exists('fund_transfer_reason','reason')->where('status',1),
+				Rule::exists('fund_transfer_reason','reason')->where('merchant_id',$merchant_id)->where('status',1),
 			],
 		],[
 			'out_purse_id.required'			=> '转出钱包ID参数必传',
