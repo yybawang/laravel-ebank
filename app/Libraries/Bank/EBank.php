@@ -142,15 +142,15 @@ class EBank {
 		$into_purse_type_id = FundPurseType::where(['alias'=>$into_purse_type])->value('id');
 
 		// 如果出账钱包或入账钱包为系统默认的三个钱包，就设置 user_id = 0;
-		if($out_user_type == 'central' || $out_user_type == 'system'){
+		if($out_user_type === 'central' || $out_user_type === 'system'){
 			$out_user_id = 0;
 		}
-		if($into_user_type == 'central' || $into_user_type == 'system'){
+		if($into_user_type === 'central' || $into_user_type === 'system'){
 			$into_user_id = 0;
 		}
 
-		$out_purse = $this->userWalletDetail($out_user_id,$out_purse_type_id,$out_user_type_id);
-		$into_purse = $this->userWalletDetail($into_user_id,$into_purse_type_id,$into_user_type_id);
+		$out_purse = $this->userWalletDetail($out_user_id,$out_purse_type_id,$out_user_type_id,$merchant_id);
+		$into_purse = $this->userWalletDetail($into_user_id,$into_purse_type_id,$into_user_type_id,$merchant_id);
 		// 自动生成 reason，商户为系统商户(ID:1)，格式为：业务组+出账身份类型+出账钱包类型+商户ID+进账身份类型+进账钱包类型
 		$reason = $flag.str_pad($out_user_type_id,2,'0',STR_PAD_LEFT).str_pad($out_purse_type_id,2,'0',STR_PAD_LEFT).'1'.str_pad($into_user_type_id,2,'0',STR_PAD_LEFT).str_pad($into_purse_type_id,2,'0',STR_PAD_LEFT);
 		FundTransferReason::firstOrCreate(['merchant_id'=>$merchant_id,'reason'=>$reason],[
@@ -234,8 +234,8 @@ class EBank {
 			exception('转账用户ID参数需大于0');
 		}
 
-		$out_purse = $this->userWalletDetail($out_user_id,$out_purse_type_id,$out_user_type_id);
-		$into_purse = $this->userWalletDetail($into_user_id,$into_purse_type_id,$into_user_type_id);
+		$out_purse = $this->userWalletDetail($out_user_id,$out_purse_type_id,$out_user_type_id,$merchant_id);
+		$into_purse = $this->userWalletDetail($into_user_id,$into_purse_type_id,$into_user_type_id,$merchant_id);
 		$transfer_id = $this->_transfer($merchant_id,$out_purse->id,$into_purse->id,$amount,$reason,$parent_id,$detail,$remarks);
 		return $transfer_id;
 	}
