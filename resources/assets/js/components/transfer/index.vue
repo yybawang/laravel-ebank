@@ -40,7 +40,6 @@
 				<thead>
 				<tr>
 					<th>#</th>
-					<th>商户</th>
 					<th>转账ID</th>
 					<th>转账reason</th>
 					<th>reason说明</th>
@@ -49,6 +48,7 @@
 					<!--<th>上级ID</th>-->
 					<!--<th>详情</th>-->
 					<th>创建时间</th>
+					<th>修改时间</th>
 					<th>备注</th>
 					<th>操作</th>
 				</tr>
@@ -59,7 +59,6 @@
 					
 					<tr class="mdui-color-grey-200" @dblclick="val.more = !val.more">
 						<td v-text="'#'+(key+1)"></td>
-						<td v-html="merchant[val.merchant_id]"></td>
 						<td v-text="val.id"></td>
 						<td v-text="val.reason"></td>
 						<td v-text="reason[val.reason]"></td>
@@ -68,6 +67,7 @@
 						<!--<td v-text="val.parent_id"></td>-->
 						<!--<td v-text="val.detail"></td>-->
 						<td v-text="val.created_at"></td>
+						<td v-text="val.updated_at"></td>
 						<td v-text="val.remarks"></td>
 						<td>
 							<div class="mdui-btn-group">

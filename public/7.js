@@ -653,7 +653,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-eb60e770", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-47c5859b", module.exports)
   }
 }
 
@@ -684,7 +684,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\system\\config.vue"
+Component.options.__file = "resources/assets/js/components/system/config.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -693,9 +693,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-eb60e770", Component.options)
+    hotAPI.createRecord("data-v-47c5859b", Component.options)
   } else {
-    hotAPI.reload("data-v-eb60e770", Component.options)
+    hotAPI.reload("data-v-47c5859b", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

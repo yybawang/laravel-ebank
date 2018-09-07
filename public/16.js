@@ -601,7 +601,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6af2d9e4", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-76b27861", module.exports)
   }
 }
 
@@ -632,7 +632,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\purse\\purse_type.vue"
+Component.options.__file = "resources/assets/js/components/purse/purse_type.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -641,9 +641,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6af2d9e4", Component.options)
+    hotAPI.createRecord("data-v-76b27861", Component.options)
   } else {
-    hotAPI.reload("data-v-6af2d9e4", Component.options)
+    hotAPI.reload("data-v-76b27861", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

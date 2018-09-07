@@ -24,7 +24,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\index\\user_transfer.vue"
+Component.options.__file = "resources/assets/js/components/index/user_transfer.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -33,9 +33,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-ae438964", Component.options)
+    hotAPI.createRecord("data-v-7111f11b", Component.options)
   } else {
-    hotAPI.reload("data-v-ae438964", Component.options)
+    hotAPI.reload("data-v-7111f11b", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -44030,7 +44030,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-ae438964", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-7111f11b", module.exports)
   }
 }
 

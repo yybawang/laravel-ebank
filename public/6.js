@@ -491,12 +491,6 @@ var render = function() {
                         domProps: { textContent: _vm._s("#" + (key + 1)) }
                       }),
                       _vm._v(" "),
-                      _c("td", {
-                        domProps: {
-                          innerHTML: _vm._s(_vm.merchant[val.merchant_id])
-                        }
-                      }),
-                      _vm._v(" "),
                       _c("td", { domProps: { textContent: _vm._s(val.id) } }),
                       _vm._v(" "),
                       _c("td", {
@@ -515,6 +509,10 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", {
                         domProps: { textContent: _vm._s(val.created_at) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.updated_at) }
                       }),
                       _vm._v(" "),
                       _c("td", {
@@ -742,8 +740,6 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", [_vm._v("商户")]),
-        _vm._v(" "),
         _c("th", [_vm._v("转账ID")]),
         _vm._v(" "),
         _c("th", [_vm._v("转账reason")]),
@@ -753,6 +749,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("转账金额(分)")]),
         _vm._v(" "),
         _c("th", [_vm._v("创建时间")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("修改时间")]),
         _vm._v(" "),
         _c("th", [_vm._v("备注")]),
         _vm._v(" "),
@@ -766,7 +764,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-5ba2ec38", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-938566f6", module.exports)
   }
 }
 
@@ -797,7 +795,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\transfer\\index.vue"
+Component.options.__file = "resources/assets/js/components/transfer/index.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -806,9 +804,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5ba2ec38", Component.options)
+    hotAPI.createRecord("data-v-938566f6", Component.options)
   } else {
-    hotAPI.reload("data-v-5ba2ec38", Component.options)
+    hotAPI.reload("data-v-938566f6", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
