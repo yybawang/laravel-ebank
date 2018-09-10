@@ -216,7 +216,7 @@ class EBank {
 			'reason.exists'			=> 'reason 数据不存在',
 		])->validate();
 		
-		$reason_first = FundTransferReason::select(['out_user_type_id','out_purse_type_id','into_user_type_id','into_purse_type_id'])->where(['reason'=>$reason])->first();
+		$reason_first = FundTransferReason::select(['out_user_type_id','out_purse_type_id','into_user_type_id','into_purse_type_id'])->where(['reason'=>$reason])->firstOrFail();
 		$out_user_type_id = $reason_first->out_user_type_id;
 		$out_purse_type_id = $reason_first->out_purse_type_id;
 		$into_user_type_id = $reason_first->into_user_type_id;
