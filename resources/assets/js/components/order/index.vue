@@ -3,15 +3,15 @@
 		<div class="typo">
 			<blockquote class="blockquote_normal">
 				<p>
-					下单用户ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.user_id" />
+					订单号：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.order_no" />
 				</p>
 				<p>
-					订单号：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.order_no" />
+					下单用户ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.user_id" />
 				</p>
 				<p>
 					日期筛选：<vue-datepicker-local v-model="keyword.date" clearable />
 				<p>
-					商户：
+					商　　户：
 					<label class="mdui-checkbox" v-for="(name,id) of merchant" style="margin-right:2rem;">
 						<input type="checkbox" :value="id" v-model="keyword.merchant_id" />
 						<i class="mdui-checkbox-icon"></i>
@@ -57,7 +57,7 @@
 			</blockquote>
 			<blockquote class="blockquote_normal">
 				支付金额统计(分)
-				<p><span v-for="(amount,type) of sum_amount" class="mdui-m-r-3">{{payments[type] || type}}：{{amount}}</span></p>
+				<p style="line-height:25px;"><span class="mdui-m-r-3" v-for="(amount,type) of sum_amount">{{payments[type] || type}}：{{amount}}</span></p>
 			</blockquote>
 		</div>
 		<div class="mdui-table-fluid">

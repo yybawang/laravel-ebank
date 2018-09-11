@@ -240,31 +240,6 @@ var render = function() {
     _c("div", { staticClass: "typo" }, [
       _c("blockquote", { staticClass: "blockquote_normal" }, [
         _c("p", [
-          _vm._v("\n\t\t\t\t下单用户ID："),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.keyword.user_id,
-                expression: "keyword.user_id"
-              }
-            ],
-            staticClass: "mdui-textfield-input input_normal",
-            attrs: { type: "text" },
-            domProps: { value: _vm.keyword.user_id },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.keyword, "user_id", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("p", [
           _vm._v("\n\t\t\t\t订单号："),
           _c("input", {
             directives: [
@@ -284,6 +259,31 @@ var render = function() {
                   return
                 }
                 _vm.$set(_vm.keyword, "order_no", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v("\n\t\t\t\t下单用户ID："),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.keyword.user_id,
+                expression: "keyword.user_id"
+              }
+            ],
+            staticClass: "mdui-textfield-input input_normal",
+            attrs: { type: "text" },
+            domProps: { value: _vm.keyword.user_id },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.keyword, "user_id", $event.target.value)
               }
             }
           })
@@ -309,7 +309,7 @@ var render = function() {
         _c(
           "p",
           [
-            _vm._v("\n\t\t\t\t商户：\n\t\t\t\t"),
+            _vm._v("\n\t\t\t\t商　　户：\n\t\t\t\t"),
             _vm._l(_vm.merchant, function(name, id) {
               return _c(
                 "label",
@@ -739,6 +739,7 @@ var render = function() {
         _vm._v("\n\t\t\t支付金额统计(分)\n\t\t\t"),
         _c(
           "p",
+          { staticStyle: { "line-height": "25px" } },
           _vm._l(_vm.sum_amount, function(amount, type) {
             return _c("span", { staticClass: "mdui-m-r-3" }, [
               _vm._v(_vm._s(_vm.payments[type] || type) + "：" + _vm._s(amount))

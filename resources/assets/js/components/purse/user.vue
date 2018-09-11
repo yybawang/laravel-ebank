@@ -6,6 +6,14 @@
 					用户ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.user_id"/>
 				</p>
 				<p>
+					身份类型：
+					<label class="mdui-checkbox" v-for="(name,id) of user_type" style="margin-right:2rem;">
+						<input type="checkbox" :value="id" v-model="keyword.user_type_id"/>
+						<i class="mdui-checkbox-icon"></i>
+						{{name}}
+					</label>
+				</p>
+				<p>
 					钱包类型：
 					<label class="mdui-checkbox" v-for="(name,id) of purse_type" style="margin-right:2rem;">
 						<input type="checkbox" :value="id" v-model="keyword.purse_type_id"/>
@@ -29,6 +37,7 @@
 					<th>钱包ID</th>
 					<th>商户</th>
 					<th>用户ID</th>
+					<th>身份类型</th>
 					<th>钱包类型</th>
 					<th>总余额(分)</th>
 					<th>冻结余额(分)</th>
@@ -46,6 +55,7 @@
 					<td v-text="val.id"></td>
 					<td v-text="merchant[val.merchant_id]"></td>
 					<td v-text="val.user_id"></td>
+					<td v-text="user_type[val.user_type_id]"></td>
 					<td v-text="purse_type[val.purse_type_id]"></td>
 					<td v-text="val.balance"></td>
 					<td v-text="val.freeze"></td>
@@ -85,10 +95,12 @@
 			return {
 				list: [],
 				purse_type: '',
+				user_type: '',
 				merchant: '',
 				keyword: {
 					page: 1,
 					user_id: '',
+					user_type_id: [],
 					purse_type_id: [],
 					merchant_id: 1,
 				},
@@ -109,6 +121,7 @@
 				get('/purse/user', t.keyword, function (data) {
 					t.list = data.list;
 					t.merchant = data.merchant;
+					t.user_type = data.user_type;
 					t.purse_type = data.purse_type;
 					t.$nextTick(function(){
 						$('.mdui-tab').mutation();

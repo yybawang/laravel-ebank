@@ -72,18 +72,18 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	});
 	
 	Route::prefix('purse')->name('admin.业务资金管理.')->group(function(){
-		Route::get('purse','PurseController@purse')->name('menu.身份类型余额');
-		Route::get('user','PurseController@user')->name('menu.用户钱包余额');
 		Route::get('user_type','PurseController@user_type')->name('menu.身份类型列表');
 		Route::get('user_type_detail','PurseController@user_type_detail');
 		Route::post('user_type','PurseController@user_type_add');
 		Route::delete('user_type','PurseController@user_type_delete');
-		Route::get('purse_type','PurseController@purse_type')->name('menu.钱包类型管理');
+		Route::get('purse_type','PurseController@purse_type')->name('menu.钱包类型列表');
 		Route::get('purse_type_detail','PurseController@purse_type_detail');
 		Route::post('purse_type','PurseController@purse_type_add');
 		Route::delete('purse_type','PurseController@purse_type_delete');
 		Route::get('freeze','PurseController@freeze')->name('menu.余额冻结记录');
 		Route::post('unfreeze','PurseController@unfreeze');
+		Route::get('purse','PurseController@purse')->name('menu.身份类型余额');
+		Route::get('user','PurseController@user')->name('menu.用户钱包余额');
 	});
 	
 	Route::prefix('order')->name('admin.订单管理.')->group(function(){
