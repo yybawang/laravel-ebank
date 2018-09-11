@@ -15,6 +15,11 @@ use App\Http\Middleware\AdminUser;
 Route::get('/', 'Controller@index');
 
 
+
+
+
+
+/********************************************** 沙盒调试部分 ******************************************/
 Route::group(['prefix'=>'sandbox'],function(){
 	Route::any('/','SandboxController@index');
 	Route::any('index','SandboxController@index');
@@ -81,11 +86,11 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 		Route::post('unfreeze','PurseController@unfreeze');
 	});
 	
-	Route::prefix('report')->name('admin.财务报表.')->group(function(){
-		Route::get('reason','ReportController@reason')->name('menu.流水统计');
-		Route::get('reason_detail','ReportController@reason_detail');
-		Route::get('purse','ReportController@purse')->name('menu.钱包统计');
-		Route::get('purse_detail','ReportController@purse_detail');
+	Route::prefix('order')->name('admin.订单管理.')->group(function(){
+		Route::get('/','OrderController@index')->name('menu.订单列表');
+		Route::post('notify','OrderController@notify');
+		Route::post('refund','OrderController@refund');
+		Route::post('complete','OrderController@complete');
 	});
 	
 	Route::prefix('withdraw')->name('admin.提现管理.')->group(function(){
@@ -96,11 +101,11 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 		Route::post('fail','WithdrawController@fail');
 	});
 	
-	Route::prefix('order')->name('admin.订单管理.')->group(function(){
-		Route::get('/','OrderController@index')->name('menu.订单列表');
-		Route::post('notify','OrderController@notify');
-		Route::post('refund','OrderController@refund');
-		Route::post('complete','OrderController@complete');
+	Route::prefix('report')->name('admin.财务报表.')->group(function(){
+		Route::get('reason','ReportController@reason')->name('menu.流水统计');
+		Route::get('reason_detail','ReportController@reason_detail');
+		Route::get('purse','ReportController@purse')->name('menu.钱包统计');
+		Route::get('purse_detail','ReportController@purse_detail');
 	});
 	
 	Route::prefix('export')->name('admin.导出任务.')->group(function(){

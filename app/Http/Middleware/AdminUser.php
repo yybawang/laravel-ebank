@@ -27,24 +27,21 @@ class AdminUser
 				return redirect(url('admin'));
 			}
 		}
-		// 判断权限
+		// 判断权限，权限管理组不为 1 的时候才开启
 		$group_id = FundAdmin::where(['id'=>$uid])->value('group_id');
-		// 权限管理不为1的时候才开启
-		if($group_id != 1){
-			$init_menu = init_menu();
-			$menu = [];
-			foreach($init_menu as $k => $v){
-				foreach($v as $k2 => $v2){
-					array_push($menu,$v2['name_full']);
-				}
+		$init_menu = init_menu();
+		$menu = [];
+		foreach($init_menu as $k => $v){
+			foreach($v as $k2 => $v2){
+				array_push($menu,$v2['name_full']);
 			}
-			$rule = FundAdminGroup::where(['id'=>$group_id])->value('rule');
-			$rule_name = $request->route()->getName();
-			$rule_names = json_decode($rule,true);
-			// 如果在菜单里面并且不在权限组里面
-			if(in_array($rule_name,$menu) && !in_array($rule_name,$rule_names)){
-				exception('用户组无权限');
-			}
+		}
+		$rule = FundAdminGroup::where('id','>',1)->where(['id'=>$group_id])->value('rule');
+		$rule_name = $request->route()->getName();
+		$rule_names = json_decode($rule,true);
+		// 如果在菜单里面并且不在权限组里面
+		if($rule && in_array($rule_name,$menu) && !in_array($rule_name,$rule_names)){
+			exception('用户组无权限');
 		}
 		
 		return $next($request);

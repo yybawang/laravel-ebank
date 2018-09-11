@@ -157,11 +157,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -403,7 +398,7 @@ var render = function() {
           [
             _vm._l(_vm.list.data, function(val, key) {
               return [
-                _c("tr", { class: { "mdui-color-grey-200": true } }, [
+                _c("tr", [
                   _c("td", [
                     _c("span", {
                       domProps: { textContent: _vm._s("#" + (key + 1)) }
@@ -412,14 +407,6 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     _c("span", { domProps: { textContent: _vm._s(val.id) } })
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("span", {
-                      domProps: {
-                        textContent: _vm._s(_vm.merchant[val.merchant_id])
-                      }
-                    })
                   ]),
                   _vm._v(" "),
                   _c("td", [
@@ -434,13 +421,47 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     _c("span", {
-                      domProps: { textContent: _vm._s(val.created_at) }
+                      staticClass: "mdui-text-color-deep-orange",
+                      domProps: {
+                        textContent: _vm._s(
+                          _vm.user_type[val.out_user_type_id] +
+                            "->" +
+                            _vm.purse_type[val.out_purse_type_id]
+                        )
+                      }
                     })
                   ]),
                   _vm._v(" "),
                   _c("td", [
                     _c("span", {
-                      domProps: { textContent: _vm._s(val.updated_at) }
+                      staticClass: "mdui-text-color-teal",
+                      domProps: {
+                        textContent: _vm._s(
+                          _vm.user_type[val.into_user_type_id] +
+                            "->" +
+                            _vm.purse_type[val.into_purse_type_id]
+                        )
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", {
+                      domProps: {
+                        textContent: _vm._s(val.status ? "启用" : "禁用")
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(val.remarks) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(val.created_at) }
                     })
                   ]),
                   _vm._v(" "),
@@ -473,56 +494,6 @@ var render = function() {
                         [_vm._v("删除")]
                       )
                     ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td"),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v("出账身份："),
-                    _c("span", { staticClass: "mdui-text-color-deep-orange" }, [
-                      _vm._v(_vm._s(_vm.user_type[val.out_user_type_id]))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v("出账钱包："),
-                    _c("span", { staticClass: "mdui-text-color-deep-orange" }, [
-                      _vm._v(_vm._s(_vm.purse_type[val.out_purse_type_id]))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v("进账身份："),
-                    _c("span", { staticClass: "mdui-text-color-teal" }, [
-                      _vm._v(_vm._s(_vm.user_type[val.into_user_type_id]))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v("进账钱包："),
-                    _c("span", { staticClass: "mdui-text-color-teal" }, [
-                      _vm._v(_vm._s(_vm.purse_type[val.into_purse_type_id]))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v("状态："),
-                    val.status
-                      ? _c("span", { staticClass: "mdui-text-color-green" }, [
-                          _vm._v("启用")
-                        ])
-                      : _c("span", { staticClass: "mdui-text-color-red" }, [
-                          _vm._v("禁用")
-                        ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { attrs: { colspan: "2" } }, [
-                    _vm._v("备注："),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(val.remarks) }
-                    })
                   ])
                 ])
               ]
@@ -943,15 +914,19 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("ID")]),
         _vm._v(" "),
-        _c("th", [_vm._v("所属商户")]),
-        _vm._v(" "),
         _c("th", [_vm._v("转账行为名称")]),
         _vm._v(" "),
         _c("th", [_vm._v("reason 代码")]),
         _vm._v(" "),
-        _c("th", [_vm._v("创建时间")]),
+        _c("th", [_vm._v("出账关联")]),
         _vm._v(" "),
-        _c("th", [_vm._v("修改时间")]),
+        _c("th", [_vm._v("进账关联")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("状态")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("备注")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("创建时间")]),
         _vm._v(" "),
         _c("th", [_vm._v("操作")])
       ])

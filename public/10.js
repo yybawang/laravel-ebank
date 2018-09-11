@@ -124,6 +124,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -374,6 +375,14 @@ var render = function() {
               })
             ])
           ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "mdui-container mdui-m-t-2 mdui-text-color-grey-500"
+            },
+            [_vm._v("* 不选或全选都视为拥有所有权限")]
+          ),
           _vm._v(" "),
           _c("div", { staticClass: "mdui-container" }, [
             _c(

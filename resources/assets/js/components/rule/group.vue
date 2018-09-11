@@ -62,6 +62,7 @@
 							<input class="mdui-textfield-input" type="text" v-model="form.name" />
 						</div>
 					</div>
+					<div class="mdui-container mdui-m-t-2 mdui-text-color-grey-500">* 不选或全选都视为拥有所有权限</div>
 					<div class="mdui-container">
 						<div class="mdui-typo">
 							<blockquote class="blockquote_normal" v-for="(val,key) of menu">

@@ -67,6 +67,7 @@ class ReasonController extends CommonController {
 			'into_purse_type_id'=> 'required|integer|min:1',
 		]);
 		$post = $request->all();
+		$post['reason'] = strtolower($post['reason']);
 		$id = FundTransferReason::updateOrCreate(['id'=>$post['id']],$post)->id;
 		return json_return($id,'','',['id'=>$id]);
 	}

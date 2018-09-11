@@ -26,39 +26,34 @@
 				<tr>
 					<th>#</th>
 					<th>ID</th>
-					<th>所属商户</th>
 					<th>转账行为名称</th>
 					<th>reason 代码</th>
+					<th>出账关联</th>
+					<th>进账关联</th>
+					<th>状态</th>
+					<th>备注</th>
 					<th>创建时间</th>
-					<th>修改时间</th>
 					<th>操作</th>
 				</tr>
 				</thead>
 				<tbody>
 				<template v-for="(val,key) in list.data">
-					<tr :class="{'mdui-color-grey-200':true}">
+					<tr>
 						<td><span v-text="'#'+(key+1)"></span></td>
 						<td><span v-text="val.id"></span></td>
-						<td><span v-text="merchant[val.merchant_id]"></span></td>
 						<td><span v-text="val.name"></span></td>
 						<td><span v-text="val.reason"></span></td>
+						<td><span class="mdui-text-color-deep-orange" v-text="user_type[val.out_user_type_id] + '->' + purse_type[val.out_purse_type_id]"></span></td>
+						<td><span class="mdui-text-color-teal" v-text="user_type[val.into_user_type_id] + '->' + purse_type[val.into_purse_type_id]"></span></td>
+						<td><span v-text="val.status ? '启用' : '禁用'"></span></td>
+						<td><span v-text="val.remarks"></span></td>
 						<td><span v-text="val.created_at"></span></td>
-						<td><span v-text="val.updated_at"></span></td>
 						<td>
 							<div class="mdui-btn-group">
 								<a class="mdui-btn mdui-ripple mdui-color-theme" @click="add(val.id)">修改</a>
 								<a class="mdui-btn mdui-ripple mdui-color-deep-orange" @click="del(val.id)">删除</a>
 							</div>
 						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>出账身份：<span class="mdui-text-color-deep-orange">{{user_type[val.out_user_type_id]}}</span></td>
-						<td>出账钱包：<span class="mdui-text-color-deep-orange">{{purse_type[val.out_purse_type_id]}}</span></td>
-						<td>进账身份：<span class="mdui-text-color-teal">{{user_type[val.into_user_type_id]}}</span></td>
-						<td>进账钱包：<span class="mdui-text-color-teal">{{purse_type[val.into_purse_type_id]}}</span></td>
-						<td>状态：<span class="mdui-text-color-green" v-if="val.status">启用</span><span class="mdui-text-color-red" v-else>禁用</span></td>
-						<td colspan="2">备注：<span v-text="val.remarks"></span></td>
 					</tr>
 				</template>
 				</tbody>

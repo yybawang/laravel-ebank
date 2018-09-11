@@ -30,7 +30,6 @@ class MerchantSign
 			exception('商户appid不存在');
 		}
 		$param_sign = sign_merchant($param,$secret);
-		// 如果字符串恒相等
 		if(strcmp($sign,$param_sign) !== 0){
 			exception('['.$param['ebank_appid'].']商户验签失败');
 		}

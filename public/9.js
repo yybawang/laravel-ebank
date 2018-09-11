@@ -372,13 +372,13 @@ var render = function() {
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.name) } }),
               _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.realname) } }),
-              _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.mobile) } }),
-              _vm._v(" "),
               _c("td", {
                 domProps: { textContent: _vm._s(_vm.group[val.group_id]) }
               }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.realname) } }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.mobile) } }),
               _vm._v(" "),
               _c("td", {
                 domProps: { textContent: _vm._s(val.status ? "启用" : "禁用") }
@@ -769,11 +769,11 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("登录名")]),
         _vm._v(" "),
+        _c("th", [_vm._v("所属权限组")]),
+        _vm._v(" "),
         _c("th", [_vm._v("真实姓名")]),
         _vm._v(" "),
         _c("th", [_vm._v("移动手机")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("所属权限组")]),
         _vm._v(" "),
         _c("th", [_vm._v("状态")]),
         _vm._v(" "),

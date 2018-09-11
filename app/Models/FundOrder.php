@@ -66,34 +66,25 @@ class FundOrder extends CommonModel
 	public function complete(string $order_no,int $amount){
 		$multi_key = 'notifyController_complete'.$order_no.'_'.$amount;
 		if(Cache::has($multi_key)){
-			logger($order_no.'并发重复通知，缓存已拦截');
-			return false;
+			exception($order_no.'并发重复通知，缓存已拦截');
 		}
 		Cache::add($multi_key,1,0.1);
 		
-		$order = FundOrder::where(['order_no'=>$order_no])->first();
+		$order = FundOrder::where(['order_no'=>$order_no])->firstOrFail();
 		// 如果此订单存在第三方支付就得到第三方支付的价格进行匹配
 		$amount_thread = FundOrderPayment::where(['order_id'=>$order->id])->where('type','not like','wallet_%')->sum('amount');
-		if($order){
-			if($amount_thread > 0 && $amount_thread != $amount){
-				logger('三方支付通知订单号['.$order_no.']通知价格不正确，本地价格：'.$amount_thread.'，通知价格：'.$amount);
-				return false;
-			}
-			if($amount_thread <= 0 && $order->amount != $amount){
-				logger('钱包支付通知订单号['.$order_no.']通知价格不正确，本地价格：'.$order->amount.'，通知价格：'.$amount);
-				return false;
-			}
-			if(1 == $order->pay_status){
-				logger($order_no.'重复通知，订单 pay_status = 1 已支付');
-				return false;
-			}
-			
-			$this->_completeOrder($order);
-			return true;
-		}else{
-			logger('异步通知订单号['.$order_no.']未找到');
-			return false;
+		if($amount_thread > 0 && $amount_thread != $amount){
+			exception('三方支付通知订单号['.$order_no.']通知价格不正确，本地价格：'.$amount_thread.'，通知价格：'.$amount);
 		}
+		if($amount_thread <= 0 && $order->amount != $amount){
+			exception('钱包支付通知订单号['.$order_no.']通知价格不正确，本地价格：'.$order->amount.'，通知价格：'.$amount);
+		}
+		if(1 <= $order->pay_status){
+			exception($order_no.'重复通知，订单 pay_status = 1 已支付');
+		}
+		
+		$this->_completeOrder($order);
+		return true;
 	}
 	
 	
