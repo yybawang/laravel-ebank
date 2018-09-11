@@ -18,12 +18,12 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
-		\Symfony\Component\HttpKernel\Exception\HttpException::class,
-		\Illuminate\Database\Eloquent\ModelNotFoundException::class,
-		\Illuminate\Validation\ValidationException::class,
-		\App\Exceptions\LoginException::class,
-		\Illuminate\Foundation\Http\Exceptions\MaintenanceModeException::class
+        // 全部上报
+//		\Symfony\Component\HttpKernel\Exception\HttpException::class,
+//		\Illuminate\Database\Eloquent\ModelNotFoundException::class,
+//		\Illuminate\Validation\ValidationException::class,
+//		\App\Exceptions\LoginException::class,
+//		\Illuminate\Foundation\Http\Exceptions\MaintenanceModeException::class
     ];
 
     /**
