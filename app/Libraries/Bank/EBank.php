@@ -253,8 +253,8 @@ class EBank {
 	 * 转账核心方法
 	 */
 	private function _transfer(int $merchant_id,int $out_purse_id,int $into_purse_id,int $amount,int $reason,int $parent_id = 0,?string $detail = null,?string $remarks = null){
-		// 出账钱包最大可用金额，如果超过了此金额，就不能转账
-		$out_purse_balance = FundUserPurse::where(['id'=>$out_purse_id])->value(DB::raw('balance - freeze'));
+		// 出账钱包最大可用金额，且扣减后的余额要 >= 0 ，如果超过了此金额，就不能转账
+		$out_purse_balance = FundUserPurse::where(['id'=>$out_purse_id])->where(DB::raw('balance - freeze - '.$amount),'>=',0)->value(DB::raw('balance - freeze'));
 		\Validator::make([
 			'out_purse_id'		=> $out_purse_id,
 			'into_purse_id'		=> $into_purse_id,
@@ -313,16 +313,13 @@ class EBank {
 		}
 		
 		$transfer_id = DB::transaction(function() use ($merchant_id,$out_purse_id,$into_purse_id,$out_purse,$into_purse,$amount,$parent_id,$reason,$detail,$remarks){
-			// 出账钱包扣款
-			$var = FundUserPurse::where(['id'=>$out_purse_id])->decrement('balance',$amount);
+			// 出账钱包扣款，不足扣除返回 0
+			$var = FundUserPurse::where(['id'=>$out_purse_id])->where(DB::raw('balance - freeze - '.$amount),'>=',0)->update(['balance'=>DB::raw('balance - '.$amount)]);
 			if(!$var){
-				exception('转出钱包扣款失败');
+				exception('转出钱包扣款失败，余额不足');
 			}
 			// 进账钱包收款
-			$var = FundUserPurse::where(['id'=>$into_purse_id])->increment('balance',$amount);
-			if(!$var){
-				exception('转入钱包收款失败');
-			}
+			FundUserPurse::where(['id'=>$into_purse_id])->increment('balance',$amount);
 			
 			$transfer_add = [
 				'merchant_id'		=> $merchant_id,
