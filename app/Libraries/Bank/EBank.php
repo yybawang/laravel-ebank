@@ -298,7 +298,7 @@ class EBank {
 		
 		$transfer_id = DB::transaction(function() use ($merchant_id,$out_purse_id,$into_purse_id,$amount,$parent_id,$reason,$detail,$remarks){
 			// 出账钱包扣款，不足扣除返回 0，这里处理到并发问题，前置 update 可以让进程串行
-			$var = FundUserPurse::where(['id'=>$out_purse_id])->where(DB::raw('balance - freeze - '.$amount),'>=',0)->update(['balance'=>DB::raw('balance - '.$amount)]);
+			$var = FundUserPurse::where(['id'=>$out_purse_id])->where(DB::raw('balance - freeze'),'>=',$amount)->update(['balance'=>DB::raw('balance - '.$amount)]);
 			if(!$var){
 				exception('转出钱包扣款失败，余额不足');
 			}
