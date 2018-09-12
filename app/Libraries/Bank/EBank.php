@@ -296,30 +296,30 @@ class EBank {
 		])->validate();
 		
 		
-		// 增加流水
-		$out_purse = FundUserPurse::find($out_purse_id);
-		$into_purse = FundUserPurse::find($into_purse_id);
-		if($out_purse->status == 0){
-			exception('转出钱包已被设置为禁用');
-		}
-		if($out_purse->status == 9){
-			exception('转出钱包已被临时禁用');
-		}
-		if($into_purse->status == 0){
-			exception('转入钱包已被设置为禁用');
-		}
-		if($into_purse->status == 9){
-			exception('转入钱包已被临时禁用');
-		}
-		
-		$transfer_id = DB::transaction(function() use ($merchant_id,$out_purse_id,$into_purse_id,$out_purse,$into_purse,$amount,$parent_id,$reason,$detail,$remarks){
-			// 出账钱包扣款，不足扣除返回 0
+		$transfer_id = DB::transaction(function() use ($merchant_id,$out_purse_id,$into_purse_id,$amount,$parent_id,$reason,$detail,$remarks){
+			// 出账钱包扣款，不足扣除返回 0，这里处理到并发问题，前置 update 可以让进程串行
 			$var = FundUserPurse::where(['id'=>$out_purse_id])->where(DB::raw('balance - freeze - '.$amount),'>=',0)->update(['balance'=>DB::raw('balance - '.$amount)]);
 			if(!$var){
 				exception('转出钱包扣款失败，余额不足');
 			}
 			// 进账钱包收款
 			FundUserPurse::where(['id'=>$into_purse_id])->increment('balance',$amount);
+			
+			// 增加流水
+			$out_purse = FundUserPurse::find($out_purse_id);
+			$into_purse = FundUserPurse::find($into_purse_id);
+			if($out_purse->status == 0){
+				exception('转出钱包已被设置为禁用');
+			}
+			if($out_purse->status == 9){
+				exception('转出钱包已被临时禁用');
+			}
+			if($into_purse->status == 0){
+				exception('转入钱包已被设置为禁用');
+			}
+			if($into_purse->status == 9){
+				exception('转入钱包已被临时禁用');
+			}
 			
 			$transfer_add = [
 				'merchant_id'		=> $merchant_id,

@@ -90,7 +90,6 @@ class RuleController extends CommonController {
 			'status'	=> 1,
 			'remarks'	=> '',
 		]);
-		$data['rule'] = json_decode($data['rule'],true);
 		return json_success('OK',$data);
 	}
 	
@@ -99,7 +98,6 @@ class RuleController extends CommonController {
 			'name'		=> 'required',
 		]);
 		$post = $request->all();
-		$post['rule'] = json_encode($post['rule']);
 		$id = FundAdminGroup::updateOrCreate(['id'=>$post['id']],$post)->id;
 		return json_return($id,'','',['id'=>$id]);
 	}

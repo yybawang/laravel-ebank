@@ -36,11 +36,10 @@ class AdminUser
 				array_push($menu,$v2['name_full']);
 			}
 		}
-		$rule = FundAdminGroup::where('id','>',1)->where(['id'=>$group_id])->value('rule');
+		$rule_names = FundAdminGroup::where('id','>',1)->where(['id'=>$group_id])->value('rule');
 		$rule_name = $request->route()->getName();
-		$rule_names = json_decode($rule,true);
 		// 如果在菜单里面并且不在权限组里面
-		if($rule && in_array($rule_name,$menu) && !in_array($rule_name,$rule_names)){
+		if($rule_names && in_array($rule_name,$menu) && !in_array($rule_name,$rule_names)){
 			exception('用户组无权限');
 		}
 		
