@@ -1,10 +1,32 @@
 webpackJsonp([17],{
 
-/***/ 368:
+/***/ 366:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -77,12 +99,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return {
 			list: [],
 			purse_type: '',
+			user_type: '',
+			merchant: '',
 			keyword: {
 				page: 1,
-				id: '',
-				purse_id: ''
-			},
-			status: ['无效状态0', '冻结中', '已解冻']
+				user_id: '',
+				purse_type_id: [],
+				user_type_id: [],
+				merchant_id: 1
+			}
 		};
 	},
 
@@ -91,20 +116,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.keyword.page = page;
 			this.init();
 		},
-		unfreeze: function unfreeze(id) {
-			var t = this;
-			mdui.confirm('解冻此记录后可能造成业务匹配问题，点击【确定】继续', '确认?', function () {
-				t.$API.post('/purse/unfreeze', { id: id }).then(function (data) {
-					mdui.alert('已成功解冻并返还金额', function () {}, { history: false });
-					t.init();
-				});
-			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
+		tab_change: function tab_change(id) {
+			this.keyword.page = 1;
+			this.keyword.merchant_id = id;
+			this.init();
 		},
 		init: function init() {
 			var t = this;
-			t.$API.get('/purse/freeze', t.keyword).then(function (data) {
+			t.$API.get('/purse/purse', t.keyword).then(function (data) {
 				t.list = data.list;
+				t.merchant = data.merchant;
 				t.purse_type = data.purse_type;
+				t.user_type = data.user_type;
+				t.$nextTick(function () {
+					$('.mdui-tab').mutation();
+				});
 			});
 		}
 	},
@@ -116,65 +142,149 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 369:
+/***/ 367:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "purse_freeze" }, [
+  return _c("div", { staticClass: "purse" }, [
     _c("div", { staticClass: "mdui-typo" }, [
       _c("blockquote", { staticClass: "blockquote_normal" }, [
-        _c("p", [
-          _vm._v("\n\t\t\t\t冻结ID："),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.keyword.id,
-                expression: "keyword.id"
-              }
-            ],
-            staticClass: "mdui-textfield-input input_normal",
-            attrs: { type: "text" },
-            domProps: { value: _vm.keyword.id },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.keyword, "id", $event.target.value)
-              }
-            }
-          })
-        ]),
+        _c(
+          "p",
+          [
+            _vm._v("\n\t\t\t\t身份类型：\n\t\t\t\t"),
+            _vm._l(_vm.user_type, function(name, id) {
+              return _c(
+                "label",
+                {
+                  staticClass: "mdui-checkbox",
+                  staticStyle: { "margin-right": "2rem" }
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.keyword.user_type_id,
+                        expression: "keyword.user_type_id"
+                      }
+                    ],
+                    attrs: { type: "checkbox" },
+                    domProps: {
+                      value: id,
+                      checked: Array.isArray(_vm.keyword.user_type_id)
+                        ? _vm._i(_vm.keyword.user_type_id, id) > -1
+                        : _vm.keyword.user_type_id
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.keyword.user_type_id,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = id,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(
+                                _vm.keyword,
+                                "user_type_id",
+                                $$a.concat([$$v])
+                              )
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                _vm.keyword,
+                                "user_type_id",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
+                        } else {
+                          _vm.$set(_vm.keyword, "user_type_id", $$c)
+                        }
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("i", { staticClass: "mdui-checkbox-icon" }),
+                  _vm._v("\n\t\t\t\t\t" + _vm._s(name) + "\n\t\t\t\t")
+                ]
+              )
+            })
+          ],
+          2
+        ),
         _vm._v(" "),
-        _c("p", [
-          _vm._v("\n\t\t\t\t钱包ID："),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.keyword.purse_id,
-                expression: "keyword.purse_id"
-              }
-            ],
-            staticClass: "mdui-textfield-input input_normal",
-            attrs: { type: "text" },
-            domProps: { value: _vm.keyword.purse_id },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.keyword, "purse_id", $event.target.value)
-              }
-            }
-          })
-        ]),
+        _c(
+          "p",
+          [
+            _vm._v("\n\t\t\t\t钱包类型：\n\t\t\t\t"),
+            _vm._l(_vm.purse_type, function(name, id) {
+              return _c(
+                "label",
+                {
+                  staticClass: "mdui-checkbox",
+                  staticStyle: { "margin-right": "2rem" }
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.keyword.purse_type_id,
+                        expression: "keyword.purse_type_id"
+                      }
+                    ],
+                    attrs: { type: "checkbox" },
+                    domProps: {
+                      value: id,
+                      checked: Array.isArray(_vm.keyword.purse_type_id)
+                        ? _vm._i(_vm.keyword.purse_type_id, id) > -1
+                        : _vm.keyword.purse_type_id
+                    },
+                    on: {
+                      change: function($event) {
+                        var $$a = _vm.keyword.purse_type_id,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = id,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(
+                                _vm.keyword,
+                                "purse_type_id",
+                                $$a.concat([$$v])
+                              )
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                _vm.keyword,
+                                "purse_type_id",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
+                        } else {
+                          _vm.$set(_vm.keyword, "purse_type_id", $$c)
+                        }
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("i", { staticClass: "mdui-checkbox-icon" }),
+                  _vm._v("\n\t\t\t\t\t" + _vm._s(name) + "\n\t\t\t\t")
+                ]
+              )
+            })
+          ],
+          2
+        ),
         _vm._v(" "),
         _c("p", [
           _c(
@@ -200,6 +310,27 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "mdui-tab", attrs: { "mdui-tab": "" } },
+      _vm._l(_vm.merchant, function(name, id, key) {
+        return _c("a", {
+          class: {
+            "mdui-btn": true,
+            "mdui-ripple": true,
+            "mdui-tab-active": key == 0
+          },
+          attrs: { href: "#tab_" + key },
+          domProps: { textContent: _vm._s(name) },
+          on: {
+            click: function($event) {
+              _vm.tab_change(id)
+            }
+          }
+        })
+      })
+    ),
+    _vm._v(" "),
     _c("div", { staticClass: "mdui-table-fluid" }, [
       _c("table", { staticClass: "mdui-table mdui-table-hoverable" }, [
         _vm._m(0),
@@ -212,38 +343,37 @@ var render = function() {
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.id) } }),
               _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.purse_id) } }),
-              _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.amount) } }),
+              _c("td", {
+                domProps: { textContent: _vm._s(_vm.merchant[val.merchant_id]) }
+              }),
               _vm._v(" "),
               _c("td", {
-                domProps: { textContent: _vm._s(_vm.status[val.status]) }
+                domProps: {
+                  textContent: _vm._s(_vm.user_type[val.user_type_id])
+                }
+              }),
+              _vm._v(" "),
+              _c("td", {
+                domProps: {
+                  textContent: _vm._s(_vm.purse_type[val.purse_type_id])
+                }
+              }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.balance) } }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.freeze) } }),
+              _vm._v(" "),
+              _c("td", {
+                domProps: { textContent: _vm._s(val.balance - val.freeze) }
+              }),
+              _vm._v(" "),
+              _c("td", {
+                domProps: { textContent: _vm._s(val.status ? "启用" : "禁用") }
               }),
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.remarks) } }),
               _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.created_at) } }),
-              _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.updated_at) } }),
-              _vm._v(" "),
-              _c("td", [
-                _c("div", { staticClass: "mdui-btn-group" }, [
-                  val.status == 1
-                    ? _c(
-                        "a",
-                        {
-                          staticClass: "mdui-btn mdui-ripple mdui-color-theme",
-                          on: {
-                            click: function($event) {
-                              _vm.unfreeze(val.id)
-                            }
-                          }
-                        },
-                        [_vm._v("解冻")]
-                      )
-                    : _vm._e()
-                ])
-              ])
+              _c("td", { domProps: { textContent: _vm._s(val.created_at) } })
             ])
           })
         )
@@ -281,21 +411,25 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", [_vm._v("ID")]),
-        _vm._v(" "),
         _c("th", [_vm._v("钱包ID")]),
         _vm._v(" "),
+        _c("th", [_vm._v("商户")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("身份类型")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("钱包类型")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("总余额(分)")]),
+        _vm._v(" "),
         _c("th", [_vm._v("冻结余额(分)")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("可用余额(分)")]),
         _vm._v(" "),
         _c("th", [_vm._v("状态")]),
         _vm._v(" "),
         _c("th", [_vm._v("备注")]),
         _vm._v(" "),
-        _c("th", [_vm._v("创建时间")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("上次修改时间")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("操作")])
+        _c("th", [_vm._v("创建时间")])
       ])
     ])
   }
@@ -305,21 +439,21 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-d4f2786a", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-f9b5e0ca", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 81:
+/***/ 80:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(368)
+var __vue_script__ = __webpack_require__(366)
 /* template */
-var __vue_template__ = __webpack_require__(369)
+var __vue_template__ = __webpack_require__(367)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -336,7 +470,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\purse\\freeze.vue"
+Component.options.__file = "resources\\assets\\js\\components\\purse\\purse.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -345,9 +479,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d4f2786a", Component.options)
+    hotAPI.createRecord("data-v-f9b5e0ca", Component.options)
   } else {
-    hotAPI.reload("data-v-d4f2786a", Component.options)
+    hotAPI.reload("data-v-f9b5e0ca", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

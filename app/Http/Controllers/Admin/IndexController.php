@@ -8,6 +8,8 @@ use App\Models\FundOrder;
 use App\Models\FundOrderPayment;
 use App\Models\FundPurseType;
 use App\Models\FundTransfer;
+use App\Models\FundUserPurse;
+use App\Models\FundWithdraw;
 use Illuminate\Support\Facades\DB;
 
 class IndexController extends CommonController
@@ -24,6 +26,59 @@ class IndexController extends CommonController
 	public function init(BasicRequest $request){
 		$data['user'] = admin_user();
 		$data['menu'] = init_menu();
+		return json_success('OK',$data);
+	}
+	
+	/**
+	 * 首页报表
+	 * @param BasicRequest $request
+	 * return string
+	 */
+	public function welcome(BasicRequest $request){
+		$today_start = date('Y-m-d');
+		$today_end = date('Y-m-d',strtotime('+1 day'));
+		$yesterday_start = date('Y-m-d',strtotime('-1 day'));
+		$yesterday_end = date('Y-m-d');
+		
+		$FundOrderToday = FundOrder::where('created_at','>=',$today_start)->where('created_at','<',$today_end)->where(['pay_status'=>1,'status'=>1]);
+		$FundOrderYesterday = FundOrder::where('created_at','>=',$yesterday_start)->where('created_at','<',$yesterday_end)->where(['pay_status'=>1,'status'=>1]);
+		$today_unified_count = (clone $FundOrderToday)->count();
+		$today_unified_amount = (clone $FundOrderToday)->sum('amount');
+		$yesterday_unified_count = (clone $FundOrderYesterday)->count();
+		$yesterday_unified_amount = (clone $FundOrderYesterday)->sum('amount');
+		
+		$FundWithdrawToday = FundWithdraw::where('created_at','>=',$today_start)->where('created_at','<',$today_end);
+		$FundWithdrawYesterday = FundWithdraw::where('created_at','>=',$yesterday_start)->where('created_at','<',$yesterday_end);
+		$today_withdraw_count = (clone $FundWithdrawToday)->where('status',1)->count();
+		$today_withdraw_amount = (clone $FundWithdrawToday)->where('status',1)->sum('amount');
+		$yesterday_withdraw_count = (clone $FundWithdrawYesterday)->where('status',1)->count();
+		$yesterday_withdraw_amount = (clone $FundWithdrawYesterday)->where('status',1)->sum('amount');
+		
+		$FundUserPurseToday = FundUserPurse::where('created_at','>=',$today_start)->where('created_at','<',$today_end)->where('user_id','>',0)->groupBy('user_id');
+		$FundUserPurseYesterday = FundUserPurse::where('created_at','>=',$yesterday_start)->where('created_at','<',$yesterday_end)->where('user_id','>',0)->groupBy('user_id');
+		$today_withdraw_un_count = (clone $FundWithdrawYesterday)->where('status',0)->count();
+		$yesterday_withdraw_un_amount = (clone $FundWithdrawYesterday)->where('status',0)->sum('amount');
+		$today_new_user_count = (clone $FundUserPurseToday)->count();
+		$yesterday_new_user_count = (clone $FundUserPurseYesterday)->count();
+		
+		
+		$data = [
+			['name'	=> '今日下单数量', 'sum'	=> $today_unified_count, 'icon'	=> 'add_shopping_cart', 'title' => '已支付并且有效的订单'],
+			['name'	=> '今日下单金额', 'sum'	=> $today_unified_amount, 'icon'	=> 'add_shopping_cart', 'title' => '已支付并且有效的订单'],
+			['name'	=> '昨日下单数量', 'sum'	=> $yesterday_unified_count, 'icon'	=> 'add_shopping_cart', 'title' => '已支付并且有效的订单'],
+			['name'	=> '昨日下单金额', 'sum'	=> $yesterday_unified_amount, 'icon'	=> 'add_shopping_cart', 'title' => '已支付并且有效的订单'],
+			
+			['name'	=> '今日提现数量', 'sum'	=> $today_withdraw_count, 'icon'	=> 'account_balance', 'title' => '申请提现成功'],
+			['name'	=> '今日提现金额', 'sum'	=> $today_withdraw_amount, 'icon'	=> 'account_balance', 'title' => '申请提现成功'],
+			['name'	=> '昨日提现数量', 'sum'	=> $yesterday_withdraw_count, 'icon'	=> 'account_balance', 'title' => '申请提现成功'],
+			['name'	=> '昨日提现金额', 'sum'	=> $yesterday_withdraw_amount, 'icon'	=> 'account_balance', 'title' => '申请提现成功'],
+			
+			['name'	=> '今日提现待处理','sum'	=> $today_withdraw_un_count, 'icon'	=> 'account_balance', 'title' => '申请提现中'],
+			['name'	=> '昨日提现待处理','sum'	=> $yesterday_withdraw_un_amount, 'icon'	=> 'account_balance', 'title' => '申请提现中'],
+			['name'	=> '今日用户新增', 'sum'	=> $today_new_user_count, 'icon'	=> 'sentiment_very_satisfied', 'title' => ''],
+			['name'	=> '昨日用户新增', 'sum'	=> $yesterday_new_user_count, 'icon'	=> 'sentiment_very_satisfied', 'title' => ''],
+		];
+		
 		return json_success('OK',$data);
 	}
 	

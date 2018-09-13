@@ -1,64 +1,10 @@
 webpackJsonp([18],{
 
-/***/ 350:
+/***/ 370:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -130,162 +76,127 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	data: function data() {
 		return {
 			list: [],
-			form: { pay_config: '' },
-			dialog: '',
-			pay_config_name: 'alipay',
+			purse_type: '',
 			keyword: {
 				page: 1,
-				name: '',
-				date: []
-			}
+				id: '',
+				purse_id: ''
+			},
+			status: ['无效状态0', '冻结中', '已解冻']
 		};
 	},
 
 	methods: {
-		add: function add(id) {
-			var t = this;
-			t.$API.get('/pay/index/' + id).then(function (data) {
-				t.form = data;
-				t.$nextTick(function () {
-					$('.mdui-tab').mutation();
-					t.dialog.open();
-				});
-			});
-		},
-		add_submit: function add_submit() {
-			var t = this;
-			t.$API.post('/pay/index', t.form).then(function () {
-				t.dialog.close();
-				t.init();
-			});
-		},
-		del: function del(id) {
-			var t = this;
-			mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认?', function () {
-				t.$API.delete('/pay/index', { id: id }).then(function () {
-					t.init();
-				});
-			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
-		},
 		search: function search(page) {
 			this.keyword.page = page;
 			this.init();
 		},
-		tab_change: function tab_change(name) {
-			this.pay_config_name = name;
+		unfreeze: function unfreeze(id) {
+			var t = this;
+			mdui.confirm('解冻此记录后可能造成业务匹配问题，点击【确定】继续', '确认?', function () {
+				t.$API.post('/purse/unfreeze', { id: id }).then(function (data) {
+					mdui.alert('已成功解冻并返还金额', function () {}, { history: false });
+					t.init();
+				});
+			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
 		},
 		init: function init() {
 			var t = this;
-			t.$API.get('/pay/index', t.keyword).then(function (data) {
+			t.$API.get('/purse/freeze', t.keyword).then(function (data) {
 				t.list = data.list;
+				t.purse_type = data.purse_type;
 			});
 		}
 	},
 	mounted: function mounted() {
 		var t = this;
-		t.dialog = new mdui.Dialog('.dialog_add', { history: false });
 		t.init();
 	}
 });
 
 /***/ }),
 
-/***/ 351:
+/***/ 371:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "merchant" }, [
-    _c("div", { staticClass: "typo" }, [
-      _c("blockquote", { staticClass: "blockquote_normal" }, [
-        _c(
-          "a",
-          {
-            staticClass: "mdui-btn mdui-ripple mdui-color-theme",
-            on: {
-              click: function($event) {
-                _vm.add(0)
-              }
-            }
-          },
-          [
-            _c(
-              "i",
-              { staticClass: "mdui-icon mdui-icon-left material-icons" },
-              [_vm._v("add")]
-            ),
-            _vm._v("添加")
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mdui-divider" }),
-      _vm._v(" "),
+  return _c("div", { staticClass: "purse_freeze" }, [
+    _c("div", { staticClass: "mdui-typo" }, [
       _c("blockquote", { staticClass: "blockquote_normal" }, [
         _c("p", [
-          _vm._v("\n\t\t\t\t名称："),
+          _vm._v("\n\t\t\t\t冻结ID："),
           _c("input", {
             directives: [
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.keyword.name,
-                expression: "keyword.name"
+                value: _vm.keyword.id,
+                expression: "keyword.id"
               }
             ],
             staticClass: "mdui-textfield-input input_normal",
             attrs: { type: "text" },
-            domProps: { value: _vm.keyword.name },
+            domProps: { value: _vm.keyword.id },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.keyword, "name", $event.target.value)
+                _vm.$set(_vm.keyword, "id", $event.target.value)
               }
             }
           })
         ]),
         _vm._v(" "),
-        _c(
-          "p",
-          [
-            _vm._v("\n\t\t\t\t日期筛选："),
-            _c("vue-datepicker-local", {
-              attrs: { clearable: "" },
-              model: {
-                value: _vm.keyword.date,
-                callback: function($$v) {
-                  _vm.$set(_vm.keyword, "date", $$v)
-                },
-                expression: "keyword.date"
+        _c("p", [
+          _vm._v("\n\t\t\t\t钱包ID："),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.keyword.purse_id,
+                expression: "keyword.purse_id"
               }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+            ],
+            staticClass: "mdui-textfield-input input_normal",
+            attrs: { type: "text" },
+            domProps: { value: _vm.keyword.purse_id },
             on: {
-              click: function($event) {
-                _vm.search(1)
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.keyword, "purse_id", $event.target.value)
               }
             }
-          },
-          [
-            _c(
-              "i",
-              { staticClass: "mdui-icon mdui-icon-left material-icons" },
-              [_vm._v("search")]
-            ),
-            _vm._v("搜索")
-          ]
-        )
+          })
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _c(
+            "a",
+            {
+              staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+              on: {
+                click: function($event) {
+                  _vm.search(1)
+                }
+              }
+            },
+            [
+              _c(
+                "i",
+                { staticClass: "mdui-icon mdui-icon-left material-icons" },
+                [_vm._v("search")]
+              ),
+              _vm._v("搜索")
+            ]
+          )
+        ])
       ])
     ]),
     _vm._v(" "),
@@ -301,10 +212,12 @@ var render = function() {
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.id) } }),
               _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.name) } }),
+              _c("td", { domProps: { textContent: _vm._s(val.purse_id) } }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.amount) } }),
               _vm._v(" "),
               _c("td", {
-                domProps: { textContent: _vm._s(val.status ? "启用" : "禁用") }
+                domProps: { textContent: _vm._s(_vm.status[val.status]) }
               }),
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.remarks) } }),
@@ -315,265 +228,24 @@ var render = function() {
               _vm._v(" "),
               _c("td", [
                 _c("div", { staticClass: "mdui-btn-group" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "mdui-btn mdui-ripple mdui-color-theme",
-                      on: {
-                        click: function($event) {
-                          _vm.add(val.id)
-                        }
-                      }
-                    },
-                    [_vm._v("修改")]
-                  ),
-                  _vm._v(" "),
-                  val.id > 1
+                  val.status == 1
                     ? _c(
                         "a",
                         {
-                          staticClass:
-                            "mdui-btn mdui-ripple mdui-color-deep-orange",
+                          staticClass: "mdui-btn mdui-ripple mdui-color-theme",
                           on: {
                             click: function($event) {
-                              _vm.del(val.id)
+                              _vm.unfreeze(val.id)
                             }
                           }
                         },
-                        [_vm._v("删除")]
+                        [_vm._v("解冻")]
                       )
                     : _vm._e()
                 ])
               ])
             ])
           })
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "mdui-dialog dialog_add" }, [
-      _c("div", { staticClass: "mdui-dialog-title" }, [
-        _vm._v("\n\t\t\t支付渠道新增/修改\n\t\t")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mdui-dialog-content" }, [
-        _c("form", [
-          _c("div", { staticClass: "mdui-container" }, [
-            _c("div", { staticClass: "mdui-textfield" }, [
-              _c("label", { staticClass: "mdui-textfield-label" }, [
-                _vm._v("支付渠道名称")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.name,
-                    expression: "form.name"
-                  }
-                ],
-                staticClass: "mdui-textfield-input",
-                attrs: { type: "text" },
-                domProps: { value: _vm.form.name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.form, "name", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "mdui-container" },
-            [
-              _c(
-                "div",
-                { staticClass: "mdui-tab", attrs: { "mdui-tab": "" } },
-                _vm._l(_vm.form.pay_config, function(config, name, key) {
-                  return _c("a", {
-                    class: {
-                      "mdui-btn": true,
-                      "mdui-ripple": true,
-                      "mdui-tab-active": key == 0
-                    },
-                    attrs: { href: "#tab_" + key },
-                    domProps: { textContent: _vm._s(name) },
-                    on: {
-                      click: function($event) {
-                        _vm.tab_change(name)
-                      }
-                    }
-                  })
-                })
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "mdui-divider" }),
-              _vm._v(" "),
-              _vm._l(_vm.form.pay_config[_vm.pay_config_name], function(
-                val,
-                key
-              ) {
-                return _c("div", { staticClass: "payment_field" }, [
-                  _c(
-                    "div",
-                    {
-                      class: {
-                        "mdui-textfield": true,
-                        "mdui-textfield-has-bottom": true,
-                        "mdui-textfield-disabled": !!val.disabled
-                      }
-                    },
-                    [
-                      _c("label", {
-                        staticClass: "mdui-textfield-label",
-                        domProps: { textContent: _vm._s(val.field) }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: val.value,
-                            expression: "val.value"
-                          }
-                        ],
-                        staticClass: "mdui-textfield-input",
-                        attrs: { disabled: !!val.disabled, type: "text" },
-                        domProps: { value: val.value },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(val, "value", $event.target.value)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("span", {
-                        staticClass: "mdui-textfield-helper",
-                        domProps: { textContent: _vm._s(val.description) }
-                      })
-                    ]
-                  )
-                ])
-              })
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "mdui-container" }, [
-            _c("label", { staticClass: "mdui-radio" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.status,
-                    expression: "form.status"
-                  }
-                ],
-                attrs: { type: "radio", name: "status", value: "1" },
-                domProps: {
-                  checked: !!_vm.form.status,
-                  checked: _vm._q(_vm.form.status, "1")
-                },
-                on: {
-                  change: function($event) {
-                    _vm.$set(_vm.form, "status", "1")
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("i", { staticClass: "mdui-radio-icon" }),
-              _vm._v("\n\t\t\t\t\t\t启用\n\t\t\t\t\t")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "mdui-container" }, [
-            _c("label", { staticClass: "mdui-radio" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.status,
-                    expression: "form.status"
-                  }
-                ],
-                attrs: { type: "radio", name: "status", value: "0" },
-                domProps: {
-                  checked: !_vm.form.status,
-                  checked: _vm._q(_vm.form.status, "0")
-                },
-                on: {
-                  change: function($event) {
-                    _vm.$set(_vm.form, "status", "0")
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("i", { staticClass: "mdui-radio-icon" }),
-              _vm._v("\n\t\t\t\t\t\t禁用\n\t\t\t\t\t")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "mdui-container" }, [
-            _c("div", { staticClass: "mdui-textfield" }, [
-              _c("label", { staticClass: "mdui-textfield-label" }, [
-                _vm._v("备注")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.form.remarks,
-                    expression: "form.remarks"
-                  }
-                ],
-                staticClass: "mdui-textfield-input",
-                attrs: { type: "text" },
-                domProps: { value: _vm.form.remarks },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.form, "remarks", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mdui-dialog-actions" }, [
-        _c(
-          "a",
-          {
-            staticClass: "mdui-btn mdui-ripple",
-            attrs: { "mdui-dialog-close": "" }
-          },
-          [_vm._v("取消")]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "mdui-btn mdui-ripple mdui-color-theme",
-            on: { click: _vm.add_submit }
-          },
-          [_vm._v("提交")]
         )
       ])
     ]),
@@ -611,7 +283,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("ID")]),
         _vm._v(" "),
-        _c("th", [_vm._v("支付渠道名称")]),
+        _c("th", [_vm._v("钱包ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("冻结余额(分)")]),
         _vm._v(" "),
         _c("th", [_vm._v("状态")]),
         _vm._v(" "),
@@ -619,7 +293,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("创建时间")]),
         _vm._v(" "),
-        _c("th", [_vm._v("修改时间")]),
+        _c("th", [_vm._v("上次修改时间")]),
         _vm._v(" "),
         _c("th", [_vm._v("操作")])
       ])
@@ -631,21 +305,21 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-9e7abf52", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-d4f2786a", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 72:
+/***/ 82:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(350)
+var __vue_script__ = __webpack_require__(370)
 /* template */
-var __vue_template__ = __webpack_require__(351)
+var __vue_template__ = __webpack_require__(371)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -662,7 +336,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\pay\\index.vue"
+Component.options.__file = "resources\\assets\\js\\components\\purse\\freeze.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -671,9 +345,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9e7abf52", Component.options)
+    hotAPI.createRecord("data-v-d4f2786a", Component.options)
   } else {
-    hotAPI.reload("data-v-9e7abf52", Component.options)
+    hotAPI.reload("data-v-d4f2786a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

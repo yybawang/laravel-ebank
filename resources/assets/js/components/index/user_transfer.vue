@@ -1,6 +1,6 @@
 <template>
-	<div class="user_transfer mdui-m-t-3">
-		<div id="user_transfer" class="mdui-color-white" style="width:100%;height:500px"></div>
+	<div class="user_transfer">
+		<div id="user_transfer" style="width:100%;height:500px"></div>
 	</div>
 </template>
 <script>
@@ -87,7 +87,7 @@
 				],
 				series : []
 			};
-			t.$API.get('/user_transfer').then(function(data){
+			t.$API.get('/index/user_transfer').then(function(data){
 				let dates = data.dates;
 				let purse_types = data.purse_types;
 				let out = data.out;
@@ -149,6 +149,12 @@
 				order_options.title.text = '近期 '+data.days+' 天每日用户身份收入、支出金额统计';
 				t.chart.setOption(order_options);
 			});
+			
+			window.onresize = function(){
+				setTimeout(function(){
+					t.chart.resize();
+				},200);
+			};
 		}
 	}
 </script>

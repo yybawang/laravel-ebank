@@ -7,12 +7,7 @@ export default new VueRouter({
 	routes: [
 		{
 			path: '/',
-			redirect : '/welcome',
-		},
-		{
-			path: '/welcome',
-			name : 'welcome',
-			component: resolve => void(require(['../components/index/welcome.vue'], resolve))
+			redirect : {name:'welcome'},
 		},
 		{
 			name: 'login',
@@ -20,12 +15,20 @@ export default new VueRouter({
 			component: resolve => void(require(['../components/login.vue'], resolve))
 		},
 		{
-			name: 'user_transfer',
-			path: '/user_transfer',
+			name : 'welcome',
+			path: '/index/welcome',
+			component: resolve => void(require(['../components/index/welcome.vue'], resolve))
+		},
+		{
+			path: '/index/order_into',
+			component: resolve => void(require(['../components/index/order_into.vue'], resolve))
+		},
+		{
+			path: '/index/user_transfer',
 			component: resolve => void(require(['../components/index/user_transfer.vue'], resolve))
 		},
 		{
-			path: '/sysinfo',
+			path: '/index/sysinfo',
 			component: resolve => void(require(['../components/index/sysinfo.vue'], resolve))
 		},
 		{

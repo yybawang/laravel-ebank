@@ -39,9 +39,10 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	Route::post('upload', 'CommonController@upload');
 	
 	
-	Route::name('admin.基本信息管理.')->group(function(){
-		Route::get('welcome','IndexController@order_into')->name('menu.主页');
-		Route::get('user_transfer','IndexController@user_transfer');
+	Route::prefix('index')->name('admin.基本信息管理.')->group(function(){
+		Route::get('welcome','IndexController@welcome')->name('menu.主页');
+		Route::get('order_into','IndexController@order_into')->name('menu.订单统计');
+		Route::get('user_transfer','IndexController@user_transfer')->name('menu.用户收支统计');
 		Route::get('sysinfo','IndexController@sysinfo')->name('menu.服务器信息');
 	});
 	

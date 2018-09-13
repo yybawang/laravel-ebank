@@ -97,6 +97,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -124,7 +126,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		success: function success(id) {
 			var t = this;
 			mdui.confirm('确认后将从用户对应钱包扣除相应金额，确认请点击【确定】按钮', '已打款？', function () {
-				t.$API.post('/withdraw/success', { id: [id], type: 'alipay' }).then(function () {
+				t.$API.post('/withdraw/success', { id: [id], type: '' }).then(function () {
 					t.init();
 				});
 			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
@@ -133,7 +135,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var t = this;
 			mdui.prompt('标记为失败后，对应申请金额会原路返还给用户，知悉后请填写【失败原因】', '填写失败原因', function (value) {
 				if (value) {
-					t.$API.post('/withdraw/fail', { id: id, remarks: value, type: 'alipay' }).then(function () {
+					t.$API.post('/withdraw/fail', { id: id, remarks: value, type: '' }).then(function () {
 						t.init();
 					});
 				}
@@ -156,7 +158,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var t = this;
 			mdui.confirm('确认后将从用户对应钱包扣除相应金额，确认请点击【确定】按钮', '将进行批量打款成功操作', function () {
 				var waiting = mdui.alert('请耐心等待批量作业完成，切勿关闭网页等操作', '批量处理中...', function () {}, { history: false, confirmText: '', modal: true, closeOnEsc: false });
-				t.$API.post('/withdraw/success', { id: t.success_all_id, type: 'alipay' }).then(function () {
+				t.$API.post('/withdraw/success', { id: t.success_all_id, type: '' }).then(function () {
 					t.init();
 					waiting.close();
 				}).catch(function () {
@@ -181,7 +183,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		init: function init() {
 			var t = this;
-			t.$API.get('/withdraw/alipay', t.keyword).then(function (data) {
+			t.$API.get('/withdraw/bank', t.keyword).then(function (data) {
 				t.list = data.list;
 				t.merchant = data.merchant;
 				t.purse_type = data.purse_type;
@@ -388,9 +390,11 @@ var render = function() {
               _vm._v(" "),
               _c("th", [_vm._v("打款金额(分)")]),
               _vm._v(" "),
-              _c("th", [_vm._v("真实姓名")]),
+              _c("th", [_vm._v("银行户名")]),
               _vm._v(" "),
-              _c("th", [_vm._v("支付宝账号")]),
+              _c("th", [_vm._v("银行名")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("银行卡号")]),
               _vm._v(" "),
               _c("th", [_vm._v("冻结ID")]),
               _vm._v(" "),
@@ -479,7 +483,9 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", { domProps: { textContent: _vm._s(val.realname) } }),
                 _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.account) } }),
+                _c("td", { domProps: { textContent: _vm._s(val.bank_name) } }),
+                _vm._v(" "),
+                _c("td", { domProps: { textContent: _vm._s(val.bank_no) } }),
                 _vm._v(" "),
                 _c("td", { domProps: { textContent: _vm._s(val.freeze_id) } }),
                 _vm._v(" "),
@@ -565,7 +571,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-69f62b55", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-63d081f2", module.exports)
   }
 }
 
@@ -596,7 +602,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\withdraw\\alipay.vue"
+Component.options.__file = "resources\\assets\\js\\components\\withdraw\\bank.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -605,9 +611,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-69f62b55", Component.options)
+    hotAPI.createRecord("data-v-63d081f2", Component.options)
   } else {
-    hotAPI.reload("data-v-69f62b55", Component.options)
+    hotAPI.reload("data-v-63d081f2", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
