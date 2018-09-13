@@ -23,7 +23,7 @@ class EBankSdk {
 	
 	public function __construct()
 	{
-		$this->appid = 'gpu10000';	// 必须配置，默认为中央系统本身，后台->接口商户管理
+		$this->appid = 'ebank10000';	// 必须配置，默认为中央系统本身，后台->接口商户管理
 		$this->secret = '10000';		// 必须配置，默认为中央系统本身，接口秘钥
 		$this->url = config('app.url').'/api/';
 	}

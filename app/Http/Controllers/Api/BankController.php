@@ -31,18 +31,6 @@ class BankController extends CommonController {
 	}
 	
 	/**
-	 * 初始化数据，如果有转账流水就无法初始化了
-	 * @param BasicRequest $request
-	 * @return array
-	 */
-	public function init(BasicRequest $request){
-		$balance = $request->input('balance',100000000000000);
-		$EBank = new EBank();
-		$bool = $EBank->init($balance);
-		return json_return($bool,'初始化错误，请检查转账数据是否已存在','系统钱包数据初始化完成，启动资金'.number_format($balance / 100,2).'元');
-	}
-	
-	/**
 	 * 身份类型列表
 	 * @return array
 	 */

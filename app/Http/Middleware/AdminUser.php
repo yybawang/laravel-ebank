@@ -27,8 +27,6 @@ class AdminUser
 				return redirect(url('admin'));
 			}
 		}
-		// 判断权限，权限管理组不为 1 的时候才开启
-		$group_id = FundAdmin::where(['id'=>$uid])->value('group_id');
 		$init_menu = init_menu();
 		$menu = [];
 		foreach($init_menu as $k => $v){
@@ -36,6 +34,8 @@ class AdminUser
 				array_push($menu,$v2['name_full']);
 			}
 		}
+		// 判断权限，权限管理组不为 1 的时候才开启
+		$group_id = FundAdmin::where(['id'=>$uid])->value('group_id');
 		$rule_names = FundAdminGroup::where('id','>',1)->where(['id'=>$group_id])->value('rule');
 		$rule_name = $request->route()->getName();
 		// 如果在菜单里面并且不在权限组里面

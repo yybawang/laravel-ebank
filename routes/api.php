@@ -23,8 +23,6 @@ use Illuminate\Http\Request;
 /********************************************** 前台接口模块 ******************************************/
 Route::namespace('Api')->group(function(){
 	
-	Route::any('bank/init','BankController@init');	// 电子银行钱包余额初始化
-	
 	// 支付中转页。类似微信支付只能特定域名下才能唤醒
 	Route::prefix('form')->group(function(){
 		Route::any('wechat','FormController@wechat');
