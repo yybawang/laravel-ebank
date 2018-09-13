@@ -100,7 +100,7 @@ Mysql5.7+ / MariaDB
 
 ## 安装
 
-> 因项目中涉及大金额运算(万亿以上，未使用 bcmath)，需使用 php >= 7.1.12，推荐学习并使用 docker + laradock 搭建开发环境，避免 php 计算整数长度问题
+> 因项目中涉及大金额运算(万亿以上，未使用 bcmath)，需使用 php >= 7.1.12，推荐学习并使用 docker + laradock 搭建开发环境，避免 php 计算整数长度变为 2147483647 问题
 
 [laradock 搭建开发、测试、生产环境](https://github.com/laradock/laradock "laradock")
 
@@ -150,6 +150,12 @@ CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - [ ] 后台菜单丰富，全部使用 restful api
 - [ ] 后台功能点帮助文案
 - [ ] 对接 hhxsv5/laravel-s 可选常驻内存式部署
+
+## Q && A
+
+> - Q1: 为什么数据库金额有的是 2147483647 类似数字
+
+> - A1: 项目并未使用 bcmath 扩展，7.1.12 以上的 linux PHP 已直接支持大金额加减乘除等运算，windows 环境 PHP 任何版本还是不能直接大金额运算，所以 windows 下推荐使用 docker for windows + laradock 安装开发环境，避免大金额运算问题，当然服务器也可以使用 docker + laradock 搭建相同的生产环境 
 
 ## Example
 
