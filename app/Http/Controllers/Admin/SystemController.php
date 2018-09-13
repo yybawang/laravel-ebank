@@ -109,7 +109,11 @@ class SystemController extends CommonController {
 		$data['merchant'] = FundMerchant::pluck('name','appid');
 		$data['list'] = FundBehavior::when($request->input('url'),function($query) use ($request){
 			$query->where('url','like','%'.$request->input('url').'%');
-		})->orderBy('id','desc')->pages();
+		})
+			->when($request->input('status'),function($query) use ($request){
+				$query->whereIn('status',$request->input('status'));
+			})
+			->orderBy('id','desc')->pages();
 		return json_success('OK',$data);
 	}
 }

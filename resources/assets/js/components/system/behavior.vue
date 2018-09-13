@@ -9,6 +9,14 @@
 					匹配url：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.url" />
 				</p>
 				<p>
+					订单类型：
+					<label class="mdui-checkbox" v-for="(name,status) of response_status" style="margin-right:2rem;">
+						<input type="checkbox" :value="status" v-model="keyword.status" />
+						<i class="mdui-checkbox-icon"></i>
+						{{name}}
+					</label>
+				</p>
+				<p>
 					<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
 				</p>
 			</blockquote>
@@ -21,6 +29,7 @@
 					<th>商户</th>
 					<th>Url</th>
 					<th>执行时间(S)</th>
+					<th>返回结果状态</th>
 					<th>参数明细</th>
 					<th>创建时间</th>
 				</tr>
@@ -32,6 +41,7 @@
 					<td v-text="merchant[val.appid]"></td>
 					<td v-text="val.url"></td>
 					<td v-text="val.execute_time"></td>
+					<td v-text="val.status ? '成功返回' : '异常返回'"></td>
 					<td><a class="mdui-btn mdui-ripple mdui-color-theme" @click="detail(val)">view</a></td>
 					<td v-text="val.created_at"></td>
 				</tr>
@@ -80,8 +90,10 @@
 				merchant : '',
 				dialog : '',
 				dialog_data : '',
+				response_status : ['异常返回','成功返回'],
 				keyword : {
 					page : 1,
+					status : [],
 					url : '',
 				},
 			};

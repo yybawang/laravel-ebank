@@ -20,6 +20,7 @@ class CreateFundBehaviorTable extends Migration
             $table->string('url')->comment('操作地址 fullUrl()');
             $table->float('execute_time')->comment('执行时间，php microtime时间');
             $table->text('response')->comment('返回的结果集');
+            $table->tinyInteger('status')->comment('返回状态，1成功，0异常');
             $table->text('$_GET');
             $table->text('$_POST');
             $table->text('$_REQUEST');
