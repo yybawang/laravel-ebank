@@ -62,11 +62,12 @@ class SandboxController extends Controller
 //		$s = (new EBankSdk())->withdraw(1)->amount(18)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
 		// 事务测试
 //		DB::transaction(function(){
-//			(new Bank())->transfer(0,0,100,20001);
+//			(new EBank())->transfer(1,0,1,100,1020110301);
+//			(new EBank())->transfer(1,0,1,100,1020110301);
 //			DB::beginTransaction();
-//			(new Bank())->transfer(0,0,100,20001);
+//			(new EBank())->transfer(1,0,1,100,1020110301);
 //			DB::beginTransaction();
-//			(new Bank())->transfer(0,0,100,20001);
+//			(new EBank())->transfer(1,0,1,100,1020110301);
 //			abort(500);
 //		});
 //		$s  = [

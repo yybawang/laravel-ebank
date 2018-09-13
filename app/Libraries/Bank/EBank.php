@@ -32,12 +32,12 @@ use Illuminate\Validation\Rule;
 class EBank {
 	
 	/**
-	 * @param int $balance	// 如果钱包余额为0，则重新赋此值
+	 * @param int $balance	// 一千万亿元
 	 * @return bool
 	 * 初始化数据，数据清空后可调用此方法重新生成系统钱包id
 	 * 一层商户，一层
 	 */
-	public function initPurse(int $balance = 100000000000000){
+	public function initPurse(int $balance = 100000000000000000){
 		$merchant = FundMerchant::active()->pluck('id');
 		$user_type = FundUserType::active()->pluck('id');
 		$merchant->each(function($merchant_id) use ($user_type,$balance){
@@ -47,7 +47,7 @@ class EBank {
 				$wallet = $this->userWallet(0,$purse_type_id,$merchant_id);
 				
 				$wallet->each(function($v) use ($merchant_id,$balance){
-					if(empty($v->balance)){
+					if($v->balance <= 0){
 						$v->merchant_id = $merchant_id;
 						$v->balance = $balance;
 						$v->save();
@@ -254,7 +254,7 @@ class EBank {
 	 */
 	private function _transfer(int $merchant_id,int $out_purse_id,int $into_purse_id,int $amount,int $reason,int $parent_id = 0,?string $detail = null,?string $remarks = null){
 		// 出账钱包最大可用金额，且扣减后的余额要 >= 0 ，如果超过了此金额，就不能转账
-		$out_purse_balance = FundUserPurse::where(['id'=>$out_purse_id])->where(DB::raw('balance - freeze - '.$amount),'>=',0)->value(DB::raw('balance - freeze'));
+		$out_purse_balance = FundUserPurse::where(['id'=>$out_purse_id])->where(DB::raw('balance - freeze'),'>=',$amount)->value(DB::raw('balance - freeze'));
 		\Validator::make([
 			'out_purse_id'		=> $out_purse_id,
 			'into_purse_id'		=> $into_purse_id,
@@ -295,19 +295,23 @@ class EBank {
 			'reason.exists'					=> 'reason 参数不存在',
 		])->validate();
 		
-		// 悲观行锁，避免其他进程幻读
-		$out_purse = FundUserPurse::lockForUpdate()->find($out_purse_id);
-		$into_purse = FundUserPurse::lockForUpdate()->find($into_purse_id);
-		if($out_purse->status == 0){
-			exception('转出钱包已被设置为禁用');
-		}
-		if($into_purse->status == 0){
-			exception('转入钱包已被设置为禁用');
-		}
-		
-		$transfer_id = DB::transaction(function() use ($merchant_id,$out_purse,$into_purse,$amount,$parent_id,$reason,$detail,$remarks){
+		$transfer_id = DB::transaction(function() use ($merchant_id,$out_purse_id,$into_purse_id,$amount,$parent_id,$reason,$detail,$remarks){
+			// 悲观行锁，避免其他进程幻读
+			$out_purse = FundUserPurse::lockForUpdate()->find($out_purse_id);
+			$into_purse = FundUserPurse::lockForUpdate()->find($into_purse_id);
+			
+			if($out_purse->status == 0){
+				exception('转出钱包已被设置为禁用');
+			}
+			if($into_purse->status == 0){
+				exception('转入钱包已被设置为禁用');
+			}
+			
 			// 出账钱包扣款
-			FundUserPurse::where(['id'=>$out_purse->id])->decrement('balance',$amount);
+			$var = FundUserPurse::where(['id'=>$out_purse->id])->where(DB::raw('balance - freeze'),'>=',$amount)->update(['balance'=>DB::raw('balance - '.$amount)]);
+			if(!$var){
+				exception('转出钱包扣款失败，余额不足');
+			}
 			// 进账钱包收款
 			FundUserPurse::where(['id'=>$into_purse->id])->increment('balance',$amount);
 			
@@ -361,16 +365,15 @@ class EBank {
 	 * 钱包冲正，双路资金原路退回，冲正后结果可为负数，避免资金不足冲正失败
 	 */
 	public function untransfer(int $transfer_id,?string $remarks = '流水冲正，资金退回'){
-		$detail = FundTransfer::lockForUpdate()->findOrFail($transfer_id);
-		
-		if($detail->status != 1){
-			exception('该数据已被处理过');
-		}
-		$out_purse_id = $detail->into_purse_id;	// 解析后需转出的钱包id
-		$into_purse_id = $detail->out_purse_id;	// 解析后需转入的钱包id
-		$amount = $detail->amount;
-		
-		$bool = DB::transaction(function() use ($detail,$out_purse_id,$into_purse_id,$amount,$remarks){
+		$bool = DB::transaction(function() use ($transfer_id, $remarks){
+			$detail = FundTransfer::lockForUpdate()->findOrFail($transfer_id);
+			
+			if($detail->status != 1){
+				exception('该数据已被处理过');
+			}
+			$out_purse_id = $detail->into_purse_id;	// 解析后需转出的钱包id
+			$into_purse_id = $detail->out_purse_id;	// 解析后需转入的钱包id
+			$amount = $detail->amount;
 			// 出账钱包扣款
 			$var = FundUserPurse::where(['id'=>$out_purse_id])->decrement('balance',$amount);
 			if(!$var){

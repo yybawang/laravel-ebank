@@ -12,7 +12,7 @@ class AppInitPurse extends Command
      *
      * @var string
      */
-    protected $signature = 'app:init-purse {amount=100000000000000}';
+    protected $signature = 'app:init-purse {amount=100000000000000000}';
 
     /**
      * The console command description.
