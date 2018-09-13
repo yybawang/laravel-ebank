@@ -295,27 +295,19 @@ class EBank {
 			'reason.exists'					=> 'reason 参数不存在',
 		])->validate();
 		
-		$out_purse = FundUserPurse::find($out_purse_id);
-		$into_purse = FundUserPurse::find($into_purse_id);
+		// 悲观行锁，避免其他进程幻读
+		$out_purse = FundUserPurse::lockForUpdate()->find($out_purse_id);
+		$into_purse = FundUserPurse::lockForUpdate()->find($into_purse_id);
 		if($out_purse->status == 0){
 			exception('转出钱包已被设置为禁用');
-		}
-		if($out_purse->status == 9){
-			exception('转出钱包已被临时禁用');
 		}
 		if($into_purse->status == 0){
 			exception('转入钱包已被设置为禁用');
 		}
-		if($into_purse->status == 9){
-			exception('转入钱包已被临时禁用');
-		}
 		
 		$transfer_id = DB::transaction(function() use ($merchant_id,$out_purse,$into_purse,$amount,$parent_id,$reason,$detail,$remarks){
-			// 出账钱包扣款，不足扣除返回 0，这里处理到并发问题，前置 update 可以让进程串行
-			$var = FundUserPurse::where(['id'=>$out_purse->id])->where(DB::raw('balance - freeze'),'>=',$amount)->update(['balance'=>DB::raw('balance - '.$amount)]);
-			if(!$var){
-				exception('转出钱包扣款失败，余额不足');
-			}
+			// 出账钱包扣款
+			FundUserPurse::where(['id'=>$out_purse->id])->decrement('balance',$amount);
 			// 进账钱包收款
 			FundUserPurse::where(['id'=>$into_purse->id])->increment('balance',$amount);
 			
@@ -369,7 +361,7 @@ class EBank {
 	 * 钱包冲正，双路资金原路退回，冲正后结果可为负数，避免资金不足冲正失败
 	 */
 	public function untransfer(int $transfer_id,?string $remarks = '流水冲正，资金退回'){
-		$detail = FundTransfer::findOrFail($transfer_id);
+		$detail = FundTransfer::lockForUpdate()->findOrFail($transfer_id);
 		
 		if($detail->status != 1){
 			exception('该数据已被处理过');
@@ -510,7 +502,7 @@ class EBank {
 	 * 身份类型详情
 	 */
 	public function userTypeDetail(int $type_id){
-		$return = FundUserType::findOrFail($type_id);
+		$return = FundUserType::active()->findOrFail($type_id);
 		return $return;
 	}
 	
@@ -529,10 +521,10 @@ class EBank {
 	/**
 	 * @param int $type_id
 	 * @return \Illuminate\Support\Collection
-	 * 身份类型详情
+	 * 钱包类型详情
 	 */
 	public function purseTypeDetail(int $type_id){
-		$return = FundPurseType::findOrFail($type_id);
+		$return = FundPurseType::active()->findOrFail($type_id);
 		return $return;
 	}
 	
@@ -574,7 +566,7 @@ class EBank {
 		}
 		Cache::add($cache_key,1,0.1);		// 6秒钟
 		
-		$purse = FundUserPurse::where(['status'=>1,'id'=>$purse_id])->firstOrFail();
+		$purse = FundUserPurse::active()->where(['id'=>$purse_id])->firstOrFail();
 		if($purse->balance - $purse->freeze < $amount){
 			exception('账户余额不足');
 		}
@@ -582,6 +574,7 @@ class EBank {
 		$id = DB::transaction(function() use ($amount,$purse,$purse_id,$remarks){
 			$purse->freeze += $amount;
 			$purse->save();
+			
 			$freeze_add = [
 				'purse_id'		=> $purse_id,
 				'amount'		=> $amount,
@@ -607,7 +600,7 @@ class EBank {
 		Cache::add($cache_key,1,0.1);		// 6秒钟
 		
 		$freeze = FundFreeze::findOrFail($freeze_id);
-		$purse = FundUserPurse::where(['status'=>1,'id'=>$freeze->purse_id])->firstOrFail();
+		$purse = FundUserPurse::active()->where(['id'=>$freeze->purse_id])->firstOrFail();
 		
 		if($freeze->status != 1){
 			exception('冻结记录['.$freeze_id.']已被处理过');
