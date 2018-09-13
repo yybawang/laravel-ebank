@@ -18,7 +18,7 @@ class CreateFundOrderPaymentTable extends Migration
             $table->increments('id');
             $table->integer('order_id')->comment('所属订单表ID，一对多');
             $table->string('type')->comment('支付方式，对应 OrderController 的方法名');
-            $table->decimal('amount',30,0)->comment('支付金额，单位分');
+            $table->decimal('amount',30,0)->unsigned()->comment('支付金额，单位分');
 			$table->string('remarks')->nullable();
 			
 			$table->index('order_id','order_id');

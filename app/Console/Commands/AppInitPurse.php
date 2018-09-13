@@ -39,8 +39,8 @@ class AppInitPurse extends Command
     public function handle()
     {
     	$amount = $this->argument('amount');
-        $Ebank = new EBank();
-        $Ebank->initPurse($amount);
+        $EBank = new EBank();
+        $EBank->initPurse($amount);
 		$this->info('系统钱包数据初始化完成，启动资金'.number_format($amount / 100,2).'元');
     }
 }

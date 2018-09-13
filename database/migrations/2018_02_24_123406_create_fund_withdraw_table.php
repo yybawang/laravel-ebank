@@ -20,9 +20,9 @@ class CreateFundWithdrawTable extends Migration
             $table->integer('user_id')->comment('提现人用户ID');
             $table->string('purse',50)->comment('出账钱包类型，对应 purse_type 的 alias');
             $table->string('pay_type',40)->comment('结算类型，可存中文，即时到账、T+1、T+2等');
-            $table->decimal('amount',30,0)->comment('申请金额，单位分');
+            $table->decimal('amount',30,0)->unsigned()->comment('申请金额，单位分');
             $table->decimal('fee',30,0)->comment('手续费，单位分');
-            $table->decimal('amount_actual',30,0)->comment('实际打款金额(扣除手续费的)，单位分');
+            $table->decimal('amount_actual',30,0)->unsigned()->comment('实际打款金额(扣除手续费的)，单位分');
             $table->char('realname',50)->comment('真实姓名/银行卡户名');
             $table->char('bank_name',100)->comment('开户行中文名称，如中国工商银行');
             $table->char('bank_no',30)->comment('银行卡号');

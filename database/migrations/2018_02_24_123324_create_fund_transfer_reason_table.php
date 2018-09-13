@@ -22,7 +22,7 @@ class CreateFundTransferReasonTable extends Migration
             $table->integer('out_purse_type_id')->comment('出账钱包类型ID');
             $table->integer('into_user_type_id')->comment('进账身份类型ID');
             $table->integer('into_purse_type_id')->comment('进账钱包类型ID');
-            $table->decimal('reason',30,0)->comment('转账reason行为代码，业务不同reason不同');
+            $table->decimal('reason',30,0)->unsigned()->comment('转账reason行为代码，业务不同reason不同');
 			$table->tinyInteger('status')->comment('0无效，1有效');
 			$table->string('remarks')->nullable();
             $table->timestamps();

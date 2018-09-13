@@ -75,10 +75,10 @@ class AppInstall extends Command
 //		$this->clearCaches();
 		
 		// 6、初始化钱包
-		$bank = new EBank();
-		$bank->init();
+		$EBank = new EBank();
+		$EBank->initPurse();
 		
-		file_put_contents($installed,'installed');
+		file_put_contents($installed,time2date());
 		$this->line('');
 		$this->comment('安装成功，接下来可能要做的事：');
 		$this->comment('1、配置访问域名，推荐使用 Nginx，可参考本项目目录下的 ebank_nginx.conf');
