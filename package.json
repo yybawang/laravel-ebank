@@ -21,7 +21,7 @@
     "vue-router": "^3.0.1"
   },
   "dependencies": {
-    "echarts": "^3.8.5",
+    "echarts": "^4.1.0",
     "vue-datepicker-local": "^1.0.9"
   }
 }

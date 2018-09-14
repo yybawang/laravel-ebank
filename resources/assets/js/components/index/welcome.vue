@@ -30,7 +30,7 @@
 			let order_options = {
 				title : {
 					left: 'center',
-					text: '近期15天每日订单交易入账金额统计',
+					text: '',
 					subtext: '按日划分，金额单位：分'
 				},
 				tooltip : {
@@ -82,9 +82,7 @@
 			get('/welcome',{},function(data){
 				let payments = data.payments;
 				let into = data.into;
-				for(let date in into.date){
-					order_options.xAxis[0].data.push(into.date[date]);
-				}
+				order_options.xAxis[0].data = data.columns;
 				// 基本信息变量
 				let series_template = function(){
 					return {
@@ -111,16 +109,14 @@
 					};
 				};
 				
-				for(let payment in into.amount){
+				for(let payment in data.rows){
 					let series = series_template();
 					series.name = payments[payment] || payment;
 					order_options.legend.data.push(series.name);
-					for(let date in into.amount[payment]){
-						series.data.push(into.amount[payment][date]);
-					}
+					series.data = Object.values(data.rows[payment]);
 					order_options.series.push(series);
 				}
-				
+				order_options.title.text = '近期'+data.days+'天每日订单交易入账金额统计';
 				t.order_into.setOption(order_options);
 			});
 			

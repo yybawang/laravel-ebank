@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\BasicRequest;
 use App\Models\FundOrder;
+use App\Models\FundOrderPayment;
 use App\Models\FundPurseType;
 use App\Models\FundTransfer;
 use Illuminate\Support\Facades\DB;
@@ -31,32 +32,41 @@ class IndexController extends CommonController
 	 * @return string
 	 */
 	public function welcome(BasicRequest $request){
+		$days = 14;	// 15天，因为从0开始
 		$fundOrder = new FundOrder();
 		$payments = $fundOrder->payments;
 		$payments['total'] = '总额';
-		// 15天
-		$into = ['date'=>[],'amount'=>[]];
-		for($i=14;$i>=0;$i--){
+		$columns = $rows = [];
+		$latest = date('Y-m-d',strtotime("-$days day"));
+		
+		$payments = FundOrderPayment::whereDate('created_at','>=',$latest)->groupBy('type')->pluck('type','type')->merge($payments);
+		
+		// 默认数据填充
+		for($i=$days;$i>=0;$i--){
 			$date = date('Y-m-d',strtotime("-$i days"));
-			$into['date'][] = $date;
-			$into['amount']['total'][$date] = '';
+			$columns[] = $date;
+			$rows['total'][$date] = 0;	// or ''
 			foreach($payments as $payment => $payment_name){
-				$into['amount'][$payment][$date] = '';
+				$rows[$payment][$date] = 0;
 			}
 		}
 		
-		$latest = array_shift(array_slice($into['date'],0,1));
-		
 		FundOrder::rightJoin('fund_order_payment as payment','payment.order_id','=','fund_order.id')
 			->select(DB::raw('date_format(fund_order.created_at,\'%Y-%m-%d\') as date,payment.type,sum(payment.amount) amount'))
-			->where(['fund_order.status'=>1,'fund_order.pay_status'=>1])->where('fund_order.created_at','>=',$latest.' 00:00:00')
+			->where(['fund_order.status'=>1,'fund_order.pay_status'=>1])->whereDate('fund_order.created_at','>=',$latest)
 			->groupBy('payment.type')
 			->groupBy('date')
-			->get()->each(function($v,$k) use (&$into){
-				$into['amount'][$v->type][$v->date] = $v->amount;
-				$into['amount']['total'][$v->date] += $v->amount;
+			->get()->each(function($v,$k) use (&$rows){
+				$rows[$v->type][$v->date] = $v->amount;
+				$rows['total'][$v->date] += $v->amount;
 			});
-		return json_success('OK',['into'=>$into,'out'=>[],'payments'=>$payments]);
+		
+		return json_success('OK',[
+			'columns' => $columns,
+			'rows' => $rows,
+			'payments' => $payments,
+			'days' => $days + 1,
+		]);
 	}
 	
 	/**
