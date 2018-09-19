@@ -1,6 +1,6 @@
 webpackJsonp([3],{
 
-/***/ 372:
+/***/ 375:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -201,7 +201,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 373:
+/***/ 376:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -564,7 +564,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-43a77e31", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-3c592784", module.exports)
   }
 }
 
@@ -576,9 +576,9 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(372)
+var __vue_script__ = __webpack_require__(375)
 /* template */
-var __vue_template__ = __webpack_require__(373)
+var __vue_template__ = __webpack_require__(376)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -595,7 +595,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\withdraw\\wechat.vue"
+Component.options.__file = "resources/assets/js/components/withdraw/wechat.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -604,9 +604,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-43a77e31", Component.options)
+    hotAPI.createRecord("data-v-3c592784", Component.options)
   } else {
-    hotAPI.reload("data-v-43a77e31", Component.options)
+    hotAPI.reload("data-v-3c592784", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

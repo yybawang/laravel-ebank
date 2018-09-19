@@ -1,6 +1,6 @@
 webpackJsonp([4],{
 
-/***/ 368:
+/***/ 371:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -203,7 +203,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 369:
+/***/ 372:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -570,7 +570,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-63d081f2", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-b08cbdcc", module.exports)
   }
 }
 
@@ -582,9 +582,9 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(368)
+var __vue_script__ = __webpack_require__(371)
 /* template */
-var __vue_template__ = __webpack_require__(369)
+var __vue_template__ = __webpack_require__(372)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -601,7 +601,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\withdraw\\bank.vue"
+Component.options.__file = "resources/assets/js/components/withdraw/bank.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -610,9 +610,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-63d081f2", Component.options)
+    hotAPI.createRecord("data-v-b08cbdcc", Component.options)
   } else {
-    hotAPI.reload("data-v-63d081f2", Component.options)
+    hotAPI.reload("data-v-b08cbdcc", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

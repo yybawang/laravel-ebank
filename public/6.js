@@ -1,6 +1,6 @@
 webpackJsonp([6],{
 
-/***/ 350:
+/***/ 353:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -194,7 +194,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 351:
+/***/ 354:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -764,7 +764,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-5ba2ec38", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-938566f6", module.exports)
   }
 }
 
@@ -776,9 +776,9 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(350)
+var __vue_script__ = __webpack_require__(353)
 /* template */
-var __vue_template__ = __webpack_require__(351)
+var __vue_template__ = __webpack_require__(354)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -795,7 +795,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\transfer\\index.vue"
+Component.options.__file = "resources/assets/js/components/transfer/index.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -804,9 +804,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5ba2ec38", Component.options)
+    hotAPI.createRecord("data-v-938566f6", Component.options)
   } else {
-    hotAPI.reload("data-v-5ba2ec38", Component.options)
+    hotAPI.reload("data-v-938566f6", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

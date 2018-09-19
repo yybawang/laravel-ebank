@@ -76,7 +76,7 @@ class Handler extends ExceptionHandler
 			if($exception instanceof ValidationException){
 				$message = $exception->validator->errors()->first();
 			}elseif($exception instanceof NotFoundHttpException){
-				$message = '404 Not Found';
+				$message = $request->getPathInfo().' 404 Not Found';
 			}elseif($exception instanceof QueryException){
 				$production = config('basic.production');
 				$message = $production ? '数据参数错误，请稍后重试' : (string)$exception->getMessage();

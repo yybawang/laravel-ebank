@@ -1,7 +1,5 @@
 <template>
-	<div class="user_transfer mdui-m-t-3">
-		<div id="user_transfer" class="mdui-color-white" style="width:100%;height:500px"></div>
-	</div>
+	<div id="order_into" class="mdui-color-white" style="width:100%;height:500px"></div>
 </template>
 <script>
 	let echarts = require('echarts/lib/echarts');
@@ -31,12 +29,12 @@
 		mounted(){
 			let t = this;
 			
-			t.chart = echarts.init(document.getElementById('user_transfer'));
+			t.chart = echarts.init(document.getElementById('order_into'));
 			let order_options = {
 				title : {
 					left: 'center',
 					text: '',
-					subtext: '包括所有钱包，按日划分，金额单位：分'
+					subtext: '按日划分，金额单位：分'
 				},
 				tooltip : {
 					trigger: 'axis'
@@ -49,7 +47,6 @@
 					// bottom:'10px',
 					data: []
 				},
-				// color : ['#7079DF','#D15B7F','#FB6E6C','#FF9F69','#FEB64D','#FFDA43','#FFE88E'],
 				toolbox: {
 					show : true,
 					feature : {
@@ -58,8 +55,7 @@
 					}
 				},
 				grid : {
-					top : '150px',
-					// right : '200px',
+					top : '180px',
 					containLabel: true
 				},
 				calculable : true,
@@ -76,7 +72,6 @@
 				xAxis : [
 					{
 						type : 'category',
-						nameGap : '60',
 						data : []
 					}
 				],
@@ -87,66 +82,44 @@
 				],
 				series : []
 			};
-			get('/user_transfer',{},function(data){
-				let dates = data.dates;
-				let purse_types = data.purse_types;
-				let out = data.out;
+			get('/welcome',{},function(data){
+				let payments = data.payments;
 				let into = data.into;
-				let amounts = data.amounts;
-				
-				// X 轴数据展示
-				order_options.xAxis[0].data = dates;
-				
+				order_options.xAxis[0].data = data.columns;
 				// 基本信息变量
 				let series_template = function(){
 					return {
 						name:'',
 						type:'bar',
-						stack:'',	// 正负轴相同的值会上下顶在一起
 						data:[],
-						// markPoint : {
-						// 	symbol : 'pin',
-						// 	data : [
-						// 		{type : 'max', name: '最大值'},
-						// 		{type : 'min', name: '最小值'}
-						// 	]
-						// },
+						markPoint : {
+							data : [
+								{type : 'max', name: '最大值'},
+								{type : 'min', name: '最小值'}
+							]
+						},
 						markLine : {
 							data : [
 								{type : 'average', name: '平均值'}
 							]
 						},
 						label: {
-							show: true,
+							normal: {
+								show: true,
+								position: 'top'
+							}
 						}
 					};
 				};
 				
-				
-				for(let type in amounts){
+				for(let payment in data.rows){
 					let series = series_template();
-					series.name = purse_types[type];
+					series.name = payments[payment] || payment;
 					order_options.legend.data.push(series.name);
-					series.stack = type.substr(0,1) == '-' ? type.substr(1) : type;
-					for(let date in amounts[type]){
-						let date_val = amounts[type][date];
-						series.data.push({
-							value : date_val,
-							// 在柱状条上显示数值
-							label : {
-								normal: {
-									show: true,
-									rotate: 90,
-								}
-							},
-						});
-						// if(date_val < 0){
-						// 	series.markPoint.symbolRotate = 180;
-						// }
-					}
+					series.data = Object.values(data.rows[payment]);
 					order_options.series.push(series);
 				}
-				order_options.title.text = '近期 '+data.days+' 天每日用户身份收入、支出金额统计';
+				order_options.title.text = '近期 '+data.days+' 天每日订单交易入账金额统计';
 				t.chart.setOption(order_options);
 			});
 		}

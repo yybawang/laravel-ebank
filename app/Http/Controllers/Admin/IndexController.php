@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\BasicRequest;
+use App\Models\FundMerchant;
 use App\Models\FundOrder;
 use App\Models\FundOrderPayment;
 use App\Models\FundPurseType;
@@ -31,7 +32,7 @@ class IndexController extends CommonController
 	 * @param BasicRequest $request
 	 * @return string
 	 */
-	public function welcome(BasicRequest $request){
+	public function order_into(BasicRequest $request){
 		$days = 14;	// 15天，因为从0开始
 		$fundOrder = new FundOrder();
 		$payments = $fundOrder->payments;
@@ -39,6 +40,7 @@ class IndexController extends CommonController
 		$columns = $rows = [];
 		$latest = date('Y-m-d',strtotime("-$days day"));
 		
+		$merchant = FundMerchant::active()->pluck('name','id');
 		$payments = FundOrderPayment::whereDate('created_at','>=',$latest)->groupBy('type')->pluck('type','type')->merge($payments);
 		
 		// 默认数据填充
@@ -65,6 +67,7 @@ class IndexController extends CommonController
 			'columns' => $columns,
 			'rows' => $rows,
 			'payments' => $payments,
+			'merchant' => $merchant,
 			'days' => $days + 1,
 		]);
 	}
@@ -75,6 +78,7 @@ class IndexController extends CommonController
 	 * @return array
 	 */
 	public function user_transfer(BasicRequest $request){
+		$days = 14;
 		$out = $into = [];
 		$series = [];
 		$purse_types_all = FundPurseType::active()->get(['id','name','alias']);
@@ -91,20 +95,20 @@ class IndexController extends CommonController
 		
 		$dates = [];
 		// 数据初始化为0，图表数据占位
-		for($i=14;$i>=0;$i--){
-			$date = date('Y-m-d',strtotime("-$i days"));
+		for($i=$days;$i>=0;$i--){
+			$date = time2date_date(strtotime("-$i day"));
 			$dates[] = $date;
 //			$out['-total'][$date] = '';
 //			$into['total'][$date] = '';
 			$purse_types_all->each(function($v) use (&$out,&$into,$date){
-				$out['-'.$v->alias][$date] = '';
-				$into[$v->alias][$date] = '';
+				$out['-'.$v->alias][$date] = 0;
+				$into[$v->alias][$date] = 0;
 			});
 		}
-		$latest = array_shift(array_slice($dates,0,1));
+		$latest = time2date_date(strtotime("-$days day"));
 		
 		$model_out = FundTransfer::select(DB::raw('out_purse_type_id,into_purse_type_id,date_format(created_at,\'%Y-%m-%d\') as date,sum(amount) as amount'))
-			->where('created_at','>=',$latest.' 00:00:00')
+			->whereDate('created_at','>=',$latest)
 			->where(['status'=>1])
 			->groupBy('date');
 		$model_into = clone $model_out;
@@ -118,7 +122,15 @@ class IndexController extends CommonController
 //			$into['total'][$v->date] += $v->amount;
 		});
 		$amounts = array_merge($into,$out);
-		return json_success('OK',compact('dates','purse_types','out','into','amounts'));
+//		return json_success('OK',compact('dates','purse_types','out','into','amounts','days'));
+		return json_success('OK',[
+			'dates'			=> $dates,
+			'purse_types'	=> $purse_types,
+			'out'			=> $out,
+			'into'			=> $into,
+			'amounts'		=> $amounts,
+			'days'			=> $days + 1,
+		]);
 	}
 	
 	/**

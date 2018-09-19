@@ -1,6 +1,6 @@
 webpackJsonp([21],{
 
-/***/ 348:
+/***/ 351:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -235,7 +235,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 349:
+/***/ 352:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -758,7 +758,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-13390dd5", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-6dd36e22", module.exports)
   }
 }
 
@@ -770,9 +770,9 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(348)
+var __vue_script__ = __webpack_require__(351)
 /* template */
-var __vue_template__ = __webpack_require__(349)
+var __vue_template__ = __webpack_require__(352)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -789,7 +789,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\merchant\\index.vue"
+Component.options.__file = "resources/assets/js/components/merchant/index.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -798,9 +798,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-13390dd5", Component.options)
+    hotAPI.createRecord("data-v-6dd36e22", Component.options)
   } else {
-    hotAPI.reload("data-v-13390dd5", Component.options)
+    hotAPI.reload("data-v-6dd36e22", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

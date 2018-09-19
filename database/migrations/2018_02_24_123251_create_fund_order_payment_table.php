@@ -17,11 +17,12 @@ class CreateFundOrderPaymentTable extends Migration
         Schema::create('fund_order_payment', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('order_id')->comment('所属订单表ID，一对多');
-            $table->string('type')->comment('支付方式，对应 OrderController 的方法名');
+            $table->string('type')->comment('支付方式，对应 class OrderPayments 的方法名');
             $table->decimal('amount',30,0)->unsigned()->comment('支付金额，单位分');
 			$table->string('remarks')->nullable();
 			
 			$table->index('order_id','order_id');
+			$table->index('type','type');
             $table->timestamps();
         });
     }

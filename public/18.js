@@ -1,6 +1,6 @@
 webpackJsonp([18],{
 
-/***/ 362:
+/***/ 365:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -116,7 +116,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 363:
+/***/ 366:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -305,7 +305,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-d4f2786a", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-1e484a9e", module.exports)
   }
 }
 
@@ -317,9 +317,9 @@ if (false) {
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(362)
+var __vue_script__ = __webpack_require__(365)
 /* template */
-var __vue_template__ = __webpack_require__(363)
+var __vue_template__ = __webpack_require__(366)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -336,7 +336,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\purse\\freeze.vue"
+Component.options.__file = "resources/assets/js/components/purse/freeze.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -345,9 +345,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d4f2786a", Component.options)
+    hotAPI.createRecord("data-v-1e484a9e", Component.options)
   } else {
-    hotAPI.reload("data-v-d4f2786a", Component.options)
+    hotAPI.reload("data-v-1e484a9e", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
