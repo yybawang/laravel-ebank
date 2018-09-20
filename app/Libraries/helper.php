@@ -213,7 +213,11 @@ function exception($message = '',$var = false){
  * @return string
  */
 function queue_name($name){
-	return str_slug(env('APP_NAME', 'laravel') . ' ' . $name, '_');
+	$name_trans = [];
+	foreach(explode(',',$name) as $k => $v){
+		$name_trans[] = str_slug(env('APP_NAME', 'laravel') . ' ' . $v, '_');
+	}
+	return implode(',',$name_trans);
 }
 
 
