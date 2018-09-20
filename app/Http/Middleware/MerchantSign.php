@@ -59,6 +59,6 @@ class MerchantSign
 			'$_SESSION'		=> print_r($_SESSION,true),
 			'$_COOKIE'		=> print_r($_COOKIE,true),
 		];
-		ApiBehavior::dispatch($data)->onQueue('behavior');
+		ApiBehavior::dispatch($data)->onQueue(queue_name('behavior'));
 	}
 }

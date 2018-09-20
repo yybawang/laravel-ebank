@@ -67,7 +67,7 @@ class OrderController extends CommonController {
 		$id = $request->input('id');
 		$order = FundOrder::findOrFail($id);
 		// 异步通知到商户
-		OrderNotify::dispatch($order->order_no)->onQueue('order_notify');
+		OrderNotify::dispatch($order->order_no)->onQueue(queue_name('order_notify'));
 		return json_success('已重新分发通知任务');
 	}
 	

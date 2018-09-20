@@ -117,7 +117,7 @@ class FundOrder extends CommonModel
 			
 			
 			// 异步通知到商户
-			OrderNotify::dispatch($order->order_no)->onQueue('order_notify');
+			OrderNotify::dispatch($order->order_no)->onQueue(queue_name('order_notify'));
 		});
 		return true;
 	}

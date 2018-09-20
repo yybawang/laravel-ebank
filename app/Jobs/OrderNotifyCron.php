@@ -34,7 +34,7 @@ class OrderNotifyCron implements ShouldQueue
 		$date_pre = time2date(strtotime('-10 minutes'));
 		$list = FundOrder::where(['status'=>1,'pay_status'=>1,'notify_status'=>0])->where('created_at','>',$date_pre)->pluck('order_no');
 		$list->each(function($order_no,$k){
-			OrderNotify::dispatch($order_no)->onQueue('order_notify');
+			OrderNotify::dispatch($order_no)->onQueue(queue_name('order_notify'));
 		});
     }
 }

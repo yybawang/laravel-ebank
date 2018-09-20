@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
 		})->everyMinute();
 		
 		// 每分钟获取支付成功但未通知成功的订单重新发起通知，部署支付时可打开
-		$schedule->job((new OrderNotifyCron())->onQueue('order_notify'))->everyMinute();
+		$schedule->job((new OrderNotifyCron())->onQueue(queue_name('order_notify')))->everyMinute();
     }
 
     /**

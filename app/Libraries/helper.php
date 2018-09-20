@@ -206,7 +206,15 @@ function exception($message = '',$var = false){
 	return true;
 }
 
-
+/**
+ * 多个 laravel 项目，如果 --queue 相同会互串
+ * 这里统一加个前缀来区分
+ * @param $name
+ * @return string
+ */
+function queue_name($name){
+	return str_slug(env('APP_NAME', 'laravel').strtoupper($name), '_');
+}
 
 
 /**
@@ -217,7 +225,7 @@ function exception($message = '',$var = false){
 function email_bug(...$msg){
 	$receives = config('basic.bug_receives');
 	$url = request()->fullUrl();
-	\Illuminate\Support\Facades\Mail::to($receives)->queue((new \App\Mail\Bug($url,$_GET,$_POST,$_REQUEST,$_SERVER,$_COOKIE,$_SESSION,$msg))->onQueue('email'));
+	\Illuminate\Support\Facades\Mail::to($receives)->queue((new \App\Mail\Bug($url,$_GET,$_POST,$_REQUEST,$_SERVER,$_COOKIE,$_SESSION,$msg))->onQueue(queue_name('email')));
 	return true;
 }
 

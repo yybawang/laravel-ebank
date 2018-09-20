@@ -69,7 +69,7 @@ class ExportCsv {
 			'status'	=> 0,
 		];
 		$id = FundAdminExport::create($add)->id;
-		\App\Jobs\ExportCsv::dispatch($id,getcwd().$add['file_path'],$this->field,$this->sql)->onQueue('export');
+		\App\Jobs\ExportCsv::dispatch($id,getcwd().$add['file_path'],$this->field,$this->sql)->onQueue(queue_name('export'));
 		return true;
 	}
 }
