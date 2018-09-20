@@ -213,7 +213,7 @@ function exception($message = '',$var = false){
  * @return string
  */
 function queue_name($name){
-	return str_slug(env('APP_NAME', 'laravel').strtoupper($name), '_');
+	return str_slug(env('APP_NAME', 'laravel') . ' ' . $name, '_');
 }
 
 
