@@ -36,7 +36,7 @@ class ReturnController extends CommonController {
 		$amount			= intval($request->input('amount') * 100);
 		$trade_status	= $request->input('trade_status');	// 等于 TRADE_SUCCESS || TRADE_FINISHED 为支付成功
 		$pay_time		= $request->input('gmt_payment');	// 年月日 时分秒
-		$pay_status		= 0;	// 0不确定交易，1交易成功，2交易失败。前端不判断支付成功，提示等待支付结果即可
+		$pay_status		= 0;								// 0不确定交易，1交易成功，2交易失败。前端不判断支付成功，提示等待支付结果即可
 		$order = FundOrder::where(['order_no'=>$order_no])->first();
 		
 		if($order){

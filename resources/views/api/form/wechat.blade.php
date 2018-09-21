@@ -12,7 +12,7 @@
 			{
 				WeixinJSBridge.invoke(
 					'getBrandWCPayRequest',
-					{{$sign}},
+					{!! $sign !!},
 					function(res){
 //				alert(res.err_code+res.err_desc+res.err_msg);
 						// 成功

@@ -251,7 +251,8 @@ function time2date_date($time = null){
 function build_form($url,$post_data,$method = 'post'){
 	$input_param = '';
 	foreach($post_data as $k => $v){
-		$input_param .= '<input type="hidden" name="'.$k.'" value="'.$v.'" />';
+		$v = str_replace("'", '&apos;', $v);
+		$input_param .= "<input type='hidden' name='".$k."' value='".$v."' />";
 	}
 	/**
 	 * <meta charset="utf-8" />
