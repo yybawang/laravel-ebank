@@ -130,12 +130,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -371,18 +365,6 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _c("td", {
-                        domProps: { textContent: _vm._s(val.parent_id) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(val.detail) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
-                        domProps: { textContent: _vm._s(val.remarks) }
-                      }),
-                      _vm._v(" "),
-                      _c("td", {
                         domProps: { textContent: _vm._s(val.created_at) }
                       })
                     ])
@@ -511,12 +493,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("进账钱包ID")]),
         _vm._v(" "),
         _c("th", [_vm._v("进账后余额(分)")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("上级ID")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("详情")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("备注")]),
         _vm._v(" "),
         _c("th", [_vm._v("创建时间")])
       ])

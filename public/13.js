@@ -157,6 +157,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -170,6 +173,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			dialog: '',
 			keyword: {
 				page: 1,
+				id: '',
 				name: '',
 				merchant_id: 1,
 				reason: ''
@@ -286,6 +290,31 @@ var render = function() {
       _c("div", { staticClass: "mdui-divider" }),
       _vm._v(" "),
       _c("blockquote", { staticClass: "blockquote_normal" }, [
+        _c("p", [
+          _vm._v("\n\t\t\t\t行为ID："),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.keyword.id,
+                expression: "keyword.id"
+              }
+            ],
+            staticClass: "mdui-textfield-input input_normal",
+            attrs: { type: "text" },
+            domProps: { value: _vm.keyword.id },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.keyword, "id", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
         _c("p", [
           _vm._v("\n\t\t\t\t转账行为名称："),
           _c("input", {

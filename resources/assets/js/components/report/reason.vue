@@ -68,9 +68,6 @@
 						<th>进账钱包ID</th>
 						<th>进账后余额(分)</th>
 						
-						<th>上级ID</th>
-						<th>详情</th>
-						<th>备注</th>
 						<th>创建时间</th>
 					</tr>
 					</thead>
@@ -90,9 +87,6 @@
 						<td v-text="val.into_purse_id"></td>
 						<td v-text="val.into_balance"></td>
 						
-						<td v-text="val.parent_id"></td>
-						<td v-text="val.detail"></td>
-						<td v-text="val.remarks"></td>
 						<td v-text="val.created_at"></td>
 					</tr>
 					</tbody>

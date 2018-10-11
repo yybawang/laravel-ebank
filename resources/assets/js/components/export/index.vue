@@ -98,7 +98,7 @@
 			},
 			del(id){
 				let t = this;
-				t.$API.delete('/export',{id:id}).then(function(data){
+				t.$API.delete('/export/index',{id:id}).then(function(data){
 					mdui.alert('服务器文件已删除，外链失效','执行完成',function(){},{history:false,confirmText:'完成'});
 					t.init();
 				});
@@ -109,7 +109,7 @@
 			},
 			init(){
 				let t = this;
-				t.$API.get('/export',t.keyword).then(function(data){
+				t.$API.get('/export/index',t.keyword).then(function(data){
 					t.list = data;
 				});
 			}

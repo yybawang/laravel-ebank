@@ -27,6 +27,9 @@ class TransferController extends CommonController {
 		$data['merchant'] = FundMerchant::active()->pluck('name','id');
 		$data['reason'] = FundTransferReason::where(['status'=>1])->pluck('name','reason');
 		$model = FundTransfer::select(DB::raw('*,1 as more'))
+			->when($request->input('id'),function($query) use ($request){
+				$query->where('id',$request->input('id'));
+			})
 			->when($request->input('user_id'),function($query) use ($request){
 				$query->where(function($query) use ($request){
 					$query->where('out_user_id',$request->input('user_id'))->orWhere('into_user_id',$request->input('user_id'));

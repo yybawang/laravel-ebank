@@ -107,7 +107,7 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 		Route::get('reason','ReportController@reason')->name('menu.流水统计');
 		Route::get('reason_detail','ReportController@reason_detail');
 		Route::get('purse','ReportController@purse')->name('menu.钱包统计');
-		Route::get('purse/{id?}','ReportController@purse_detail');
+		Route::get('purse_detail','ReportController@purse_detail');
 	});
 	
 	Route::prefix('export')->name('admin.导出任务.')->group(function(){

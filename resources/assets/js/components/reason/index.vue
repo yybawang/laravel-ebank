@@ -7,6 +7,9 @@
 			<div class="mdui-divider"></div>
 			<blockquote class="blockquote_normal">
 				<p>
+					行为ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.id" />
+				</p>
+				<p>
 					转账行为名称：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.name" />
 				</p>
 				<p>
@@ -163,6 +166,7 @@
 				dialog : '',
 				keyword : {
 					page : 1,
+					id : '',
 					name : '',
 					merchant_id : 1,
 					reason : '',

@@ -3,6 +3,9 @@
 		<div class="typo">
 			<blockquote class="blockquote_normal">
 				<p>
+					转账ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.id" />
+				</p>
+				<p>
 					用户ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.user_id" />
 				</p>
 				<p>
@@ -131,6 +134,7 @@
 				keyword : {
 					page : 1,
 					export : 0,
+					id : '',
 					user_id : '',
 					reason : '',
 					amount_flag : [],

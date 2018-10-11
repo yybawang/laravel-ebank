@@ -184,7 +184,7 @@
 /* 重绘部分开始------------ mdui的inpu组件，不让100%宽，并且不换行 */
 
 .input_normal {
-  width: 150px;
+  width: 200px;
   display: inline-block;
 }
 
