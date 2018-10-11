@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\BasicRequest;
+use App\Models\FundBehavior;
 use App\Models\FundMerchant;
 use App\Models\FundOrder;
 use App\Models\FundOrderPayment;
@@ -32,7 +33,7 @@ class IndexController extends CommonController
 	/**
 	 * 首页报表
 	 * @param BasicRequest $request
-	 * return string
+	 * @return string
 	 */
 	public function welcome(BasicRequest $request){
 		$today_start = date('Y-m-d');
@@ -61,22 +62,34 @@ class IndexController extends CommonController
 		$today_new_user_count = (clone $FundUserPurseToday)->count();
 		$yesterday_new_user_count = (clone $FundUserPurseYesterday)->count();
 		
+		$FundBehaviorToday = FundBehavior::where('created_at','>=',$today_start)->where('created_at','<',$today_end)->where('status',0);
+		$FundTransferToday = FundTransfer::where('created_at','>=',$today_start)->where('created_at','<',$today_end)->where('status',1);
+		$FundTransferYesterday = FundTransfer::where('created_at','>=',$yesterday_start)->where('created_at','<',$yesterday_end)->where('status',1);
+		$today_behavior_error_count = (clone $FundBehaviorToday)->count();
+		$merchant_count = Fundmerchant::active()->count();
+		$today_transfer_today = (clone $FundTransferToday)->count();
+		$today_transfer_yesterday = (clone $FundTransferYesterday)->count();
 		
 		$data = [
-			['name'	=> '今日下单数量', 'sum'	=> $today_unified_count, 'icon'	=> 'add_shopping_cart', 'title' => '已支付并且有效的订单'],
-			['name'	=> '今日下单金额', 'sum'	=> $today_unified_amount, 'icon'	=> 'add_shopping_cart', 'title' => '已支付并且有效的订单'],
-			['name'	=> '昨日下单数量', 'sum'	=> $yesterday_unified_count, 'icon'	=> 'add_shopping_cart', 'title' => '已支付并且有效的订单'],
-			['name'	=> '昨日下单金额', 'sum'	=> $yesterday_unified_amount, 'icon'	=> 'add_shopping_cart', 'title' => '已支付并且有效的订单'],
+			['name' => '今日下单数量', 'sum' => $today_unified_count, 'icon' => 'trending_up', 'title' => '已支付并且有效的订单', 'backgroundColor' => '#F0AD4E',],
+			['name' => '今日下单金额', 'sum' => $today_unified_amount, 'icon' => 'account_balance', 'title' => '已支付并且有效的订单', 'backgroundColor' => '#F0AD4E',],
+			['name' => '昨日下单数量', 'sum' => $yesterday_unified_count, 'icon' => 'trending_up', 'title' => '已支付并且有效的订单', 'backgroundColor' => '#F0AD4E',],
+			['name' => '昨日下单金额', 'sum' => $yesterday_unified_amount, 'icon' => 'account_balance', 'title' => '已支付并且有效的订单', 'backgroundColor' => '#F0AD4E',],
 			
-			['name'	=> '今日提现数量', 'sum'	=> $today_withdraw_count, 'icon'	=> 'account_balance', 'title' => '申请提现成功'],
-			['name'	=> '今日提现金额', 'sum'	=> $today_withdraw_amount, 'icon'	=> 'account_balance', 'title' => '申请提现成功'],
-			['name'	=> '昨日提现数量', 'sum'	=> $yesterday_withdraw_count, 'icon'	=> 'account_balance', 'title' => '申请提现成功'],
-			['name'	=> '昨日提现金额', 'sum'	=> $yesterday_withdraw_amount, 'icon'	=> 'account_balance', 'title' => '申请提现成功'],
+			['name' => '今日提现数量', 'sum' => $today_withdraw_count, 'icon' => 'trending_up', 'title' => '申请提现成功', 'backgroundColor' => '#00A98E',],
+			['name' => '今日提现金额', 'sum' => $today_withdraw_amount, 'icon' => 'account_balance_wallet', 'title' => '申请提现成功', 'backgroundColor' => '#00A98E',],
+			['name' => '昨日提现数量', 'sum' => $yesterday_withdraw_count, 'icon' => 'trending_up', 'title' => '申请提现成功', 'backgroundColor' => '#00A98E',],
+			['name' => '昨日提现金额', 'sum' => $yesterday_withdraw_amount, 'icon' => 'account_balance_wallet', 'title' => '申请提现成功', 'backgroundColor' => '#00A98E',],
 			
-			['name'	=> '今日提现待处理','sum'	=> $today_withdraw_un_count, 'icon'	=> 'account_balance', 'title' => '申请提现中'],
-			['name'	=> '昨日提现待处理','sum'	=> $yesterday_withdraw_un_amount, 'icon'	=> 'account_balance', 'title' => '申请提现中'],
-			['name'	=> '今日用户新增', 'sum'	=> $today_new_user_count, 'icon'	=> 'sentiment_very_satisfied', 'title' => ''],
-			['name'	=> '昨日用户新增', 'sum'	=> $yesterday_new_user_count, 'icon'	=> 'sentiment_very_satisfied', 'title' => ''],
+			['name' => '今日提现待处理', 'sum' => $today_withdraw_un_count, 'icon' => 'account_balance_wallet', 'title' => '申请提现中', 'backgroundColor' => '#5CB85C',],
+			['name' => '昨日提现待处理', 'sum' => $yesterday_withdraw_un_amount, 'icon' => 'account_balance_wallet', 'title' => '申请提现中', 'backgroundColor' => '#5CB85C',],
+			['name' => '今日用户新增', 'sum' => $today_new_user_count, 'icon' => 'account_circle', 'title' => '新钱包数据', 'backgroundColor' => '#337AB7',],
+			['name' => '昨日用户新增', 'sum' => $yesterday_new_user_count, 'icon' => 'account_circle', 'title' => '新钱包数据', 'backgroundColor' => '#337AB7',],
+			
+			['name' => '接口商户数量', 'sum' => $merchant_count, 'icon' => 'people', 'title' => 'API接口商户', 'backgroundColor' => '#337AB7',],
+			['name' => '今日流水记录', 'sum' => $today_transfer_today, 'icon' => 'swap_horiz', 'title' => '有效转账记录', 'backgroundColor' => '#32C24D',],
+			['name' => '昨日流水记录', 'sum' => $today_transfer_yesterday, 'icon' => 'swap_horiz', 'title' => '有效转账记录', 'backgroundColor' => '#32C24D',],
+			['name' => '今日接口错误', 'sum' => $today_behavior_error_count, 'icon' => 'bug_report', 'title' => '商户API未成功返回', 'backgroundColor' => '#D9534F',],
 		];
 		
 		return json_success('OK',$data);
@@ -153,8 +166,6 @@ class IndexController extends CommonController
 		for($i=$days;$i>=0;$i--){
 			$date = time2date_date(strtotime("-$i day"));
 			$dates[] = $date;
-//			$out['-total'][$date] = '';
-//			$into['total'][$date] = '';
 			$purse_types_all->each(function($v) use (&$out,&$into,$date){
 				$out['-'.$v->alias][$date] = 0;
 				$into[$v->alias][$date] = 0;
@@ -174,10 +185,8 @@ class IndexController extends CommonController
 		});
 		$model_into->where('into_user_id','!=',0)->where(['into_user_type_id'=>3])->groupBy('into_purse_type_id')->get()->each(function($v) use (&$into,$series){
 			$into[$series[$v->into_purse_type_id]][$v->date] = $v->amount;
-//			$into['total'][$v->date] += $v->amount;
 		});
 		$amounts = array_merge($into,$out);
-//		return json_success('OK',compact('dates','purse_types','out','into','amounts','days'));
 		return json_success('OK',[
 			'dates'			=> $dates,
 			'purse_types'	=> $purse_types,

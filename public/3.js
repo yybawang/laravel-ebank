@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.card[data-v-a0facede] {\n  min-width: 180px;\n}\n.content-space[data-v-a0facede] {\n  height: 8rem;\n  text-align: center;\n}\n.content-space-icon[data-v-a0facede] {\n  font-size: 5rem;\n  color: #ececec;\n}\n", ""]);
+exports.push([module.i, "\n.card[data-v-a0facede] {\n  min-width: 180px;\n}\n.content-space[data-v-a0facede] {\n  padding: 0 0.5rem;\n  height: 7rem;\n  text-align: right;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end;\n}\n.content-space-icon[data-v-a0facede] {\n  font-size: 3rem;\n}\n", ""]);
 
 // exports
 
@@ -114,18 +114,23 @@ var render = function() {
           return _c("div", { staticClass: "mdui-col" }, [
             _c("div", { staticClass: "mdui-card mdui-m-b-2 card" }, [
               _c("div", { staticClass: "mdui-card-media" }, [
-                _c("div", { staticClass: "mdui-valign content-space" }, [
-                  _c("div", { staticClass: "mdui-center" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "mdui-valign content-space",
+                    style: { backgroundColor: val.backgroundColor }
+                  },
+                  [
                     _c(
                       "i",
                       {
                         staticClass:
-                          "mdui-icon material-icons content-space-icon"
+                          "mdui-icon material-icons mdui-text-color-grey-300 content-space-icon"
                       },
                       [_vm._v(_vm._s(val.icon))]
                     )
-                  ])
-                ]),
+                  ]
+                ),
                 _vm._v(" "),
                 _c(
                   "div",
@@ -136,20 +141,18 @@ var render = function() {
                   [
                     _c("div", { staticClass: "mdui-card-primary" }, [
                       _c("div", {
-                        staticClass:
-                          "mdui-card-primary-title mdui-text-color-red",
+                        staticClass: "mdui-card-primary-title",
                         domProps: { textContent: _vm._s(val.sum) }
                       }),
                       _vm._v(" "),
                       _c("div", {
-                        staticClass:
-                          "mdui-card-primary-subtitle mdui-text-color-black",
+                        staticClass: "mdui-card-primary-subtitle",
                         domProps: { textContent: _vm._s(val.name) }
                       }),
                       _vm._v(" "),
                       _c("div", {
                         staticClass:
-                          "mdui-card-primary-subtitle mdui-text-color-grey-500",
+                          "mdui-typo-caption-opacity mdui-text-color-grey-700",
                         domProps: { textContent: _vm._s(val.title) }
                       })
                     ])

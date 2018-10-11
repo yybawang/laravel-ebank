@@ -5,14 +5,14 @@
 				<div class="mdui-col" v-for="(val,key) of list">
 					<div class="mdui-card mdui-m-b-2 card">
 						<div class="mdui-card-media">
-							<div class="mdui-valign content-space">
-								<div class="mdui-center"><i class="mdui-icon material-icons content-space-icon">{{val.icon}}</i></div>
+							<div class="mdui-valign content-space" :style="{backgroundColor:val.backgroundColor}">
+								<i class="mdui-icon material-icons mdui-text-color-grey-300 content-space-icon">{{val.icon}}</i>
 							</div>
 							<div class="mdui-card-media-covered mdui-card-media-covered-transparent">
 								<div class="mdui-card-primary">
-									<div class="mdui-card-primary-title mdui-text-color-red" v-text="val.sum"></div>
-									<div class="mdui-card-primary-subtitle mdui-text-color-black" v-text="val.name"></div>
-									<div class="mdui-card-primary-subtitle mdui-text-color-grey-500" v-text="val.title"></div>
+									<div class="mdui-card-primary-title" v-text="val.sum"></div>
+									<div class="mdui-card-primary-subtitle" v-text="val.name"></div>
+									<div class="mdui-typo-caption-opacity mdui-text-color-grey-700" v-text="val.title"></div>
 								</div>
 							</div>
 						</div>
@@ -48,11 +48,12 @@
 		min-width:180px;
 	}
 	.content-space {
-		height:8rem;
-		text-align:center;
+		padding:0 0.5rem;
+		height:7rem;
+		text-align:right;
+		justify-content: flex-end;
 	}
 	.content-space-icon {
-		font-size:5rem;
-		color: #ececec;
+		font-size:3rem;
 	}
 </style>
