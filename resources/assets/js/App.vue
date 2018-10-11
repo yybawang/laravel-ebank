@@ -7,6 +7,7 @@
 				<router-link :to="{path:'/'}" class="mdui-typo-title mdui-hidden-sm-down">EBank 电子银行</router-link>
 				<div class="mdui-toolbar-spacer"></div>
 				<!--<div class="mdui-spinner mdui-spinner-colorful mdui-hidden ajax_loading"></div>-->
+				<a href="javascript:location.reload();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
 				<span class="mdui-btn mdui-ripple" mdui-menu="{target: '.menu_user'}">
 					<i class="mdui-icon material-icons">person</i>{{user.name || '未登录'}}
 				</span>
@@ -70,14 +71,14 @@
 				</div>
 			</div>
 			<div class="mdui-list" mdui-collapse="{accordion: true}">
-				<div v-for="(val,key,index) in menu" :class="{'mdui-collapse-item':true,'mdui-collapse-item-open':index == 0 ? true :false}">
+				<div v-for="(val,key,index) in menu" :class="{'mdui-collapse-item':true,'mdui-collapse-item-open':index == menu_index ? true :false}">
 					<div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
 						<i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-grey">menu</i>
 						<div class="mdui-list-item-content" v-text="key"></div>
 						<i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
 					</div>
 					<ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
-						<router-link tag="li" :to="{path:val2.url}" v-for="(val2,key2,index2) in val" :key="val2.name" @click="menu_active(val2.url)" class="mdui-list-item mdui-ripple" active-class="mdui-color-theme">{{val2.name}}</router-link>
+						<router-link tag="li" :to="{path:val2.url}" v-for="(val2,key2,index2) in val" :key="val2.name" class="mdui-list-item mdui-ripple" active-class="mdui-color-theme">{{val2.name}}</router-link>
 					</ul>
 				</div>
 			</div>
@@ -132,7 +133,7 @@
 			return {
 				user : '',
 				menu : '',
-				menu_active_url : location.href.split('#')[1],
+				menu_index : 0,
 				initing : false,
 				password_reset_dialog : '',
 				password_reset : {
@@ -143,12 +144,21 @@
 			}
 		},
 		methods : {
-			menu_active(url){
-				this.menu_active_url = url;
+			menu_active(){
+				let url = location.href.split('#')[1],index = 0;
+				for(let i in this.menu){
+					for(let j in this.menu[i]){
+						if(url === this.menu[i][j].url){
+							this.menu_index = index;
+							return;
+						}
+					}
+					index++;
+				}
 			},
 			password_reset_submit(){
 				let t = this;
-				post('/rule/password_reset',this.password_reset,function(data){
+				t.$API.post('/rule/password_reset',this.password_reset).then(function(data){
 					t.password_reset_dialog.close();
 					mdui.alert('已成功修改，下次登录请使用新密码','修改登录密码完成',function(){},{history:false})
 					for(let i in t.password_reset){
@@ -160,10 +170,11 @@
 				let t = this;
 				// if(!t.initing){
 					t.initing = true;
-					get('/init',{},function(data){
+					t.$API.get('/init').then(function(data){
 						t.user = data.user;
 						t.menu = data.menu;
 						t.initing = false;
+						t.menu_active();
 					});
 				// }
 			},
@@ -175,7 +186,7 @@
 			logout(){
 				let t = this;
 				tips('即将跳转到登录页');
-				get('/logout',{},function(data){
+				t.$API.post('/logout').then(function(data){
 					t.$router.push({path:'/login'});
 				});
 			}

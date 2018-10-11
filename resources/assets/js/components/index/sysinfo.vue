@@ -18,7 +18,7 @@
 		},
 		mounted(){
 			let t = this;
-			get('/sysinfo',{},function(data){
+			t.$API.get('/sysinfo').then(function(data){
 				t.list = data;
 			});
 		}

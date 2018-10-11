@@ -29,8 +29,11 @@
 				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
 				<a class="mdui-btn mdui-ripple mdui-color-pink" @click="exports"><i class="mdui-icon mdui-icon-left material-icons">file_upload</i>导出</a>
 			</blockquote>
+			<blockquote class="blockquote_normal">
+				有效转账记录统计，不包括冲正(分)
+				<p style="line-height:25px;"><span class="mdui-m-r-3">收入：{{amount_into}}</span><span class="mdui-m-r-3">支出：{{amount_out}}</span></p>
+			</blockquote>
 		</div>
-		
 		<div class="mdui-tab" mdui-tab>
 			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(name,id,key) of merchant" v-text="name" @click="tab_change(id)"></a>
 		</div>
@@ -123,11 +126,14 @@
 				user_type : '',
 				merchant : '',
 				reason : '',
+				amount_into : 0,
+				amount_out : 0,
 				keyword : {
 					page : 1,
 					export : 0,
 					user_id : '',
 					reason : '',
+					amount_flag : [],
 					purse_type_id : [],
 					user_type_id : [],
 					merchant_id : 1,
@@ -149,7 +155,7 @@
 				let t = this;
 				mdui.prompt('冲正此记录后可能造成业务匹配问题，对应的转账金额也会原路返还，知悉后请在下方输入【冲正原因】', '冲正金额(分)：'+amount, function (value) {
 					if(value){
-						post('/transfer/untransfer', {id: id,remarks:value}, function (data) {
+						t.$API.post('/transfer/untransfer', {id: id,remarks:value}).then(function (data) {
 							mdui.alert('已成功冲正并返还金额', function () {}, {history: false});
 							t.init();
 						})
@@ -163,12 +169,14 @@
 			},
 			init(){
 				let t = this;
-				get('/transfer',t.keyword,function(data){
+				t.$API.get('/transfer/index',t.keyword).then(function(data){
 					t.list = data.list;
 					t.purse_type = data.purse_type;
 					t.user_type = data.user_type;
 					t.merchant = data.merchant;
 					t.reason = data.reason;
+					t.amount_into = data.amount_into;
+					t.amount_out = data.amount_out;
 					if(t.keyword.export){
 						mdui.alert('可在左侧【导出任务】菜单查看任务状态并下载文件','已放入导出任务',function(){},{history:false});
 					}

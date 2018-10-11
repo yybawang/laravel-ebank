@@ -53,8 +53,8 @@ class OrderController extends CommonController {
 			(new ExportCsv())->name('导出用户订单')->field(['order_no'=>'订单号','user_id'=>'下单用户ID','product_name'=>'商品名','amount'=>'订单金额','pay_status'=>'支付状态','notify_status'=>'异步回调状态','refund_status'=>'退款状态','created_at'=>'创建时间'])->data($model2->groupBy('fund_order.id'))->save();
 		}
 		$model3 = clone $model;
-		$sum_amount = $model3->select(DB::raw('payment.type,sum(payment.amount) amount'))->groupBy('payment.type')->pluck('amount','type');
-		$data['sum_amount'] = $sum_amount;
+		$amount_sum = $model3->select(DB::raw('payment.type,sum(payment.amount) amount'))->groupBy('payment.type')->pluck('amount','type');
+		$data['amount_sum'] = $amount_sum;
 		$data['list'] = $model->groupBy('fund_order.id')->pages();
 		$data['list']->each(function($v){
 			$v->payment;

@@ -167,13 +167,13 @@
 			add(id){
 				let t = this;
 				t.dialog.open();
-				get('/rule/user_detail',{id:id},function(data){
+				t.$API.get('/rule/user/'+id).then(function(data){
 					t.form = data;
 				});
 			},
 			add_submit(){
 				let t = this;
-				post('/rule/user',t.form,function(){
+				t.$API.post('/rule/user',t.form).then(function(){
 					t.dialog.close();
 					t.init();
 				});
@@ -181,7 +181,7 @@
 			del(id){
 				let t = this;
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认？', function(){
-					del('/rule/user',{id:id},function(){
+					t.$API.delete('/rule/user',{id:id}).then(function(){
 						t.init();
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
@@ -192,7 +192,7 @@
 			},
 			init(){
 				let t = this;
-				get('/rule/user',t.keyword,function(data){
+				t.$API.get('/rule/user',t.keyword).then(function(data){
 					t.list = data.list;
 					t.group = data.group;
 				});

@@ -136,7 +136,7 @@
 		methods : {
 			add(id){
 				let t = this;
-				get('/pay/detail',{id:id},function(data){
+				t.$API.get('/pay/index/'+id).then(function(data){
 					t.form = data;
 					t.$nextTick(function(){
 						$('.mdui-tab').mutation();
@@ -146,7 +146,7 @@
 			},
 			add_submit(){
 				let t = this;
-				post('/pay',t.form,function(){
+				t.$API.post('/pay/index',t.form).then(function(){
 					t.dialog.close();
 					t.init();
 				});
@@ -154,7 +154,7 @@
 			del(id){
 				let t = this;
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认?', function(){
-					del('/pay',{id:id},function(){
+					t.$API.delete('/pay/index',{id:id}).then(function(){
 						t.init();
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
@@ -168,7 +168,7 @@
 			},
 			init(){
 				let t = this;
-				get('/pay',t.keyword,function(data){
+				t.$API.get('/pay/index',t.keyword).then(function(data){
 					t.list = data.list;
 				});
 			}

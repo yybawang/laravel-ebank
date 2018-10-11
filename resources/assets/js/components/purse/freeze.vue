@@ -90,7 +90,7 @@
 			unfreeze(id){
 				let t = this;
 				mdui.confirm('解冻此记录后可能造成业务匹配问题，点击【确定】继续','确认?',function(){
-					post('/purse/unfreeze',{id:id},function(data){
+					t.$API.post('/purse/unfreeze',{id:id}).then(function(data){
 						mdui.alert('已成功解冻并返还金额',function(){},{history:false});
 						t.init();
 					})
@@ -99,7 +99,7 @@
 			},
 			init(){
 				let t = this;
-				get('/purse/freeze',t.keyword,function(data){
+				t.$API.get('/purse/freeze',t.keyword).then(function(data){
 					t.list = data.list;
 					t.purse_type = data.purse_type;
 				});

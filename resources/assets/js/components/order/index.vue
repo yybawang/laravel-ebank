@@ -57,7 +57,7 @@
 			</blockquote>
 			<blockquote class="blockquote_normal">
 				支付金额统计(分)
-				<p style="line-height:25px;"><span class="mdui-m-r-3" v-for="(amount,type) of sum_amount">{{payments[type] || type}}：{{amount}}</span></p>
+				<p style="line-height:25px;"><span class="mdui-m-r-3" v-for="(amount,type) of amount_sum">{{payments[type] || type}}：{{amount}}</span></p>
 			</blockquote>
 		</div>
 		<div class="mdui-table-fluid">
@@ -136,7 +136,7 @@
 				user_type : '',
 				payment : '',
 				payments : '',
-				sum_amount : '',
+				amount_sum : '',
 				keyword : {
 					page : 1,
 					export : 0,
@@ -179,8 +179,8 @@
 			complete(id){
 				let t = this;
 				mdui.confirm('手动标记为支付成功并分发通知，是否收到款项需财务核实，点击【确定】继续', '三方支付漏单/掉单补回', function () {
-					post('/order/complete', {id: id}, function (data,msg) {
-						mdui.alert(msg, function () {}, {history: false});
+					t.$API.post('/order/complete', {id: id}).then(function (data) {
+						mdui.alert("操作完成，订单标记为已支付", function () {}, {history: false});
 						t.init();
 					})
 				}, function () {}, {history: false, confirmText: '确定', cancelText: '取消'});
@@ -188,8 +188,8 @@
 			notify(id) {
 				let t = this;
 				mdui.confirm('异步通知会影响商户对支付的响应，可能造成多次结算等问题，知悉后点击【确定】继续', '手动发起异步通知', function () {
-					post('/order/notify', {id: id}, function (data,msg) {
-						mdui.alert(msg, function () {}, {history: false});
+					t.$API.post('/order/notify', {id: id}).then(function (data) {
+						mdui.alert("已重新分发通知任务", function () {}, {history: false});
 						t.init();
 					})
 				}, function () {}, {history: false, confirmText: '确定', cancelText: '取消'});
@@ -198,8 +198,8 @@
 				let t = this;
 				mdui.prompt('退款金额会返还到下单用户的现金钱包余额中，请在下方输入【退款金额】。注意：输入单位为分', '订单总金额(分)：'+amount, function (value) {
 					if(value){
-						post('/order/refund', {id: id,amount:value}, function (data,msg) {
-							mdui.alert(msg, function () {}, {history: false});
+						t.$API.post('/order/refund', {id: id,amount:value}).then(function (data) {
+							mdui.alert("退款成功，已完成系统到用户的转账操作，如产生奖励部分需手动冲正", function () {}, {history: false});
 							t.init();
 						})
 					}
@@ -207,7 +207,7 @@
 			},
 			init(){
 				let t = this;
-				get('/order',t.keyword,function(data){
+				t.$API.get('/order/index',t.keyword).then(function(data){
 					t.list = data.list;
 					t.merchant = data.merchant;
 					t.purse_type = data.purse_type;
@@ -215,7 +215,7 @@
 					t.order_type = data.order_type;
 					t.payment = data.payment;
 					t.payments = data.payments;
-					t.sum_amount = data.sum_amount;
+					t.amount_sum = data.amount_sum;
 					if(t.keyword.export){
 						mdui.alert('可在左侧【导出任务】菜单查看任务状态并下载文件','已放入导出任务',function(){},{history:false});
 					}

@@ -34,8 +34,7 @@ class PayController extends CommonController
 		return json_success('OK',$data);
 	}
 	
-	public function detail(BasicRequest $request){
-		$id = $request->input('id');
+	public function detail(BasicRequest $request,int $id){
 		$PayFieldsConfig = new PayFieldsConfig();
 		$data = FundPayConfig::firstOrNew(['id'=>$id],
 			[

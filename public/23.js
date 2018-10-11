@@ -1,6 +1,6 @@
 webpackJsonp([23],{
 
-/***/ 379:
+/***/ 382:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -93,36 +93,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	methods: {
 		download: function download(id, url) {
-			post('/export', { id: id }, function () {
+			var t = this;
+			t.$API.post('/export/increment', { id: id }).then(function () {
 				// 下载量计数+1
 			});
 			location.href = url;
 			return true;
 		},
-		del: function (_del) {
-			function del(_x) {
-				return _del.apply(this, arguments);
-			}
-
-			del.toString = function () {
-				return _del.toString();
-			};
-
-			return del;
-		}(function (id) {
+		del: function del(id) {
 			var t = this;
-			del('/export', { id: id }, function (data) {
+			t.$API.delete('/export', { id: id }).then(function (data) {
 				mdui.alert('服务器文件已删除，外链失效', '执行完成', function () {}, { history: false, confirmText: '完成' });
 				t.init();
 			});
-		}),
+		},
 		search: function search(page) {
 			this.keyword.page = page;
 			this.init();
 		},
 		init: function init() {
 			var t = this;
-			get('/export', t.keyword, function (data) {
+			t.$API.get('/export', t.keyword).then(function (data) {
 				t.list = data;
 			});
 		}
@@ -142,7 +133,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 380:
+/***/ 383:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -342,21 +333,21 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1f8304ce", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-5b76f481", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 86:
+/***/ 88:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(379)
+var __vue_script__ = __webpack_require__(382)
 /* template */
-var __vue_template__ = __webpack_require__(380)
+var __vue_template__ = __webpack_require__(383)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -373,7 +364,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/export/index.vue"
+Component.options.__file = "resources\\assets\\js\\components\\export\\index.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -382,9 +373,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1f8304ce", Component.options)
+    hotAPI.createRecord("data-v-5b76f481", Component.options)
   } else {
-    hotAPI.reload("data-v-1f8304ce", Component.options)
+    hotAPI.reload("data-v-5b76f481", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

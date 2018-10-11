@@ -120,7 +120,7 @@
 			},
 			detail_init(){
 				let t = this;
-				get('/report/purse_detail',t.dialog_keyword,function(data){
+				t.$API.get('/report/purse_detail',t.dialog_keyword).then(function(data){
 					t.dialog_list = data.list;
 					t.dialog_reason = data.reason;
 					t.$nextTick(function(){
@@ -139,7 +139,7 @@
 			},
 			init(){
 				let t = this;
-				get('/report/purse',t.keyword,function(data){
+				t.$API.get('/report/purse',t.keyword).then(function(data){
 					t.list = data.list;
 					t.merchant = data.merchant;
 					t.user_type = data.user_type;

@@ -118,7 +118,7 @@
 			},
 			init() {
 				let t = this;
-				get('/purse/user', t.keyword, function (data) {
+				t.$API.get('/purse/user', t.keyword).then(function (data) {
 					t.list = data.list;
 					t.merchant = data.merchant;
 					t.user_type = data.user_type;

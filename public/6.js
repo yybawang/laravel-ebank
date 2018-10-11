@@ -1,10 +1,13 @@
 webpackJsonp([6],{
 
-/***/ 353:
+/***/ 356:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -130,11 +133,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			user_type: '',
 			merchant: '',
 			reason: '',
+			amount_into: 0,
+			amount_out: 0,
 			keyword: {
 				page: 1,
 				export: 0,
 				user_id: '',
 				reason: '',
+				amount_flag: [],
 				purse_type_id: [],
 				user_type_id: [],
 				merchant_id: 1,
@@ -157,7 +163,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var t = this;
 			mdui.prompt('冲正此记录后可能造成业务匹配问题，对应的转账金额也会原路返还，知悉后请在下方输入【冲正原因】', '冲正金额(分)：' + amount, function (value) {
 				if (value) {
-					post('/transfer/untransfer', { id: id, remarks: value }, function (data) {
+					t.$API.post('/transfer/untransfer', { id: id, remarks: value }).then(function (data) {
 						mdui.alert('已成功冲正并返还金额', function () {}, { history: false });
 						t.init();
 					});
@@ -171,12 +177,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		init: function init() {
 			var t = this;
-			get('/transfer', t.keyword, function (data) {
+			t.$API.get('/transfer/index', t.keyword).then(function (data) {
 				t.list = data.list;
 				t.purse_type = data.purse_type;
 				t.user_type = data.user_type;
 				t.merchant = data.merchant;
 				t.reason = data.reason;
+				t.amount_into = data.amount_into;
+				t.amount_out = data.amount_out;
 				if (t.keyword.export) {
 					mdui.alert('可在左侧【导出任务】菜单查看任务状态并下载文件', '已放入导出任务', function () {}, { history: false });
 				}
@@ -194,7 +202,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 354:
+/***/ 357:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -440,6 +448,18 @@ var render = function() {
             _vm._v("导出")
           ]
         )
+      ]),
+      _vm._v(" "),
+      _c("blockquote", { staticClass: "blockquote_normal" }, [
+        _vm._v("\n\t\t\t有效转账记录统计，不包括冲正(分)\n\t\t\t"),
+        _c("p", { staticStyle: { "line-height": "25px" } }, [
+          _c("span", { staticClass: "mdui-m-r-3" }, [
+            _vm._v("收入：" + _vm._s(_vm.amount_into))
+          ]),
+          _c("span", { staticClass: "mdui-m-r-3" }, [
+            _vm._v("支出：" + _vm._s(_vm.amount_out))
+          ])
+        ])
       ])
     ]),
     _vm._v(" "),
@@ -764,21 +784,21 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-938566f6", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-5ba2ec38", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 73:
+/***/ 75:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(353)
+var __vue_script__ = __webpack_require__(356)
 /* template */
-var __vue_template__ = __webpack_require__(354)
+var __vue_template__ = __webpack_require__(357)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -795,7 +815,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/transfer/index.vue"
+Component.options.__file = "resources\\assets\\js\\components\\transfer\\index.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -804,9 +824,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-938566f6", Component.options)
+    hotAPI.createRecord("data-v-5ba2ec38", Component.options)
   } else {
-    hotAPI.reload("data-v-938566f6", Component.options)
+    hotAPI.reload("data-v-5ba2ec38", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

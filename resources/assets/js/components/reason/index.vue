@@ -187,14 +187,14 @@
 			add(id){
 				let t = this;
 				t.dialog.open();
-				get('/reason/detail',{id:id},function(data){
+				t.$API.get('/reason/index/'+id).then(function(data){
 					t.form = data.detail;
 					t.max = data.max;
 				});
 			},
 			add_submit(){
 				let t = this;
-				post('/reason',t.form,function(){
+				t.$API.post('/reason/index',t.form).then(function(){
 					t.dialog.close();
 					t.init();
 				});
@@ -202,7 +202,7 @@
 			del(id){
 				let t = this;
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认？', function(){
-					del('/reason',{id:id},function(){
+					t.$API.delete('/reason/index',{id:id}).then(function(){
 						t.init();
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
@@ -224,7 +224,7 @@
 			},
 			init(){
 				let t = this;
-				get('/reason',t.keyword,function(data){
+				t.$API.get('/reason/index',t.keyword).then(function(data){
 					t.list = data.list;
 					t.merchant = data.merchant;
 					t.user_type = data.user_type;

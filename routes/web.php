@@ -46,40 +46,41 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	});
 	
 	Route::prefix('merchant')->name('admin.接口商户管理.')->group(function(){
-		Route::get('/','MerchantController@index')->name('menu.商户列表');
-		Route::post('/','MerchantController@add');
-		Route::delete('/','MerchantController@delete');
-		Route::get('detail','MerchantController@detail');
+		Route::get('index','MerchantController@index')->name('menu.商户列表');
+		Route::post('index','MerchantController@add');
+		Route::delete('index','MerchantController@delete');
+		Route::get('index/{id?}','MerchantController@detail');
+		Route::get('behavior','MerchantController@behavior')->name('menu.接口记录');
 	});
 	
 	Route::prefix('pay')->name('admin.支付秘钥管理.')->group(function(){
-		Route::get('/','PayController@index')->name('menu.商户支付配置');
-		Route::post('/','PayController@add');
-		Route::delete('/','PayController@delete');
-		Route::get('detail','PayController@detail');
+		Route::get('index','PayController@index')->name('menu.商户支付配置');
+		Route::post('index','PayController@add');
+		Route::delete('index','PayController@delete');
+		Route::get('index/{id?}','PayController@detail');
 	});
 	
 	Route::prefix('transfer')->name('admin.业务流水管理.')->group(function(){
-		Route::get('/','TransferController@index')->name('menu.流水记录');
+		Route::get('index','TransferController@index')->name('menu.流水记录');
 		Route::post('untransfer','TransferController@untransfer');
 	});
 	
 	Route::prefix('reason')->name('admin.转账行为管理.')->group(function(){
-		Route::get('/','ReasonController@index')->name('menu.转账reason');
-		Route::get('detail','ReasonController@detail');
-		Route::post('/','ReasonController@add');
-		Route::delete('/','ReasonController@delete');
+		Route::get('index','ReasonController@index')->name('menu.转账reason');
+		Route::post('index','ReasonController@add');
+		Route::delete('index','ReasonController@delete');
+		Route::get('index/{id?}','ReasonController@detail');
 	});
 	
 	Route::prefix('purse')->name('admin.业务资金管理.')->group(function(){
 		Route::get('user_type','PurseController@user_type')->name('menu.身份类型列表');
-		Route::get('user_type_detail','PurseController@user_type_detail');
 		Route::post('user_type','PurseController@user_type_add');
 		Route::delete('user_type','PurseController@user_type_delete');
+		Route::get('user_type/{id?}','PurseController@user_type_detail');
 		Route::get('purse_type','PurseController@purse_type')->name('menu.钱包类型列表');
-		Route::get('purse_type_detail','PurseController@purse_type_detail');
 		Route::post('purse_type','PurseController@purse_type_add');
 		Route::delete('purse_type','PurseController@purse_type_delete');
+		Route::get('purse_type/{id?}','PurseController@purse_type_detail');
 		Route::get('freeze','PurseController@freeze')->name('menu.余额冻结记录');
 		Route::post('unfreeze','PurseController@unfreeze');
 		Route::get('purse','PurseController@purse')->name('menu.身份类型余额');
@@ -87,7 +88,7 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 	});
 	
 	Route::prefix('order')->name('admin.订单管理.')->group(function(){
-		Route::get('/','OrderController@index')->name('menu.订单列表');
+		Route::get('index','OrderController@index')->name('menu.订单列表');
 		Route::post('notify','OrderController@notify');
 		Route::post('refund','OrderController@refund');
 		Route::post('complete','OrderController@complete');
@@ -105,31 +106,30 @@ Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->grou
 		Route::get('reason','ReportController@reason')->name('menu.流水统计');
 		Route::get('reason_detail','ReportController@reason_detail');
 		Route::get('purse','ReportController@purse')->name('menu.钱包统计');
-		Route::get('purse_detail','ReportController@purse_detail');
+		Route::get('purse/{id?}','ReportController@purse_detail');
 	});
 	
 	Route::prefix('export')->name('admin.导出任务.')->group(function(){
-		Route::get('/','ExportController@index')->name('menu.任务列表');
-		Route::post('/','ExportController@increment');
-		Route::delete('/','ExportController@delete');
+		Route::get('index','ExportController@index')->name('menu.任务列表');
+		Route::post('increment','ExportController@increment');
+		Route::delete('index','ExportController@delete');
 	});
 	
 	Route::prefix('system')->name('admin.系统管理.')->group(function(){
 		Route::get('config','SystemController@config')->name('menu.系统设置');
-		Route::get('config_detail','SystemController@config_detail');
 		Route::post('config','SystemController@config_add');
 		Route::delete('config','SystemController@config_delete');
+		Route::get('config/{id?}','SystemController@config_detail');
 		Route::post('config_rank','SystemController@config_rank');
-		Route::get('behavior','SystemController@behavior')->name('menu.行为记录');
 	});
 	
 	Route::prefix('rule')->name('admin.权限管理.')->group(function(){
 		Route::get('user','RuleController@user')->name('menu.用户列表');
-		Route::get('user_detail','RuleController@user_detail');
+		Route::get('user/{id?}','RuleController@user_detail');
 		Route::post('user','RuleController@user_add');
 		Route::delete('user','RuleController@user_delete');
 		Route::get('group','RuleController@group')->name('menu.权限组');
-		Route::get('group_detail','RuleController@group_detail');
+		Route::get('group/{id?}','RuleController@group_detail');
 		Route::post('group','RuleController@group_add');
 		Route::delete('group','RuleController@group_delete');
 		Route::post('password_reset','RuleController@password_reset');

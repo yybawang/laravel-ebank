@@ -29,19 +29,23 @@ export default new VueRouter({
 			component: resolve => void(require(['../components/index/sysinfo.vue'], resolve))
 		},
 		{
-			path: '/pay',
+			path: '/pay/index',
 			component: resolve => void(require(['../components/pay/index.vue'], resolve))
 		},
 		{
-			path: '/merchant',
+			path: '/merchant/index',
 			component: resolve => void(require(['../components/merchant/index.vue'], resolve))
 		},
 		{
-			path: '/transfer',
+			path: '/merchant/behavior',
+			component: resolve => void(require(['../components/merchant/behavior.vue'], resolve))
+		},
+		{
+			path: '/transfer/index',
 			component: resolve => void(require(['../components/transfer/index.vue'], resolve))
 		},
 		{
-			path: '/reason',
+			path: '/reason/index',
 			component: resolve => void(require(['../components/reason/index.vue'], resolve))
 		},
 		{
@@ -85,11 +89,11 @@ export default new VueRouter({
 			component: resolve => void(require(['../components/withdraw/wechat.vue'], resolve))
 		},
 		{
-			path: '/order',
+			path: '/order/index',
 			component: resolve => void(require(['../components/order/index.vue'], resolve))
 		},
 		{
-			path: '/export',
+			path: '/export/index',
 			component: resolve => void(require(['../components/export/index.vue'], resolve))
 		},
 		{
@@ -103,10 +107,6 @@ export default new VueRouter({
 		{
 			path: '/system/config',
 			component: resolve => void(require(['../components/system/config.vue'], resolve))
-		},
-		{
-			path: '/system/behavior',
-			component: resolve => void(require(['../components/system/behavior.vue'], resolve))
 		}
 	]
 });

@@ -42,11 +42,11 @@ $app->singleton(
 );
 
 // 每天日志记录，重写权限参数，2018-08-26 修改为单文件日志
-$log_filepath= storage_path('logs').'/laravel-'.time2date_date().'.log';
-if(!file_exists($log_filepath)){
-	file_put_contents($log_filepath,'',FILE_APPEND);
-	chmod($log_filepath,0777);
-}
+//$log_filepath= storage_path('logs').'/laravel-'.time2date_date().'.log';
+//if(!file_exists($log_filepath)){
+//	file_put_contents($log_filepath,'',FILE_APPEND);
+//	chmod($log_filepath,0777);
+//}
 
 /*
 |--------------------------------------------------------------------------

@@ -5,6 +5,7 @@ use App\Http\Requests\BasicRequest;
 use App\Libraries\Bank\EBank;
 use App\Libraries\ExportCsv;
 use App\Models\FundMerchant;
+use App\Models\FundOrder;
 use App\Models\FundPurseType;
 use App\Models\FundTransfer;
 use App\Models\FundTransferReason;
@@ -19,15 +20,18 @@ class TransferController extends CommonController {
 	 * @return array
 	 */
 	public function index(BasicRequest $request){
+		$FundOrder = new FundOrder();
+		$data['payments'] = $FundOrder->payments;
 		$data['user_type'] = FundUserType::active()->pluck('name','id');
 		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
 		$data['merchant'] = FundMerchant::active()->pluck('name','id');
 		$data['reason'] = FundTransferReason::where(['status'=>1])->pluck('name','reason');
-		$model = FundTransfer::select(DB::raw('*,1 as more'))->when($request->input('user_id'),function($query) use ($request){
-			$query->where(function($query) use ($request){
-				$query->where('out_user_id','like','%'.$request->input('user_id').'%')->orWhere('into_user_id','like','%'.$request->input('user_id').'%');
-			});
-		})
+		$model = FundTransfer::select(DB::raw('*,1 as more'))
+			->when($request->input('user_id'),function($query) use ($request){
+				$query->where(function($query) use ($request){
+					$query->where('out_user_id',$request->input('user_id'))->orWhere('into_user_id',$request->input('user_id'));
+				});
+			})
 			->when($request->input('purse_type_id'),function($query) use ($request){
 				$query->where(function($query) use ($request){
 					$query->whereIn('out_purse_type_id',$request->input('purse_type_id'))->orWhere(function($query) use ($request){
@@ -53,14 +57,21 @@ class TransferController extends CommonController {
 			})
 			->orderBy('id','desc');
 		if($request->input('export')){
-			$model2 = clone $model;
-			(new ExportCsv())
-				->name('导出资金流水')
-				->field(['id'=>'转账ID','reason'=>'转账reason行为','amount'=>'转账金额','out_user_id'=>'出账用户ID','out_user_type_id'=>'出账身份类型ID','out_purse_type_id'=>'出账钱包类型ID','out_purse_id'=>'出账钱包ID','out_balance'=>'出账后余额','into_user_id'=>'进账用户ID','into_user_type_id'=>'进账身份类型ID','into_purse_type_id'=>'进账钱包类型ID','into_purse_id'=>'进账钱包ID','into_balance'=>'进账后余额','parent_id'=>'父关联转账ID','status'=>'状态：1有效，2已冲正','detail'=>'detail','remarks'=>'备注','created_at'=>'创建时间'])
-//				->data($model2/*->get()->each(function($v){$v->out_user_type_name = $v->out_user_type->name;$v->out_purse_type_name = $v->out_purse_type->name;$v->into_user_type_name = $v->into_user_type->name;$v->into_purse_type_name = $v->into_purse_type->name;})*/)
-				->data($model2)
-				->save();
+			$model_export = clone $model;
+			$FundTransfer = new FundTransfer();
+			$FundTransfer->export($model_export);
 		}
+		// 进账出账金额总计
+		$model_into = clone $model;
+		$model_out = clone $model;
+		$data['amount_into'] = $model_into->active()
+			->when($request->input('user_id'),function($query) use ($request){
+				$query->where('into_user_id','=',$request->input('user_id'));
+			})->sum('amount');
+		$data['amount_out'] = $model_out->active()
+			->when($request->input('user_id'),function($query) use ($request){
+				$query->where('out_user_id','=',$request->input('user_id'));
+			})->sum('amount');
 		$data['list'] = $model->pages();
 		return json_success('OK',$data);
 	}

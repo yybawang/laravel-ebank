@@ -137,13 +137,13 @@
 			add(id){
 				let t = this;
 				t.dialog.open();
-				get('/purse/purse_type_detail',{id:id},function(data){
+				t.$API.get('/purse/purse_type/'+id).then(function(data){
 					t.form = data;
 				});
 			},
 			add_submit(){
 				let t = this;
-				post('/purse/purse_type',t.form,function(){
+				t.$API.post('/purse/purse_type',t.form).then(function(){
 					t.dialog.close();
 					t.init();
 				});
@@ -151,7 +151,7 @@
 			del(id){
 				let t = this;
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认？', function(){
-					del('/purse/purse_type',{id:id},function(){
+					t.$API.delete('/purse/purse_type',{id:id}).then(function(){
 						t.init();
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
@@ -162,7 +162,7 @@
 			},
 			init(){
 				let t = this;
-				get('/purse/purse_type',t.keyword,function(data){
+				t.$API.get('/purse/purse_type',t.keyword).then(function(data){
 					t.list = data;
 				});
 			}

@@ -96,8 +96,7 @@ class PurseController extends CommonController {
 		return json_success('OK',$data);
 	}
 	
-	public function user_type_detail(BasicRequest $request){
-		$id = $request->input('id');
+	public function user_type_detail(BasicRequest $request,int $id){
 		$data = FundUserType::firstOrNew(['id'=>$id],[
 			'name'		=> '',
 			'alias'		=> '',
@@ -116,7 +115,7 @@ class PurseController extends CommonController {
 		$id = FundUserType::updateOrCreate(['id'=>$post['id']],$post)->id;
 		// 钱包金额初始化
 		$bank = new EBank();
-		$bank->init();
+		$bank->initPurse();
 		return json_return($id,'','',['id'=>$id]);
 	}
 	
@@ -142,8 +141,7 @@ class PurseController extends CommonController {
 			->pages();
 		return json_success('OK',$data);
 	}
-	public function purse_type_detail(BasicRequest $request){
-		$id = $request->input('id');
+	public function purse_type_detail(BasicRequest $request,int $id){
 		$data = FundPurseType::firstOrNew(['id'=>$id],[
 			'name'		=> '',
 			'alias'		=> '',
@@ -162,7 +160,7 @@ class PurseController extends CommonController {
 		$id = FundPurseType::updateOrCreate(['id'=>$post['id']],$post)->id;
 		// 钱包金额初始化
 		$bank = new EBank();
-		$bank->init();
+		$bank->initPurse();
 		return json_return($id,'','',['id'=>$id]);
 	}
 	

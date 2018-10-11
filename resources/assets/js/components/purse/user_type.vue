@@ -137,13 +137,13 @@
 			add(id){
 				let t = this;
 				t.dialog.open();
-				get('/purse/user_type_detail',{id:id},function(data){
+				t.$API.get('/purse/user_type/'+id).then(function(data){
 					t.form = data;
 				});
 			},
 			add_submit(){
 				let t = this;
-				post('/purse/user_type',t.form,function(){
+				t.$API.post('/purse/user_type').then(function(){
 					t.dialog.close();
 					t.init();
 				});
@@ -151,7 +151,7 @@
 			del(id){
 				let t = this;
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认？', function(){
-					del('/purse/user_type',{id:id},function(){
+					t.$API.delete('/purse/user_type',{id:id}).then(function(){
 						t.init();
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
@@ -162,7 +162,7 @@
 			},
 			init(){
 				let t = this;
-				get('/purse/user_type',t.keyword,function(data){
+				t.$API.get('/purse/user_type',t.keyword).then(function(data){
 					t.list = data;
 				});
 			}

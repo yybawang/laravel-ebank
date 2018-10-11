@@ -34,7 +34,7 @@ class SandboxController extends Controller
 //		$bank = new EBankSdk();
 		$bank = new EBank();
 		$sdk = new EBankSdk();
-//		$bank->init();
+//		$bank->initPurse();
 //		$s = $bank->userPurseDetail(4);
 //		$s = $bank->unfreeze(1);
 		/**

@@ -1,6 +1,6 @@
 webpackJsonp([7],{
 
-/***/ 385:
+/***/ 388:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -154,35 +154,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		add: function add(id) {
 			var t = this;
 			t.dialog.open();
-			get('/system/config_detail', { id: id }, function (data) {
+			t.$API.get('/system/config/' + id).then(function (data) {
 				t.form = data;
 			});
 		},
 		add_submit: function add_submit() {
 			var t = this;
-			post('/system/config', t.form, function () {
+			t.$API.post('/system/config', t.form).then(function () {
 				t.dialog.close();
 				t.init();
 			});
 		},
-		del: function (_del) {
-			function del(_x) {
-				return _del.apply(this, arguments);
-			}
-
-			del.toString = function () {
-				return _del.toString();
-			};
-
-			return del;
-		}(function (id) {
+		del: function del(id) {
 			var t = this;
 			mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认?', function () {
-				del('/system/config', { id: id }, function () {
+				t.$API.delete('/system/config', { id: id }).then(function () {
 					t.init();
 				});
 			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
-		}),
+		},
 		search: function search(page) {
 			this.keyword.page = page;
 			this.init();
@@ -190,13 +180,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		rank: function rank(id, action) {
 			var t = this;
 			tips('更新排序中...');
-			post('/system/config_rank', { id: id, action: action }, function (data) {
+			t.$API.post('/system/config_rank', { id: id, action: action }).then(function (data) {
 				t.init();
 			});
 		},
 		init: function init() {
 			var t = this;
-			get('/system/config', t.keyword, function (data) {
+			t.$API.get('/system/config', t.keyword).then(function (data) {
 				t.list = data.list;
 			});
 		}
@@ -210,7 +200,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 386:
+/***/ 389:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -653,21 +643,21 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-47c5859b", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-eb60e770", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 89:
+/***/ 91:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(385)
+var __vue_script__ = __webpack_require__(388)
 /* template */
-var __vue_template__ = __webpack_require__(386)
+var __vue_template__ = __webpack_require__(389)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -684,7 +674,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/system/config.vue"
+Component.options.__file = "resources\\assets\\js\\components\\system\\config.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -693,9 +683,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-47c5859b", Component.options)
+    hotAPI.createRecord("data-v-eb60e770", Component.options)
   } else {
-    hotAPI.reload("data-v-47c5859b", Component.options)
+    hotAPI.reload("data-v-eb60e770", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

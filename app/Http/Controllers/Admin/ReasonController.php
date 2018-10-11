@@ -37,8 +37,7 @@ class ReasonController extends CommonController {
 		return json_success('OK',$data);
 	}
 	
-	public function detail(BasicRequest $request){
-		$id = $request->input('id');
+	public function detail(BasicRequest $request,int $id){
 		$max = FundTransferReason::orderByDesc('id')->value('id');	// 找出最大的ID，用于自动生成reason
 		$max++;
 		$data['detail'] = FundTransferReason::firstOrNew(['id'=>$id],[

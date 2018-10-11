@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\BasicRequest;
 use App\Libraries\Bank\EBank;
 use App\Libraries\Bank\PayFieldsConfig;
+use App\Models\FundBehavior;
 use App\Models\FundMerchant;
 use App\Models\FundPayConfig;
 
@@ -31,8 +32,7 @@ class MerchantController extends CommonController {
 		return json_success('OK',$data);
 	}
 	
-	public function detail(BasicRequest $request){
-		$id = $request->input('id');
+	public function detail(BasicRequest $request,int $id){
 		$data = FundMerchant::firstOrNew(['id'=>$id],
 			[
 				'name'		=> '',
@@ -56,7 +56,7 @@ class MerchantController extends CommonController {
 		$id = FundMerchant::updateOrCreate(['id'=>$post['id']],$post)->id;
 		// 钱包金额初始化
 		$bank = new EBank();
-		$bank->init();
+		$bank->initPurse();
 		return json_return($id,'','',['id'=>$id]);
 	}
 	
@@ -64,5 +64,23 @@ class MerchantController extends CommonController {
 		$id = $request->input('id');
 		$var = FundMerchant::destroy($id);
 		return json_return($var);
+	}
+	
+	
+	/**
+	 * 行为记录列表
+	 * @param BasicRequest $request
+	 * @return array
+	 */
+	public function behavior(BasicRequest $request){
+		$data['merchant'] = FundMerchant::pluck('name','appid');
+		$data['list'] = FundBehavior::when($request->input('url'),function($query) use ($request){
+			$query->where('url','like','%'.$request->input('url').'%');
+		})
+			->when($request->input('status'),function($query) use ($request){
+				$query->whereIn('status',$request->input('status'));
+			})
+			->orderBy('id','desc')->pages();
+		return json_success('OK',$data);
 	}
 }

@@ -24,7 +24,9 @@ import App from './App.vue';
 import router from './config/router.js'
 window.router = router;
 import './config/function.js'
+import API from './config/api'
 
+Vue.prototype.$API = API();
 
 const app = new Vue({
     el: '#app',

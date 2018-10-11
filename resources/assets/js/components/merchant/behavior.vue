@@ -2,7 +2,7 @@
 	<div class="purse_user">
 		<div class="mdui-typo">
 			<blockquote class="blockquote_normal">
-				注：此行为数据只统计API模块接口，其他暂不列入范围内
+				注：此接口数据只统计商户API模块(EBankSdk.php)接口，其他暂不列入范围内
 			</blockquote>
 			<blockquote class="blockquote_normal">
 				<p>
@@ -124,7 +124,7 @@
 			},
 			init(){
 				let t = this;
-				get('/system/behavior',t.keyword,function(data){
+				t.$API.get('/merchant/behavior',t.keyword).then(function(data){
 					t.list = data.list;
 					t.merchant = data.merchant;
 				});

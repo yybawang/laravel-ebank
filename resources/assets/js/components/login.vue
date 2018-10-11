@@ -42,7 +42,7 @@
 			},
 			submit(){
 				let t = this;
-				post('/login',this.form,function(data,message){
+				t.$API.post('/login',this.form).then(function(data,message){
 					tips(message);
 					t.$emit('init');
 					t.$router.push({path:'/welcome'});

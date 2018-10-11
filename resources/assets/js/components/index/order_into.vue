@@ -82,7 +82,7 @@
 				],
 				series : []
 			};
-			get('/welcome',{},function(data){
+			t.$API.get('/welcome').then(function(data){
 				let payments = data.payments;
 				let into = data.into;
 				order_options.xAxis[0].data = data.columns;

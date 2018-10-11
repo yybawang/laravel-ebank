@@ -28,8 +28,7 @@ class RuleController extends CommonController {
 		return json_success('OK',$data);
 	}
 	
-	public function user_detail(BasicRequest $request){
-		$id = $request->input('id');
+	public function user_detail(BasicRequest $request,int $id){
 		$data = FundAdmin::firstOrNew(['id'=>$id],[
 			'name'		=> '',
 			'password'	=> '',
@@ -61,7 +60,7 @@ class RuleController extends CommonController {
 		return json_return($id,'','',['id'=>$id]);
 	}
 	
-	public function user_del(BasicRequest $request){
+	public function user_delete(BasicRequest $request){
 		$id = $request->input('id');
 		$var = FundAdmin::destroy($id);
 		return json_return($var);
@@ -82,8 +81,7 @@ class RuleController extends CommonController {
 		return json_success('OK',$data);
 	}
 	
-	public function group_detail(BasicRequest $request){
-		$id = $request->input('id');
+	public function group_detail(BasicRequest $request,int $id){
 		$data = FundAdminGroup::firstOrNew(['id'=>$id],[
 			'name'		=> '',
 			'rule'		=> '[]',
@@ -102,7 +100,7 @@ class RuleController extends CommonController {
 		return json_return($id,'','',['id'=>$id]);
 	}
 	
-	public function group_del(BasicRequest $request){
+	public function group_delete(BasicRequest $request){
 		$id = $request->input('id');
 		$var = FundAdminGroup::destroy($id);
 		return json_return($var);

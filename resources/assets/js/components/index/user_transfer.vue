@@ -87,7 +87,7 @@
 				],
 				series : []
 			};
-			get('/user_transfer',{},function(data){
+			t.$API.get('/user_transfer').then(function(data){
 				let dates = data.dates;
 				let purse_types = data.purse_types;
 				let out = data.out;

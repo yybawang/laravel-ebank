@@ -120,7 +120,7 @@
 			success(id){
 				let t = this;
 				mdui.confirm('确认后将从用户对应钱包扣除相应金额，确认请点击【确定】按钮', '已打款？', function(){
-					post('/withdraw/success',{id:[id],type:'wechat'},function(){
+					t.$API.post('/withdraw/success',{id:[id],type:'wechat'}).then(function(){
 						t.init();
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
@@ -129,11 +129,10 @@
 				let t = this;
 				mdui.prompt('标记为失败后，对应申请金额会原路返还给用户，知悉后请填写【失败原因】', '填写失败原因', function(value){
 					if(value){
-						post('/withdraw/fail',{id:id,remarks:value,type:'wechat'},function(){
+						t.$API.post('/withdraw/fail',{id:id,remarks:value,type:'wechat'}).then(function(){
 							t.init();
 						});
 					}
-					
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
 			},
 			check_all(){
@@ -153,10 +152,10 @@
 				let t = this;
 				mdui.confirm('确认后将从用户对应钱包扣除相应金额，确认请点击【确定】按钮', '将进行批量打款成功操作', function(){
 					let waiting = mdui.alert('请耐心等待批量作业完成，切勿关闭网页等操作','批量处理中...',function(){},{history:false,confirmText:'',modal:true,closeOnEsc:false});
-					post('/withdraw/success',{id:t.success_all_id,type:'wechat'},function(){
+					t.$API.post('/withdraw/success',{id:t.success_all_id,type:'wechat'}).then(function(){
 						t.init();
 						waiting.close();
-					},function(){
+					}).catch(function(){
 						waiting.close();
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
@@ -174,10 +173,11 @@
 				this.keyword.page = 1;
 				this.keyword.merchant_id = id;
 				this.init();
+				return false;
 			},
 			init(){
 				let t = this;
-				get('/withdraw/wechat',t.keyword,function(data){
+				t.$API.get('/withdraw/wechat',t.keyword).then(function(data){
 					t.list = data.list;
 					t.merchant = data.merchant;
 					t.purse_type = data.purse_type;

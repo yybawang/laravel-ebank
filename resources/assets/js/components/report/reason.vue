@@ -161,7 +161,7 @@
 			},
 			detail_init(){
 				let t = this;
-				get('/report/reason_detail',t.dialog_keyword,function(data){
+				t.$API.get('/report/reason_detail',t.dialog_keyword).then(function(data){
 					t.dialog_list = data;
 					t.$nextTick(function(){
 						t.dialog.open();
@@ -179,7 +179,7 @@
 			},
 			init(){
 				let t = this;
-				get('/report/reason',t.keyword,function(data){
+				t.$API.get('/report/reason',t.keyword).then(function(data){
 					t.list = data.list;
 					t.merchant = data.merchant;
 					t.user_type = data.user_type;
