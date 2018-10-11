@@ -45,7 +45,7 @@
 				t.$API.post('/login',this.form).then(function(data,message){
 					tips(message);
 					t.$emit('init');
-					t.$router.push({path:'/welcome'});
+					t.$router.push({name:'welcome'});
 				});
 			}
 		},

@@ -95,7 +95,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			t.$API.post('/login', this.form).then(function (data, message) {
 				tips(message);
 				t.$emit('init');
-				t.$router.push({ path: '/welcome' });
+				t.$router.push({ name: 'welcome' });
 			});
 		}
 	},
