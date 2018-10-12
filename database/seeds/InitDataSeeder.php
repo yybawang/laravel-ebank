@@ -38,7 +38,7 @@ class InitDataSeeder extends Seeder
 			'name'		=> '系统商户',
 			'pay_config'=> [],
 			'status'	=> 1,
-			'remarks'	=> '系统保留支付配置',
+			'remarks'	=> '初始支付配置',
 		])->id;
 		
 		FundMerchant::create([
@@ -47,7 +47,7 @@ class InitDataSeeder extends Seeder
 			'appid'		=> 'ebank10000',
 			'secret'	=> '10000',
 			'status'	=> 1,
-			'remarks'	=> '系统保留商户',
+			'remarks'	=> '系统初始商户',
 		]);
 		
 		FundPurseType::create([
@@ -74,19 +74,19 @@ class InitDataSeeder extends Seeder
 			'name'		=> '中央银行',
 			'alias'		=> 'central',
 			'status'	=> 1,
-			'remarks'	=> '系统保留类型',
+			'remarks'	=> '三方金额入账资金存放',
 		]);
 		FundUserType::create([
 			'name'		=> '系统银行',
 			'alias'		=> 'system',
 			'status'	=> 1,
-			'remarks'	=> '系统保留类型',
+			'remarks'	=> '业务流水出入资金存放',
 		]);
 		FundUserType::create([
 			'name'		=> '用户银行',
 			'alias'		=> 'user',
 			'status'	=> 1,
-			'remarks'	=> '系统保留类型',
+			'remarks'	=> '用户关联出入资金存放',
 		]);
 	}
 }
