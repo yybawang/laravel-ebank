@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.card[data-v-a0facede] {\n  min-width: 180px;\n}\n.content-space[data-v-a0facede] {\n  padding: 0 0.5rem;\n  height: 7.3rem;\n  text-align: right;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end;\n}\n.content-space-icon[data-v-a0facede] {\n  font-size: 3rem;\n}\n.fade-enter-active[data-v-a0facede], .fade-leave-active[data-v-a0facede] {\n  -webkit-transition: opacity 1s;\n  transition: opacity 1s;\n}\n.fade-enter[data-v-a0facede], .fade-leave-to[data-v-a0facede] {\n  opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\n.card[data-v-a0facede] {\n  min-width: 180px;\n}\n.content-space[data-v-a0facede] {\n  padding: 0 0.5rem;\n  height: 7.3rem;\n  text-align: right;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end;\n}\n.content-space-icon[data-v-a0facede] {\n  font-size: 3rem;\n}\n.fade-enter-active[data-v-a0facede] {\n  -webkit-transition: opacity 1s;\n  transition: opacity 1s;\n}\n.fade-enter[data-v-a0facede], .fade-leave-to[data-v-a0facede] {\n  opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -75,12 +75,134 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
 		return {
-			list: []
+			list: [{
+				"name": "今日下单数量",
+				"sum": '',
+				"icon": "trending_up",
+				"title": "已支付并且有效的订单",
+				"backgroundColor": "#F0AD4E"
+			}, {
+				"name": "今日下单金额",
+				"sum": '',
+				"icon": "account_balance",
+				"title": "已支付并且有效的订单",
+				"backgroundColor": "#F0AD4E"
+			}, {
+				"name": "昨日下单数量",
+				"sum": '',
+				"icon": "trending_up",
+				"title": "已支付并且有效的订单",
+				"backgroundColor": "#F0AD4E"
+			}, {
+				"name": "昨日下单金额",
+				"sum": '',
+				"icon": "account_balance",
+				"title": "已支付并且有效的订单",
+				"backgroundColor": "#F0AD4E"
+			}, {
+				"name": "今日提现数量",
+				"sum": '',
+				"icon": "trending_up",
+				"title": "申请提现成功",
+				"backgroundColor": "#00A98E"
+			}, {
+				"name": "今日提现金额",
+				"sum": '',
+				"icon": "account_balance_wallet",
+				"title": "申请提现成功",
+				"backgroundColor": "#00A98E"
+			}, {
+				"name": "昨日提现数量",
+				"sum": '',
+				"icon": "trending_up",
+				"title": "申请提现成功",
+				"backgroundColor": "#00A98E"
+			}, {
+				"name": "昨日提现金额",
+				"sum": '',
+				"icon": "account_balance_wallet",
+				"title": "申请提现成功",
+				"backgroundColor": "#00A98E"
+			}, {
+				"name": "今日提现待处理",
+				"sum": '',
+				"icon": "account_balance_wallet",
+				"title": "申请提现中",
+				"backgroundColor": "#5CB85C"
+			}, {
+				"name": "昨日提现待处理",
+				"sum": '',
+				"icon": "account_balance_wallet",
+				"title": "申请提现中",
+				"backgroundColor": "#5CB85C"
+			}, {
+				"name": "今日用户新增",
+				"sum": '',
+				"icon": "account_circle",
+				"title": "新钱包数据",
+				"backgroundColor": "#337AB7"
+			}, {
+				"name": "昨日用户新增",
+				"sum": '',
+				"icon": "account_circle",
+				"title": "新钱包数据",
+				"backgroundColor": "#337AB7"
+			}, {
+				"name": "接口商户数量",
+				"sum": '',
+				"icon": "people",
+				"title": "API接口商户",
+				"backgroundColor": "#337AB7"
+			}, {
+				"name": "今日流水记录",
+				"sum": '',
+				"icon": "swap_horiz",
+				"title": "有效转账记录",
+				"backgroundColor": "#32C24D"
+			}, {
+				"name": "昨日流水记录",
+				"sum": '',
+				"icon": "swap_horiz",
+				"title": "有效转账记录",
+				"backgroundColor": "#32C24D"
+			}, {
+				"name": "今日接口错误",
+				"sum": '',
+				"icon": "bug_report",
+				"title": "商户API未成功返回",
+				"backgroundColor": "#D9534F"
+			}],
+			order_notify: []
 		};
 	},
 
@@ -88,7 +210,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		init: function init() {
 			var t = this;
 			t.$API.get('/index/welcome').then(function (data) {
-				t.list = data;
+				for (var i in data) {
+					t.list[i].sum = data[i].sum;
+				}
+			});
+			t.$API.get('/index/order_unnotify').then(function (data) {
+				t.order_notify = data;
 			});
 		}
 	},
@@ -215,19 +342,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			type: Number,
 			default: 1
 		},
-		value: {
-			type: Number,
-			default: 0
-		}
+		value: ''
 	},
 	data: function data() {
 		return {
-			number: 0
+			number: '--'
 		};
 	},
 
+	watch: {
+		value: function value(n, o) {
+			this.numberGrow();
+		}
+	},
 	methods: {
-		numberGrow: function numberGrow(ele) {
+		numberGrow: function numberGrow() {
+			if (this.value === '') {
+				return;
+			}
 			var _this = this,
 			    point = _this.value.toString().split('.')[1] || 0,
 			    point_length = point.length;
@@ -243,9 +375,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				_this.number = start.toFixed(point_length).toString().replace(/(\d)(?=(?:\d{3}[+]?)+$)/g, '$1,');
 			}, 10);
 		}
-	},
-	mounted: function mounted() {
-		this.numberGrow(this.$refs.numberGrow);
 	}
 });
 
@@ -286,86 +415,121 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "welcome" },
-    [
-      _c("transition", { attrs: { appear: "", name: "fade" } }, [
-        _vm.list.length > 0
-          ? _c("div", { staticClass: "card-group" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "mdui-row-xs-2 mdui-row-sm-3 mdui-row-md-4 mdui-row-lg-5 mdui-row-xl-6"
-                },
-                _vm._l(_vm.list, function(val, key) {
-                  return _c("div", { staticClass: "mdui-col" }, [
-                    _c("div", { staticClass: "mdui-card mdui-m-b-2 card" }, [
-                      _c("div", { staticClass: "mdui-card-media" }, [
+  return _c("transition", { attrs: { appear: "", name: "fade" } }, [
+    _c("div", { staticClass: "welcome" }, [
+      _vm.list.length > 0
+        ? _c("div", { staticClass: "card-group" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "mdui-row-xs-2 mdui-row-sm-3 mdui-row-md-4 mdui-row-lg-5 mdui-row-xl-6"
+              },
+              _vm._l(_vm.list, function(val, key) {
+                return _c("div", { staticClass: "mdui-col" }, [
+                  _c("div", { staticClass: "mdui-card mdui-m-b-2 card" }, [
+                    _c("div", { staticClass: "mdui-card-media" }, [
+                      _c("div", { staticClass: "mdui-valign content-space" }, [
                         _c(
-                          "div",
-                          { staticClass: "mdui-valign content-space" },
-                          [
-                            _c(
-                              "i",
-                              {
-                                staticClass:
-                                  "mdui-icon material-icons content-space-icon",
-                                style: { color: val.backgroundColor }
-                              },
-                              [_vm._v(_vm._s(val.icon))]
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
+                          "i",
                           {
                             staticClass:
-                              "mdui-card-media-covered mdui-card-media-covered-transparent"
+                              "mdui-icon material-icons content-space-icon",
+                            style: { color: val.backgroundColor }
                           },
-                          [
-                            _c("div", { staticClass: "mdui-card-primary" }, [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "mdui-card-primary-title mdui-text-color-red-300"
-                                },
-                                [
-                                  _c("number-grow", {
-                                    attrs: { value: val.sum }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c("div", {
-                                staticClass:
-                                  "mdui-card-primary-subtitle mdui-text-color-black",
-                                domProps: { textContent: _vm._s(val.name) }
-                              }),
-                              _vm._v(" "),
-                              _c("div", {
-                                staticClass:
-                                  "mdui-typo-caption mdui-typo-caption-opacity mdui-text-color-grey-700",
-                                domProps: { textContent: _vm._s(val.title) }
-                              })
-                            ])
-                          ]
+                          [_vm._v(_vm._s(val.icon))]
                         )
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "mdui-card-media-covered mdui-card-media-covered-transparent"
+                        },
+                        [
+                          _c("div", { staticClass: "mdui-card-primary" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "mdui-card-primary-title mdui-text-color-red-300"
+                              },
+                              [
+                                _c("number-grow", { attrs: { value: val.sum } })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("div", {
+                              staticClass:
+                                "mdui-card-primary-subtitle mdui-text-color-black",
+                              domProps: { textContent: _vm._s(val.name) }
+                            }),
+                            _vm._v(" "),
+                            _c("div", {
+                              staticClass:
+                                "mdui-typo-caption mdui-typo-caption-opacity mdui-text-color-grey-700",
+                              domProps: { textContent: _vm._s(val.title) }
+                            })
+                          ])
+                        ]
+                      )
                     ])
                   ])
-                })
-              )
+                ])
+              })
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "order-notify" }, [
+        _c("div", { staticClass: "mdui-typo mdui-color-white" }, [
+          _c(
+            "blockquote",
+            {
+              staticClass: "mdui-p-y-2 mdui-m-b-1 blockquote_normal",
+              attrs: { title: "此数据为最新20条，详情请在订单管理中查看" }
+            },
+            [_vm._v("订单支付成功但未通知商户，等待处理/排错")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("table", { staticClass: "mdui-table" }, [
+          _c("thead", [
+            _c("tr", [
+              _c("th", [_vm._v("订单ID")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("订单号")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("金额(分)")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("下单时间")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("状态")])
             ])
-          : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.order_notify, function(val, key) {
+              return _c("tr", [
+                _c("td", { domProps: { textContent: _vm._s(val.id) } }),
+                _vm._v(" "),
+                _c("td", { domProps: { textContent: _vm._s(val.order_no) } }),
+                _vm._v(" "),
+                _c("td", { domProps: { textContent: _vm._s(val.amount) } }),
+                _vm._v(" "),
+                _c("td", { domProps: { textContent: _vm._s(val.created_at) } }),
+                _vm._v(" "),
+                _c("td", [_vm._v("支付成功待通知")])
+              ])
+            })
+          )
+        ])
       ])
-    ],
-    1
-  )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

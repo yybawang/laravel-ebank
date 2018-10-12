@@ -11,18 +11,23 @@
 				type: Number,
 				default: 1
 			},
-			value: {
-				type: Number,
-				default: 0
-			}
+			value: ''
 		},
 		data (){
 			return {
-				number : 0,
+				number : '--',
+			}
+		},
+		watch : {
+			value : function(n,o){
+				this.numberGrow();
 			}
 		},
 		methods: {
-			numberGrow (ele) {
+			numberGrow () {
+				if(this.value === ''){
+					return ;
+				}
 				let _this = this,point = _this.value.toString().split('.')[1] || 0,point_length = point.length;
 				let step = ((_this.value * 10) / (_this.time * 1000));
 				let start = 0;
@@ -37,9 +42,6 @@
 				}, 10)
 			}
 		},
-		mounted () {
-			this.numberGrow(this.$refs.numberGrow)
-		}
 	}
 </script>
 

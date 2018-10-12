@@ -7,24 +7,32 @@
 				<router-link :to="{path:'/'}" class="mdui-typo-title mdui-hidden-sm-down">EBank 电子银行</router-link>
 				<div class="mdui-toolbar-spacer"></div>
 				<!--<div class="mdui-spinner mdui-spinner-colorful mdui-hidden ajax_loading"></div>-->
-				<a href="javascript:location.reload();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
+				<a href="javascript:location.reload();" class="mdui-btn mdui-btn-icon">
+					<i class="mdui-icon material-icons">refresh</i>
+				</a>
 				<span class="mdui-btn mdui-ripple" mdui-menu="{target: '.menu_user'}">
 					<i class="mdui-icon material-icons">person</i>{{user.name || '未登录'}}
 				</span>
 				<ul class="mdui-menu mdui-menu-cascade menu_user">
 					<li class="mdui-menu-item">
 						<a href="javascript:;" class="mdui-ripple">
-							<i class="mdui-menu-item-icon mdui-icon material-icons">person</i>{{user.realname || '无姓名'}}
+							<i class="mdui-menu-item-icon mdui-icon material-icons">person</i>
+							<span v-if="user.realname" v-text="user.realname"></span>
+							<span v-else class="mdui-text-color-grey-500">无姓名</span>
 						</a>
 					</li>
 					<li class="mdui-menu-item">
 						<a href="javascript:;" class="mdui-ripple">
-							<i class="mdui-menu-item-icon mdui-icon material-icons">phone_iphone</i>{{user.mobile || '无手机号'}}
+							<i class="mdui-menu-item-icon mdui-icon material-icons">phone_iphone</i>
+							<span v-if="user.mobile" v-text="user.mobile"></span>
+							<span v-else class="mdui-text-color-grey-500">无手机号</span>
 						</a>
 					</li>
 					<li class="mdui-menu-item">
 						<a href="javascript:;" class="mdui-ripple">
-							<i class="mdui-menu-item-icon mdui-icon material-icons">email</i>{{user.email || '无邮箱'}}
+							<i class="mdui-menu-item-icon mdui-icon material-icons">email</i>
+							<span v-if="user.email" v-text="user.email"></span>
+							<span v-else class="mdui-text-color-grey-500">无邮箱</span>
 						</a>
 					</li>
 					<div class="mdui-divider"></div>
@@ -35,7 +43,9 @@
 					</li>
 					<li class="mdui-menu-item">
 						<a href="javascript:;" class="mdui-ripple">
-							<i class="mdui-menu-item-icon"></i>{{user.last_login || '无历史登录'}}
+							<i class="mdui-menu-item-icon"></i>
+							<span v-if="user.last_login" v-text="user.last_login"></span>
+							<span v-else class="mdui-text-color-grey-500">无历史登录</span>
 						</a>
 					</li>
 					<div class="mdui-divider"></div>

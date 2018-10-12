@@ -33,7 +33,7 @@ class IndexController extends CommonController
 	/**
 	 * 首页报表
 	 * @param BasicRequest $request
-	 * @return string
+	 * @return array
 	 */
 	public function welcome(BasicRequest $request){
 		$today_start = date('Y-m-d');
@@ -71,34 +71,44 @@ class IndexController extends CommonController
 		$today_transfer_yesterday = (clone $FundTransferYesterday)->count();
 		
 		$data = [
-			['name' => '今日下单数量', 'sum' => $today_unified_count, 'icon' => 'trending_up', 'title' => '已支付并且有效的订单', 'backgroundColor' => '#F0AD4E',],
-			['name' => '今日下单金额', 'sum' => $today_unified_amount, 'icon' => 'account_balance', 'title' => '已支付并且有效的订单', 'backgroundColor' => '#F0AD4E',],
-			['name' => '昨日下单数量', 'sum' => $yesterday_unified_count, 'icon' => 'trending_up', 'title' => '已支付并且有效的订单', 'backgroundColor' => '#F0AD4E',],
-			['name' => '昨日下单金额', 'sum' => $yesterday_unified_amount, 'icon' => 'account_balance', 'title' => '已支付并且有效的订单', 'backgroundColor' => '#F0AD4E',],
+			['sum' => $today_unified_count,],
+			['sum' => $today_unified_amount,],
+			['sum' => $yesterday_unified_count,],
+			['sum' => $yesterday_unified_amount,],
 			
-			['name' => '今日提现数量', 'sum' => $today_withdraw_count, 'icon' => 'trending_up', 'title' => '申请提现成功', 'backgroundColor' => '#00A98E',],
-			['name' => '今日提现金额', 'sum' => $today_withdraw_amount, 'icon' => 'account_balance_wallet', 'title' => '申请提现成功', 'backgroundColor' => '#00A98E',],
-			['name' => '昨日提现数量', 'sum' => $yesterday_withdraw_count, 'icon' => 'trending_up', 'title' => '申请提现成功', 'backgroundColor' => '#00A98E',],
-			['name' => '昨日提现金额', 'sum' => $yesterday_withdraw_amount, 'icon' => 'account_balance_wallet', 'title' => '申请提现成功', 'backgroundColor' => '#00A98E',],
+			['sum' => $today_withdraw_count,],
+			['sum' => $today_withdraw_amount,],
+			['sum' => $yesterday_withdraw_count,],
+			['sum' => $yesterday_withdraw_amount,],
 			
-			['name' => '今日提现待处理', 'sum' => $today_withdraw_un_count, 'icon' => 'account_balance_wallet', 'title' => '申请提现中', 'backgroundColor' => '#5CB85C',],
-			['name' => '昨日提现待处理', 'sum' => $yesterday_withdraw_un_amount, 'icon' => 'account_balance_wallet', 'title' => '申请提现中', 'backgroundColor' => '#5CB85C',],
-			['name' => '今日用户新增', 'sum' => $today_new_user_count, 'icon' => 'account_circle', 'title' => '新钱包数据', 'backgroundColor' => '#337AB7',],
-			['name' => '昨日用户新增', 'sum' => $yesterday_new_user_count, 'icon' => 'account_circle', 'title' => '新钱包数据', 'backgroundColor' => '#337AB7',],
+			['sum' => $today_withdraw_un_count,],
+			['sum' => $yesterday_withdraw_un_amount,],
+			['sum' => $today_new_user_count,],
+			['sum' => $yesterday_new_user_count,],
 			
-			['name' => '接口商户数量', 'sum' => $merchant_count, 'icon' => 'people', 'title' => 'API接口商户', 'backgroundColor' => '#337AB7',],
-			['name' => '今日流水记录', 'sum' => $today_transfer_today, 'icon' => 'swap_horiz', 'title' => '有效转账记录', 'backgroundColor' => '#32C24D',],
-			['name' => '昨日流水记录', 'sum' => $today_transfer_yesterday, 'icon' => 'swap_horiz', 'title' => '有效转账记录', 'backgroundColor' => '#32C24D',],
-			['name' => '今日接口错误', 'sum' => $today_behavior_error_count, 'icon' => 'bug_report', 'title' => '商户API未成功返回', 'backgroundColor' => '#D9534F',],
+			['sum' => $merchant_count,],
+			['sum' => $today_transfer_today,],
+			['sum' => $today_transfer_yesterday,],
+			['sum' => $today_behavior_error_count,],
 		];
 		
 		return json_success('OK',$data);
 	}
 	
 	/**
+	 * 订单支付成功，但未通知的列表
+	 * @param BasicRequest $request
+	 * @return array
+	 */
+	public function order_unnotify(BasicRequest $request){
+		$data = FundOrder::where(['status'=>1,'pay_status'=>1,'notify_status'=>0])->orderByDesc('id')->limit(20)->get();
+		return json_success('OK',$data);
+	}
+	
+	/**
 	 * 主页，数据统计等
 	 * @param BasicRequest $request
-	 * @return string
+	 * @return array
 	 */
 	public function order_into(BasicRequest $request){
 		$days = 14;	// 15天，因为从0开始
