@@ -128,14 +128,14 @@
 					{
 						"name": "今日用户新增",
 						"sum": '',
-						"icon": "account_circle",
+						"icon": "person",
 						"title": "新钱包数据",
 						"backgroundColor": "#337AB7"
 					},
 					{
 						"name": "昨日用户新增",
 						"sum": '',
-						"icon": "account_circle",
+						"icon": "person",
 						"title": "新钱包数据",
 						"backgroundColor": "#337AB7"
 					},
