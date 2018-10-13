@@ -10,6 +10,5 @@ npm-debug.log
 /vendor
 /node_modules
 /.idea
-/public/export
 /public/storage
 
