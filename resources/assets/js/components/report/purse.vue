@@ -126,6 +126,8 @@
 					t.$nextTick(function(){
 						t.dialog.open();
 					});
+				}).catch(function(msg){
+					
 				});
 			},
 			search(page){
@@ -147,6 +149,8 @@
 					t.$nextTick(function(){
 						$('.mdui-tab').mutation();
 					});
+				}).catch(function(msg){
+					
 				});
 			}
 		},

@@ -123,6 +123,8 @@
 				}
 				order_options.title.text = '近期 '+data.days+' 天每日订单交易入账金额统计';
 				t.chart.setOption(order_options);
+			}).catch(function(msg){
+				
 			});
 			
 			window.onresize = function(){

@@ -46,6 +46,8 @@
 					tips(message);
 					t.$emit('init');
 					t.$router.push({name:'welcome'});
+				}).catch(function(msg){
+					
 				});
 			}
 		},

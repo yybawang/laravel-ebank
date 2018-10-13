@@ -170,7 +170,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					t.$API.post('/transfer/untransfer', { id: id, remarks: value }).then(function (data) {
 						mdui.alert('已成功冲正并返还金额', function () {}, { history: false });
 						t.init();
-					});
+					}).catch(function (msg) {});
 				}
 			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
 		},
@@ -195,7 +195,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				t.$nextTick(function () {
 					$('.mdui-tab').mutation();
 				});
-			});
+			}).catch(function (msg) {});
 		}
 	},
 	mounted: function mounted() {

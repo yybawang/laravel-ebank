@@ -2928,13 +2928,7 @@ window.DatePickerFormat = DatePickerFormat;
 "use strict";
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var ajax = function ajax(url, params, resolve, reject, method) {
-	var success = function success(data, msg) {
-		resolve(data, msg);
-	};
-	var error = function error(msg) {
-		reject(msg);
-	};
+var ajax = function ajax(method, url, params, success, error) {
 	var errors = function errors(msg) {
 		tips(msg);
 	};
@@ -2955,7 +2949,7 @@ var ajax = function ajax(url, params, resolve, reject, method) {
 		loading(true);
 		var data = response.data;
 		if ('1' === data.status) {
-			success(data.data, data.message);
+			success(data.data);
 		} else if ('0' === data.status) {
 			tips(data.message);
 			error(data.message);
@@ -2992,8 +2986,8 @@ var ajax = function ajax(url, params, resolve, reject, method) {
 				var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 				return new Promise(function (resolve, reject) {
-					ajax(url, params, resolve, reject, property.toLocaleUpperCase());
-				}).catch(function () {});
+					ajax(property.toLocaleUpperCase(), url, params, resolve, reject);
+				});
 			};
 			return target[property];
 		}

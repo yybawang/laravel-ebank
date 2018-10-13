@@ -134,7 +134,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				t.$nextTick(function () {
 					t.dialog.open();
 				});
-			});
+			}).catch(function (msg) {});
 		},
 		search: function search(page) {
 			this.keyword.page = page;
@@ -155,7 +155,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				t.$nextTick(function () {
 					$('.mdui-tab').mutation();
 				});
-			});
+			}).catch(function (msg) {});
 		}
 	},
 	mounted: function mounted() {

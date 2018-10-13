@@ -146,21 +146,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			t.dialog.open();
 			t.$API.get('/rule/group/' + id).then(function (data) {
 				t.form = data;
-			});
+			}).catch(function (msg) {});
 		},
 		add_submit: function add_submit() {
 			var t = this;
 			t.$API.post('/rule/group', t.form).then(function () {
 				t.dialog.close();
 				t.init();
-			});
+			}).catch(function (msg) {});
 		},
 		del: function del(id) {
 			var t = this;
 			mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认？', function () {
 				t.$API.delete('/rule/group', { id: id }).then(function () {
 					t.init();
-				});
+				}).catch(function (msg) {});
 			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
 		},
 		search: function search(page) {
@@ -172,7 +172,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			t.$API.get('/rule/group', t.keyword).then(function (data) {
 				t.list = data.list;
 				t.menu = data.menu;
-			});
+			}).catch(function (msg) {});
 		}
 	},
 	mounted: function mounted() {

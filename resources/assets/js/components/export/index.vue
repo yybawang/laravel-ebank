@@ -92,6 +92,8 @@
 				let t = this;
 				t.$API.post('/export/increment',{id:id}).then(function(){
 					// 下载量计数+1
+				}).catch(function(msg){
+					
 				});
 				location.href = url;
 				return true;
@@ -101,6 +103,8 @@
 				t.$API.delete('/export/index',{id:id}).then(function(data){
 					mdui.alert('服务器文件已删除，外链失效','执行完成',function(){},{history:false,confirmText:'完成'});
 					t.init();
+				}).catch(function(msg){
+					
 				});
 			},
 			search(page){
@@ -111,6 +115,8 @@
 				let t = this;
 				t.$API.get('/export/index',t.keyword).then(function(data){
 					t.list = data;
+				}).catch(function(msg){
+					
 				});
 			}
 		},

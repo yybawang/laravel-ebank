@@ -182,7 +182,9 @@
 					t.$API.post('/order/complete', {id: id}).then(function (data) {
 						mdui.alert("操作完成，订单标记为已支付", function () {}, {history: false});
 						t.init();
-					})
+					}).catch(function(msg){
+						
+					});
 				}, function () {}, {history: false, confirmText: '确定', cancelText: '取消'});
 			},
 			notify(id) {
@@ -191,7 +193,9 @@
 					t.$API.post('/order/notify', {id: id}).then(function (data) {
 						mdui.alert("已重新分发通知任务", function () {}, {history: false});
 						t.init();
-					})
+					}).catch(function(msg){
+						
+					});
 				}, function () {}, {history: false, confirmText: '确定', cancelText: '取消'});
 			},
 			refund(id,amount) {
@@ -201,7 +205,9 @@
 						t.$API.post('/order/refund', {id: id,amount:value}).then(function (data) {
 							mdui.alert("退款成功，已完成系统到用户的转账操作，如产生奖励部分需手动冲正", function () {}, {history: false});
 							t.init();
-						})
+						}).catch(function(msg){
+							
+						});
 					}
 				}, function () {}, {history: false, confirmText: '确定', cancelText: '取消'});
 			},
@@ -219,6 +225,8 @@
 					if(t.keyword.export){
 						mdui.alert('可在左侧【导出任务】菜单查看任务状态并下载文件','已放入导出任务',function(){},{history:false});
 					}
+				}).catch(function(msg){
+					
 				});
 			}
 		},

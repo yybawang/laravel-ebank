@@ -30,7 +30,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		var t = this;
 		t.$API.get('/index/sysinfo').then(function (data) {
 			t.list = data;
-		});
+		}).catch(function (msg) {});
 	}
 });
 

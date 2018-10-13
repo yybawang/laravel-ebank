@@ -97,7 +97,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				t.$API.post('/purse/unfreeze', { id: id }).then(function (data) {
 					mdui.alert('已成功解冻并返还金额', function () {}, { history: false });
 					t.init();
-				});
+				}).catch(function (msg) {});
 			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
 		},
 		init: function init() {
@@ -105,7 +105,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			t.$API.get('/purse/freeze', t.keyword).then(function (data) {
 				t.list = data.list;
 				t.purse_type = data.purse_type;
-			});
+			}).catch(function (msg) {});
 		}
 	},
 	mounted: function mounted() {

@@ -1,11 +1,5 @@
 
-let ajax = function(url,params,resolve,reject,method){
-	let success = function(data,msg){
-		resolve(data,msg);
-	};
-	let error = function(msg){
-		reject(msg);
-	};
+let ajax = function(method,url,params,success,error){
 	let errors = function(msg){
 		tips(msg);
 	};
@@ -26,7 +20,7 @@ let ajax = function(url,params,resolve,reject,method){
 		loading(true);
 		let data = response.data;
 		if('1' === data.status){
-			success(data.data,data.message);
+			success(data.data);
 		}else if('0' === data.status){
 			tips(data.message);
 			error(data.message);
@@ -61,9 +55,7 @@ export default () => {
 		get (target, property) {
 			target[property] = (url, params = {}) => {
 				return new Promise((resolve, reject) => {
-					ajax(url,params,resolve,reject,property.toLocaleUpperCase());
-				}).catch(function(){
-					
+					ajax(property.toLocaleUpperCase(),url,params,resolve,reject);
 				});
 			}
 			return target[property]

@@ -96,7 +96,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				tips(message);
 				t.$emit('init');
 				t.$router.push({ name: 'welcome' });
-			});
+			}).catch(function (msg) {});
 		}
 	},
 	mounted: function mounted() {

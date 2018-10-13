@@ -127,6 +127,8 @@
 				t.$API.get('/merchant/behavior',t.keyword).then(function(data){
 					t.list = data.list;
 					t.merchant = data.merchant;
+				}).catch(function(msg){
+					
 				});
 			}
 		},

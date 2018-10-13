@@ -281,7 +281,9 @@
 				let t = this;
 				t.$API.get('/index/order_unnotify').then(function(data){
 					t.order_notify = data;
-				})
+				}).catch(function(msg){
+					
+				});
 			},
 			today(){
 				let t = this;
@@ -289,6 +291,8 @@
 					for(let i in t.sum_today){
 						t.sum_today[i].sum = data[i].sum;
 					}
+				}).catch(function(msg){
+					
 				});
 			},
 			yesterday(){
@@ -297,6 +301,8 @@
 					for(let i in t.sum_yesterday){
 						t.sum_yesterday[i].sum = data[i].sum;
 					}
+				}).catch(function(msg){
+					
 				});
 			},
 			notify(id) {
@@ -305,7 +311,9 @@
 					t.$API.post('/order/notify', {id: id}).then(function (data) {
 						mdui.alert("已重新分发通知任务", function () {}, {history: false});
 						t.order_unnotify();
-					})
+					}).catch(function(msg){
+						
+					});
 				}, function () {}, {history: false, confirmText: '确定', cancelText: '取消'});
 			},
 		},

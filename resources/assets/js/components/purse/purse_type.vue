@@ -139,6 +139,8 @@
 				t.dialog.open();
 				t.$API.get('/purse/purse_type/'+id).then(function(data){
 					t.form = data;
+				}).catch(function(msg){
+					
 				});
 			},
 			add_submit(){
@@ -146,6 +148,8 @@
 				t.$API.post('/purse/purse_type',t.form).then(function(){
 					t.dialog.close();
 					t.init();
+				}).catch(function(msg){
+					
 				});
 			},
 			del(id){
@@ -153,6 +157,8 @@
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认？', function(){
 					t.$API.delete('/purse/purse_type',{id:id}).then(function(){
 						t.init();
+					}).catch(function(msg){
+						
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
 			},
@@ -164,6 +170,8 @@
 				let t = this;
 				t.$API.get('/purse/purse_type',t.keyword).then(function(data){
 					t.list = data;
+				}).catch(function(msg){
+					
 				});
 			}
 		},

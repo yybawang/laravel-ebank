@@ -148,6 +148,8 @@
 				}
 				order_options.title.text = '近期 '+data.days+' 天每日用户身份收入、支出金额统计';
 				t.chart.setOption(order_options);
+			}).catch(function(msg){
+				
 			});
 			
 			window.onresize = function(){

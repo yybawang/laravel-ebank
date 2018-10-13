@@ -148,6 +148,8 @@
 				t.dialog.open();
 				t.$API.get('/system/config/'+id).then(function(data){
 					t.form = data;
+				}).catch(function(msg){
+					
 				});
 			},
 			add_submit(){
@@ -155,6 +157,8 @@
 				t.$API.post('/system/config',t.form).then(function(){
 					t.dialog.close();
 					t.init();
+				}).catch(function(msg){
+					
 				});
 			},
 			del(id){
@@ -162,6 +166,8 @@
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认?', function(){
 					t.$API.delete('/system/config',{id:id}).then(function(){
 						t.init();
+					}).catch(function(msg){
+						
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
 			},
@@ -174,12 +180,16 @@
 				tips('更新排序中...');
 				t.$API.post('/system/config_rank',{id:id,action:action}).then(function(data){
 					t.init();
+				}).catch(function(msg){
+					
 				});
 			},
 			init(){
 				let t = this;
 				t.$API.get('/system/config',t.keyword).then(function(data){
 					t.list = data.list;
+				}).catch(function(msg){
+					
 				});
 			}
 		},

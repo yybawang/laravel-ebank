@@ -131,7 +131,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				t.$nextTick(function () {
 					$('.mdui-tab').mutation();
 				});
-			});
+			}).catch(function (msg) {});
 		}
 	},
 	mounted: function mounted() {

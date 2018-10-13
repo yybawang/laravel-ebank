@@ -126,6 +126,8 @@
 					t.$nextTick(function(){
 						$('.mdui-tab').mutation();
 					});
+				}).catch(function(msg){
+					
 				});
 			}
 		},

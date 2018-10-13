@@ -135,7 +135,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			t.$API.get('/merchant/behavior', t.keyword).then(function (data) {
 				t.list = data.list;
 				t.merchant = data.merchant;
-			});
+			}).catch(function (msg) {});
 		}
 	},
 	mounted: function mounted() {

@@ -169,6 +169,8 @@
 				t.dialog.open();
 				t.$API.get('/rule/user/'+id).then(function(data){
 					t.form = data;
+				}).catch(function(msg){
+					
 				});
 			},
 			add_submit(){
@@ -176,6 +178,8 @@
 				t.$API.post('/rule/user',t.form).then(function(){
 					t.dialog.close();
 					t.init();
+				}).catch(function(msg){
+					
 				});
 			},
 			del(id){
@@ -183,6 +187,8 @@
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认？', function(){
 					t.$API.delete('/rule/user',{id:id}).then(function(){
 						t.init();
+					}).catch(function(msg){
+						
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
 			},
@@ -195,6 +201,8 @@
 				t.$API.get('/rule/user',t.keyword).then(function(data){
 					t.list = data.list;
 					t.group = data.group;
+				}).catch(function(msg){
+					
 				});
 			}
 		},

@@ -167,6 +167,8 @@
 				t.dialog.open();
 				t.$API.get('/merchant/index/'+id).then(function(data){
 					t.form = data;
+				}).catch(function(msg){
+					
 				});
 			},
 			add_submit(){
@@ -174,6 +176,8 @@
 				t.$API.post('/merchant/index',t.form).then(function(){
 					t.dialog.close();
 					t.init();
+				}).catch(function(msg){
+					
 				});
 			},
 			rand_appid(){
@@ -190,6 +194,8 @@
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认?', function(){
 					t.$API.delete('/merchant/index',{id:id}).then(function(){
 						t.init();
+					}).catch(function(msg){
+						
 					});
 				},function(){},{history:false,confirmText:'确定',cancelText:'取消'});
 			},
@@ -205,6 +211,8 @@
 					t.$nextTick(function(){
 						$('.mdui-tab').mutation();
 					});
+				}).catch(function(msg){
+					
 				});
 			}
 		},

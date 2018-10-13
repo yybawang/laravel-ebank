@@ -126,7 +126,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			mdui.confirm('确认后将从用户对应钱包扣除相应金额，确认请点击【确定】按钮', '已打款？', function () {
 				t.$API.post('/withdraw/success', { id: [id], type: 'alipay' }).then(function () {
 					t.init();
-				});
+				}).catch(function (msg) {});
 			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
 		},
 		fail: function fail(id) {
@@ -135,7 +135,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				if (value) {
 					t.$API.post('/withdraw/fail', { id: id, remarks: value, type: 'alipay' }).then(function () {
 						t.init();
-					});
+					}).catch(function (msg) {});
 				}
 			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
 		},
@@ -191,7 +191,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				t.$nextTick(function () {
 					$('.mdui-tab').mutation();
 				});
-			});
+			}).catch(function (msg) {});
 		}
 	},
 	mounted: function mounted() {
