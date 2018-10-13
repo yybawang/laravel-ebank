@@ -100,6 +100,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -207,6 +211,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	methods: {
+		order_unnotify: function order_unnotify() {
+			var t = this;
+			t.$API.get('/index/order_unnotify').then(function (data) {
+				t.order_notify = data;
+			});
+		},
 		init: function init() {
 			var t = this;
 			t.$API.get('/index/welcome').then(function (data) {
@@ -214,9 +224,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					t.list[i].sum = data[i].sum;
 				}
 			});
-			t.$API.get('/index/order_unnotify').then(function (data) {
-				t.order_notify = data;
-			});
+			t.order_unnotify();
 		}
 	},
 	mounted: function mounted() {
@@ -484,14 +492,28 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "order-notify" }, [
-        _c("div", { staticClass: "mdui-typo mdui-color-white" }, [
+        _c("div", { staticClass: "mdui-toolbar mdui-color-pink" }, [
           _c(
-            "blockquote",
+            "span",
             {
-              staticClass: "mdui-p-y-2 mdui-m-b-1 blockquote_normal",
-              attrs: { title: "此数据为最新20条，详情请在订单管理中查看" }
+              attrs: { title: "此数据为最新20条，详情请在订单管理中筛选查看" }
             },
-            [_vm._v("订单支付成功但未通知商户，等待处理/排错")]
+            [_vm._v("订单支付成功但未通知商户，请及时处理")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdui-toolbar-spacer" }),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "mdui-btn mdui-btn-icon",
+              on: { click: _vm.order_unnotify }
+            },
+            [
+              _c("i", { staticClass: "mdui-icon material-icons" }, [
+                _vm._v("refresh")
+              ])
+            ]
           )
         ]),
         _vm._v(" "),
@@ -504,7 +526,7 @@ var render = function() {
               _vm._v(" "),
               _c("th", [_vm._v("金额(分)")]),
               _vm._v(" "),
-              _c("th", [_vm._v("下单时间")]),
+              _c("th", [_vm._v("支付时间")]),
               _vm._v(" "),
               _c("th", [_vm._v("状态")])
             ])
@@ -520,9 +542,9 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", { domProps: { textContent: _vm._s(val.amount) } }),
                 _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.created_at) } }),
+                _c("td", { domProps: { textContent: _vm._s(val.pay_time) } }),
                 _vm._v(" "),
-                _c("td", [_vm._v("支付成功待通知")])
+                _c("td", [_vm._v("待通知")])
               ])
             })
           )

@@ -22,8 +22,12 @@
 			</div>
 		</div>
 		<div class="order-notify">
-			<div class="mdui-typo mdui-color-white">
-				<blockquote class="mdui-p-y-2 mdui-m-b-1 blockquote_normal" title="此数据为最新20条，详情请在订单管理中查看">订单支付成功但未通知商户，等待处理/排错</blockquote>
+			<div class="mdui-toolbar mdui-color-pink">
+				<span title="此数据为最新20条，详情请在订单管理中筛选查看">订单支付成功但未通知商户，请及时处理</span>
+				<div class="mdui-toolbar-spacer"></div>
+				<a class="mdui-btn mdui-btn-icon" @click="order_unnotify">
+					<i class="mdui-icon material-icons">refresh</i>
+				</a>
 			</div>
 			<table class="mdui-table">
 				<thead>
@@ -31,7 +35,7 @@
 					<th>订单ID</th>
 					<th>订单号</th>
 					<th>金额(分)</th>
-					<th>下单时间</th>
+					<th>支付时间</th>
 					<th>状态</th>
 				</tr>
 				</thead>
@@ -40,8 +44,8 @@
 					<td v-text="val.id"></td>
 					<td v-text="val.order_no"></td>
 					<td v-text="val.amount"></td>
-					<td v-text="val.created_at"></td>
-					<td>支付成功待通知</td>
+					<td v-text="val.pay_time"></td>
+					<td>待通知</td>
 				</tr>
 				</tbody>
 			</table>
@@ -172,6 +176,12 @@
 			}
 		},
 		methods : {
+			order_unnotify(){
+				let t = this;
+				t.$API.get('/index/order_unnotify').then(function(data){
+					t.order_notify = data;
+				})
+			},
 			init(){
 				let t = this;
 				t.$API.get('/index/welcome').then(function(data){
@@ -179,9 +189,7 @@
 						t.list[i].sum = data[i].sum;
 					}
 				});
-				t.$API.get('/index/order_unnotify').then(function(data){
-					t.order_notify = data;
-				})
+				t.order_unnotify();
 			}
 		},
 		mounted(){
