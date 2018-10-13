@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.card[data-v-a0facede] {\n  min-width: 180px;\n}\n.content-space[data-v-a0facede] {\n  padding: 0 0.5rem;\n  height: 7.3rem;\n  text-align: right;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end;\n}\n.content-space-icon[data-v-a0facede] {\n  font-size: 3rem;\n}\n.fade-enter-active[data-v-a0facede] {\n  -webkit-transition: opacity 1s;\n  transition: opacity 1s;\n}\n.fade-enter[data-v-a0facede], .fade-leave-to[data-v-a0facede] {\n  opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\n.card[data-v-a0facede] {\n  min-width: 180px;\n}\n.content-space[data-v-a0facede] {\n  padding: 0 0.5rem;\n  height: 7.3rem;\n  text-align: right;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end;\n}\n.content-space-icon[data-v-a0facede] {\n  font-size: 3rem;\n}\n.fade-enter-active[data-v-a0facede] {\n  -webkit-transition: opacity 1s;\n  transition: opacity 1s;\n}\n.fade-enter[data-v-a0facede], .fade-leave-to[data-v-a0facede] {\n  opacity: 0;\n}\n.order-notify-clear[data-v-a0facede] {\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n", ""]);
 
 // exports
 
@@ -114,108 +114,216 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
 		return {
-			list: [{
-				"name": "今日下单数量",
-				"sum": '',
-				"icon": "trending_up",
-				"title": "已支付并且有效的订单",
-				"backgroundColor": "#F0AD4E"
-			}, {
-				"name": "今日下单金额",
-				"sum": '',
-				"icon": "account_balance",
-				"title": "已支付并且有效的订单",
-				"backgroundColor": "#F0AD4E"
-			}, {
-				"name": "昨日下单数量",
-				"sum": '',
-				"icon": "trending_up",
-				"title": "已支付并且有效的订单",
-				"backgroundColor": "#F0AD4E"
-			}, {
-				"name": "昨日下单金额",
-				"sum": '',
-				"icon": "account_balance",
-				"title": "已支付并且有效的订单",
-				"backgroundColor": "#F0AD4E"
-			}, {
-				"name": "今日提现数量",
-				"sum": '',
-				"icon": "trending_up",
-				"title": "申请提现成功",
-				"backgroundColor": "#00A98E"
-			}, {
-				"name": "今日提现金额",
-				"sum": '',
-				"icon": "account_balance_wallet",
-				"title": "申请提现成功",
-				"backgroundColor": "#00A98E"
-			}, {
-				"name": "昨日提现数量",
-				"sum": '',
-				"icon": "trending_up",
-				"title": "申请提现成功",
-				"backgroundColor": "#00A98E"
-			}, {
-				"name": "昨日提现金额",
-				"sum": '',
-				"icon": "account_balance_wallet",
-				"title": "申请提现成功",
-				"backgroundColor": "#00A98E"
-			}, {
-				"name": "今日提现待处理",
-				"sum": '',
-				"icon": "account_balance_wallet",
-				"title": "申请提现中",
-				"backgroundColor": "#5CB85C"
-			}, {
-				"name": "昨日提现待处理",
-				"sum": '',
-				"icon": "account_balance_wallet",
-				"title": "申请提现中",
-				"backgroundColor": "#5CB85C"
-			}, {
-				"name": "今日用户新增",
-				"sum": '',
-				"icon": "person",
-				"title": "新钱包数据",
-				"backgroundColor": "#337AB7"
-			}, {
-				"name": "昨日用户新增",
-				"sum": '',
-				"icon": "person",
-				"title": "新钱包数据",
-				"backgroundColor": "#337AB7"
-			}, {
-				"name": "接口商户数量",
-				"sum": '',
-				"icon": "people",
-				"title": "API接口商户",
-				"backgroundColor": "#337AB7"
-			}, {
-				"name": "今日流水记录",
-				"sum": '',
-				"icon": "swap_horiz",
-				"title": "有效转账记录",
-				"backgroundColor": "#32C24D"
-			}, {
-				"name": "昨日流水记录",
-				"sum": '',
-				"icon": "swap_horiz",
-				"title": "有效转账记录",
-				"backgroundColor": "#32C24D"
-			}, {
-				"name": "今日接口错误",
-				"sum": '',
-				"icon": "bug_report",
-				"title": "商户API未成功返回",
-				"backgroundColor": "#D9534F"
-			}],
+			sum_today: {
+				today_unified_count: {
+					"name": "支付订单数量",
+					"sum": '',
+					"icon": "trending_up",
+					"title": "已支付并且有效的订单",
+					"backgroundColor": "#F0AD4E"
+				},
+				today_unified_amount: {
+					"name": "支付订单金额",
+					"sum": '',
+					"icon": "account_balance",
+					"title": "已支付并且有效的订单",
+					"backgroundColor": "#F0AD4E"
+				},
+				today_unified_un_pay_count: {
+					"name": "待支付数量",
+					"sum": '',
+					"icon": "trending_up",
+					"title": "未支付的新订单",
+					"backgroundColor": "#F0AD4E"
+				},
+				today_unified_un_pay_amount: {
+					"name": "待支付金额",
+					"sum": '',
+					"icon": "account_balance",
+					"title": "未支付的新订单",
+					"backgroundColor": "#F0AD4E"
+				},
+				today_withdraw_count: {
+					"name": "提现数量",
+					"sum": '',
+					"icon": "trending_up",
+					"title": "申请提现成功",
+					"backgroundColor": "#00A98E"
+				},
+				today_withdraw_amount: {
+					"name": "提现金额",
+					"sum": '',
+					"icon": "account_balance_wallet",
+					"title": "申请提现成功",
+					"backgroundColor": "#00A98E"
+				},
+				today_withdraw_un_count: {
+					"name": "提现待处理数量",
+					"sum": '',
+					"icon": "trending_up",
+					"title": "申请提现中",
+					"backgroundColor": "#5CB85C"
+				},
+				today_withdraw_un_amount: {
+					"name": "提现待处理金额",
+					"sum": '',
+					"icon": "account_balance_wallet",
+					"title": "申请提现中",
+					"backgroundColor": "#5CB85C"
+				},
+				today_new_user_count: {
+					"name": "用户新增",
+					"sum": '',
+					"icon": "person",
+					"title": "新钱包数据",
+					"backgroundColor": "#337AB7"
+				},
+				today_transfer: {
+					"name": "流水记录",
+					"sum": '',
+					"icon": "swap_horiz",
+					"title": "有效转账记录",
+					"backgroundColor": "#32C24D"
+				},
+				today_behavior_count: {
+					"name": "接口调用",
+					"sum": '',
+					"icon": "check_circle",
+					"title": "商户API请求次数",
+					"backgroundColor": "#4CAF50"
+				},
+				today_behavior_error_count: {
+					"name": "接口错误",
+					"sum": '',
+					"icon": "bug_report",
+					"title": "商户API未成功返回",
+					"backgroundColor": "#D9534F"
+				}
+			},
+			sum_yesterday: {
+				yesterday_unified_count: {
+					"name": "支付订单数量",
+					"sum": '',
+					"icon": "trending_up",
+					"title": "已支付并且有效的订单",
+					"backgroundColor": "#F0AD4E"
+				},
+				yesterday_unified_amount: {
+					"name": "支付订单金额",
+					"sum": '',
+					"icon": "account_balance",
+					"title": "已支付并且有效的订单",
+					"backgroundColor": "#F0AD4E"
+				},
+				yesterday_unified_un_pay_count: {
+					"name": "待支付数量",
+					"sum": '',
+					"icon": "trending_up",
+					"title": "未支付的新订单",
+					"backgroundColor": "#F0AD4E"
+				},
+				yesterday_unified_un_pay_amount: {
+					"name": "待支付金额",
+					"sum": '',
+					"icon": "account_balance",
+					"title": "未支付的新订单",
+					"backgroundColor": "#F0AD4E"
+				},
+				yesterday_withdraw_count: {
+					"name": "提现数量",
+					"sum": '',
+					"icon": "trending_up",
+					"title": "申请提现成功",
+					"backgroundColor": "#00A98E"
+				},
+				yesterday_withdraw_amount: {
+					"name": "提现金额",
+					"sum": '',
+					"icon": "account_balance_wallet",
+					"title": "申请提现成功",
+					"backgroundColor": "#00A98E"
+				},
+				yesterday_withdraw_un_count: {
+					"name": "提现待处理数量",
+					"sum": '',
+					"icon": "trending_up",
+					"title": "申请提现中",
+					"backgroundColor": "#5CB85C"
+				},
+				yesterday_withdraw_un_amount: {
+					"name": "提现待处理金额",
+					"sum": '',
+					"icon": "account_balance_wallet",
+					"title": "申请提现中",
+					"backgroundColor": "#5CB85C"
+				},
+				yesterday_new_user_count: {
+					"name": "用户新增",
+					"sum": '',
+					"icon": "person",
+					"title": "新钱包数据",
+					"backgroundColor": "#337AB7"
+				},
+				yesterday_transfer: {
+					"name": "流水记录",
+					"sum": '',
+					"icon": "swap_horiz",
+					"title": "有效转账记录",
+					"backgroundColor": "#32C24D"
+				},
+				yesterday_behavior_count: {
+					"name": "接口调用",
+					"sum": '',
+					"icon": "check_circle",
+					"title": "商户API请求次数",
+					"backgroundColor": "#4CAF50"
+				},
+				yesterday_behavior_error_count: {
+					"name": "接口错误",
+					"sum": '',
+					"icon": "bug_report",
+					"title": "商户API未成功返回",
+					"backgroundColor": "#D9534F"
+				}
+			},
 			order_notify: []
 		};
 	},
@@ -227,18 +335,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				t.order_notify = data;
 			});
 		},
-		init: function init() {
+		today: function today() {
 			var t = this;
-			t.$API.get('/index/welcome').then(function (data) {
-				for (var i in data) {
-					t.list[i].sum = data[i].sum;
+			t.$API.get('/index/sum_today').then(function (data) {
+				for (var i in t.sum_today) {
+					t.sum_today[i].sum = data[i].sum;
 				}
 			});
-			t.order_unnotify();
+		},
+		yesterday: function yesterday() {
+			var t = this;
+			t.$API.get('/index/sum_yesterday').then(function (data) {
+				for (var i in t.sum_yesterday) {
+					t.sum_yesterday[i].sum = data[i].sum;
+				}
+			});
 		}
 	},
 	mounted: function mounted() {
-		this.init();
+		this.today();
+		this.yesterday();
+		this.order_unnotify();
 	},
 
 	components: {
@@ -435,15 +552,112 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("transition", { attrs: { appear: "", name: "fade" } }, [
     _c("div", { staticClass: "welcome" }, [
-      _vm.list.length > 0
-        ? _c("div", { staticClass: "card-group" }, [
+      _c("div", { staticClass: "mdui-toolbar mdui-color-teal" }, [
+        _c("i", { staticClass: "mdui-icon material-icons" }, [
+          _vm._v("visibility")
+        ]),
+        _vm._v(" "),
+        _c("span", [_vm._v("今日实时数据统计")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mdui-toolbar-spacer" }),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mdui-btn mdui-ripple mdui-btn-icon",
+            on: { click: _vm.today }
+          },
+          [
+            _c("i", { staticClass: "mdui-icon material-icons" }, [
+              _vm._v("refresh")
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _vm.sum_today
+        ? _c("div", { staticClass: "card-group mdui-p-t-2" }, [
             _c(
               "div",
               {
                 staticClass:
                   "mdui-row-xs-2 mdui-row-sm-3 mdui-row-md-4 mdui-row-lg-5 mdui-row-xl-6"
               },
-              _vm._l(_vm.list, function(val, key) {
+              _vm._l(_vm.sum_today, function(val, key) {
+                return _c("div", { staticClass: "mdui-col" }, [
+                  _c("div", { staticClass: "mdui-card mdui-m-b-2 card" }, [
+                    _c("div", { staticClass: "mdui-card-media" }, [
+                      _c("div", { staticClass: "mdui-valign content-space" }, [
+                        _c(
+                          "i",
+                          {
+                            staticClass:
+                              "mdui-icon material-icons content-space-icon",
+                            style: { color: val.backgroundColor }
+                          },
+                          [_vm._v(_vm._s(val.icon))]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "mdui-card-media-covered mdui-card-media-covered-transparent"
+                        },
+                        [
+                          _c("div", { staticClass: "mdui-card-primary" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "mdui-card-primary-title mdui-text-color-red-300"
+                              },
+                              [
+                                _c("number-grow", { attrs: { value: val.sum } })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("div", {
+                              staticClass:
+                                "mdui-card-primary-subtitle mdui-text-color-black",
+                              domProps: { textContent: _vm._s(val.name) }
+                            }),
+                            _vm._v(" "),
+                            _c("div", {
+                              staticClass:
+                                "mdui-typo-caption mdui-typo-caption-opacity mdui-text-color-grey-700",
+                              domProps: { textContent: _vm._s(val.title) }
+                            })
+                          ])
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              })
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("div", { staticClass: "mdui-toolbar mdui-color-indigo" }, [
+        _c("i", { staticClass: "mdui-icon material-icons" }, [_vm._v("save")]),
+        _vm._v(" "),
+        _c("span", [_vm._v("昨日数据统计")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mdui-toolbar-spacer" })
+      ]),
+      _vm._v(" "),
+      _vm.sum_yesterday
+        ? _c("div", { staticClass: "card-group mdui-p-t-2" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "mdui-row-xs-2 mdui-row-sm-3 mdui-row-md-4 mdui-row-lg-5 mdui-row-xl-6"
+              },
+              _vm._l(_vm.sum_yesterday, function(val, key) {
                 return _c("div", { staticClass: "mdui-col" }, [
                   _c("div", { staticClass: "mdui-card mdui-m-b-2 card" }, [
                     _c("div", { staticClass: "mdui-card-media" }, [
@@ -534,7 +748,7 @@ var render = function() {
             _c(
               "a",
               {
-                staticClass: "mdui-btn mdui-btn-icon",
+                staticClass: "mdui-btn mdui-ripple mdui-btn-icon",
                 on: { click: _vm.order_unnotify }
               },
               [
@@ -584,34 +798,32 @@ var render = function() {
                       _c("td", [_vm._v("待通知")])
                     ])
                   })
-                : _vm._e(),
-              _vm._v(" "),
-              [
-                _c("tr", [
-                  _c(
-                    "td",
-                    {
-                      staticClass: "mdui-p-y-2 mdui-text-center",
-                      attrs: { colspan: "5" }
-                    },
-                    [
-                      _c("div", [
-                        _c("span", { staticClass: "mdui-m-r-1" }, [
-                          _vm._v("通知正常工作")
-                        ]),
+                : [
+                    _c("tr", [
+                      _c("td", { attrs: { colspan: "5" } }, [
                         _c(
-                          "i",
+                          "div",
                           {
                             staticClass:
-                              "mdui-icon material-icons mdui-text-color-pink order-notify-clear"
+                              "mdui-p-y-2 mdui-valign order-notify-clear"
                           },
-                          [_vm._v("sentiment_satisfied")]
+                          [
+                            _c("span", { staticClass: "mdui-m-r-1" }, [
+                              _vm._v("通知正常工作")
+                            ]),
+                            _c(
+                              "i",
+                              {
+                                staticClass:
+                                  "mdui-icon material-icons mdui-text-color-orange"
+                              },
+                              [_vm._v("sentiment_satisfied")]
+                            )
+                          ]
                         )
                       ])
-                    ]
-                  )
-                ])
-              ]
+                    ])
+                  ]
             ],
             2
           )

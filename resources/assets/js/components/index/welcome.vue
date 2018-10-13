@@ -1,9 +1,42 @@
 <template>
 	<transition appear name="fade">
 	<div class="welcome">
-		<div class="card-group" v-if="list.length > 0">
+		<div class="mdui-toolbar mdui-color-teal">
+			<i class="mdui-icon material-icons">visibility</i>
+			<span>今日实时数据统计</span>
+			<div class="mdui-toolbar-spacer"></div>
+			<a class="mdui-btn mdui-ripple mdui-btn-icon" @click="today">
+				<i class="mdui-icon material-icons">refresh</i>
+			</a>
+		</div>
+		<div class="card-group mdui-p-t-2" v-if="sum_today">
 			<div class="mdui-row-xs-2 mdui-row-sm-3 mdui-row-md-4 mdui-row-lg-5 mdui-row-xl-6">
-				<div class="mdui-col" v-for="(val,key) of list">
+				<div class="mdui-col" v-for="(val,key) of sum_today">
+					<div class="mdui-card mdui-m-b-2 card">
+						<div class="mdui-card-media">
+							<div class="mdui-valign content-space">
+								<i class="mdui-icon material-icons content-space-icon" :style="{color:val.backgroundColor}">{{val.icon}}</i>
+							</div>
+							<div class="mdui-card-media-covered mdui-card-media-covered-transparent">
+								<div class="mdui-card-primary">
+									<div class="mdui-card-primary-title mdui-text-color-red-300"><number-grow :value="val.sum"></number-grow></div>
+									<div class="mdui-card-primary-subtitle mdui-text-color-black" v-text="val.name"></div>
+									<div class="mdui-typo-caption mdui-typo-caption-opacity mdui-text-color-grey-700" v-text="val.title"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mdui-toolbar mdui-color-indigo">
+			<i class="mdui-icon material-icons">save</i>
+			<span>昨日数据统计</span>
+			<div class="mdui-toolbar-spacer"></div>
+		</div>
+		<div class="card-group mdui-p-t-2" v-if="sum_yesterday">
+			<div class="mdui-row-xs-2 mdui-row-sm-3 mdui-row-md-4 mdui-row-lg-5 mdui-row-xl-6">
+				<div class="mdui-col" v-for="(val,key) of sum_yesterday">
 					<div class="mdui-card mdui-m-b-2 card">
 						<div class="mdui-card-media">
 							<div class="mdui-valign content-space">
@@ -26,7 +59,7 @@
 				<a class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">error_outline</i></a>
 				<span title="此数据为最新20条，详情请在订单管理中筛选查看，请及时处理">支付成功但未成功通知商户订单</span>
 				<div class="mdui-toolbar-spacer"></div>
-				<a class="mdui-btn mdui-btn-icon" @click="order_unnotify">
+				<a class="mdui-btn mdui-ripple mdui-btn-icon" @click="order_unnotify">
 					<i class="mdui-icon material-icons">refresh</i>
 				</a>
 			</div>
@@ -50,10 +83,10 @@
 					<td>待通知</td>
 				</tr>
 				</template>
-				<template>
+				<template v-else>
 				<tr>
-					<td colspan="5" class="mdui-p-y-2 mdui-text-center">
-						<div><span class="mdui-m-r-1">通知正常工作</span><i class="mdui-icon material-icons mdui-text-color-pink order-notify-clear">sentiment_satisfied</i></div>
+					<td colspan="5">
+						<div class="mdui-p-y-2 mdui-valign order-notify-clear"><span class="mdui-m-r-1">通知正常工作</span><i class="mdui-icon material-icons mdui-text-color-orange">sentiment_satisfied</i></div>
 					</td>
 				</tr>
 				</template>
@@ -68,120 +101,178 @@
 	export default {
 		data(){
 			return {
-				list : [
-					{
-						"name": "今日下单数量",
+				sum_today : {
+					today_unified_count : {
+						"name": "支付订单数量",
 						"sum": '',
 						"icon": "trending_up",
 						"title": "已支付并且有效的订单",
 						"backgroundColor": "#F0AD4E"
 					},
-					{
-						"name": "今日下单金额",
+					today_unified_amount : {
+						"name": "支付订单金额",
 						"sum": '',
 						"icon": "account_balance",
 						"title": "已支付并且有效的订单",
 						"backgroundColor": "#F0AD4E"
 					},
-					{
-						"name": "昨日下单数量",
+					today_unified_un_pay_count : {
+						"name": "待支付数量",
 						"sum": '',
 						"icon": "trending_up",
-						"title": "已支付并且有效的订单",
+						"title": "未支付的新订单",
 						"backgroundColor": "#F0AD4E"
 					},
-					{
-						"name": "昨日下单金额",
+					today_unified_un_pay_amount : {
+						"name": "待支付金额",
 						"sum": '',
 						"icon": "account_balance",
-						"title": "已支付并且有效的订单",
+						"title": "未支付的新订单",
 						"backgroundColor": "#F0AD4E"
 					},
-					{
-						"name": "今日提现数量",
+					today_withdraw_count : {
+						"name": "提现数量",
 						"sum": '',
 						"icon": "trending_up",
 						"title": "申请提现成功",
 						"backgroundColor": "#00A98E"
 					},
-					{
-						"name": "今日提现金额",
+					today_withdraw_amount : {
+						"name": "提现金额",
 						"sum": '',
 						"icon": "account_balance_wallet",
 						"title": "申请提现成功",
 						"backgroundColor": "#00A98E"
 					},
-					{
-						"name": "昨日提现数量",
+					today_withdraw_un_count : {
+						"name": "提现待处理数量",
 						"sum": '',
 						"icon": "trending_up",
-						"title": "申请提现成功",
-						"backgroundColor": "#00A98E"
+						"title": "申请提现中",
+						"backgroundColor": "#5CB85C"
 					},
-					{
-						"name": "昨日提现金额",
-						"sum": '',
-						"icon": "account_balance_wallet",
-						"title": "申请提现成功",
-						"backgroundColor": "#00A98E"
-					},
-					{
-						"name": "今日提现待处理",
+					today_withdraw_un_amount : {
+						"name": "提现待处理金额",
 						"sum": '',
 						"icon": "account_balance_wallet",
 						"title": "申请提现中",
 						"backgroundColor": "#5CB85C"
 					},
-					{
-						"name": "昨日提现待处理",
-						"sum": '',
-						"icon": "account_balance_wallet",
-						"title": "申请提现中",
-						"backgroundColor": "#5CB85C"
-					},
-					{
-						"name": "今日用户新增",
+					today_new_user_count : {
+						"name": "用户新增",
 						"sum": '',
 						"icon": "person",
 						"title": "新钱包数据",
 						"backgroundColor": "#337AB7"
 					},
-					{
-						"name": "昨日用户新增",
-						"sum": '',
-						"icon": "person",
-						"title": "新钱包数据",
-						"backgroundColor": "#337AB7"
-					},
-					{
-						"name": "接口商户数量",
-						"sum": '',
-						"icon": "people",
-						"title": "API接口商户",
-						"backgroundColor": "#337AB7"
-					},
-					{
-						"name": "今日流水记录",
+					today_transfer : {
+						"name": "流水记录",
 						"sum": '',
 						"icon": "swap_horiz",
 						"title": "有效转账记录",
 						"backgroundColor": "#32C24D"
 					},
-					{
-						"name": "昨日流水记录",
+					today_behavior_count : {
+						"name": "接口调用",
 						"sum": '',
-						"icon": "swap_horiz",
-						"title": "有效转账记录",
-						"backgroundColor": "#32C24D"
+						"icon": "check_circle",
+						"title": "商户API请求次数",
+						"backgroundColor": "#4CAF50"
 					},
-					{
-						"name": "今日接口错误",
+					today_behavior_error_count : {
+						"name": "接口错误",
 						"sum": '',
 						"icon": "bug_report",
 						"title": "商户API未成功返回",
 						"backgroundColor": "#D9534F"
-					}
-				],
+					},
+		},
+				sum_yesterday : {
+					yesterday_unified_count : {
+						"name": "支付订单数量",
+						"sum": '',
+						"icon": "trending_up",
+						"title": "已支付并且有效的订单",
+						"backgroundColor": "#F0AD4E"
+					},
+					yesterday_unified_amount : {
+						"name": "支付订单金额",
+						"sum": '',
+						"icon": "account_balance",
+						"title": "已支付并且有效的订单",
+						"backgroundColor": "#F0AD4E"
+					},
+					yesterday_unified_un_pay_count : {
+						"name": "待支付数量",
+						"sum": '',
+						"icon": "trending_up",
+						"title": "未支付的新订单",
+						"backgroundColor": "#F0AD4E"
+					},
+					yesterday_unified_un_pay_amount : {
+						"name": "待支付金额",
+						"sum": '',
+						"icon": "account_balance",
+						"title": "未支付的新订单",
+						"backgroundColor": "#F0AD4E"
+					},
+					yesterday_withdraw_count : {
+						"name": "提现数量",
+						"sum": '',
+						"icon": "trending_up",
+						"title": "申请提现成功",
+						"backgroundColor": "#00A98E"
+					},
+					yesterday_withdraw_amount : {
+						"name": "提现金额",
+						"sum": '',
+						"icon": "account_balance_wallet",
+						"title": "申请提现成功",
+						"backgroundColor": "#00A98E"
+					},
+					yesterday_withdraw_un_count : {
+						"name": "提现待处理数量",
+						"sum": '',
+						"icon": "trending_up",
+						"title": "申请提现中",
+						"backgroundColor": "#5CB85C"
+					},
+					yesterday_withdraw_un_amount : {
+						"name": "提现待处理金额",
+						"sum": '',
+						"icon": "account_balance_wallet",
+						"title": "申请提现中",
+						"backgroundColor": "#5CB85C"
+					},
+					yesterday_new_user_count : {
+						"name": "用户新增",
+						"sum": '',
+						"icon": "person",
+						"title": "新钱包数据",
+						"backgroundColor": "#337AB7"
+					},
+					yesterday_transfer : {
+						"name": "流水记录",
+						"sum": '',
+						"icon": "swap_horiz",
+						"title": "有效转账记录",
+						"backgroundColor": "#32C24D"
+					},
+					yesterday_behavior_count : {
+						"name": "接口调用",
+						"sum": '',
+						"icon": "check_circle",
+						"title": "商户API请求次数",
+						"backgroundColor": "#4CAF50"
+					},
+					yesterday_behavior_error_count : {
+						"name": "接口错误",
+						"sum": '',
+						"icon": "bug_report",
+						"title": "商户API未成功返回",
+						"backgroundColor": "#D9534F"
+					},
+				},
 				order_notify : [],
 			}
 		},
@@ -192,18 +283,27 @@
 					t.order_notify = data;
 				})
 			},
-			init(){
+			today(){
 				let t = this;
-				t.$API.get('/index/welcome').then(function(data){
-					for(let i in data){
-						t.list[i].sum = data[i].sum;
+				t.$API.get('/index/sum_today').then(function(data){
+					for(let i in t.sum_today){
+						t.sum_today[i].sum = data[i].sum;
 					}
 				});
-				t.order_unnotify();
+			},
+			yesterday(){
+				let t = this;
+				t.$API.get('/index/sum_yesterday').then(function(data){
+					for(let i in t.sum_yesterday){
+						t.sum_yesterday[i].sum = data[i].sum;
+					}
+				});
 			}
 		},
 		mounted(){
-			this.init();
+			this.today();
+			this.yesterday();
+			this.order_unnotify();
 		},
 		components: {
 			NumberGrow
@@ -229,5 +329,8 @@
 	}
 	.fade-enter, .fade-leave-to {
 		opacity: 0;
+	}
+	.order-notify-clear {
+		justify-content: center;
 	}
 </style>

@@ -30,66 +30,98 @@ class IndexController extends CommonController
 		return json_success('OK',$data);
 	}
 	
+	public function welcome(BasicRequest $request){
+		return json_success('OK');
+	}
+	
 	/**
 	 * 首页报表
 	 * @param BasicRequest $request
 	 * @return array
 	 */
-	public function welcome(BasicRequest $request){
+	public function sum_today(BasicRequest $request){
 		$today_start = date('Y-m-d');
 		$today_end = date('Y-m-d',strtotime('+1 day'));
+		
+		$FundOrderToday = FundOrder::where('created_at','>=',$today_start)->where('created_at','<',$today_end)->where(['pay_status'=>1,'status'=>1]);
+		$FundOrderUnPayToday = FundOrder::where('created_at','>=',$today_start)->where('created_at','<',$today_end)->where(['pay_status'=>0,'status'=>1]);
+		$today_unified_count = (clone $FundOrderToday)->count();
+		$today_unified_amount = (clone $FundOrderToday)->sum('amount');
+		$today_unified_un_pay_count = (clone $FundOrderUnPayToday)->count();
+		$today_unified_un_pay_amount = (clone $FundOrderUnPayToday)->sum('amount');
+		
+		$FundWithdrawToday = FundWithdraw::where('created_at','>=',$today_start)->where('created_at','<',$today_end);
+		$today_withdraw_count = (clone $FundWithdrawToday)->where('status',1)->count();
+		$today_withdraw_amount = (clone $FundWithdrawToday)->where('status',1)->sum('amount');
+		$today_withdraw_un_count = (clone $FundWithdrawToday)->where('status',0)->count();
+		$today_withdraw_un_amount = (clone $FundWithdrawToday)->where('status',0)->sum('amount');
+		
+		$FundUserPurseToday = FundUserPurse::where('created_at','>=',$today_start)->where('created_at','<',$today_end)->where('user_id','>',0)->groupBy('user_id');
+		$today_new_user_count = (clone $FundUserPurseToday)->count();
+		
+		$FundBehaviorToday = FundBehavior::where('created_at','>=',$today_start)->where('created_at','<',$today_end);
+		$FundTransferToday = FundTransfer::where('created_at','>=',$today_start)->where('created_at','<',$today_end)->where('status',1);
+		$today_behavior_count = (clone $FundBehaviorToday)->count();
+		$today_behavior_error_count = (clone $FundBehaviorToday)->where('status','!=',1)->count();
+		$today_transfer = (clone $FundTransferToday)->count();
+		
+		$data = [
+			'today_unified_count'			=> ['sum' => $today_unified_count,],
+			'today_unified_amount'			=> ['sum' => $today_unified_amount,],
+			'today_unified_un_pay_count'	=> ['sum' => $today_unified_un_pay_count,],
+			'today_unified_un_pay_amount'	=> ['sum' => $today_unified_un_pay_amount,],
+			'today_withdraw_count'			=> ['sum' => $today_withdraw_count,],
+			'today_withdraw_amount'			=> ['sum' => $today_withdraw_amount,],
+			'today_withdraw_un_count'		=> ['sum' => $today_withdraw_un_count,],
+			'today_withdraw_un_amount'		=> ['sum' => $today_withdraw_un_amount,],
+			'today_new_user_count'			=> ['sum' => $today_new_user_count,],
+			'today_transfer'				=> ['sum' => $today_transfer,],
+			'today_behavior_count'			=> ['sum' => $today_behavior_count,],
+			'today_behavior_error_count'	=> ['sum' => $today_behavior_error_count,],
+		];
+		
+		return json_success('OK',$data);
+	}
+	
+	public function sum_yesterday(BasicRequest $request){
 		$yesterday_start = date('Y-m-d',strtotime('-1 day'));
 		$yesterday_end = date('Y-m-d');
 		
-		$FundOrderToday = FundOrder::where('created_at','>=',$today_start)->where('created_at','<',$today_end)->where(['pay_status'=>1,'status'=>1]);
 		$FundOrderYesterday = FundOrder::where('created_at','>=',$yesterday_start)->where('created_at','<',$yesterday_end)->where(['pay_status'=>1,'status'=>1]);
-		$today_unified_count = (clone $FundOrderToday)->count();
-		$today_unified_amount = (clone $FundOrderToday)->sum('amount');
+		$FundOrderUnPayYesterday = FundOrder::where('created_at','>=',$yesterday_start)->where('created_at','<',$yesterday_end)->where(['pay_status'=>0,'status'=>1]);
 		$yesterday_unified_count = (clone $FundOrderYesterday)->count();
 		$yesterday_unified_amount = (clone $FundOrderYesterday)->sum('amount');
+		$yesterday_unified_un_pay_count = (clone $FundOrderUnPayYesterday)->count();
+		$yesterday_unified_un_pay_amount = (clone $FundOrderUnPayYesterday)->sum('amount');
 		
-		$FundWithdrawToday = FundWithdraw::where('created_at','>=',$today_start)->where('created_at','<',$today_end);
+		
 		$FundWithdrawYesterday = FundWithdraw::where('created_at','>=',$yesterday_start)->where('created_at','<',$yesterday_end);
-		$today_withdraw_count = (clone $FundWithdrawToday)->where('status',1)->count();
-		$today_withdraw_amount = (clone $FundWithdrawToday)->where('status',1)->sum('amount');
 		$yesterday_withdraw_count = (clone $FundWithdrawYesterday)->where('status',1)->count();
 		$yesterday_withdraw_amount = (clone $FundWithdrawYesterday)->where('status',1)->sum('amount');
-		
-		$FundUserPurseToday = FundUserPurse::where('created_at','>=',$today_start)->where('created_at','<',$today_end)->where('user_id','>',0)->groupBy('user_id');
-		$FundUserPurseYesterday = FundUserPurse::where('created_at','>=',$yesterday_start)->where('created_at','<',$yesterday_end)->where('user_id','>',0)->groupBy('user_id');
-		$today_withdraw_un_count = (clone $FundWithdrawYesterday)->where('status',0)->count();
+		$yesterday_withdraw_un_count = (clone $FundWithdrawYesterday)->where('status',0)->count();
 		$yesterday_withdraw_un_amount = (clone $FundWithdrawYesterday)->where('status',0)->sum('amount');
-		$today_new_user_count = (clone $FundUserPurseToday)->count();
+		
+		$FundUserPurseYesterday = FundUserPurse::where('created_at','>=',$yesterday_start)->where('created_at','<',$yesterday_end)->where('user_id','>',0)->groupBy('user_id');
 		$yesterday_new_user_count = (clone $FundUserPurseYesterday)->count();
 		
-		$FundBehaviorToday = FundBehavior::where('created_at','>=',$today_start)->where('created_at','<',$today_end)->where('status',0);
-		$FundTransferToday = FundTransfer::where('created_at','>=',$today_start)->where('created_at','<',$today_end)->where('status',1);
+		$FundBehaviorYesterday = FundBehavior::where('created_at','>=',$yesterday_start)->where('created_at','<',$yesterday_end);
 		$FundTransferYesterday = FundTransfer::where('created_at','>=',$yesterday_start)->where('created_at','<',$yesterday_end)->where('status',1);
-		$today_behavior_error_count = (clone $FundBehaviorToday)->count();
-		$merchant_count = Fundmerchant::active()->count();
-		$today_transfer_today = (clone $FundTransferToday)->count();
-		$today_transfer_yesterday = (clone $FundTransferYesterday)->count();
-		
+		$yesterday_behavior_count = (clone $FundBehaviorYesterday)->count();
+		$yesterday_behavior_error_count = (clone $FundBehaviorYesterday)->where('status','!=',1)->count();
+		$yesterday_transfer = (clone $FundTransferYesterday)->count();
 		$data = [
-			['sum' => $today_unified_count,],
-			['sum' => $today_unified_amount,],
-			['sum' => $yesterday_unified_count,],
-			['sum' => $yesterday_unified_amount,],
-			
-			['sum' => $today_withdraw_count,],
-			['sum' => $today_withdraw_amount,],
-			['sum' => $yesterday_withdraw_count,],
-			['sum' => $yesterday_withdraw_amount,],
-			
-			['sum' => $today_withdraw_un_count,],
-			['sum' => $yesterday_withdraw_un_amount,],
-			['sum' => $today_new_user_count,],
-			['sum' => $yesterday_new_user_count,],
-			
-			['sum' => $merchant_count,],
-			['sum' => $today_transfer_today,],
-			['sum' => $today_transfer_yesterday,],
-			['sum' => $today_behavior_error_count,],
+			'yesterday_unified_count'			=> ['sum' => $yesterday_unified_count,],
+			'yesterday_unified_amount'			=> ['sum' => $yesterday_unified_amount,],
+			'yesterday_unified_un_pay_count'	=> ['sum' => $yesterday_unified_un_pay_count,],
+			'yesterday_unified_un_pay_amount'	=> ['sum' => $yesterday_unified_un_pay_amount,],
+			'yesterday_withdraw_count'			=> ['sum' => $yesterday_withdraw_count,],
+			'yesterday_withdraw_amount'			=> ['sum' => $yesterday_withdraw_amount,],
+			'yesterday_withdraw_un_count'		=> ['sum' => $yesterday_withdraw_un_count,],
+			'yesterday_withdraw_un_amount'		=> ['sum' => $yesterday_withdraw_un_amount,],
+			'yesterday_new_user_count'			=> ['sum' => $yesterday_new_user_count,],
+			'yesterday_transfer'				=> ['sum' => $yesterday_transfer,],
+			'yesterday_behavior_count'			=> ['sum' => $yesterday_behavior_count,],
+			'yesterday_behavior_error_count'	=> ['sum' => $yesterday_behavior_error_count,],
 		];
 		
 		return json_success('OK',$data);
