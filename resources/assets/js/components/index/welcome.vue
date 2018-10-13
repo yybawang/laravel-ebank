@@ -70,7 +70,7 @@
 					<th>订单号</th>
 					<th>金额(分)</th>
 					<th>支付时间</th>
-					<th>状态</th>
+					<th>操作</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -80,13 +80,13 @@
 					<td v-text="val.order_no"></td>
 					<td v-text="val.amount"></td>
 					<td v-text="val.pay_time"></td>
-					<td>待通知</td>
+					<td><a class="mdui-btn mdui-ripple mdui-color-pink" @click="notify(val.id)">手动通知</a></td>
 				</tr>
 				</template>
 				<template v-else>
 				<tr>
 					<td colspan="5">
-						<div class="mdui-p-y-2 mdui-valign order-notify-clear"><span class="mdui-m-r-1">通知正常工作</span><i class="mdui-icon material-icons mdui-text-color-orange">sentiment_satisfied</i></div>
+						<div class="mdui-p-y-2 mdui-valign order-notify-clear"><span class="mdui-m-r-1">服务正常工作中</span><i class="mdui-icon material-icons mdui-text-color-orange">sentiment_satisfied</i></div>
 					</td>
 				</tr>
 				</template>
@@ -298,7 +298,16 @@
 						t.sum_yesterday[i].sum = data[i].sum;
 					}
 				});
-			}
+			},
+			notify(id) {
+				let t = this;
+				mdui.confirm('请求重新进入通知队列，如果多次失败请检查队列(queue)服务配置，点击【确定】继续', '手动发起异步通知', function () {
+					t.$API.post('/order/notify', {id: id}).then(function (data) {
+						mdui.alert("已重新分发通知任务", function () {}, {history: false});
+						t.order_unnotify();
+					})
+				}, function () {}, {history: false, confirmText: '确定', cancelText: '取消'});
+			},
 		},
 		mounted(){
 			this.today();

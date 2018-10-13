@@ -228,6 +228,10 @@ function queue_name($name){
  */
 function email_bug(...$msg){
 	$receives = config('basic.bug_receives');
+	if(empty($receives)){
+		logger()->alert('收件人邮箱未配置，忽略发送邮件请求');
+		return false;
+	}
 	$url = request()->fullUrl();
 	\Illuminate\Support\Facades\Mail::to($receives)->queue((new \App\Mail\Bug($url,$_GET,$_POST,$_REQUEST,$_SERVER,$_COOKIE,$_SESSION,$msg))->onQueue(queue_name('email')));
 	return true;

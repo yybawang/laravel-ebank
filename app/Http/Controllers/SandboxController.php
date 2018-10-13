@@ -29,7 +29,7 @@ class SandboxController extends Controller
 {
 	public function test(BasicRequest $request){
 //		$s = $request->all();		// 会多个 s 参数
-//		email_bug('ssss','复古');
+//		$s = email_bug('ssss','复古');
 //		echo FundAdmin::md5('123456');
 //		$bank = new EBankSdk();
 		$bank = new EBank();

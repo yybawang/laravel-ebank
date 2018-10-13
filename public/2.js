@@ -350,6 +350,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					t.sum_yesterday[i].sum = data[i].sum;
 				}
 			});
+		},
+		notify: function notify(id) {
+			var t = this;
+			mdui.confirm('请求重新进入通知队列，如果多次失败请检查队列(queue)服务配置，点击【确定】继续', '手动发起异步通知', function () {
+				t.$API.post('/order/notify', { id: id }).then(function (data) {
+					mdui.alert("已重新分发通知任务", function () {}, { history: false });
+					t.order_unnotify();
+				});
+			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
 		}
 	},
 	mounted: function mounted() {
@@ -771,7 +780,7 @@ var render = function() {
               _vm._v(" "),
               _c("th", [_vm._v("支付时间")]),
               _vm._v(" "),
-              _c("th", [_vm._v("状态")])
+              _c("th", [_vm._v("操作")])
             ])
           ]),
           _vm._v(" "),
@@ -795,7 +804,20 @@ var render = function() {
                         domProps: { textContent: _vm._s(val.pay_time) }
                       }),
                       _vm._v(" "),
-                      _c("td", [_vm._v("待通知")])
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "mdui-btn mdui-ripple mdui-color-pink",
+                            on: {
+                              click: function($event) {
+                                _vm.notify(val.id)
+                              }
+                            }
+                          },
+                          [_vm._v("手动通知")]
+                        )
+                      ])
                     ])
                   })
                 : [
@@ -809,7 +831,7 @@ var render = function() {
                           },
                           [
                             _c("span", { staticClass: "mdui-m-r-1" }, [
-                              _vm._v("通知正常工作")
+                              _vm._v("服务正常工作中")
                             ]),
                             _c(
                               "i",
