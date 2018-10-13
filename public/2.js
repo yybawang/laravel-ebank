@@ -104,6 +104,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -492,30 +502,49 @@ var render = function() {
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "order-notify" }, [
-        _c("div", { staticClass: "mdui-toolbar mdui-color-pink" }, [
-          _c(
-            "span",
-            {
-              attrs: { title: "此数据为最新20条，详情请在订单管理中筛选查看" }
-            },
-            [_vm._v("订单支付成功但未通知商户，请及时处理")]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "mdui-toolbar-spacer" }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "mdui-btn mdui-btn-icon",
-              on: { click: _vm.order_unnotify }
-            },
-            [
+        _c(
+          "div",
+          {
+            class: {
+              "mdui-toolbar": true,
+              "mdui-color-pink": _vm.order_notify.length > 0,
+              "mdui-color-green": _vm.order_notify.length <= 0
+            }
+          },
+          [
+            _c("a", { staticClass: "mdui-btn mdui-btn-icon" }, [
               _c("i", { staticClass: "mdui-icon material-icons" }, [
-                _vm._v("refresh")
+                _vm._v("error_outline")
               ])
-            ]
-          )
-        ]),
+            ]),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                attrs: {
+                  title:
+                    "此数据为最新20条，详情请在订单管理中筛选查看，请及时处理"
+                }
+              },
+              [_vm._v("支付成功但未成功通知商户订单")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "mdui-toolbar-spacer" }),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "mdui-btn mdui-btn-icon",
+                on: { click: _vm.order_unnotify }
+              },
+              [
+                _c("i", { staticClass: "mdui-icon material-icons" }, [
+                  _vm._v("refresh")
+                ])
+              ]
+            )
+          ]
+        ),
         _vm._v(" "),
         _c("table", { staticClass: "mdui-table" }, [
           _c("thead", [
@@ -534,19 +563,57 @@ var render = function() {
           _vm._v(" "),
           _c(
             "tbody",
-            _vm._l(_vm.order_notify, function(val, key) {
-              return _c("tr", [
-                _c("td", { domProps: { textContent: _vm._s(val.id) } }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.order_no) } }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.amount) } }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.pay_time) } }),
-                _vm._v(" "),
-                _c("td", [_vm._v("待通知")])
-              ])
-            })
+            [
+              _vm.order_notify.length > 0
+                ? _vm._l(_vm.order_notify, function(val, key) {
+                    return _c("tr", [
+                      _c("td", { domProps: { textContent: _vm._s(val.id) } }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.order_no) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.amount) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", {
+                        domProps: { textContent: _vm._s(val.pay_time) }
+                      }),
+                      _vm._v(" "),
+                      _c("td", [_vm._v("待通知")])
+                    ])
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              [
+                _c("tr", [
+                  _c(
+                    "td",
+                    {
+                      staticClass: "mdui-p-y-2 mdui-text-center",
+                      attrs: { colspan: "5" }
+                    },
+                    [
+                      _c("div", [
+                        _c("span", { staticClass: "mdui-m-r-1" }, [
+                          _vm._v("通知正常工作")
+                        ]),
+                        _c(
+                          "i",
+                          {
+                            staticClass:
+                              "mdui-icon material-icons mdui-text-color-pink order-notify-clear"
+                          },
+                          [_vm._v("sentiment_satisfied")]
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              ]
+            ],
+            2
           )
         ])
       ])

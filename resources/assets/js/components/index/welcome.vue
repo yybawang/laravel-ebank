@@ -22,8 +22,9 @@
 			</div>
 		</div>
 		<div class="order-notify">
-			<div class="mdui-toolbar mdui-color-pink">
-				<span title="此数据为最新20条，详情请在订单管理中筛选查看">订单支付成功但未通知商户，请及时处理</span>
+			<div :class="{'mdui-toolbar':true, 'mdui-color-pink':order_notify.length > 0,'mdui-color-green':order_notify.length <= 0}">
+				<a class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">error_outline</i></a>
+				<span title="此数据为最新20条，详情请在订单管理中筛选查看，请及时处理">支付成功但未成功通知商户订单</span>
 				<div class="mdui-toolbar-spacer"></div>
 				<a class="mdui-btn mdui-btn-icon" @click="order_unnotify">
 					<i class="mdui-icon material-icons">refresh</i>
@@ -40,6 +41,7 @@
 				</tr>
 				</thead>
 				<tbody>
+				<template v-if="order_notify.length > 0">
 				<tr v-for="(val,key) of order_notify">
 					<td v-text="val.id"></td>
 					<td v-text="val.order_no"></td>
@@ -47,6 +49,14 @@
 					<td v-text="val.pay_time"></td>
 					<td>待通知</td>
 				</tr>
+				</template>
+				<template>
+				<tr>
+					<td colspan="5" class="mdui-p-y-2 mdui-text-center">
+						<div><span class="mdui-m-r-1">通知正常工作</span><i class="mdui-icon material-icons mdui-text-color-pink order-notify-clear">sentiment_satisfied</i></div>
+					</td>
+				</tr>
+				</template>
 				</tbody>
 			</table>
 		</div>
