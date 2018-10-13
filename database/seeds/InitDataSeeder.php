@@ -21,7 +21,7 @@ class InitDataSeeder extends Seeder
 		FundAdminGroup::create([
 			'id'		=> 1,
 			'name'		=> '系统管理组',
-			'rule'		=> '',
+			'rule'		=> [],
 			'status'	=> 1,
 			'remarks'	=> '拥有最高权限',
 		]);

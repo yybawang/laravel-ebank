@@ -50,10 +50,10 @@ class RuleController extends CommonController {
 			'realname'		=> 'required',
 		]);
 		$post = $request->all();
-		if(!$post['password']){
-			unset($post['password']);
-		}else{
+		if($post['password']){
 			$post['password'] = FundAdmin::md5($post['password']);
+		}else{
+			unset($post['password']);
 		}
 		
 		$id = FundAdmin::updateOrCreate(['id'=>$post['id']],$post)->id;
@@ -84,7 +84,7 @@ class RuleController extends CommonController {
 	public function group_detail(BasicRequest $request,int $id){
 		$data = FundAdminGroup::firstOrNew(['id'=>$id],[
 			'name'		=> '',
-			'rule'		=> '[]',
+			'rule'		=> [],
 			'status'	=> 1,
 			'remarks'	=> '',
 		]);
