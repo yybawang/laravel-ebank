@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ApiUserWalletRequest extends BasicRequest
 {
@@ -25,7 +26,10 @@ class ApiUserWalletRequest extends BasicRequest
 	{
 		return [
 			//
-			'user_id'		=> 'required|integer|min:1',
+			'user_id'		=> 'required|integer|min:0',
+			'type'			=> [
+				Rule::exists('fund_user_type','alias')->where('status',1),
+			],
 		];
 	}
 	
@@ -34,6 +38,7 @@ class ApiUserWalletRequest extends BasicRequest
 			'user_id.required'		=> '用户ID参数必传',
 			'user_id.integer'		=> '用户ID参数只能为正整数',
 			'user_id.min'			=> '用户ID参数只能为正整数',
+			'type.exists'			=> '身份类型不存在',
 		];
 	}
 }

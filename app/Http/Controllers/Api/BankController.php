@@ -101,9 +101,11 @@ class BankController extends CommonController {
 	public function user_wallet(ApiUserWalletRequest $request){
 		$appid = $request->input('ebank_appid');
 		$user_id = $request->input('user_id');
+		$type = $request->input('type','user');
 		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
+		$user_type_id = FundUserType::where(['alias'=>$type])->value('id');
 		$EBank = new EBank();
-		$data = $EBank->userWallet($user_id,3,$merchant_id);
+		$data = $EBank->userWallet($user_id,$user_type_id,$merchant_id);
 		return json_success('OK',$data);
 	}
 	

@@ -43,8 +43,8 @@ class SandboxController extends Controller
 		 */
 		$transfer = [
 			// 充值测试
-			EBankSdk::transfer_add(2020130301)->from(1)->to(1)->amount(10),
-			EBankSdk::transfer_add(1020330303)->from(1)->to(1)->amount(10),
+//			EBankSdk::transfer_add(2020130301)->from(1)->to(1)->amount(10),
+//			EBankSdk::transfer_add(1020330303)->from(1)->to(1)->amount(10),
 		];
 //		$s = (new EBankSdk())->transfer($transfer);
 //		$s = (new EBankSdk())->transfer($transfer,true);
@@ -58,7 +58,14 @@ class SandboxController extends Controller
 //		$s = $export->name('导出流水测试')->data(FundTransfer::all())->save();
 		
 		// 查看钱包
-//		$s =$sdk->wallet(1);
+//		$s =$sdk->wallet(1)->get();
+//		$s =$sdk->wallet(1)->purse('cash')->get();
+//		$s =$sdk->wallet(1)->first('cash');
+		
+		// 转账冲正，传递 fund_transfer 表 id
+//		$s = $sdk->unTransfer(59);
+		
+		// 提现
 //		$s = (new EBankSdk())->withdraw(1)->amount(18)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
 		// 事务测试
 //		DB::transaction(function(){

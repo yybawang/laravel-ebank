@@ -411,7 +411,7 @@ class EBank {
 			],
 		],[
 			'merchant_id.required'	=> '商户ID参数必传',
-			'merchant_id.min'		=> '用户ID参数只能为正整数',
+			'merchant_id.min'		=> '商户ID参数值有误',
 			'user_id.required'		=> '用户ID参数必传',
 			'user_id.integer'		=> '用户ID参数类型错误',
 			'user_type.required'	=> '身份类型参数必传',
