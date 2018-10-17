@@ -133,7 +133,7 @@ class EBankSdk {
 	 */
 	public function freeze(int $uid,string $purse_type,int $amount){
 		$url = $this->url . 'bank/freeze';
-		$purse_id = $this->wallet($uid,'',$purse_type)[$purse_type]['id'];
+		$purse_id = $this->userPurse($uid,'user',$purse_type)['id'];
 		$param = [
 			'purse_id'	=> $purse_id,
 			'amount'	=> $amount,
