@@ -77,6 +77,9 @@ class MerchantController extends CommonController {
 		$data['list'] = FundBehavior::when($request->input('url'),function($query) use ($request){
 			$query->where('url','like','%'.$request->input('url').'%');
 		})
+			->when($request->input('appid'),function($query) use ($request){
+				$query->where('appid',$request->input('appid'));
+			})
 			->when($request->input('status'),function($query) use ($request){
 				$query->whereIn('status',$request->input('status'));
 			})

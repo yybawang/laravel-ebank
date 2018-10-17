@@ -65,7 +65,7 @@
 					</div>
 					<div class="mdui-container">
 						<div class="mdui-tab" mdui-tab>
-							<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key==0}" v-for="(config,name,key) of form.pay_config" v-text="name" @click="tab_change(name)"></a>
+							<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key===0}" v-for="(config,name,key) of form.pay_config" v-text="name" @click="tab_change(name)"></a>
 						</div>
 						<div class="mdui-divider"></div>
 						<div class="payment_field" v-for="(val,key) of form.pay_config[pay_config_name]">
