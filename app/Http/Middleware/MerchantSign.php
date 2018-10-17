@@ -49,7 +49,7 @@ class MerchantSign
 		$data = [
 			'appid'=> $request->input('ebank_appid'),	// 直接记录appid，避免每次查询数据库
 			'url'			=> request()->url(),
-			'execute_time'	=> round($now_time_float - request()->server('REQUEST_TIME_FLOAT'),8),
+			'execute_time'	=> round($now_time_float - LARAVEL_START,8),
 			'response'		=> print_r($response_content,true),		// 输出的结果集
 			'status'		=> $response_content['status'],
 			'$_GET'			=> print_r($_GET,true),
