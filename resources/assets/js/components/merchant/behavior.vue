@@ -9,7 +9,7 @@
 					匹配url：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.url" />
 				</p>
 				<p>
-					订单类型：
+					返回类型：
 					<label class="mdui-checkbox" v-for="(name,status) of response_status" style="margin-right:2rem;">
 						<input type="checkbox" :value="status" v-model="keyword.status" />
 						<i class="mdui-checkbox-icon"></i>
@@ -21,6 +21,11 @@
 				</p>
 			</blockquote>
 		</div>
+		
+		<div class="mdui-tab" mdui-tab>
+			<a :href="'#tab_'+key" :class="{'mdui-btn':true,'mdui-ripple':true,'mdui-tab-active':key===0}" v-for="(name,id,key) of merchant" v-text="name" @click="tab_change(id)"></a>
+		</div>
+		
 		<div class="mdui-table-fluid">
 			<table class="mdui-table mdui-table-hoverable">
 				<thead>
@@ -95,6 +100,7 @@
 					page : 1,
 					status : [],
 					url : '',
+					appid : '',
 				},
 			};
 		},
@@ -117,16 +123,26 @@
 					'$_SERVER' : val.$_SERVER,
 					'备注' : val.remarks,
 					'请求时间' : val.created_at,
+					'请求耗时(s)' : val.execute_time,
 				};
 				t.$nextTick(function(){
 					t.dialog.open();
 				});
+			},
+			tab_change(id){
+				this.keyword.page = 1;
+				this.keyword.appid = id;
+				this.init();
+				return false;
 			},
 			init(){
 				let t = this;
 				t.$API.get('/merchant/behavior',t.keyword).then(function(data){
 					t.list = data.list;
 					t.merchant = data.merchant;
+					t.$nextTick(function(){
+						$('.mdui-tab').mutation();
+					});
 				}).catch(function(msg){
 					
 				});
