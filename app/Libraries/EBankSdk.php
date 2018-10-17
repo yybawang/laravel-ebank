@@ -23,23 +23,40 @@ class EBankSdk {
 	
 	public function __construct()
 	{
-		$this->appid = 'ebank10000';	// 必须配置，默认为中央系统本身，后台->接口商户管理
-		$this->secret = '10000';		// 必须配置，默认为中央系统本身，接口秘钥
-		$this->url = config('app.url').'/api/';
+		$this->appid = 'ebank10000';			// 必须配置，默认为中央系统本身，后台->接口商户管理
+		$this->secret = '10000';				// 必须配置，默认为中央系统本身，接口秘钥
+		$this->url = config('app.url').'/api/';	// 必须配置，ebank 部署地址，带 http:// 全地址，以 api/ 结尾
 	}
+	
+	
+	/*******************************************************************************************
+	 *
+	 *                                    用户转账                                               *
+	 *
+	 *******************************************************************************************/
 	
 	/**
 	 * 获取用户钱包列表
 	 * 示例代码：
-	 * 		$wallet = (new EBankSdk())->wallet(1);
-	 * @param $uid
-	 * @param $purse
-	 * @return mixed
+	 * 		$wallet = EBankSdk::wallet(1)->get();
+	 * @param int $user_id
+	 * @return Wallet
 	 */
-	public function wallet(int $uid,$purse = null){
+	public static function wallet(int $user_id){
+		$Wallet = new Wallet($user_id);
+		return $Wallet;
+	}
+	/**
+	 * @param int $uid
+	 * @param string $type 身份类型，对应 fund_user_type 表 alias 值
+	 * @param string $purse 如果传递则只返回这一个钱包，默认全部
+	 * @return array
+	 */
+	public function userPurse(int $uid,string $type = 'user', string $purse = ''){
 		$url = $this->url . 'bank/user_wallet';
 		$param = [
 			'user_id'	=> $uid,
+			'type'		=> $type,
 		];
 		$data = $this->_post($url,$param);
 		if($purse){
@@ -56,7 +73,7 @@ class EBankSdk {
 	 *
 	 *******************************************************************************************/
 	
-	public static function transfer_add(int $reason){
+	public static function transferAdd(int $reason){
 		$transfer = new Transfer($reason);
 		return $transfer;
 	}
@@ -65,25 +82,45 @@ class EBankSdk {
 	/**
 	 * 添加参数后开始转账，有时业务需求复杂，一条转账不能满足需求，所以这里做成多条一起转，避免数据错误后事务难回滚问题
 	 * 示例代码：
-	 * 		$transfer_ids = (new EBankSdk())->transfer([
-				EBankSdk::transfer_add(402030303)->from(1)->to(1)->amount(1100)->detail(''),
-				EBankSdk::transfer_add(202030303)->from(1)->to(1)->amount(300)->detail(''),
+	 * 		$transfer_ids = EBankSdk::transfer([
+				EBankSdk::transferAdd(402030303)->from(1)->to(1)->amount(1100)->detail(''),
+				EBankSdk::transferAdd(202030303)->from(1)->to(1)->amount(300)->detail(''),
 			]);
-	 * @param array $transfer_alias
-	 * @param mixed $async 是否异步操作，进入队列处理，不用等待结果
-	 * @return array		// 返回顺序的转账ID
+	 * @param array $transfer_objs
+	 * @param mixed $async 是否异步操作，进入队列处理，不用等待结果，返回值为空数组
+	 * @return array 返回转账ID数组，无论一条还是多条，按请求顺序排序
 	 */
-	public function transfer(array $transfer_alias,$async = false){
+	public static function transfer(array $transfer_objs,$async = false){
+		$bank_sdk = new EBankSdk();
+		$transfer_ids = $bank_sdk->_transfer($transfer_objs, $async);
+		return $transfer_ids;
+	}
+	
+	/**
+	 * 单条转账操作，用户不复杂的简单转账
+	 * 示例代码：
+	 * 		EBankSdk::transferAdd(3020110301)->from(1)->to(1)->amount(10)->transfer();
+	 * @param Transfer $transfer
+	 * @param bool $async
+	 * @return int|bool
+	 */
+	public function transferSingle(Transfer $transfer,$async = false){
+		$transfer_ids = $this->_transfer([$transfer], $async);
+		return $async ? true : array_shift($transfer_ids);
+	}
+	
+	
+	private function _transfer(array $transfer_objs,$async = false){
 		$url = $this->url . 'bank/transfer';
 		$alias = [];
-		foreach($transfer_alias as $class){
-			$param = $class->param;
-			// 金额小于0，就不能调转账，会报金额错误
-			if($param['amount'] > 0){
+		foreach($transfer_objs as $obj){
+			$param = $obj->param;
+			// 过滤金额，金额小于0，就不能调转账，金额错误
+//			if($param['amount'] > 0){
 				array_push($alias,$param);
-			}
+//			}
 		}
-		// 返回多条转账产生的转账ID数组，原始顺序排序
+		
 		$param = [
 			'param'	=> $alias,
 			'async'	=> $async ? 1 : 0,
@@ -95,21 +132,30 @@ class EBankSdk {
 	
 	/**
 	 * 流水冲正接口
+	 * 示例代码：
+	 * 		EBankSdk::unTransfer(59);
 	 * @param $transfer_id
 	 * @param $remarks
-	 * @return mixed
+	 * @return int
 	 */
-	public function untransfer(int $transfer_id,$remarks = null){
-		$url = $this->url . 'bank/untransfer';
+	public static function unTransfer(int $transfer_id,$remarks = null){
+		$bank_sdk = new EBankSdk();
+		$url = $bank_sdk->url . 'bank/untransfer';
 		$param = [
 			'transfer_id'	=> $transfer_id,
 			'remarks'		=> $remarks,
 		];
 		
-		$result = $this->_post($url,$param);
+		$result = $bank_sdk->_post($url,$param);
 		return $result['transfer_id'];
 	}
 	
+	
+	/*******************************************************************************************
+	 *
+	 *                                    资金冻结                                               *
+	 *
+	 *******************************************************************************************/
 	
 	/**
 	 * 冻结用户钱包金额
@@ -120,7 +166,7 @@ class EBankSdk {
 	 */
 	public function freeze(int $uid,string $purse_type,int $amount){
 		$url = $this->url . 'bank/freeze';
-		$purse_id = $this->wallet($uid)[$purse_type]['id'];
+		$purse_id = $this->userPurse($uid,'user',$purse_type)['id'];
 		$param = [
 			'purse_id'	=> $purse_id,
 			'amount'	=> $amount,
@@ -158,7 +204,7 @@ class EBankSdk {
 	*
 	*******************************************************************************************/
 	
-	public function unified(int $user_id){
+	public static function unified(int $user_id){
 		$unified = new Unified($user_id);
 		return $unified;
 	} 
@@ -184,7 +230,7 @@ class EBankSdk {
 	 *
 	 *******************************************************************************************/
 	
-	public function withdraw(int $user_id){
+	public static function withdraw(int $user_id){
 		$withdraw = new Withdraw($user_id);
 		return $withdraw;
 	}
@@ -310,6 +356,14 @@ class Transfer {
 		$this->param['remarks'] = $remarks;
 		return $this;
 	}
+	
+	// 直接进行转账，成功后参数充值为空
+	public function transfer($async = false){
+		$bank_sdk = new EBankSdk();
+		$transfer_id = $bank_sdk->transferSingle($this,$async);
+		$this->param = [];
+		return $transfer_id;
+	}
 }
 
 /**
@@ -427,5 +481,49 @@ class Withdraw {
 	public function wechat(){
 		$bank_sdk = new EBankSdk();
 		return $bank_sdk->wechat($this->param);
+	}
+}
+
+/**
+ * 私有钱包获取类
+ * Class Wallet
+ * @package App\Libraries
+ */
+class Wallet {
+	// 用户ID，非用户类传0
+	private $user_id = 0;
+	// 某身份类型 alias
+	private $type = 'user';
+	// 某个钱包 alias，不设置为所有钱包
+	private $purse = '';
+	
+	public function __construct(int $user_id = 0) {
+		$this->user_id = $user_id;
+		return $this;
+	}
+	
+	public function purse(string $purse){
+		$this->purse = $purse;
+		return $this;
+	}
+	
+	public function type(string $type){
+		$this->type = $type;
+		return $this;
+	}
+	
+	// 返回所有数据，也可指定 purse 返回某一条数据
+	public function get(){
+		$bank_sdk = new EBankSdk();
+		return $bank_sdk->userPurse($this->user_id, $this->type, $this->purse);
+	}
+	
+	// 返回指定一条数据
+	public function first(string $purse = ''){
+		if($purse){
+			$this->purse($purse);
+		}
+		$bank_sdk = new EBankSdk();
+		return $bank_sdk->userPurse($this->user_id, $this->type, $this->purse);
 	}
 }

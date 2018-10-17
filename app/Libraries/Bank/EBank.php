@@ -364,12 +364,12 @@ class EBank {
 	 * @return mixed
 	 * 钱包冲正，双路资金原路退回，冲正后结果可为负数，避免资金不足冲正失败
 	 */
-	public function untransfer(int $transfer_id,?string $remarks = '流水冲正，资金退回'){
+	public function unTransfer(int $transfer_id,?string $remarks = '流水冲正，资金退回'){
 		$bool = DB::transaction(function() use ($transfer_id, $remarks){
 			$detail = FundTransfer::lockForUpdate()->findOrFail($transfer_id);
 			
 			if($detail->status != 1){
-				exception('该数据已被处理过');
+				exception('该数据已被处理过，无法冲正');
 			}
 			$out_purse_id = $detail->into_purse_id;	// 解析后需转出的钱包id
 			$into_purse_id = $detail->out_purse_id;	// 解析后需转入的钱包id
@@ -386,7 +386,8 @@ class EBank {
 			}
 			$detail->status = 2;
 			$detail->remarks = $remarks;
-			return $detail->save();
+			$ok = $detail->save();
+			return $ok ? $transfer_id : false;
 		});
 		
 		return $bool;
@@ -411,7 +412,7 @@ class EBank {
 			],
 		],[
 			'merchant_id.required'	=> '商户ID参数必传',
-			'merchant_id.min'		=> '用户ID参数只能为正整数',
+			'merchant_id.min'		=> '商户ID参数值有误',
 			'user_id.required'		=> '用户ID参数必传',
 			'user_id.integer'		=> '用户ID参数类型错误',
 			'user_type.required'	=> '身份类型参数必传',

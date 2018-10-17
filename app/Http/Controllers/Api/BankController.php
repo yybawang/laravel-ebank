@@ -8,7 +8,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\ApiFreezeRequest;
 use App\Http\Requests\ApiPurseDetailRequest;
-use App\Http\Requests\ApiReverseRequest;
+use App\Http\Requests\ApiUnTransferRequest;
 use App\Http\Requests\ApiTransferDetailRequest;
 use App\Http\Requests\ApiUnfreezeRequest;
 use App\Http\Requests\ApiUserTypeWalletRequest;
@@ -51,49 +51,6 @@ class BankController extends CommonController {
 	}
 	
 	/**
-	 * 获取身份类型下的所有钱包
-	 * @param ApiUserTypeWalletRequest $request
-	 * @return array
-	 */
-	public function user_type_wallet(ApiUserTypeWalletRequest $request){
-		$user_type = $request->input('user_type');
-		$EBank = new EBank();
-		$user_type_id = FundUserType::where(['alias'=>$user_type])->value('id');
-		$data = $EBank->userWallet(0,$user_type_id);
-		return json_success('OK',$data);
-	}
-	
-	/**
-	 * 获取中央银行下的所有钱包
-	 * @param BasicRequest $request
-	 * @return array
-	 */
-	public function central_wallet(BasicRequest $request){
-		$appid = $request->input('ebank_appid');
-		$user_type = 'central';
-		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
-		$EBank = new EBank();
-		$user_type_id = FundUserType::where(['alias'=>$user_type])->value('id');
-		$data = $EBank->userWallet(0,$user_type_id,$merchant_id);
-		return json_success('OK',$data);
-	}
-	
-	/**
-	 * 获取系统银行下的所有钱包
-	 * @param BasicRequest $request
-	 * @return array
-	 */
-	public function system_wallet(BasicRequest $request){
-		$appid = $request->input('ebank_appid');
-		$user_type = 'system';
-		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
-		$EBank = new EBank();
-		$user_type_id = FundUserType::where(['alias'=>$user_type])->value('id');
-		$data = $EBank->userWallet(0,$user_type_id,$merchant_id);
-		return json_success('OK',$data);
-	}
-	
-	/**
 	 * 用户钱包列表
 	 * @param ApiUserWalletRequest $request
 	 * @return array
@@ -101,9 +58,11 @@ class BankController extends CommonController {
 	public function user_wallet(ApiUserWalletRequest $request){
 		$appid = $request->input('ebank_appid');
 		$user_id = $request->input('user_id');
+		$type = $request->input('type','user');
 		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
+		$user_type_id = FundUserType::where(['alias'=>$type])->value('id');
 		$EBank = new EBank();
-		$data = $EBank->userWallet($user_id,3,$merchant_id);
+		$data = $EBank->userWallet($user_id,$user_type_id,$merchant_id);
 		return json_success('OK',$data);
 	}
 	
@@ -186,14 +145,14 @@ class BankController extends CommonController {
 	
 	/**
 	 * 钱包冲正，钱包回转
-	 * @param ApiReverseRequest $request
+	 * @param ApiUnTransferRequest $request
 	 * @return array
 	 */
-	public function untransfer(ApiReverseRequest $request){
+	public function unTransfer(ApiUnTransferRequest $request){
 		$transfer_id = $request->input('transfer_id');
 		$remarks = $request->input('remarks');
 		$EBank = new EBank();
-		$transfer_id = $EBank->untransfer($transfer_id,$remarks);
+		$transfer_id = $EBank->unTransfer($transfer_id,$remarks);
 		return json_return($transfer_id,'','资金冲正处理成功',['transfer_id'=>$transfer_id]);
 	}
 	

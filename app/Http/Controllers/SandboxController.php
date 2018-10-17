@@ -32,35 +32,39 @@ class SandboxController extends Controller
 //		$s = email_bug('ssss','复古');
 //		echo FundAdmin::md5('123456');
 //		$bank = new EBankSdk();
-		$bank = new EBank();
-		$sdk = new EBankSdk();
+//		$bank = new EBank();
+//		$sdk = new EBankSdk();
 //		$bank->initPurse();
 //		$s = $bank->userPurseDetail(4);
 //		$s = $bank->unfreeze(1);
 		/**
-		 * 转账多个，使用二维数组区分，可提前加入二维数组，最后统一转账，自动绑定先后(父子)关系
+		 * 转账多个，使用二维数组区分，可提前加入二维数组，最后统一转账，避免事务无法统一回滚问题
 		 * 系统用户不必指定uid
 		 */
-		$transfer = [
-			// 充值测试
-			EBankSdk::transfer_add(2020130301)->from(1)->to(1)->amount(10),
-			EBankSdk::transfer_add(1020330303)->from(1)->to(1)->amount(10),
-		];
-//		$s = (new EBankSdk())->transfer($transfer);
-//		$s = (new EBankSdk())->transfer($transfer,true);
-//		$s = (new Bank())->systemCashToUserCash(0,1,100,10001);
+//		$transfer = [
+//			EBankSdk::transferAdd(3020110301)->from(1)->to(1)->amount(10),
+//			EBankSdk::transferAdd(4030110201)->from(1)->to(1)->amount(10),
+//		];
+//		$s = EBankSdk::transfer($transfer);
+//		$s = EBankSdk::transfer($transfer,true);	// 异步转账，无返回值
+//		$s = EBankSdk::transferAdd(3020110301)->from(1)->to(1)->amount(10)->transfer(true);
 		/**
 		 * payType 方法可以多次调用，实现组合支付
 		 */
-//		$s =  (new EBankSdk())->unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wechat_mp',100)->returnUrl('http://return.com')->notifyUrl('http://ebank.thinkms.com')->param('openid','o7U3Bs-62euOeUsidmOEotkmUMag')->param('auth_code','101234567891234567')->pay();
+//		$s =  EBankSdk::unified(1)->orderNo('10001434343'.rand(10000,99999))->orderType('测试订单')->productName('测试商品')->payType('wallet_cash',100)->returnUrl('http://return.com')->notifyUrl('http://ebank.thinkms.com')->param('openid','o7U3Bs-62euOeUsidmOEotkmUMag')->param('auth_code','101234567891234567')->pay();
 		
-//		$export = new ExportCsv();
-//		$s = $export->name('导出流水测试')->data(FundTransfer::all())->save();
 		
 		// 查看钱包
-//		$s =$sdk->wallet(1);
-//		$s = (new EBankSdk())->withdraw(1)->amount(18)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
-		// 事务测试
+//		$s = EBankSdk::wallet(1)->get();
+//		$s = EBankSdk::wallet(1)->purse('cash')->get();
+//		$s = EBankSdk::wallet(1)->first('cash');
+		
+		// 转账冲正，传递 fund_transfer 表 id
+//		$s = EBankSdk::unTransfer(57);
+		
+		// 提现
+//		$s = EBankSdk::withdraw(1)->amount(18)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
+		// 嵌套事务测试
 //		DB::transaction(function(){
 //			(new EBank())->transfer(1,0,1,100,1020110301);
 //			(new EBank())->transfer(1,0,1,100,1020110301);
@@ -70,22 +74,6 @@ class SandboxController extends Controller
 //			(new EBank())->transfer(1,0,1,100,1020110301);
 //			abort(500);
 //		});
-//		$s  = [
-//			'val'	=> null,
-//			'keyf$3d'=> 'http://sss.com',
-//			'key**'	=> 'lkjkfd& df ddd&',
-//			'tow'	=> ['d'=>11,'s'=>222],
-//		];
-//		DB::listen(function($query){
-//			dump($query->sql,$query->bindings);
-//		});
-//		$s = http_build_query($s);
-//		$s = FundMerchant::where(['id' => 1])->first(['appid','secret']);
-//		$s = FundUserPurse::where(['id'=>2])->update(['balance'=>99999999999901]);
-//		$s = DB::update('update fund_user_purse set balance = 99999999999900 where id = 2');
-//		$s = FundUserPurse::where(['id'=>2])->update(['balance'=>99999999999900]);
-//		$s = curl_post(url('api/sms/content'),['mobile'=>'17099912460','content'=>'发送短信。。。']);
-//		curl_post('http://sdfd1204545.com',['df'=>333]);
 		dump($s);
 	}
 	

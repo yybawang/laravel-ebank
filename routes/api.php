@@ -33,13 +33,10 @@ Route::namespace('Api')->group(function(){
 		Route::post('test_sign','BankController@test_sign');
 		
 		Route::post('transfer','BankController@transfer');		// 转账通用方法，根据 transfer_alias 参数区分
-		Route::post('untransfer','BankController@untransfer');		// 钱包冲正，钱包回转一次
+		Route::post('untransfer','BankController@unTransfer');		// 钱包冲正，钱包回转一次
 		Route::post('transfer_detail','BankController@transfer_detail');	// 转账详情
 		Route::post('user_type','BankController@user_type');
 		Route::post('purse_type','BankController@purse_type');
-		Route::post('user_type_wallet','BankController@user_type_wallet');
-		Route::post('central_wallet','BankController@central_wallet');
-		Route::post('system_wallet','BankController@system_wallet');
 		Route::post('user_wallet','BankController@user_wallet');
 		Route::post('wallet_detail','BankController@wallet_detail');
 		Route::post('freeze','BankController@freeze');
