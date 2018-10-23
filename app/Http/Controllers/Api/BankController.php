@@ -99,7 +99,7 @@ class BankController extends CommonController {
 	 * @return array
 	 */
 	public function unfreeze(ApiUnfreezeRequest $request){
-		$freeze_id = $request->input('freeze_id');
+		$freeze_id = intval($request->input('freeze_id'));
 		$EBank = new EBank();
 		$bool = $EBank->unfreeze($freeze_id);
 		return json_return($bool,'','解冻成功',['freeze_id'=>$freeze_id]);

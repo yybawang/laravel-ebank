@@ -62,6 +62,10 @@ class SandboxController extends Controller
 		// 转账冲正，传递 fund_transfer 表 id
 //		$s = EBankSdk::unTransfer(57);
 		
+		// 冻结、解冻
+//		$s = EBankSdk::freeze(1,100,'cash');
+//		$s = EBankSdk::unfreeze(6);
+		
 		// 提现
 //		$s = EBankSdk::withdraw(1)->amount(18)->account('dfdf@qq.com')->purse('cash')->realname('晏勇')->bankName('中国公账')->bankNo('333333')->bank();
 		// 嵌套事务测试

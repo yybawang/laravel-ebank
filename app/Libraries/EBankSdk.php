@@ -31,7 +31,7 @@ class EBankSdk {
 	
 	/*******************************************************************************************
 	 *
-	 *                                    用户转账                                               *
+	 *                                    用户钱包                                               *
 	 *
 	 *******************************************************************************************/
 	
@@ -48,11 +48,11 @@ class EBankSdk {
 	}
 	/**
 	 * @param int $uid
-	 * @param string $type 身份类型，对应 fund_user_type 表 alias 值
 	 * @param string $purse 如果传递则只返回这一个钱包，默认全部
+	 * @param string $type 身份类型，对应 fund_user_type 表 alias 值
 	 * @return array
 	 */
-	public function userPurse(int $uid,string $type = 'user', string $purse = ''){
+	public function userPurse(int $uid, string $purse = '',string $type = 'user'){
 		$url = $this->url . 'bank/user_wallet';
 		$param = [
 			'user_id'	=> $uid,
@@ -134,11 +134,11 @@ class EBankSdk {
 	 * 流水冲正接口
 	 * 示例代码：
 	 * 		EBankSdk::unTransfer(59);
-	 * @param $transfer_id
-	 * @param $remarks
+	 * @param int $transfer_id
+	 * @param string $remarks
 	 * @return int
 	 */
-	public static function unTransfer(int $transfer_id,$remarks = null){
+	public static function unTransfer(int $transfer_id,$remarks = ''){
 		$bank_sdk = new EBankSdk();
 		$url = $bank_sdk->url . 'bank/untransfer';
 		$param = [
@@ -159,34 +159,41 @@ class EBankSdk {
 	
 	/**
 	 * 冻结用户钱包金额
-	 * @param $uid
-	 * @param $purse_type
-	 * @param $amount
-	 * @return mixed
+	 * 示例代码：
+	 * 		EBankSdk::freeze(1,100,'cash');
+	 * @param int $uid
+	 * @param int $amount
+	 * @param string $purse_type
+	 * @param string $user_type
+	 * @return int
 	 */
-	public function freeze(int $uid,string $purse_type,int $amount){
-		$url = $this->url . 'bank/freeze';
-		$purse_id = $this->userPurse($uid,'user',$purse_type)['id'];
+	public static function freeze(int $uid,int $amount,string $purse_type,string $user_type = 'user'){
+		$bank_sdk = new EBankSdk();
+		$url = $bank_sdk->url . 'bank/freeze';
+		$purse_id = $bank_sdk->userPurse($uid,$purse_type,$user_type)['id'];
 		$param = [
 			'purse_id'	=> $purse_id,
 			'amount'	=> $amount,
 		];
 		
-		$data = $this->_post($url,$param);
+		$data = $bank_sdk->_post($url,$param);
 		return $data['freeze_id'];
 	}
 	
 	/**
 	 * 解冻用户钱包金额
+	 * 示例代码：
+	 * 		EBankSdk::unfreeze(6);
 	 * @param $freeze_id
 	 * @return mixed
 	 */
-	public function unfreeze(int $freeze_id){
-		$url = $this->url . 'bank/unfreeze';
+	public static function unfreeze(int $freeze_id){
+		$bank_sdk = new EBankSdk();
+		$url = $bank_sdk->url . 'bank/unfreeze';
 		$param = [
 			'freeze_id'	=> $freeze_id,
 		];
-		$data = $this->_post($url,$param);
+		$data = $bank_sdk->_post($url,$param);
 		// 解冻返回原冻结ID
 		return $data['freeze_id'];
 	}
@@ -515,7 +522,7 @@ class Wallet {
 	// 返回所有数据，也可指定 purse 返回某一条数据
 	public function get(){
 		$bank_sdk = new EBankSdk();
-		return $bank_sdk->userPurse($this->user_id, $this->type, $this->purse);
+		return $bank_sdk->userPurse($this->user_id, $this->purse, $this->type);
 	}
 	
 	// 返回指定一条数据
@@ -524,6 +531,6 @@ class Wallet {
 			$this->purse($purse);
 		}
 		$bank_sdk = new EBankSdk();
-		return $bank_sdk->userPurse($this->user_id, $this->type, $this->purse);
+		return $bank_sdk->userPurse($this->user_id, $this->purse, $this->type);
 	}
 }
