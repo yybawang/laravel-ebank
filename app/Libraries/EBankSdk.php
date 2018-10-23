@@ -451,7 +451,7 @@ class Withdraw {
 		$this->param['fee'] = $fee;
 		return $this;
 	}
-	// 设置出装钱包
+	// 设置出账钱包，purse_type 表的 alias 值
 	public function purse(string $purse){
 		$this->param['purse'] = $purse;
 		return $this;
