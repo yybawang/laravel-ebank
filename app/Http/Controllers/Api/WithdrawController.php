@@ -41,9 +41,9 @@ class WithdrawController extends CommonController {
 		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
 		$purse_id = FundPurseType::where(['alias'=>$purse,'status'=>1])->value('id');
 		
-		$bank = new EBank();
-		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id,3,$merchant_id);
-		$id = $bank->freeze($wallet->id,$post['amount']);
+		$EBank = new EBank();
+		$wallet = $EBank->userWalletDetail($post['user_id'],$purse_id,3,$merchant_id);
+		$id = $EBank->freeze($wallet->id,$post['amount']);
 		$post['freeze_id']	= $id;
 		$post['merchant_id']= $merchant_id;
 		$withdraw_id = FundWithdraw::create($post)->id;
@@ -78,9 +78,9 @@ class WithdrawController extends CommonController {
 		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
 		$purse_id = FundPurseType::where(['alias'=>$purse,'status'=>1])->value('id');
 		
-		$bank = new EBank();
-		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id,3,$merchant_id);
-		$id = $bank->freeze($wallet->id,$post['amount']);
+		$EBank = new EBank();
+		$wallet = $EBank->userWalletDetail($post['user_id'],$purse_id,3,$merchant_id);
+		$id = $EBank->freeze($wallet->id,$post['amount']);
 		$post['freeze_id']	= $id;
 		$post['merchant_id']= $merchant_id;
 		$withdraw_id = FundWithdrawAlipay::create($post)->id;
@@ -115,9 +115,9 @@ class WithdrawController extends CommonController {
 		$merchant_id = FundMerchant::where(['appid'=>$appid])->value('id');
 		$purse_id = FundPurseType::where(['alias'=>$purse,'status'=>1])->value('id');
 		
-		$bank = new EBank();
-		$wallet = $bank->userWalletDetail($post['user_id'],$purse_id,3,$merchant_id);
-		$id = $bank->freeze($wallet->id,$post['amount']);
+		$EBank = new EBank();
+		$wallet = $EBank->userWalletDetail($post['user_id'],$purse_id,3,$merchant_id);
+		$id = $EBank->freeze($wallet->id,$post['amount']);
 		$post['freeze_id']	= $id;
 		$post['merchant_id']= $merchant_id;
 		$withdraw_id = FundWithdrawWechat::create($post)->id;
