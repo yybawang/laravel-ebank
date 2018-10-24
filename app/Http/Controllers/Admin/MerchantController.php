@@ -55,8 +55,8 @@ class MerchantController extends CommonController {
 		$post = $request->all();
 		$id = FundMerchant::updateOrCreate(['id'=>$post['id']],$post)->id;
 		// 钱包金额初始化
-		$bank = new EBank();
-		$bank->initPurse();
+		$EBank = new EBank();
+		$EBank->initPurse();
 		return json_return($id,'','',['id'=>$id]);
 	}
 	

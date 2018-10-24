@@ -90,9 +90,9 @@ class FundOrder extends CommonModel
 	
 	private function _completeOrder(FundOrder $order){
 		DB::transaction(function() use ($order){
-			$bank = new EBank();
+			$EBank = new EBank();
 			// 系统钱包增加金额，流水为充值，用户钱包支付部分就是用户到系统。
-			FundOrderPayment::where(['order_id'=>$order->id])->pluck('amount','type')->each(function($amount,$type) use ($order,$bank){
+			FundOrderPayment::where(['order_id'=>$order->id])->pluck('amount','type')->each(function($amount,$type) use ($order,$EBank){
 				$uid = $order->user_id;
 				if($amount <= 0){
 					return true;
@@ -102,11 +102,11 @@ class FundOrder extends CommonModel
 				if(stripos($type,'wallet_') === 0){
 					$purse_type = ucfirst(substr(strstr($type, '_'), 1));
 					$transfer_alias = 'user'.$purse_type.'ToSystem'.$purse_type;
-					$bank->$transfer_alias($order->merchant_id,$uid,0,$amount,$order->order_no,'内部钱包支付成功扣款',1);
+					$EBank->$transfer_alias($order->merchant_id,$uid,0,$amount,$order->order_no,'内部钱包支付成功扣款',1);
 				}else{
-					$bank->centralCashToSystemCash($order->merchant_id,0,0,$amount,$order->order_no,'三方支付成功，中央银行现金拨款',2);	// 为凭空出来的钱，所以先从中央银行扣款到系统
-					$bank->systemCashToUserCash($order->merchant_id,0,$uid,$amount,$order->order_no,'用户充值',3);	// 系统先给用户充值，走流水
-					$bank->userCashToSystemCash($order->merchant_id,$uid,0,$amount,$order->order_no,'订单支付',4);	// 再转回系统，订单支付
+					$EBank->centralCashToSystemCash($order->merchant_id,0,0,$amount,$order->order_no,'三方支付成功，中央银行现金拨款',2);	// 为凭空出来的钱，所以先从中央银行扣款到系统
+					$EBank->systemCashToUserCash($order->merchant_id,0,$uid,$amount,$order->order_no,'用户充值',3);	// 系统先给用户充值，走流水
+					$EBank->userCashToSystemCash($order->merchant_id,$uid,0,$amount,$order->order_no,'订单支付',4);	// 再转回系统，订单支付
 				}
 			});
 			

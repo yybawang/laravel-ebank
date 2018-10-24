@@ -115,16 +115,16 @@ class WithdrawController extends CommonController {
 		}
 		$withdraw_class = '\\App\\Models\\FundWithdraw'.$type;
 		$withdraw_object = new $withdraw_class();
-		$bank = new EBank();
-		DB::transaction(function() use ($bank,$withdraw_object,$ids){
+		$EBank = new EBank();
+		DB::transaction(function() use ($EBank,$withdraw_object,$ids){
 			foreach($ids as $k => $id){
 				$withdraw = $withdraw_object->findOrFail($id);
-				$bank->unfreeze($withdraw->freeze_id);
+				$EBank->unfreeze($withdraw->freeze_id);
 				$purse_type = ucfirst($withdraw->purse);
 				$transfer_alias_user = 'user'.$purse_type.'ToUserWithdraw';
 				$transfer_alias_system = 'userWithdrawToSystemWithdraw';
-				$bank->$transfer_alias_user($withdraw->merchant_id,$withdraw->user_id,$withdraw->user_id,$withdraw->amount,$withdraw->id,'提现成功，钱包中转',6);
-				$transfer_id = $bank->$transfer_alias_system($withdraw->merchant_id,$withdraw->user_id,0,$withdraw->amount,$withdraw->id,'提现成功，资金回收',7);
+				$EBank->$transfer_alias_user($withdraw->merchant_id,$withdraw->user_id,$withdraw->user_id,$withdraw->amount,$withdraw->id,'提现成功，钱包中转',6);
+				$transfer_id = $EBank->$transfer_alias_system($withdraw->merchant_id,$withdraw->user_id,0,$withdraw->amount,$withdraw->id,'提现成功，资金回收',7);
 				$withdraw->status = 1;
 				$withdraw->transfer_id = $transfer_id;
 				$withdraw->save();
@@ -148,10 +148,10 @@ class WithdrawController extends CommonController {
 		
 		$withdraw_class = '\\App\\Models\\FundWithdraw'.$type;
 		$withdraw_object = new $withdraw_class();
-		$bank = new EBank();
-		DB::transaction(function() use ($bank,$id,$withdraw_object,$remarks){
+		$EBank = new EBank();
+		DB::transaction(function() use ($EBank,$id,$withdraw_object,$remarks){
 			$withdraw = $withdraw_object->findOrFail($id);
-			$bank->unfreeze($withdraw->freeze_id);
+			$EBank->unfreeze($withdraw->freeze_id);
 			$withdraw->status = 2;
 			$withdraw->remarks = $remarks;
 			$withdraw->save();

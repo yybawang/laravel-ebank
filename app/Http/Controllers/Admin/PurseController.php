@@ -33,7 +33,11 @@ class PurseController extends CommonController {
 		return json_success('OK',$data);
 	}
 	
-	// 用户钱包管理--无增删改
+	/**
+	 * 用户钱包管理
+	 * @param BasicRequest $request
+	 * @return array
+	 */
 	public function user(BasicRequest $request){
 		$data['user_type'] = FundUserType::pluck('name','id');
 		$data['purse_type'] = FundPurseType::pluck('name','id');
@@ -52,6 +56,36 @@ class PurseController extends CommonController {
 			})
 			->where('user_type_id','>=',3)->where('user_id','>',0)->orderBy('user_id','desc')->orderBy('purse_type_id','asc')->pages();
 		return json_success('OK',$data);
+	}
+	
+	/**
+	 * 用户钱包详情
+	 * @param BasicRequest $request
+	 * @param int $id
+	 * @return array
+	 */
+	public function user_detail(BasicRequest $request,int $id){
+		$data = FundUserPurse::where(['id'=>$id])->first();
+		return json_success('OK',$data);
+	}
+	
+	public function user_add(BasicRequest $request){
+		$post = request()->validate([
+			'id'			=> 'required|integer|min:1',
+			'status'		=> 'required',
+			'remarks'		=> '',
+		]);
+		request()->validate([
+			'freeze'		=> 'required|integer|min:0',
+		]);
+		FundUserPurse::where(['id'=>$post['id']])->update($post);
+		$Purse = FundUserPurse::find($post['id']);
+		// 冻结金额
+		if(($freeze = $request->input('freeze') - $Purse->freeze) > 0){
+			$EBank = new EBank();
+			$EBank->freeze($Purse->id,$freeze,$request->input('freeze_remarks'));
+		}
+		return json_success('OK');
 	}
 	
 	/**
@@ -74,8 +108,8 @@ class PurseController extends CommonController {
 	// 冻结记录单条解冻
 	public function unfreeze(BasicRequest $request){
 		$id = $request->input('id');
-		$bank = new EBank();
-		$bool = $bank->unfreeze($id);
+		$EBank = new EBank();
+		$bool = $EBank->unfreeze($id);
 		return json_return($bool);
 	}
 	
@@ -114,8 +148,8 @@ class PurseController extends CommonController {
 		$post = $request->all();
 		$id = FundUserType::updateOrCreate(['id'=>$post['id']],$post)->id;
 		// 钱包金额初始化
-		$bank = new EBank();
-		$bank->initPurse();
+		$EBank = new EBank();
+		$EBank->initPurse();
 		return json_return($id,'','',['id'=>$id]);
 	}
 	
@@ -159,8 +193,8 @@ class PurseController extends CommonController {
 		$post = $request->all();
 		$id = FundPurseType::updateOrCreate(['id'=>$post['id']],$post)->id;
 		// 钱包金额初始化
-		$bank = new EBank();
-		$bank->initPurse();
+		$EBank = new EBank();
+		$EBank->initPurse();
 		return json_return($id,'','',['id'=>$id]);
 	}
 	
