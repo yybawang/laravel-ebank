@@ -83,8 +83,8 @@ class TransferController extends CommonController {
 	public function untransfer(BasicRequest $request){
 		$id = $request->input('id');
 		$remarks = $request->input('remarks');
-		$bank = new EBank();
-		$bool = $bank->untransfer($id,$remarks);
+		$EBank = new EBank();
+		$bool = $EBank->untransfer($id,$remarks);
 		return json_return($bool);
 	}
 	

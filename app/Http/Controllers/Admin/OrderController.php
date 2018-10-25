@@ -101,10 +101,10 @@ class OrderController extends CommonController {
 			exception('订单状态与退款条件不足');
 		}
 		DB::transaction(function () use ($amount, $order) {
-			$bank = new EBank();
+			$EBank = new EBank();
 			
 			// 2017-09-12 变动，第三方还是收了钱的，所以不再退到中央银行，直接系统拨对应现金即可
-			$transfer_id = $bank->systemCashToUserCash($order->merchant_id,0,$order->user_id,$amount,$order->order_no,'订单退款',5);
+			$transfer_id = $EBank->systemCashToUserCash($order->merchant_id,0,$order->user_id,$amount,$order->order_no,'订单退款',5);
 			$order->refund_status = 1;
 			$order->refund_time = time2date();
 			$order->refund_transfer_id = $transfer_id;

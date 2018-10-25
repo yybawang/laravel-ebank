@@ -96,6 +96,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -104,6 +151,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			purse_type: '',
 			user_type: '',
 			merchant: '',
+			dialog: '',
+			form: {
+				id: 0,
+				balance: 0,
+				freeze: 0,
+				freeze_remarks: '',
+				status: 0,
+				remarks: ''
+			},
 			keyword: {
 				page: 1,
 				user_id: '',
@@ -124,6 +180,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.keyword.merchant_id = id;
 			this.init();
 		},
+		add: function add(id) {
+			var t = this;
+			t.dialog.open();
+			t.$API.get('/purse/user/' + id).then(function (data) {
+				t.form.id = data.id;
+				t.form.balance = data.balance;
+				t.form.freeze = data.freeze;
+				t.form.status = data.status;
+				t.form.remarks = data.remarks;
+			}).catch(function () {});
+		},
+		add_submit: function add_submit() {
+			var t = this;
+			t.$API.post('/purse/user', t.form).then(function () {
+				t.dialog.close();
+				t.init();
+			}).catch(function (msg) {});
+		},
 		init: function init() {
 			var t = this;
 			t.$API.get('/purse/user', t.keyword).then(function (data) {
@@ -139,6 +213,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	mounted: function mounted() {
 		var t = this;
+		t.dialog = new mdui.Dialog('.dialog_add', { history: false });
 		t.init();
 	}
 });
@@ -401,9 +476,204 @@ var render = function() {
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.remarks) } }),
               _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.created_at) } })
+              _c("td", { domProps: { textContent: _vm._s(val.created_at) } }),
+              _vm._v(" "),
+              _c("td", [
+                _c("div", { staticClass: "mdui-btn-group" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+                      on: {
+                        click: function($event) {
+                          _vm.add(val.id)
+                        }
+                      }
+                    },
+                    [_vm._v("修改")]
+                  )
+                ])
+              ])
             ])
           })
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "mdui-dialog dialog_add" }, [
+      _c("div", { staticClass: "mdui-dialog-title" }, [
+        _vm._v("\n\t\t\t用户钱包新增/修改\n\t\t")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mdui-dialog-content" }, [
+        _c("form", [
+          _c("div", { staticClass: "mdui-container" }, [
+            _c("div", { staticClass: "mdui-textfield" }, [
+              _c("label", { staticClass: "mdui-textfield-label" }, [
+                _vm._v(
+                  "冻结金额(不可大于余额 " + _vm._s(_vm.form.balance) + ")"
+                )
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.freeze,
+                    expression: "form.freeze"
+                  }
+                ],
+                staticClass: "mdui-textfield-input",
+                attrs: { type: "tel" },
+                domProps: { value: _vm.form.freeze },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "freeze", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdui-container" }, [
+            _c("div", { staticClass: "mdui-textfield" }, [
+              _c("label", { staticClass: "mdui-textfield-label" }, [
+                _vm._v("冻结说明")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.freeze_remarks,
+                    expression: "form.freeze_remarks"
+                  }
+                ],
+                staticClass: "mdui-textfield-input",
+                attrs: { type: "text" },
+                domProps: { value: _vm.form.freeze_remarks },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "freeze_remarks", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdui-container" }, [
+            _c("label", { staticClass: "mdui-radio" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.status,
+                    expression: "form.status"
+                  }
+                ],
+                attrs: { type: "radio", name: "status", value: "1" },
+                domProps: {
+                  checked: !!_vm.form.status,
+                  checked: _vm._q(_vm.form.status, "1")
+                },
+                on: {
+                  change: function($event) {
+                    _vm.$set(_vm.form, "status", "1")
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("i", { staticClass: "mdui-radio-icon" }),
+              _vm._v("\n\t\t\t\t\t\t启用\n\t\t\t\t\t")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdui-container" }, [
+            _c("label", { staticClass: "mdui-radio" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.status,
+                    expression: "form.status"
+                  }
+                ],
+                attrs: { type: "radio", name: "status", value: "0" },
+                domProps: {
+                  checked: !_vm.form.status,
+                  checked: _vm._q(_vm.form.status, "0")
+                },
+                on: {
+                  change: function($event) {
+                    _vm.$set(_vm.form, "status", "0")
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("i", { staticClass: "mdui-radio-icon" }),
+              _vm._v("\n\t\t\t\t\t\t禁用\n\t\t\t\t\t")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdui-container" }, [
+            _c("div", { staticClass: "mdui-textfield" }, [
+              _c("label", { staticClass: "mdui-textfield-label" }, [
+                _vm._v("备注")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.remarks,
+                    expression: "form.remarks"
+                  }
+                ],
+                staticClass: "mdui-textfield-input",
+                attrs: { type: "text" },
+                domProps: { value: _vm.form.remarks },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "remarks", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mdui-dialog-actions" }, [
+        _c(
+          "a",
+          {
+            staticClass: "mdui-btn mdui-ripple",
+            attrs: { "mdui-dialog-close": "" }
+          },
+          [_vm._v("取消")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+            on: { click: _vm.add_submit }
+          },
+          [_vm._v("提交")]
         )
       ])
     ]),
@@ -459,7 +729,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("备注")]),
         _vm._v(" "),
-        _c("th", [_vm._v("创建时间")])
+        _c("th", [_vm._v("创建时间")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("操作")])
       ])
     ])
   }

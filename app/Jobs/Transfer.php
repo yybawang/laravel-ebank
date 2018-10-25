@@ -39,9 +39,9 @@ class Transfer implements ShouldQueue
     public function handle()
     {
 		// 异步转账操作
-		$bank = new EBank();
+		$EBank = new EBank();
 		$transfer_ids = [];
-		DB::transaction(function() use (&$transfer_ids,$bank){
+		DB::transaction(function() use (&$transfer_ids,$EBank){
 			$parent_id = 0;
 			foreach($this->posts as $k => $post){
 				$from_user_id = $post['from_user_id'] ?? 0;
@@ -50,7 +50,7 @@ class Transfer implements ShouldQueue
 				$reason = $post['reason'];
 				$detail = $post['detail'];
 				$remarks = $post['remarks'];
-				$transfer_ids[] = $parent_id = $bank->transfer($this->merchant_id,$from_user_id,$to_user_id,$amount,$reason,$parent_id,$detail,$remarks);
+				$transfer_ids[] = $parent_id = $EBank->transfer($this->merchant_id,$from_user_id,$to_user_id,$amount,$reason,$parent_id,$detail,$remarks);
 			}
 		});
     }

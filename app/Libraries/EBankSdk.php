@@ -91,8 +91,8 @@ class EBankSdk {
 	 * @return array 返回转账ID数组，无论一条还是多条，按请求顺序排序
 	 */
 	public static function transfer(array $transfer_objs,$async = false){
-		$bank_sdk = new EBankSdk();
-		$transfer_ids = $bank_sdk->_transfer($transfer_objs, $async);
+		$EBankSdk = new EBankSdk();
+		$transfer_ids = $EBankSdk->_transfer($transfer_objs, $async);
 		return $transfer_ids;
 	}
 	
@@ -139,14 +139,14 @@ class EBankSdk {
 	 * @return int
 	 */
 	public static function unTransfer(int $transfer_id,$remarks = ''){
-		$bank_sdk = new EBankSdk();
-		$url = $bank_sdk->url . 'bank/untransfer';
+		$EBankSdk = new EBankSdk();
+		$url = $EBankSdk->url . 'bank/untransfer';
 		$param = [
 			'transfer_id'	=> $transfer_id,
 			'remarks'		=> $remarks,
 		];
 		
-		$result = $bank_sdk->_post($url,$param);
+		$result = $EBankSdk->_post($url,$param);
 		return $result['transfer_id'];
 	}
 	
@@ -168,15 +168,15 @@ class EBankSdk {
 	 * @return int
 	 */
 	public static function freeze(int $uid,int $amount,string $purse_type,string $user_type = 'user'){
-		$bank_sdk = new EBankSdk();
-		$url = $bank_sdk->url . 'bank/freeze';
-		$purse_id = $bank_sdk->userPurse($uid,$purse_type,$user_type)['id'];
+		$EBankSdk = new EBankSdk();
+		$url = $EBankSdk->url . 'bank/freeze';
+		$purse_id = $EBankSdk->userPurse($uid,$purse_type,$user_type)['id'];
 		$param = [
 			'purse_id'	=> $purse_id,
 			'amount'	=> $amount,
 		];
 		
-		$data = $bank_sdk->_post($url,$param);
+		$data = $EBankSdk->_post($url,$param);
 		return $data['freeze_id'];
 	}
 	
@@ -188,12 +188,12 @@ class EBankSdk {
 	 * @return mixed
 	 */
 	public static function unfreeze(int $freeze_id){
-		$bank_sdk = new EBankSdk();
-		$url = $bank_sdk->url . 'bank/unfreeze';
+		$EBankSdk = new EBankSdk();
+		$url = $EBankSdk->url . 'bank/unfreeze';
 		$param = [
 			'freeze_id'	=> $freeze_id,
 		];
-		$data = $bank_sdk->_post($url,$param);
+		$data = $EBankSdk->_post($url,$param);
 		// 解冻返回原冻结ID
 		return $data['freeze_id'];
 	}
@@ -366,8 +366,8 @@ class Transfer {
 	
 	// 直接进行转账，成功后参数充值为空
 	public function transfer($async = false){
-		$bank_sdk = new EBankSdk();
-		$transfer_id = $bank_sdk->transferSingle($this,$async);
+		$EBankSdk = new EBankSdk();
+		$transfer_id = $EBankSdk->transferSingle($this,$async);
 		$this->param = [];
 		return $transfer_id;
 	}
@@ -422,8 +422,8 @@ class Unified {
 	}
 	
 	public function pay(){
-		$bank_sdk = new EBankSdk();
-		return $bank_sdk->pay($this->param);
+		$EBankSdk = new EBankSdk();
+		return $EBankSdk->pay($this->param);
 	}
 }
 
@@ -478,16 +478,16 @@ class Withdraw {
 	}
 	
 	public function bank(){
-		$bank_sdk = new EBankSdk();
-		return $bank_sdk->bank($this->param);
+		$EBankSdk = new EBankSdk();
+		return $EBankSdk->bank($this->param);
 	}
 	public function alipay(){
-		$bank_sdk = new EBankSdk();
-		return $bank_sdk->alipay($this->param);
+		$EBankSdk = new EBankSdk();
+		return $EBankSdk->alipay($this->param);
 	}
 	public function wechat(){
-		$bank_sdk = new EBankSdk();
-		return $bank_sdk->wechat($this->param);
+		$EBankSdk = new EBankSdk();
+		return $EBankSdk->wechat($this->param);
 	}
 }
 
@@ -521,8 +521,8 @@ class Wallet {
 	
 	// 返回所有数据，也可指定 purse 返回某一条数据
 	public function get(){
-		$bank_sdk = new EBankSdk();
-		return $bank_sdk->userPurse($this->user_id, $this->purse, $this->type);
+		$EBankSdk = new EBankSdk();
+		return $EBankSdk->userPurse($this->user_id, $this->purse, $this->type);
 	}
 	
 	// 返回指定一条数据
@@ -530,7 +530,7 @@ class Wallet {
 		if($purse){
 			$this->purse($purse);
 		}
-		$bank_sdk = new EBankSdk();
-		return $bank_sdk->userPurse($this->user_id, $this->purse, $this->type);
+		$EBankSdk = new EBankSdk();
+		return $EBankSdk->userPurse($this->user_id, $this->purse, $this->type);
 	}
 }
