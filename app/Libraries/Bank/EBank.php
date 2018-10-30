@@ -216,13 +216,13 @@ class EBank {
 			'reason.exists'			=> 'reason 参数不存在',
 		])->validate();
 		
-		$reason_first = FundTransferReason::select(['out_user_type_id','out_purse_type_id','into_user_type_id','into_purse_type_id'])->where(['reason'=>$reason])->firstOrFail();
+		$reason_first = FundTransferReason::select(['out_user_type_id','out_purse_type_id','into_user_type_id','into_purse_type_id'])->where(['merchant_id'=>$merchant_id,'reason'=>$reason])->firstOrFail();
 		$out_user_type_id = $reason_first->out_user_type_id;
 		$out_purse_type_id = $reason_first->out_purse_type_id;
 		$into_user_type_id = $reason_first->into_user_type_id;
 		$into_purse_type_id = $reason_first->into_purse_type_id;
 
-		// 如果出账钱包或入账钱包为系统默认的三个钱包，就设置 user_id = 0;
+		// 如果出账身份系统默认的两个，就设置 user_id = 0;
 		if($out_user_type_id == 1 || $out_user_type_id == 2){
 			$out_user_id = 0;
 		}
