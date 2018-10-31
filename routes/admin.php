@@ -17,7 +17,8 @@ Route::get('admin','Admin\IndexController@index');
 Route::get('admin/index','Admin\IndexController@index');
 Route::post('admin/login','Admin\LoginController@login_submit');
 
-Route::middleware([AdminUser::class])->prefix('admin')->namespace('Admin')->group(function(){
+// 后台菜单使用路由命名实现，非数据库管理，按照 name() 格式添加即可添加菜单以及权限控制
+Route::middleware([AdminUser::class])->namespace('Admin')->group(function(){
 	Route::get('init','IndexController@init');
 	Route::any('logout','LoginController@logout');
 	Route::post('upload', 'CommonController@upload');
