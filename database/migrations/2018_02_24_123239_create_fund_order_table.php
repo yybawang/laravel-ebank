@@ -21,7 +21,7 @@ class CreateFundOrderTable extends Migration
             $table->string('order_no',50)->comment('唯一订单号');
             $table->string('order_type')->comment('订单类型，商户自由区分，可存中文或英文');
             $table->string('product_name')->comment('商品名');
-            $table->decimal('amount',30,0)->unsigned()->comment('组合支付总金额，单位分');
+            $table->decimal('amount',30,0)->comment('组合支付总金额，单位分');
             $table->string('return_url')->comment('同步返回地址');
             $table->string('notify_url')->comment('异步返回地址');
             $table->text('param')->comment('所有参数，json保存预留');

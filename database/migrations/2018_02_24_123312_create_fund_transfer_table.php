@@ -18,7 +18,7 @@ class CreateFundTransferTable extends Migration
             $table->increments('id');
             $table->integer('merchant_id')->comment('商户ID');
             $table->decimal('reason',30,0)->unsigned()->comment('转账reason，业务不同reason不同');
-            $table->decimal('amount',30,0)->unsigned()->comment('出/进账金额');
+            $table->decimal('amount',30,0)->comment('出/进账金额');
             
             $table->integer('out_user_id')->comment('出账用户ID');
             $table->integer('out_user_type_id')->comment('出账身份类型ID');

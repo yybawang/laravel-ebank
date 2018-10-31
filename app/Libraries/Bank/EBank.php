@@ -32,12 +32,12 @@ use Illuminate\Validation\Rule;
 class EBank {
 	
 	/**
-	 * @param int $balance	// 一千万亿元
+	 * @param int $balance	// 久千万亿元
 	 * @return bool
 	 * 初始化数据，数据清空后可调用此方法重新生成系统钱包id
 	 * 一层商户，一层
 	 */
-	public function initPurse(int $balance = 100000000000000000){
+	public function initPurse(int $balance = 900000000000000000){
 		$merchant = FundMerchant::active()->pluck('id');
 		$user_type = FundUserType::active()->pluck('id');
 		$merchant->each(function($merchant_id) use ($user_type,$balance){
@@ -568,16 +568,19 @@ class EBank {
 		if(Cache::has($cache_key)){
 			exception('钱包冻结请求频繁，请稍后再试');
 		}
-		Cache::add($cache_key,1,0.1);		// 6秒钟
+		Cache::add($cache_key,1,0.05);		// 3秒钟
+		
+		if($amount <= 0){
+			exception('冻结金额只能为正整数');
+		}
 		
 		$purse = FundUserPurse::active()->where(['id'=>$purse_id])->firstOrFail();
 		if($purse->balance - $purse->freeze < $amount){
 			exception('账户余额不足');
 		}
 		
-		$id = DB::transaction(function() use ($amount,$purse,$purse_id,$remarks){
-			$purse->freeze += $amount;
-			$purse->save();
+		$id = DB::transaction(function() use ($amount,$purse_id,$remarks){
+			FundUserPurse::where(['id'=>$purse_id])->update(['freeze' => DB::raw('freeze + '.$amount)]);
 			
 			$freeze_add = [
 				'purse_id'		=> $purse_id,
@@ -601,7 +604,7 @@ class EBank {
 		if(Cache::has($cache_key)){
 			exception('钱包解冻请求频繁，请稍后再试');
 		}
-		Cache::add($cache_key,1,0.1);		// 6秒钟
+		Cache::add($cache_key,1,0.05);		// 3秒钟
 		
 		$freeze = FundFreeze::findOrFail($freeze_id);
 		$purse = FundUserPurse::active()->where(['id'=>$freeze->purse_id])->firstOrFail();
@@ -611,9 +614,8 @@ class EBank {
 		}
 		
 		$bool = DB::transaction(function() use ($purse,$freeze){
-			// 更新钱包冻结资金，减掉对应资金
-			$purse->freeze -= $freeze->amount;
-			$purse->save();
+			// 更新钱包冻结资金
+			FundUserPurse::where(['id'=>$purse->id])->update(['freeze' => DB::raw('freeze - '.$freeze->amount)]);
 			
 			// 更新冻结历史数据，设为已冻结
 			$freeze->status = 2;

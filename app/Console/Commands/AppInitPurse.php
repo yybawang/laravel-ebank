@@ -12,14 +12,14 @@ class AppInitPurse extends Command
      *
      * @var string
      */
-    protected $signature = 'app:init-purse {amount=100000000000000000}';
+    protected $signature = 'app:init-purse {amount=900000000000000000}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '初始化钱包数据，金额大于 0 忽略';
+    protected $description = '初始化钱包数据，正整数';
 
     /**
      * Create a new command instance.
