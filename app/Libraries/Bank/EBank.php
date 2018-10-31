@@ -196,7 +196,7 @@ class EBank {
 			'reason'				=> [
 				'required',
 				'integer',
-//				Rule::exists('fund_transfer_reason','reason')->where('merchant_id',$merchant_id)->where('status',1),		// 底层已验证过
+				Rule::exists('fund_transfer_reason','reason')->where('merchant_id',$merchant_id)->where('status',1),		// 底层已效验 
 			],
 		],[
 			'merchant_id.required'	=> '转账商户参数必传',
@@ -297,8 +297,10 @@ class EBank {
 		
 		$transfer_id = DB::transaction(function() use ($merchant_id,$out_purse_id,$into_purse_id,$amount,$parent_id,$reason,$detail,$remarks){
 			// 悲观行锁，避免其他进程幻读
-			$out_purse = FundUserPurse::lockForUpdate()->find($out_purse_id);
-			$into_purse = FundUserPurse::lockForUpdate()->find($into_purse_id);
+//			$out_purse = FundUserPurse::lockForUpdate()->find($out_purse_id);
+			$out_purse = FundUserPurse::find($out_purse_id);
+//			$into_purse = FundUserPurse::lockForUpdate()->find($into_purse_id);
+			$into_purse = FundUserPurse::find($into_purse_id);
 			
 			if($out_purse->status == 0){
 				exception('转出钱包已被设置为禁用');
@@ -308,7 +310,7 @@ class EBank {
 			}
 			
 			// 出账钱包扣款
-			$var = FundUserPurse::where(['id'=>$out_purse->id])->where(DB::raw('balance - freeze'),'>=',$amount)->update(['balance'=>DB::raw('balance - '.$amount)]);
+			$var = FundUserPurse::where(['id'=>$out_purse->id])->where(DB::raw('balance - freeze'),'>=',$amount)->decrement('balance', $amount);
 			if(!$var){
 				exception('转出钱包扣款失败，余额不足');
 			}
