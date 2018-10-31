@@ -13,9 +13,9 @@
 use App\Http\Middleware\AdminUser;
 
 /********************************************** 后台管理模块 ******************************************/
-Route::get('admin','Admin\IndexController@index');
-Route::get('admin/index','Admin\IndexController@index');
-Route::post('admin/login','Admin\LoginController@login_submit');
+Route::get('','Admin\IndexController@index');
+Route::get('index','Admin\IndexController@index');
+Route::post('login','Admin\LoginController@login_submit');
 
 // 后台菜单使用路由命名实现，非数据库管理，按照 name() 格式添加即可添加菜单以及权限控制
 Route::middleware([AdminUser::class])->namespace('Admin')->group(function(){
