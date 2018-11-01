@@ -13,7 +13,7 @@
 use App\Http\Middleware\AdminUser;
 
 /********************************************** 后台管理模块 ******************************************/
-Route::get('','Admin\IndexController@index');
+Route::get('/','Admin\IndexController@index');
 Route::get('index','Admin\IndexController@index');
 Route::post('login','Admin\LoginController@login_submit');
 
