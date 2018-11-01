@@ -32,12 +32,12 @@ use Illuminate\Validation\Rule;
 class EBank {
 	
 	/**
-	 * @param int $balance	// 一千万亿元
+	 * @param int $balance	// 久千万亿元
 	 * @return bool
 	 * 初始化数据，数据清空后可调用此方法重新生成系统钱包id
 	 * 一层商户，一层
 	 */
-	public function initPurse(int $balance = 100000000000000000){
+	public function initPurse(int $balance = 900000000000000000){
 		$merchant = FundMerchant::active()->pluck('id');
 		$user_type = FundUserType::active()->pluck('id');
 		$merchant->each(function($merchant_id) use ($user_type,$balance){
@@ -196,7 +196,7 @@ class EBank {
 			'reason'				=> [
 				'required',
 				'integer',
-//				Rule::exists('fund_transfer_reason','reason')->where('merchant_id',$merchant_id)->where('status',1),		// 底层已验证过
+				Rule::exists('fund_transfer_reason','reason')->where('merchant_id',$merchant_id)->where('status',1),		// 底层已效验 
 			],
 		],[
 			'merchant_id.required'	=> '转账商户参数必传',
@@ -216,13 +216,13 @@ class EBank {
 			'reason.exists'			=> 'reason 参数不存在',
 		])->validate();
 		
-		$reason_first = FundTransferReason::select(['out_user_type_id','out_purse_type_id','into_user_type_id','into_purse_type_id'])->where(['reason'=>$reason])->firstOrFail();
+		$reason_first = FundTransferReason::select(['out_user_type_id','out_purse_type_id','into_user_type_id','into_purse_type_id'])->where(['merchant_id'=>$merchant_id,'reason'=>$reason])->firstOrFail();
 		$out_user_type_id = $reason_first->out_user_type_id;
 		$out_purse_type_id = $reason_first->out_purse_type_id;
 		$into_user_type_id = $reason_first->into_user_type_id;
 		$into_purse_type_id = $reason_first->into_purse_type_id;
 
-		// 如果出账钱包或入账钱包为系统默认的三个钱包，就设置 user_id = 0;
+		// 如果出账身份系统默认的两个，就设置 user_id = 0;
 		if($out_user_type_id == 1 || $out_user_type_id == 2){
 			$out_user_id = 0;
 		}
@@ -297,8 +297,10 @@ class EBank {
 		
 		$transfer_id = DB::transaction(function() use ($merchant_id,$out_purse_id,$into_purse_id,$amount,$parent_id,$reason,$detail,$remarks){
 			// 悲观行锁，避免其他进程幻读
-			$out_purse = FundUserPurse::lockForUpdate()->find($out_purse_id);
-			$into_purse = FundUserPurse::lockForUpdate()->find($into_purse_id);
+//			$out_purse = FundUserPurse::lockForUpdate()->find($out_purse_id);
+			$out_purse = FundUserPurse::find($out_purse_id);
+//			$into_purse = FundUserPurse::lockForUpdate()->find($into_purse_id);
+			$into_purse = FundUserPurse::find($into_purse_id);
 			
 			if($out_purse->status == 0){
 				exception('转出钱包已被设置为禁用');
@@ -308,7 +310,7 @@ class EBank {
 			}
 			
 			// 出账钱包扣款
-			$var = FundUserPurse::where(['id'=>$out_purse->id])->where(DB::raw('balance - freeze'),'>=',$amount)->update(['balance'=>DB::raw('balance - '.$amount)]);
+			$var = FundUserPurse::where(['id'=>$out_purse->id])->where(DB::raw('balance - freeze'),'>=',$amount)->decrement('balance', $amount);
 			if(!$var){
 				exception('转出钱包扣款失败，余额不足');
 			}
@@ -568,16 +570,19 @@ class EBank {
 		if(Cache::has($cache_key)){
 			exception('钱包冻结请求频繁，请稍后再试');
 		}
-		Cache::add($cache_key,1,0.1);		// 6秒钟
+		Cache::add($cache_key,1,0.05);		// 3秒钟
+		
+		if($amount <= 0){
+			exception('冻结金额只能为正整数');
+		}
 		
 		$purse = FundUserPurse::active()->where(['id'=>$purse_id])->firstOrFail();
 		if($purse->balance - $purse->freeze < $amount){
 			exception('账户余额不足');
 		}
 		
-		$id = DB::transaction(function() use ($amount,$purse,$purse_id,$remarks){
-			$purse->freeze += $amount;
-			$purse->save();
+		$id = DB::transaction(function() use ($amount,$purse_id,$remarks){
+			FundUserPurse::where(['id'=>$purse_id])->update(['freeze' => DB::raw('freeze + '.$amount)]);
 			
 			$freeze_add = [
 				'purse_id'		=> $purse_id,
@@ -601,7 +606,7 @@ class EBank {
 		if(Cache::has($cache_key)){
 			exception('钱包解冻请求频繁，请稍后再试');
 		}
-		Cache::add($cache_key,1,0.1);		// 6秒钟
+		Cache::add($cache_key,1,0.05);		// 3秒钟
 		
 		$freeze = FundFreeze::findOrFail($freeze_id);
 		$purse = FundUserPurse::active()->where(['id'=>$freeze->purse_id])->firstOrFail();
@@ -611,9 +616,8 @@ class EBank {
 		}
 		
 		$bool = DB::transaction(function() use ($purse,$freeze){
-			// 更新钱包冻结资金，减掉对应资金
-			$purse->freeze -= $freeze->amount;
-			$purse->save();
+			// 更新钱包冻结资金
+			FundUserPurse::where(['id'=>$purse->id])->update(['freeze' => DB::raw('freeze - '.$freeze->amount)]);
 			
 			// 更新冻结历史数据，设为已冻结
 			$freeze->status = 2;
