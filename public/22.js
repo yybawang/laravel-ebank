@@ -94,6 +94,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -131,7 +134,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				'$_SERVER': val.$_SERVER,
 				'备注': val.remarks,
 				'请求时间': val.created_at,
-				'请求耗时(s)': val.execute_time
+				'请求耗时(s)': val.execute_time + ''
 			};
 			t.$nextTick(function () {
 				t.dialog.open();
@@ -328,13 +331,17 @@ var render = function() {
               _vm._v(" "),
               _c("td", { domProps: { textContent: _vm._s(val.url) } }),
               _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.execute_time) } }),
-              _vm._v(" "),
               _c("td", {
-                domProps: {
-                  textContent: _vm._s(val.status ? "成功返回" : "异常返回")
-                }
+                domProps: { textContent: _vm._s(val.execute_time + "") }
               }),
+              _vm._v(" "),
+              _c("td", [
+                val.status
+                  ? _c("span", [_vm._v("成功返回")])
+                  : _c("span", { staticClass: "mdui-text-color-deep-orange" }, [
+                      _vm._v("异常返回")
+                    ])
+              ]),
               _vm._v(" "),
               _c("td", [
                 _c(
@@ -449,7 +456,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-5fb8c49f", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-1ab5359c", module.exports)
   }
 }
 
@@ -480,7 +487,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\merchant\\behavior.vue"
+Component.options.__file = "resources/assets/js/components/merchant/behavior.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -489,9 +496,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5fb8c49f", Component.options)
+    hotAPI.createRecord("data-v-1ab5359c", Component.options)
   } else {
-    hotAPI.reload("data-v-5fb8c49f", Component.options)
+    hotAPI.reload("data-v-1ab5359c", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

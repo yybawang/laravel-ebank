@@ -16422,7 +16422,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "node_modules\\vue-datepicker-local\\src\\VueDatepickerLocal.vue"
+Component.options.__file = "node_modules/vue-datepicker-local/src/VueDatepickerLocal.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -16431,9 +16431,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-16367078", Component.options)
+    hotAPI.createRecord("data-v-60bfcc2a", Component.options)
   } else {
-    hotAPI.reload("data-v-16367078", Component.options)
+    hotAPI.reload("data-v-60bfcc2a", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -16454,13 +16454,13 @@ var content = __webpack_require__(45);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("76d13e6e", content, false, {});
+var update = __webpack_require__(3)("5d7ba62c", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-16367078\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocal.vue", function() {
-     var newContent = require("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-16367078\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocal.vue");
+   module.hot.accept("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-60bfcc2a\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocal.vue", function() {
+     var newContent = require("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-60bfcc2a\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocal.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -16739,7 +16739,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "node_modules\\vue-datepicker-local\\src\\VueDatepickerLocalCalendar.vue"
+Component.options.__file = "node_modules/vue-datepicker-local/src/VueDatepickerLocalCalendar.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -16748,9 +16748,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-84adde54", Component.options)
+    hotAPI.createRecord("data-v-73d0d16e", Component.options)
   } else {
-    hotAPI.reload("data-v-84adde54", Component.options)
+    hotAPI.reload("data-v-73d0d16e", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -16771,13 +16771,13 @@ var content = __webpack_require__(50);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("3c4081ab", content, false, {});
+var update = __webpack_require__(3)("45eb8e03", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-84adde54\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocalCalendar.vue", function() {
-     var newContent = require("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-84adde54\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocalCalendar.vue");
+   module.hot.accept("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-73d0d16e\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocalCalendar.vue", function() {
+     var newContent = require("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-73d0d16e\",\"scoped\":false,\"hasInlineConfig\":true}!../../vue-loader/lib/selector.js?type=styles&index=0!./VueDatepickerLocalCalendar.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -17634,7 +17634,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-84adde54", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-73d0d16e", module.exports)
   }
 }
 
@@ -17776,7 +17776,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-16367078", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-60bfcc2a", module.exports)
   }
 }
 

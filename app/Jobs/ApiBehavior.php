@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\FundBehavior;
+use App\Models\FundMerchantBehavior;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -32,6 +32,6 @@ class ApiBehavior implements ShouldQueue
      */
     public function handle()
     {
-		FundBehavior::create($this->data);
+		FundMerchantBehavior::create($this->data);
 	}
 }
