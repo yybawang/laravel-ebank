@@ -1,476 +1,94 @@
 webpackJsonp([22],{
 
-/***/ 361:
+/***/ 326:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__welcome_store__ = __webpack_require__(384);
+var _this = this;
+
 //
 //
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+	store: __WEBPACK_IMPORTED_MODULE_0__welcome_store__["a" /* default */],
 	data: function data() {
-		return {
-			list: [],
-			merchant: '',
-			dialog: '',
-			dialog_data: '',
-			response_status: ['异常返回', '成功返回'],
-			keyword: {
-				page: 1,
-				status: [],
-				url: '',
-				appid: ''
-			}
-		};
+		return {};
 	},
 
-	methods: {
-		search: function search(page) {
-			this.keyword.page = page;
-			this.init();
-		},
-		detail: function detail(val) {
-			var t = this;
-			t.dialog_data = {
-				'商户': t.merchant[val.appid] + '(' + val.appid + ')',
-				'接口': val.url,
-				'返回值': val.response,
-				'$_GET': val.$_GET,
-				'$_POST': val.$_POST,
-				'$_REQUEST': val.$_REQUEST,
-				'$_SESSION': val.$_SESSION,
-				'$_COOKIE': val.$_COOKIE,
-				'$_SERVER': val.$_SERVER,
-				'备注': val.remarks,
-				'请求时间': val.created_at,
-				'请求耗时(s)': val.execute_time + ''
-			};
-			t.$nextTick(function () {
-				t.dialog.open();
-			});
-		},
-		tab_change: function tab_change(id) {
-			this.keyword.page = 1;
-			this.keyword.appid = id;
-			this.init();
-			return false;
-		},
-		init: function init() {
-			var t = this;
-			t.$API.get('/merchant/behavior', t.keyword).then(function (data) {
-				t.list = data.list;
-				t.merchant = data.merchant;
-				t.$nextTick(function () {
-					$('.mdui-tab').mutation();
-				});
-			}).catch(function (msg) {});
+	computed: {
+		count: function count() {
+			return _this.$store.state.count;
 		}
 	},
-	mounted: function mounted() {
-		var t = this;
-		t.dialog = new mdui.Dialog('.dialog_add', { history: false });
-		t.init();
-	}
+	created: function created() {}
 });
 
 /***/ }),
 
-/***/ 362:
+/***/ 327:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "purse_user" }, [
-    _c("div", { staticClass: "mdui-typo" }, [
-      _c("blockquote", { staticClass: "blockquote_normal" }, [
-        _vm._v(
-          "\n\t\t\t注：此接口数据只统计商户API模块(EBankSdk.php)接口，其他暂不列入范围内\n\t\t"
-        )
-      ]),
-      _vm._v(" "),
-      _c("blockquote", { staticClass: "blockquote_normal" }, [
-        _c("p", [
-          _vm._v("\n\t\t\t\t匹配url："),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.keyword.url,
-                expression: "keyword.url"
-              }
-            ],
-            staticClass: "mdui-textfield-input input_normal",
-            attrs: { type: "text" },
-            domProps: { value: _vm.keyword.url },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.keyword, "url", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c(
-          "p",
-          [
-            _vm._v("\n\t\t\t\t返回类型：\n\t\t\t\t"),
-            _vm._l(_vm.response_status, function(name, status) {
-              return _c(
-                "label",
-                {
-                  staticClass: "mdui-checkbox",
-                  staticStyle: { "margin-right": "2rem" }
-                },
-                [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.keyword.status,
-                        expression: "keyword.status"
-                      }
-                    ],
-                    attrs: { type: "checkbox" },
-                    domProps: {
-                      value: status,
-                      checked: Array.isArray(_vm.keyword.status)
-                        ? _vm._i(_vm.keyword.status, status) > -1
-                        : _vm.keyword.status
-                    },
-                    on: {
-                      change: function($event) {
-                        var $$a = _vm.keyword.status,
-                          $$el = $event.target,
-                          $$c = $$el.checked ? true : false
-                        if (Array.isArray($$a)) {
-                          var $$v = status,
-                            $$i = _vm._i($$a, $$v)
-                          if ($$el.checked) {
-                            $$i < 0 &&
-                              _vm.$set(_vm.keyword, "status", $$a.concat([$$v]))
-                          } else {
-                            $$i > -1 &&
-                              _vm.$set(
-                                _vm.keyword,
-                                "status",
-                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                              )
-                          }
-                        } else {
-                          _vm.$set(_vm.keyword, "status", $$c)
-                        }
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("i", { staticClass: "mdui-checkbox-icon" }),
-                  _vm._v("\n\t\t\t\t\t" + _vm._s(name) + "\n\t\t\t\t")
-                ]
-              )
-            })
-          ],
-          2
-        ),
-        _vm._v(" "),
-        _c("p", [
-          _c(
-            "a",
-            {
-              staticClass: "mdui-btn mdui-ripple mdui-color-theme",
-              on: {
-                click: function($event) {
-                  _vm.search(1)
-                }
-              }
-            },
-            [
-              _c(
-                "i",
-                { staticClass: "mdui-icon mdui-icon-left material-icons" },
-                [_vm._v("search")]
-              ),
-              _vm._v("搜索")
-            ]
-          )
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "mdui-tab", attrs: { "mdui-tab": "" } },
-      _vm._l(_vm.merchant, function(name, id, key) {
-        return _c("a", {
-          class: {
-            "mdui-btn": true,
-            "mdui-ripple": true,
-            "mdui-tab-active": key === 0
-          },
-          attrs: { href: "#tab_" + key },
-          domProps: { textContent: _vm._s(name) },
-          on: {
-            click: function($event) {
-              _vm.tab_change(id)
-            }
-          }
-        })
-      })
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "mdui-table-fluid" }, [
-      _c("table", { staticClass: "mdui-table mdui-table-hoverable" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.list.data, function(val, key, index) {
-            return _c("tr", [
-              _c("td", { domProps: { textContent: _vm._s("#" + (key + 1)) } }),
-              _vm._v(" "),
-              _c("td", {
-                domProps: { textContent: _vm._s(_vm.merchant[val.appid]) }
-              }),
-              _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.url) } }),
-              _vm._v(" "),
-              _c("td", {
-                domProps: { textContent: _vm._s(val.execute_time + "") }
-              }),
-              _vm._v(" "),
-              _c("td", [
-                val.status
-                  ? _c("span", [_vm._v("成功返回")])
-                  : _c("span", { staticClass: "mdui-text-color-deep-orange" }, [
-                      _vm._v("异常返回")
-                    ])
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _c(
-                  "a",
-                  {
-                    staticClass: "mdui-btn mdui-ripple mdui-color-theme",
-                    on: {
-                      click: function($event) {
-                        _vm.detail(val)
-                      }
-                    }
-                  },
-                  [_vm._v("view")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("td", { domProps: { textContent: _vm._s(val.created_at) } })
-            ])
-          })
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "mdui-dialog dialog_add" }, [
-      _c("div", { staticClass: "mdui-dialog-title" }, [
-        _vm._v("\n\t\t\t变量详情\n\t\t")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mdui-dialog-content" }, [
-        _c(
-          "div",
-          { staticClass: "mdui-typo" },
-          [
-            _vm._l(_vm.dialog_data, function(val, key, index) {
-              return [
-                _c("code", [_vm._v(_vm._s(key))]),
-                _vm._v(" "),
-                _c("pre", [_vm._v(_vm._s(val))])
-              ]
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _vm._m(1)
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "mdui-color-white footer" },
-      [
-        _c("pagination", {
-          attrs: {
-            pageInfo: {
-              total: _vm.list.total,
-              current: _vm.list.current_page,
-              pagenum: _vm.list.per_page,
-              page: _vm.list.last_page,
-              pagegroup: 9,
-              skin: "#2196F3"
-            }
-          },
-          on: { change: _vm.search }
-        })
-      ],
-      1
-    )
+  return _c("div", [
+    _c("div", { domProps: { textContent: _vm._s(_vm.count) } })
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("商户")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Url")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("执行时间(S)")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("返回结果状态")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("参数明细")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("创建时间")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mdui-dialog-actions" }, [
-      _c(
-        "a",
-        {
-          staticClass: "mdui-btn mdui-ripple",
-          attrs: { "mdui-dialog-close": "" }
-        },
-        [_vm._v("关闭")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1ab5359c", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-3ef1ec1e", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 75:
+/***/ 384:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(41);
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
+	state: {
+		count: 0
+	},
+	mutations: {
+		increment: function increment(state) {
+			state.count++;
+		}
+	}
+}));
+
+/***/ }),
+
+/***/ 51:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(18)
 /* script */
-var __vue_script__ = __webpack_require__(361)
+var __vue_script__ = __webpack_require__(326)
 /* template */
-var __vue_template__ = __webpack_require__(362)
+var __vue_template__ = __webpack_require__(327)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -487,7 +105,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/merchant/behavior.vue"
+Component.options.__file = "resources/assets/js/components/index/welcome.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -496,9 +114,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1ab5359c", Component.options)
+    hotAPI.createRecord("data-v-3ef1ec1e", Component.options)
   } else {
-    hotAPI.reload("data-v-1ab5359c", Component.options)
+    hotAPI.reload("data-v-3ef1ec1e", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

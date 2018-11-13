@@ -1,61 +1,65 @@
+/**
+ * 公共方法类
+ * @package function
+ * @author yybawang
+ * @date 2018-11-13
+ */
+
+import store from "./app.store";
 
 /**
- * 屏幕下方文字提示
+ * 弹窗文字提示
  * @param msg
+ * @param color info,success,error,rgba(),[color class]
  */
-let tips = function(msg){
-	mdui.snackbar({
+const tips = function(msg,color){
+	store.commit('snackBarShow',{
 		message : msg,
-		position:'right-top',
+		top : true,
+		right : true,
+		color : color,
 		timeout : 3000,
-		buttonText : 'Close',
 	});
 };
-window.tips = tips;
 
 /**
- * 加载窗
- * @param close
+ * 弹窗文字提示，手动隐藏
  */
-let loading = function(close){
-	if(close){
-		$('.ajax_loading').addClass('mdui-hidden');
-	}else{
-		$('.ajax_loading').removeClass('mdui-hidden');
-	}
+const tips_hide = function(){
+	store.commit('snackBarHide');
 };
-window.loading = loading;
 
 /**
  * 控制台日志
  * @param variable
  */
-let logs = function(variable){
+const logger = function(variable){
 	console.info(typeof variable);
 	console.log(variable);
 };
-window.logs = logs;
 
-let DatePickerFormat = function(time){
-	try{
-		const year = time.getFullYear();
-		const month = time.getMonth();
-		const day = time.getDate();
-		const hours24 = time.getHours();
-		const hours = hours24 % 12 === 0 ? 12 : hours24 % 12;
-		const minutes = time.getMinutes();
-		const seconds = time.getSeconds();
-		const milliseconds = time.getMilliseconds();
-		const dd = t => ('0' + t).slice(-2);
-		return year+'-'+dd(month + 1)+'-'+dd(day);
-	}catch(e) {
-		return time;
-	}
+/**
+ * 加载窗
+ * @param close
+ */
+const loading = function(close){
+	// if(close){
+	// 	$('.ajax_loading').addClass('mdui-hidden');
+	// }else{
+	// 	$('.ajax_loading').removeClass('mdui-hidden');
+	// }
 };
-window.DatePickerFormat = DatePickerFormat;
 
 
-
+export default{
+	install(Vue,options)
+	{
+		Vue.prototype.tips = tips;
+		Vue.prototype.tips_hide = tips_hide;
+		Vue.prototype.logger = logger;
+		Vue.prototype.loading = loading;
+	}
+}
 
 
 

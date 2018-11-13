@@ -7,7 +7,7 @@ export default new VueRouter({
 	routes: [
 		{
 			path: '/',
-			redirect : {name:'welcome'},
+			// redirect : {name:'welcome'},
 		},
 		{
 			name: 'login',

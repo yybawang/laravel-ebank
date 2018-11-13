@@ -1,12 +1,10 @@
 webpackJsonp([5],{
 
-/***/ 381:
+/***/ 360:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
 //
 //
 //
@@ -126,7 +124,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		success: function success(id) {
 			var t = this;
 			mdui.confirm('确认后将从用户对应钱包扣除相应金额，确认请点击【确定】按钮', '已打款？', function () {
-				t.$API.post('/withdraw/success', { id: [id], type: '' }).then(function () {
+				t.$API.post('/withdraw/success', { id: [id], type: 'alipay' }).then(function () {
 					t.init();
 				}).catch(function (msg) {});
 			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
@@ -135,7 +133,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var t = this;
 			mdui.prompt('标记为失败后，对应申请金额会原路返还给用户，知悉后请填写【失败原因】', '填写失败原因', function (value) {
 				if (value) {
-					t.$API.post('/withdraw/fail', { id: id, remarks: value, type: '' }).then(function () {
+					t.$API.post('/withdraw/fail', { id: id, remarks: value, type: 'alipay' }).then(function () {
 						t.init();
 					}).catch(function (msg) {});
 				}
@@ -158,7 +156,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var t = this;
 			mdui.confirm('确认后将从用户对应钱包扣除相应金额，确认请点击【确定】按钮', '将进行批量打款成功操作', function () {
 				var waiting = mdui.alert('请耐心等待批量作业完成，切勿关闭网页等操作', '批量处理中...', function () {}, { history: false, confirmText: '', modal: true, closeOnEsc: false });
-				t.$API.post('/withdraw/success', { id: t.success_all_id, type: '' }).then(function () {
+				t.$API.post('/withdraw/success', { id: t.success_all_id, type: 'alipay' }).then(function () {
 					t.init();
 					waiting.close();
 				}).catch(function () {
@@ -183,7 +181,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		init: function init() {
 			var t = this;
-			t.$API.get('/withdraw/bank', t.keyword).then(function (data) {
+			t.$API.get('/withdraw/alipay', t.keyword).then(function (data) {
 				t.list = data.list;
 				t.merchant = data.merchant;
 				t.purse_type = data.purse_type;
@@ -204,7 +202,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 382:
+/***/ 361:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -390,11 +388,9 @@ var render = function() {
               _vm._v(" "),
               _c("th", [_vm._v("打款金额(分)")]),
               _vm._v(" "),
-              _c("th", [_vm._v("银行户名")]),
+              _c("th", [_vm._v("真实姓名")]),
               _vm._v(" "),
-              _c("th", [_vm._v("银行名")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("银行卡号")]),
+              _c("th", [_vm._v("支付宝账号")]),
               _vm._v(" "),
               _c("th", [_vm._v("冻结ID")]),
               _vm._v(" "),
@@ -483,9 +479,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", { domProps: { textContent: _vm._s(val.realname) } }),
                 _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.bank_name) } }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.bank_no) } }),
+                _c("td", { domProps: { textContent: _vm._s(val.account) } }),
                 _vm._v(" "),
                 _c("td", { domProps: { textContent: _vm._s(val.freeze_id) } }),
                 _vm._v(" "),
@@ -571,21 +565,21 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-b08cbdcc", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-62a7d4a8", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 85:
+/***/ 68:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(18)
 /* script */
-var __vue_script__ = __webpack_require__(381)
+var __vue_script__ = __webpack_require__(360)
 /* template */
-var __vue_template__ = __webpack_require__(382)
+var __vue_template__ = __webpack_require__(361)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -602,7 +596,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/withdraw/bank.vue"
+Component.options.__file = "resources/assets/js/components/withdraw/alipay.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -611,9 +605,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b08cbdcc", Component.options)
+    hotAPI.createRecord("data-v-62a7d4a8", Component.options)
   } else {
-    hotAPI.reload("data-v-b08cbdcc", Component.options)
+    hotAPI.reload("data-v-62a7d4a8", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
