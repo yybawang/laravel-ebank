@@ -1,562 +1,46 @@
 webpackJsonp([3],{
 
-/***/ 362:
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/index/welcome.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__welcome_store__ = __webpack_require__("./resources/assets/js/components/index/welcome.store.js");
+var _this = this;
+
 //
 //
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+	store: __WEBPACK_IMPORTED_MODULE_0__welcome_store__["a" /* default */],
 	data: function data() {
-		return {
-			list: [],
-			merchant: '',
-			purse_type: '',
-			form: '',
-			dialog: '',
-			check_all_status: false,
-			success_all_id: [],
-			keyword: {
-				page: 1,
-				export: 0,
-				user_id: '',
-				realname: '',
-				date: [],
-				merchant_id: 1
-			},
-			status: ['申请中', '<span class="mdui-text-color-teal">提现成功</span>', '<span class="mdui-text-color-deep-orange">提现失败</span>']
-		};
+		return {};
 	},
 
-	methods: {
-		success: function success(id) {
-			var t = this;
-			mdui.confirm('确认后将从用户对应钱包扣除相应金额，确认请点击【确定】按钮', '已打款？', function () {
-				t.$API.post('/withdraw/success', { id: [id], type: 'wechat' }).then(function () {
-					t.init();
-				}).catch(function (msg) {});
-			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
-		},
-		fail: function fail(id) {
-			var t = this;
-			mdui.prompt('标记为失败后，对应申请金额会原路返还给用户，知悉后请填写【失败原因】', '填写失败原因', function (value) {
-				if (value) {
-					t.$API.post('/withdraw/fail', { id: id, remarks: value, type: 'wechat' }).then(function () {
-						t.init();
-					}).catch(function (msg) {});
-				}
-			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
-		},
-		check_all: function check_all() {
-			var t = this;
-			t.check_all_status = !t.check_all_status;
-			if (!t.check_all_status) {
-				t.success_all_id = [];
-			} else {
-				var success_all_id = [];
-				$.each(t.list.data, function ($k, $v) {
-					success_all_id.push($v.id);
-				});
-				t.success_all_id = $.unique(success_all_id);
-			}
-		},
-		success_all: function success_all() {
-			var t = this;
-			mdui.confirm('确认后将从用户对应钱包扣除相应金额，确认请点击【确定】按钮', '将进行批量打款成功操作', function () {
-				var waiting = mdui.alert('请耐心等待批量作业完成，切勿关闭网页等操作', '批量处理中...', function () {}, { history: false, confirmText: '', modal: true, closeOnEsc: false });
-				t.$API.post('/withdraw/success', { id: t.success_all_id, type: 'wechat' }).then(function () {
-					t.init();
-					waiting.close();
-				}).catch(function () {
-					waiting.close();
-				});
-			}, function () {}, { history: false, confirmText: '确定', cancelText: '取消' });
-		},
-		search: function search(page) {
-			this.keyword.page = page;
-			this.keyword.export = 0;
-			this.init();
-		},
-		exports: function exports() {
-			this.keyword.export = 1;
-			this.init();
-		},
-		tab_change: function tab_change(id) {
-			this.keyword.page = 1;
-			this.keyword.merchant_id = id;
-			this.init();
-			return false;
-		},
-		init: function init() {
-			var t = this;
-			t.$API.get('/withdraw/wechat', t.keyword).then(function (data) {
-				t.list = data.list;
-				t.merchant = data.merchant;
-				t.purse_type = data.purse_type;
-				if (t.keyword.export) {
-					mdui.alert('可在左侧【导出任务】菜单查看任务状态并下载文件', '已放入导出任务', function () {}, { history: false });
-				}
-				t.$nextTick(function () {
-					$('.mdui-tab').mutation();
-				});
-			}).catch(function (msg) {});
+	computed: {
+		count: function count() {
+			return _this.$store.state.count;
 		}
 	},
-	mounted: function mounted() {
-		var t = this;
-		t.init();
-	}
+	created: function created() {}
 });
 
 /***/ }),
 
-/***/ 363:
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3ef1ec1e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/index/welcome.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "purse_user_type" }, [
-    _c("div", { staticClass: "typo" }, [
-      _c("blockquote", { staticClass: "blockquote_normal" }, [
-        _c("p", [
-          _vm._v("\n\t\t\t\t用户ID："),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.keyword.user_id,
-                expression: "keyword.user_id"
-              }
-            ],
-            staticClass: "mdui-textfield-input input_normal",
-            attrs: { type: "text" },
-            domProps: { value: _vm.keyword.user_id },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.keyword, "user_id", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v("\n\t\t\t\t银行户名："),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.keyword.realname,
-                expression: "keyword.realname"
-              }
-            ],
-            staticClass: "mdui-textfield-input input_normal",
-            attrs: { type: "text" },
-            domProps: { value: _vm.keyword.realname },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.keyword, "realname", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c(
-          "p",
-          [
-            _vm._v("\n\t\t\t\t日期筛选："),
-            _c("vue-datepicker-local", {
-              attrs: { clearable: "" },
-              model: {
-                value: _vm.keyword.date,
-                callback: function($$v) {
-                  _vm.$set(_vm.keyword, "date", $$v)
-                },
-                expression: "keyword.date"
-              }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "mdui-btn mdui-ripple mdui-color-theme",
-            on: {
-              click: function($event) {
-                _vm.search(1)
-              }
-            }
-          },
-          [
-            _c(
-              "i",
-              { staticClass: "mdui-icon mdui-icon-left material-icons" },
-              [_vm._v("search")]
-            ),
-            _vm._v("搜索")
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "mdui-btn mdui-ripple mdui-color-pink",
-            on: { click: _vm.exports }
-          },
-          [
-            _c(
-              "i",
-              { staticClass: "mdui-icon mdui-icon-left material-icons" },
-              [_vm._v("file_upload")]
-            ),
-            _vm._v("导出")
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("blockquote", { staticClass: "blockquote_normal" }, [
-        _c(
-          "a",
-          {
-            staticClass: "mdui-btn mdui-ripple mdui-color-theme",
-            on: { click: _vm.success_all }
-          },
-          [
-            _c(
-              "i",
-              { staticClass: "mdui-icon mdui-icon-left material-icons" },
-              [_vm._v("check")]
-            ),
-            _vm._v("批量同意")
-          ]
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "mdui-tab", attrs: { "mdui-tab": "" } },
-      _vm._l(_vm.merchant, function(name, id, key) {
-        return _c("a", {
-          class: {
-            "mdui-btn": true,
-            "mdui-ripple": true,
-            "mdui-tab-active": key === 0
-          },
-          attrs: { href: "#tab_" + key },
-          domProps: { textContent: _vm._s(name) },
-          on: {
-            click: function($event) {
-              _vm.tab_change(id)
-            }
-          }
-        })
-      })
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "mdui-table-fluid table-data-fluid" }, [
-      _c(
-        "table",
-        { staticClass: "mdui-table mdui-table-hoverable table-data" },
-        [
-          _c("thead", [
-            _c("tr", [
-              _c("th", [
-                _c("label", { staticClass: "mdui-checkbox" }, [
-                  _c("input", { attrs: { type: "checkbox" } }),
-                  _c("i", {
-                    staticClass: "mdui-checkbox-icon",
-                    on: { click: _vm.check_all }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("th", [_vm._v("#")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("ID")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("用户ID")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("提现钱包")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("申请金额(分)")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("手续费(分)")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("打款金额(分)")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("真实姓名")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("微信账号")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("冻结ID")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("成功转账ID")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("申请状态")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("备注")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("创建时间")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("修改时间")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("操作")])
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.list.data, function(val, key, index) {
-              return _c("tr", [
-                _c("td", [
-                  _c("label", { staticClass: "mdui-checkbox" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.success_all_id,
-                          expression: "success_all_id"
-                        }
-                      ],
-                      attrs: { type: "checkbox" },
-                      domProps: {
-                        value: val.id,
-                        checked: Array.isArray(_vm.success_all_id)
-                          ? _vm._i(_vm.success_all_id, val.id) > -1
-                          : _vm.success_all_id
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.success_all_id,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = val.id,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 &&
-                                (_vm.success_all_id = $$a.concat([$$v]))
-                            } else {
-                              $$i > -1 &&
-                                (_vm.success_all_id = $$a
-                                  .slice(0, $$i)
-                                  .concat($$a.slice($$i + 1)))
-                            }
-                          } else {
-                            _vm.success_all_id = $$c
-                          }
-                        }
-                      }
-                    }),
-                    _c("i", { staticClass: "mdui-checkbox-icon" })
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("td", {
-                  domProps: { textContent: _vm._s("#" + (key + 1)) }
-                }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.id) } }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.user_id) } }),
-                _vm._v(" "),
-                _c("td", {
-                  domProps: { textContent: _vm._s(_vm.purse_type[val.purse]) }
-                }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.amount) } }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.fee) } }),
-                _vm._v(" "),
-                _c("td", {
-                  domProps: { textContent: _vm._s(val.amount_actual) }
-                }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.realname) } }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.account) } }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.freeze_id) } }),
-                _vm._v(" "),
-                _c("td", {
-                  domProps: { textContent: _vm._s(val.transfer_id) }
-                }),
-                _vm._v(" "),
-                _c("td", {
-                  domProps: { innerHTML: _vm._s(_vm.status[val.status]) }
-                }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.remarks) } }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.created_at) } }),
-                _vm._v(" "),
-                _c("td", { domProps: { textContent: _vm._s(val.updated_at) } }),
-                _vm._v(" "),
-                _c("td", [
-                  val.status == 0
-                    ? _c("div", { staticClass: "mdui-btn-group" }, [
-                        _c(
-                          "a",
-                          {
-                            staticClass:
-                              "mdui-btn mdui-ripple mdui-color-theme",
-                            on: {
-                              click: function($event) {
-                                _vm.success(val.id)
-                              }
-                            }
-                          },
-                          [_vm._v("打款成功")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass:
-                              "mdui-btn mdui-ripple mdui-color-deep-orange",
-                            on: {
-                              click: function($event) {
-                                _vm.fail(val.id)
-                              }
-                            }
-                          },
-                          [_vm._v("打款失败")]
-                        )
-                      ])
-                    : _vm._e()
-                ])
-              ])
-            })
-          )
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "mdui-color-white footer" },
-      [
-        _c("pagination", {
-          attrs: {
-            pageInfo: {
-              total: _vm.list.total,
-              current: _vm.list.current_page,
-              pagenum: _vm.list.per_page,
-              page: _vm.list.last_page,
-              pagegroup: 9,
-              skin: "#2196F3"
-            }
-          },
-          on: { change: _vm.search }
-        })
-      ],
-      1
-    )
+  return _c("div", [
+    _c("div", { domProps: { textContent: _vm._s(_vm.count) } })
   ])
 }
 var staticRenderFns = []
@@ -565,21 +49,46 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-3c592784", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-3ef1ec1e", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 69:
+/***/ "./resources/assets/js/components/index/welcome.store.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__("./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
+	state: {
+		count: 0
+	},
+	mutations: {
+		increment: function increment(state) {
+			state.count++;
+		}
+	}
+}));
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/index/welcome.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(18)
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
 /* script */
-var __vue_script__ = __webpack_require__(362)
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/index/welcome.vue")
 /* template */
-var __vue_template__ = __webpack_require__(363)
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-3ef1ec1e\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/index/welcome.vue")
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -596,7 +105,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/assets/js/components/withdraw/wechat.vue"
+Component.options.__file = "resources/assets/js/components/index/welcome.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -605,9 +114,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3c592784", Component.options)
+    hotAPI.createRecord("data-v-3ef1ec1e", Component.options)
   } else {
-    hotAPI.reload("data-v-3c592784", Component.options)
+    hotAPI.reload("data-v-3ef1ec1e", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -620,3 +129,4 @@ module.exports = Component.exports
 /***/ })
 
 });
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vcmVzb3VyY2VzL2Fzc2V0cy9qcy9jb21wb25lbnRzL2luZGV4L3dlbGNvbWUudnVlIiwid2VicGFjazovLy8uL3Jlc291cmNlcy9hc3NldHMvanMvY29tcG9uZW50cy9pbmRleC93ZWxjb21lLnZ1ZT9kMDUzIiwid2VicGFjazovLy8uL3Jlc291cmNlcy9hc3NldHMvanMvY29tcG9uZW50cy9pbmRleC93ZWxjb21lLnN0b3JlLmpzIiwid2VicGFjazovLy8uL3Jlc291cmNlcy9hc3NldHMvanMvY29tcG9uZW50cy9pbmRleC93ZWxjb21lLnZ1ZSJdLCJuYW1lcyI6WyJWdWUiLCJ1c2UiLCJWdWV4IiwiU3RvcmUiLCJzdGF0ZSIsImNvdW50IiwibXV0YXRpb25zIiwiaW5jcmVtZW50Il0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7Ozs7Ozs7O0FBTUE7O0FBRUE7QUFDQSx1RUFEQTtBQUVBLEtBRkEsa0JBRUE7QUFDQTtBQUdBLEVBTkE7O0FBT0E7QUFDQTtBQUNBO0FBQ0E7QUFIQSxFQVBBO0FBWUEsUUFaQSxxQkFZQSxDQUVBO0FBZEEsRzs7Ozs7OztBQ1JBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxlQUFlLFlBQVksaUNBQWlDLEVBQUU7QUFDOUQ7QUFDQTtBQUNBO0FBQ0E7QUFDQSxrQkFBa0I7QUFDbEIsSUFBSSxLQUFVO0FBQ2Q7QUFDQTtBQUNBO0FBQ0E7QUFDQSxDOzs7Ozs7OztBQ2hCQTtBQUFBO0FBQUE7QUFBQTtBQUNBOztBQUVBQSwyQ0FBR0EsQ0FBQ0MsR0FBSixDQUFRQyxxREFBUjs7QUFFZSw2REFBSUEscURBQUlBLENBQUNDLEtBQVQsQ0FBZTtBQUM3QkMsUUFBTztBQUNOQyxTQUFPO0FBREQsRUFEc0I7QUFJN0JDLFlBQVc7QUFDVkMsV0FEVSxxQkFDQ0gsS0FERCxFQUNRO0FBQ2pCQSxTQUFNQyxLQUFOO0FBQ0E7QUFIUztBQUprQixDQUFmLENBQWYsRTs7Ozs7OztBQ0xBO0FBQ0EseUJBQXlCLG1CQUFPLENBQUMsdURBQWtFO0FBQ25HO0FBQ0EscUJBQXFCLG1CQUFPLENBQUMscVlBQWdWO0FBQzdXO0FBQ0EsdUJBQXVCLG1CQUFPLENBQUMsNFBBQTZPO0FBQzVRO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7O0FBRUE7QUFDQSxJQUFJLEtBQVUsR0FBRztBQUNqQjtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxHQUFHO0FBQ0g7QUFDQTtBQUNBO0FBQ0E7QUFDQSxHQUFHO0FBQ0gsQ0FBQzs7QUFFRCIsImZpbGUiOiIzLmpzIiwic291cmNlc0NvbnRlbnQiOlsiPHRlbXBsYXRlPlxuXHQ8ZGl2PlxuXHRcdDxkaXYgdi10ZXh0PVwiY291bnRcIj48L2Rpdj5cblx0PC9kaXY+XG48L3RlbXBsYXRlPlxuPHNjcmlwdD5cblx0aW1wb3J0IHN0b3JlIGZyb20gXCIuL3dlbGNvbWUuc3RvcmVcIlxuXHRcblx0ZXhwb3J0IGRlZmF1bHQge1xuXHRcdHN0b3JlLFxuXHRcdGRhdGEoKSB7XG5cdFx0XHRyZXR1cm4ge1xuXHRcdFx0XG5cdFx0XHR9XG5cdFx0fSxcblx0XHRjb21wdXRlZCA6IHtcblx0XHRcdGNvdW50IDogKCkgPT4ge1xuXHRcdFx0XHRyZXR1cm4gdGhpcy4kc3RvcmUuc3RhdGUuY291bnQ7XG5cdFx0XHR9XG5cdFx0fSxcblx0XHRjcmVhdGVkKCl7XG5cdFx0XG5cdFx0fVxuXHR9XG48L3NjcmlwdD5cblxuXG4vLyBXRUJQQUNLIEZPT1RFUiAvL1xuLy8gcmVzb3VyY2VzL2Fzc2V0cy9qcy9jb21wb25lbnRzL2luZGV4L3dlbGNvbWUudnVlIiwidmFyIHJlbmRlciA9IGZ1bmN0aW9uKCkge1xuICB2YXIgX3ZtID0gdGhpc1xuICB2YXIgX2ggPSBfdm0uJGNyZWF0ZUVsZW1lbnRcbiAgdmFyIF9jID0gX3ZtLl9zZWxmLl9jIHx8IF9oXG4gIHJldHVybiBfYyhcImRpdlwiLCBbXG4gICAgX2MoXCJkaXZcIiwgeyBkb21Qcm9wczogeyB0ZXh0Q29udGVudDogX3ZtLl9zKF92bS5jb3VudCkgfSB9KVxuICBdKVxufVxudmFyIHN0YXRpY1JlbmRlckZucyA9IFtdXG5yZW5kZXIuX3dpdGhTdHJpcHBlZCA9IHRydWVcbm1vZHVsZS5leHBvcnRzID0geyByZW5kZXI6IHJlbmRlciwgc3RhdGljUmVuZGVyRm5zOiBzdGF0aWNSZW5kZXJGbnMgfVxuaWYgKG1vZHVsZS5ob3QpIHtcbiAgbW9kdWxlLmhvdC5hY2NlcHQoKVxuICBpZiAobW9kdWxlLmhvdC5kYXRhKSB7XG4gICAgcmVxdWlyZShcInZ1ZS1ob3QtcmVsb2FkLWFwaVwiKSAgICAgIC5yZXJlbmRlcihcImRhdGEtdi0zZWYxZWMxZVwiLCBtb2R1bGUuZXhwb3J0cylcbiAgfVxufVxuXG5cbi8vLy8vLy8vLy8vLy8vLy8vL1xuLy8gV0VCUEFDSyBGT09URVJcbi8vIC4vbm9kZV9tb2R1bGVzL3Z1ZS1sb2FkZXIvbGliL3RlbXBsYXRlLWNvbXBpbGVyP3tcImlkXCI6XCJkYXRhLXYtM2VmMWVjMWVcIixcImhhc1Njb3BlZFwiOmZhbHNlLFwiYnVibGVcIjp7XCJ0cmFuc2Zvcm1zXCI6e319fSEuL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi9zZWxlY3Rvci5qcz90eXBlPXRlbXBsYXRlJmluZGV4PTAhLi9yZXNvdXJjZXMvYXNzZXRzL2pzL2NvbXBvbmVudHMvaW5kZXgvd2VsY29tZS52dWVcbi8vIG1vZHVsZSBpZCA9IC4vbm9kZV9tb2R1bGVzL3Z1ZS1sb2FkZXIvbGliL3RlbXBsYXRlLWNvbXBpbGVyL2luZGV4LmpzP3tcImlkXCI6XCJkYXRhLXYtM2VmMWVjMWVcIixcImhhc1Njb3BlZFwiOmZhbHNlLFwiYnVibGVcIjp7XCJ0cmFuc2Zvcm1zXCI6e319fSEuL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi9zZWxlY3Rvci5qcz90eXBlPXRlbXBsYXRlJmluZGV4PTAhLi9yZXNvdXJjZXMvYXNzZXRzL2pzL2NvbXBvbmVudHMvaW5kZXgvd2VsY29tZS52dWVcbi8vIG1vZHVsZSBjaHVua3MgPSAzIiwiaW1wb3J0IFZ1ZSBmcm9tIFwidnVlXCI7XG5pbXBvcnQgVnVleCBmcm9tIFwidnVleFwiO1xuXG5WdWUudXNlKFZ1ZXgpO1xuXG5leHBvcnQgZGVmYXVsdCBuZXcgVnVleC5TdG9yZSh7XG5cdHN0YXRlOiB7XG5cdFx0Y291bnQ6IDBcblx0fSxcblx0bXV0YXRpb25zOiB7XG5cdFx0aW5jcmVtZW50IChzdGF0ZSkge1xuXHRcdFx0c3RhdGUuY291bnQrK1xuXHRcdH1cblx0fVxufSlcblxuXG5cbi8vIFdFQlBBQ0sgRk9PVEVSIC8vXG4vLyAuL3Jlc291cmNlcy9hc3NldHMvanMvY29tcG9uZW50cy9pbmRleC93ZWxjb21lLnN0b3JlLmpzIiwidmFyIGRpc3Bvc2VkID0gZmFsc2VcbnZhciBub3JtYWxpemVDb21wb25lbnQgPSByZXF1aXJlKFwiIS4uLy4uLy4uLy4uLy4uL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi9jb21wb25lbnQtbm9ybWFsaXplclwiKVxuLyogc2NyaXB0ICovXG52YXIgX192dWVfc2NyaXB0X18gPSByZXF1aXJlKFwiISFiYWJlbC1sb2FkZXI/e1xcXCJjYWNoZURpcmVjdG9yeVxcXCI6dHJ1ZSxcXFwicHJlc2V0c1xcXCI6W1tcXFwiZW52XFxcIix7XFxcIm1vZHVsZXNcXFwiOmZhbHNlLFxcXCJ0YXJnZXRzXFxcIjp7XFxcImJyb3dzZXJzXFxcIjpbXFxcIj4gMiVcXFwiXSxcXFwidWdsaWZ5XFxcIjp0cnVlfX1dXSxcXFwicGx1Z2luc1xcXCI6W1xcXCJ0cmFuc2Zvcm0tb2JqZWN0LXJlc3Qtc3ByZWFkXFxcIixbXFxcInRyYW5zZm9ybS1ydW50aW1lXFxcIix7XFxcInBvbHlmaWxsXFxcIjpmYWxzZSxcXFwiaGVscGVyc1xcXCI6ZmFsc2V9XV19IS4uLy4uLy4uLy4uLy4uL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi9zZWxlY3Rvcj90eXBlPXNjcmlwdCZpbmRleD0wIS4vd2VsY29tZS52dWVcIilcbi8qIHRlbXBsYXRlICovXG52YXIgX192dWVfdGVtcGxhdGVfXyA9IHJlcXVpcmUoXCIhIS4uLy4uLy4uLy4uLy4uL25vZGVfbW9kdWxlcy92dWUtbG9hZGVyL2xpYi90ZW1wbGF0ZS1jb21waWxlci9pbmRleD97XFxcImlkXFxcIjpcXFwiZGF0YS12LTNlZjFlYzFlXFxcIixcXFwiaGFzU2NvcGVkXFxcIjpmYWxzZSxcXFwiYnVibGVcXFwiOntcXFwidHJhbnNmb3Jtc1xcXCI6e319fSEuLi8uLi8uLi8uLi8uLi9ub2RlX21vZHVsZXMvdnVlLWxvYWRlci9saWIvc2VsZWN0b3I/dHlwZT10ZW1wbGF0ZSZpbmRleD0wIS4vd2VsY29tZS52dWVcIilcbi8qIHRlbXBsYXRlIGZ1bmN0aW9uYWwgKi9cbnZhciBfX3Z1ZV90ZW1wbGF0ZV9mdW5jdGlvbmFsX18gPSBmYWxzZVxuLyogc3R5bGVzICovXG52YXIgX192dWVfc3R5bGVzX18gPSBudWxsXG4vKiBzY29wZUlkICovXG52YXIgX192dWVfc2NvcGVJZF9fID0gbnVsbFxuLyogbW9kdWxlSWRlbnRpZmllciAoc2VydmVyIG9ubHkpICovXG52YXIgX192dWVfbW9kdWxlX2lkZW50aWZpZXJfXyA9IG51bGxcbnZhciBDb21wb25lbnQgPSBub3JtYWxpemVDb21wb25lbnQoXG4gIF9fdnVlX3NjcmlwdF9fLFxuICBfX3Z1ZV90ZW1wbGF0ZV9fLFxuICBfX3Z1ZV90ZW1wbGF0ZV9mdW5jdGlvbmFsX18sXG4gIF9fdnVlX3N0eWxlc19fLFxuICBfX3Z1ZV9zY29wZUlkX18sXG4gIF9fdnVlX21vZHVsZV9pZGVudGlmaWVyX19cbilcbkNvbXBvbmVudC5vcHRpb25zLl9fZmlsZSA9IFwicmVzb3VyY2VzL2Fzc2V0cy9qcy9jb21wb25lbnRzL2luZGV4L3dlbGNvbWUudnVlXCJcblxuLyogaG90IHJlbG9hZCAqL1xuaWYgKG1vZHVsZS5ob3QpIHsoZnVuY3Rpb24gKCkge1xuICB2YXIgaG90QVBJID0gcmVxdWlyZShcInZ1ZS1ob3QtcmVsb2FkLWFwaVwiKVxuICBob3RBUEkuaW5zdGFsbChyZXF1aXJlKFwidnVlXCIpLCBmYWxzZSlcbiAgaWYgKCFob3RBUEkuY29tcGF0aWJsZSkgcmV0dXJuXG4gIG1vZHVsZS5ob3QuYWNjZXB0KClcbiAgaWYgKCFtb2R1bGUuaG90LmRhdGEpIHtcbiAgICBob3RBUEkuY3JlYXRlUmVjb3JkKFwiZGF0YS12LTNlZjFlYzFlXCIsIENvbXBvbmVudC5vcHRpb25zKVxuICB9IGVsc2Uge1xuICAgIGhvdEFQSS5yZWxvYWQoXCJkYXRhLXYtM2VmMWVjMWVcIiwgQ29tcG9uZW50Lm9wdGlvbnMpXG4gIH1cbiAgbW9kdWxlLmhvdC5kaXNwb3NlKGZ1bmN0aW9uIChkYXRhKSB7XG4gICAgZGlzcG9zZWQgPSB0cnVlXG4gIH0pXG59KSgpfVxuXG5tb2R1bGUuZXhwb3J0cyA9IENvbXBvbmVudC5leHBvcnRzXG5cblxuXG4vLy8vLy8vLy8vLy8vLy8vLy9cbi8vIFdFQlBBQ0sgRk9PVEVSXG4vLyAuL3Jlc291cmNlcy9hc3NldHMvanMvY29tcG9uZW50cy9pbmRleC93ZWxjb21lLnZ1ZVxuLy8gbW9kdWxlIGlkID0gLi9yZXNvdXJjZXMvYXNzZXRzL2pzL2NvbXBvbmVudHMvaW5kZXgvd2VsY29tZS52dWVcbi8vIG1vZHVsZSBjaHVua3MgPSAzIl0sInNvdXJjZVJvb3QiOiIifQ==

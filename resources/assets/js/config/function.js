@@ -5,29 +5,17 @@
  * @date 2018-11-13
  */
 
-import store from "./app.store";
+import {message} from "ant-design-vue";
 
 /**
  * 弹窗文字提示
  * @param msg
- * @param color info,success,error,rgba(),[color class]
+ * @param type info,success,error,warning,warn,loading
  */
-const tips = function(msg,color){
-	store.commit('snackBarShow',{
-		message : msg,
-		top : true,
-		right : true,
-		color : color,
-		timeout : 3000,
-	});
+const tips = function(msg,type = 'info'){
+	message[type](msg,4);
 };
 
-/**
- * 弹窗文字提示，手动隐藏
- */
-const tips_hide = function(){
-	store.commit('snackBarHide');
-};
 
 /**
  * 控制台日志
@@ -38,26 +26,12 @@ const logger = function(variable){
 	console.log(variable);
 };
 
-/**
- * 加载窗
- * @param close
- */
-const loading = function(close){
-	// if(close){
-	// 	$('.ajax_loading').addClass('mdui-hidden');
-	// }else{
-	// 	$('.ajax_loading').removeClass('mdui-hidden');
-	// }
-};
-
 
 export default{
 	install(Vue,options)
 	{
 		Vue.prototype.tips = tips;
-		Vue.prototype.tips_hide = tips_hide;
 		Vue.prototype.logger = logger;
-		Vue.prototype.loading = loading;
 	}
 }
 

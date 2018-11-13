@@ -13,7 +13,7 @@ let mix = require('laravel-mix');
 
 mix.js('resources/assets/js/app.js', 'public/js')
 	.sass('resources/assets/sass/app.scss', 'public/css')
-	.extract(['vue','vue-router','axios','md5','vuetify'])
-	// .version()
-	// .sourceMaps()
+	.extract(['vue','vue-router','axios','md5','ant-design-vue','nprogress'])
+	.version()
+	.sourceMaps()
 ;
