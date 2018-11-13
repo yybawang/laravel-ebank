@@ -1,0 +1,52 @@
+
+// Fonts
+//@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+//@import "variables";
+
+// Bootstrap
+//@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+//@import "~mdui/dist/css/mdui.min.css";
+@import "mdui.min.css";
+@import "pagination.css";
+#app {
+	padding-bottom:7rem;
+}
+.footer {
+	position:fixed;
+	left:0;
+	right:0;
+	bottom:0;
+}
+.scrollbar {
+	width:20rem;
+	border: 1px solid #DDD;
+	margin:1rem auto 1rem;
+	overflow-x:auto;
+	.scrollbar-bar {
+		height:1px;
+	}
+}
+
+/* 重绘部分开始------------ mdui的inpu组件，不让100%宽，并且不换行 */
+.input_normal {
+	width:200px;
+	display:inline-block;
+}
+.typo blockquote {
+	padding-left: 1em;
+	margin: 1em 3em 1em 2em;
+	font-weight: 400;
+	border-left: 4px solid rgba(0,0,0,.12);
+	margin-left:0 !important;
+}
+.blockquote_normal {
+	margin-left:0 !important;
+}
+.mdui-list-item-actived {
+	font-weight: 700;
+	//background-color: rgba(0,0,0,.08);
+}
+
+/* 重绘部分结束------------  */
