@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\BasicRequest;
 use App\Libraries\Bank\EBank;
 use App\Libraries\Bank\PayFieldsConfig;
-use App\Models\FundBehavior;
+use App\Models\FundMerchantBehavior;
 use App\Models\FundMerchant;
 use App\Models\FundPayConfig;
 
@@ -74,7 +74,7 @@ class MerchantController extends CommonController {
 	 */
 	public function behavior(BasicRequest $request){
 		$data['merchant'] = FundMerchant::pluck('name','appid');
-		$data['list'] = FundBehavior::when($request->input('url'),function($query) use ($request){
+		$data['list'] = FundMerchantBehavior::when($request->input('url'),function($query) use ($request){
 			$query->where('url','like','%'.$request->input('url').'%');
 		})
 			->when($request->input('appid'),function($query) use ($request){

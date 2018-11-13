@@ -45,8 +45,11 @@
 					<td v-text="'#'+(key+1)"></td>
 					<td v-text="merchant[val.appid]"></td>
 					<td v-text="val.url"></td>
-					<td v-text="val.execute_time"></td>
-					<td v-text="val.status ? '成功返回' : '异常返回'"></td>
+					<td v-text="val.execute_time + ''"></td>
+					<td>
+						<span v-if="val.status">成功返回</span>
+						<span v-else class="mdui-text-color-deep-orange">异常返回</span>
+					</td>
 					<td><a class="mdui-btn mdui-ripple mdui-color-theme" @click="detail(val)">view</a></td>
 					<td v-text="val.created_at"></td>
 				</tr>
@@ -123,7 +126,7 @@
 					'$_SERVER' : val.$_SERVER,
 					'备注' : val.remarks,
 					'请求时间' : val.created_at,
-					'请求耗时(s)' : val.execute_time,
+					'请求耗时(s)' : val.execute_time + '',
 				};
 				t.$nextTick(function(){
 					t.dialog.open();

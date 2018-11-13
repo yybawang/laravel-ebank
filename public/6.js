@@ -565,7 +565,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-69f62b55", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-62a7d4a8", module.exports)
   }
 }
 
@@ -596,7 +596,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources\\assets\\js\\components\\withdraw\\alipay.vue"
+Component.options.__file = "resources/assets/js/components/withdraw/alipay.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -605,9 +605,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-69f62b55", Component.options)
+    hotAPI.createRecord("data-v-62a7d4a8", Component.options)
   } else {
-    hotAPI.reload("data-v-69f62b55", Component.options)
+    hotAPI.reload("data-v-62a7d4a8", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

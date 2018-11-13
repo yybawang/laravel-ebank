@@ -47,7 +47,7 @@ class MerchantSign
 		$now_time_float = microtime(true);
 		$response_content = json_decode($response->getContent(),true);
 		$data = [
-			'appid'=> $request->input('ebank_appid'),	// 直接记录appid，避免每次查询数据库
+			'appid'			=> $request->input('ebank_appid'),	// 直接记录appid，避免每次查询数据库
 			'url'			=> request()->url(),
 			'execute_time'	=> round($now_time_float - LARAVEL_START,8),
 			'response'		=> print_r($response_content,true),		// 输出的结果集

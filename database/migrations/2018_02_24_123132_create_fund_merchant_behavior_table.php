@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFundBehaviorTable extends Migration
+class CreateMerchantFundBehaviorTable extends Migration
 {
     /**
 	 * 接口请求记录表
@@ -14,11 +14,11 @@ class CreateFundBehaviorTable extends Migration
      */
     public function up()
     {
-        Schema::create('fund_behavior', function (Blueprint $table) {
+        Schema::create('fund_merchant_behavior', function (Blueprint $table) {
             $table->increments('id');
             $table->string('appid')->comment('商户 appid');
             $table->string('url')->comment('操作地址 fullUrl()');
-            $table->double('execute_time')->comment('执行时间，php microtime时间');
+            $table->decimal('execute_time',10,8)->comment('执行时间，php microtime时间');
             $table->text('response')->comment('返回的结果集');
             $table->tinyInteger('status')->comment('返回状态，1成功，0异常');
             $table->text('$_GET');
