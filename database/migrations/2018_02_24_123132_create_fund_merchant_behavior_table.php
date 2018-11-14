@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMerchantFundBehaviorTable extends Migration
+class CreateFundMerchantBehaviorTable extends Migration
 {
     /**
 	 * 接口请求记录表
