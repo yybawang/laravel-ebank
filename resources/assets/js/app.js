@@ -8,8 +8,6 @@
 require('./bootstrap');
 
 import Vue from "vue"
-import Antd from 'ant-design-vue'
-import Vuex from "vuex";
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -23,8 +21,6 @@ import router from './config/router'
 import func from './config/function'
 import Api from './config/api'
 
-Vue.use(Antd);
-Vue.use(Vuex);
 Vue.use(func);
 Vue.use(Api);
 

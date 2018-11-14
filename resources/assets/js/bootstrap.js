@@ -1,5 +1,7 @@
 
 // window._ = require('lodash');
+window.mdui = require('./config/mdui.min');
+window.$ = mdui.JQ;
 
 
 /**

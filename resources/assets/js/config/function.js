@@ -5,15 +5,18 @@
  * @date 2018-11-13
  */
 
-import {message} from "ant-design-vue";
-
 /**
  * 弹窗文字提示
  * @param msg
  * @param type info,success,error,warning,warn,loading
  */
-const tips = function(msg,type = 'info'){
-	message[type](msg,4);
+const tips = function(msg){
+	mdui.snackbar({
+		message : msg,
+		position:'right-top',
+		timeout : 3000,
+		buttonText : 'Close',
+	});
 };
 
 

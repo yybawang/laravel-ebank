@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import NProgress from "nprogress";
 
 Vue.use(VueRouter);
 
@@ -9,7 +8,7 @@ const router = new VueRouter({
 	routes: [
 		{
 			path: '/',
-			// redirect : {name:'welcome'},
+			redirect : {name:'welcome'},
 		},
 		{
 			name: 'login',
@@ -118,12 +117,12 @@ const router = new VueRouter({
 
 
 router.beforeEach((to,from,next) => {
-	NProgress.start();
+	
 	next()
 });
 
 router.afterEach(() => {
-	NProgress.done()
+
 });
 
 
