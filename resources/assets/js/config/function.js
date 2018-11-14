@@ -30,11 +30,25 @@ const logger = function(variable){
 };
 
 
+/**
+ * wait progress
+ * @param close
+ */
+const loading = function(close){
+	if(close){
+		$('.ajax_loading').addClass('mdui-hidden');
+	}else{
+		$('.ajax_loading').removeClass('mdui-hidden');
+	}
+};
+
+
 export default{
 	install(Vue,options)
 	{
 		Vue.prototype.tips = tips;
 		Vue.prototype.logger = logger;
+		Vue.prototype.loading = loading;
 	}
 }
 

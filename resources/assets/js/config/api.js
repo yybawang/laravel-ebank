@@ -6,12 +6,12 @@
  */
 
 import axios from "axios"
-import md5 from "md5"
 import router from "./router"
-import func from "./function"
+import Vue from "vue"
 
 let token = document.head.querySelector('meta[name="csrf-token"]');
 axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 const url_prefix = APP_URL + "/admin";
 
@@ -20,7 +20,7 @@ const url_prefix = APP_URL + "/admin";
  */
 axios.interceptors.request.use(function (config) {
 	// 一般在这个位置判断token是否存在
-	console.log(config);
+	Vue.prototype.loading();
 	return config;
 }, function (error) {
 	return Promise.reject(error);
@@ -30,34 +30,35 @@ axios.interceptors.request.use(function (config) {
  * 响应拦截
  */
 axios.interceptors.response.use(function (response){
+	Vue.prototype.loading(true);
 	if (response.status === 200) {
 		let data = response.data;
 		if('1' === data.status){
-			return Promise.resolve(response);
+			return Promise.resolve(data.data);
 		}else if('0' === data.status){
-			tips(data.message);
-			return Promise.reject(message);
+			Vue.prototype.tips(data.message);
+			return Promise.reject(data.message);
 		}else if('2' === data.status){
 			router.push({path:'/login'});
+			return Promise.reject('Need Login');
 		}else{
-			tips('失败，未正常接收 json');
-			return Promise.resolve('失败，未正常接收 json');
+			Vue.prototype.tips('失败，未正常接收 json');
+			return Promise.reject('失败，未正常接收 json');
 		}
 	} else {
 		// api 不会返回非 200 状态，所以肯定中间环节哪里有问题
-		func.tips('oHo~ 网络开小差了');
+		Vue.prototype.tips('oHo~ 网络开小差了');
+		return Promise.reject('oHo~ 网络开小差了');
 	}
 }, function (errors){
+	Vue.prototype.loading(true);
 	let message = "网络请求失败";
 	if (errors.response) {
 		message = errors.response.data.message;
-		func.tips(errors.response.data.message);
 	}else if (errors.request){
 		message = "程序发起请求失败";
-		func.tips(message);
-	}else{
-		func.tips(message);
 	}
+	Vue.prototype.tips(message);
 	return Promise.reject(message);
 });
 
@@ -66,16 +67,13 @@ axios.interceptors.response.use(function (response){
  * 获取资源，一个或多个
  * @param url
  * @param params
- * @param success
- * @param error
+ * @returns {AxiosPromise<any>}
  */
-const get = function(url,params,success,error){
+const get = function(url,params){
 	url = url_prefix + url;
-	func.loading();
-	let ax = axios.get(url,{
+	return axios.get(url,{
 		params
 	});
-	complete(ax,success,error);
 };
 
 /**
@@ -83,21 +81,22 @@ const get = function(url,params,success,error){
  * 添加资源（与更新一起使用  updateOrCreate）
  * @param url
  * @param params
- * @param success
- * @param error
+ * @returns {AxiosPromise<any>}
  */
-const post = function(url,params,success,error){
+const post = function(url,params){
 	url = url_prefix + url;
-	func.loading();
-	let ax = axios.post(url,params);
-	complete(ax,success,error);
+	return axios.post(url,params);
 };
 
-const del = function(url,params,success,error){
+/**
+ * request a DEL
+ * @param url
+ * @param params
+ * @returns {AxiosPromise}
+ */
+const del = function(url,params){
 	url = url_prefix + url;
-	func.loading();
-	let ax = axios.delete(url,params);
-	complete(ax,success,error);
+	return axios.delete(url,params);
 };
 
 /**
@@ -105,37 +104,11 @@ const del = function(url,params,success,error){
  * 更新资源
  * @param url
  * @param params
- * @param success
- * @param error
+ * @returns {AxiosPromise<any>}
  */
-const put = function(url,params,success,error){
+const put = function(url,params){
 	url = url_prefix + url;
-	func.loading();
-	let ax = axios.put(url,params);
-	complete(ax,success,error);
-};
-
-/**
- * 请求完成，判断结果逻辑，响应成功/失败
- * @param ax
- * @param success
- * @param error
- */
-const complete = function(ax,success,error){
-	if(typeof success !== 'function'){
-		success = function(){};
-	}
-	if(typeof error !== 'function'){
-		error = function(){};
-	}
-	
-	ax.then(function(response){
-		func.loading(true);
-		success(response.data.data,response.data.message);
-	}).catch(function(message){
-		func.loading(true);
-		error(message)
-	})
+	return axios.put(url,params);
 };
 
 const $API = {

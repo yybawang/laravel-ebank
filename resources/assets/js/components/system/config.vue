@@ -177,7 +177,7 @@
 			},
 			rank(id,action){
 				let t = this;
-				tips('更新排序中...');
+				t.tips('更新排序中...');
 				t.$API.post('/system/config_rank',{id:id,action:action}).then(function(data){
 					t.init();
 				}).catch(function(msg){
