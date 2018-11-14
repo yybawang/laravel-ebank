@@ -7,7 +7,7 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+import Vue from "vue"
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -20,21 +20,18 @@ import VueDatepickerLocal from 'vue-datepicker-local'
 Vue.component('pagination', require('./components/pagination.vue'));
 Vue.component('vue-datepicker-local',VueDatepickerLocal);
 
-import App from './App.vue';
-import router from './config/router.js'
-window.router = router;
-import './config/function.js'
-import API from './config/api'
+Vue.config.productionTip = false;
 
-Vue.prototype.$API = API();
+import App from './App.vue';
+import router from './config/router'
+import func from './config/function'
+import Api from './config/api'
+
+Vue.use(func);
+Vue.use(Api);
 
 const app = new Vue({
     el: '#app',
 	router,
 	render: h => h(App)
 });
-
-// 单独实例化一个菜单VUE，用于路由链接
-// const menu = new Vue({
-// 	el: '#main-drawer',
-// });

@@ -22,7 +22,7 @@ class Handler extends ExceptionHandler
 //		\Symfony\Component\HttpKernel\Exception\HttpException::class,
 //		\Illuminate\Database\Eloquent\ModelNotFoundException::class,
 //		\Illuminate\Validation\ValidationException::class,
-		\App\Exceptions\LoginException::class,
+//		\App\Exceptions\LoginException::class,
 //		\Illuminate\Foundation\Http\Exceptions\MaintenanceModeException::class
     ];
 
@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
+     * @throws
      * @param  \Exception  $exception
      * @return void
      */

@@ -32,18 +32,14 @@
 					password : '',
 					captcha : '',
 				},
-				tips : '',
 				domain : location.href.substring(7).split('/')[0],
 			};
 		},
 		methods : {
-			tips_message(message){
-				this.tips = message;
-			},
 			submit(){
 				let t = this;
 				t.$API.post('/login',this.form).then(function(data,message){
-					tips(message);
+					t.tips(message);
 					t.$emit('init');
 					t.$router.push({name:'welcome'});
 				}).catch(function(msg){

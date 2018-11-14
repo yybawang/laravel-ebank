@@ -144,7 +144,6 @@
 				user : '',
 				menu : '',
 				menu_index : 0,
-				initing : false,
 				password_reset_dialog : '',
 				password_reset : {
 					password_old : '',
@@ -174,19 +173,19 @@
 					for(let i in t.password_reset){
 						t.password_reset[i] = '';
 					}
+				}).catch(function(){
+				
 				})
 			},
 			init(){
 				let t = this;
-				// if(!t.initing){
-					t.initing = true;
-					t.$API.get('/init').then(function(data){
-						t.user = data.user;
-						t.menu = data.menu;
-						t.initing = false;
-						t.menu_active();
-					});
-				// }
+				t.$API.get('/init').then(function(data){
+					t.user = data.user;
+					t.menu = data.menu;
+					t.menu_active();
+				}).catch(function(){
+				
+				});
 			},
 			initClear(){
 				let t = this;
@@ -195,9 +194,11 @@
 			},
 			logout(){
 				let t = this;
-				tips('即将跳转到登录页');
+				t.tips('即将跳转到登录页');
 				t.$API.post('/logout').then(function(data){
 					t.$router.push({path:'/login'});
+				}).catch(function(){
+				
 				});
 			}
 		},

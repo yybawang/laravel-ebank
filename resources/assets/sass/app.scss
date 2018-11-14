@@ -7,9 +7,9 @@
 
 // Bootstrap
 //@import "~bootstrap-sass/assets/stylesheets/bootstrap";
-//@import "~mdui/dist/css/mdui.min.css";
 @import "mdui.min.css";
 @import "pagination.css";
+
 #app {
 	padding-bottom:7rem;
 }
@@ -31,7 +31,7 @@
 
 /* 重绘部分开始------------ mdui的inpu组件，不让100%宽，并且不换行 */
 .input_normal {
-	width:200px;
+	width:310px;
 	display:inline-block;
 }
 .typo blockquote {

@@ -16,12 +16,11 @@
     "jquery": "^3.2",
     "laravel-mix": "^1.0",
     "lodash": "^4.17.4",
-    "md5": "^2.2.1",
     "vue": "^2.1.10",
     "vue-router": "^3.0.1"
   },
   "dependencies": {
     "echarts": "^4.1.0",
-    "vue-datepicker-local": "^1.0.9"
+    "vue-datepicker-local": "^1.0.19"
   }
 }

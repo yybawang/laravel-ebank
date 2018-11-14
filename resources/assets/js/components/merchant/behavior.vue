@@ -2,7 +2,7 @@
 	<div class="purse_user">
 		<div class="mdui-typo">
 			<blockquote class="blockquote_normal">
-				注：此接口数据只统计商户API模块(EBankSdk.php)接口，其他暂不列入范围内
+				注：此接口数据只统计商户API模块接口，其他暂不列入范围内
 			</blockquote>
 			<blockquote class="blockquote_normal">
 				<p>
@@ -45,8 +45,11 @@
 					<td v-text="'#'+(key+1)"></td>
 					<td v-text="merchant[val.appid]"></td>
 					<td v-text="val.url"></td>
-					<td v-text="val.execute_time"></td>
-					<td v-text="val.status ? '成功返回' : '异常返回'"></td>
+					<td v-text="val.execute_time + ''"></td>
+					<td>
+						<span v-if="val.status">成功返回</span>
+						<span v-else class="mdui-text-color-deep-orange">异常返回</span>
+					</td>
 					<td><a class="mdui-btn mdui-ripple mdui-color-theme" @click="detail(val)">view</a></td>
 					<td v-text="val.created_at"></td>
 				</tr>
@@ -123,7 +126,7 @@
 					'$_SERVER' : val.$_SERVER,
 					'备注' : val.remarks,
 					'请求时间' : val.created_at,
-					'请求耗时(s)' : val.execute_time,
+					'请求耗时(s)' : val.execute_time + '',
 				};
 				t.$nextTick(function(){
 					t.dialog.open();

@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
 Vue.use(VueRouter);
 
-export default new VueRouter({
+const router = new VueRouter({
 	saveScrollPosition: true,
 	routes: [
 		{
@@ -113,3 +114,16 @@ export default new VueRouter({
 		}
 	]
 });
+
+
+router.beforeEach((to,from,next) => {
+	
+	next()
+});
+
+router.afterEach(() => {
+
+});
+
+
+export default router;
