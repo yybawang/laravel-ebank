@@ -1,1 +1,301 @@
-webpackJsonp([3],{307:function(t,e,i){var s=i(308);"string"==typeof s&&(s=[[t.i,s,""]]),s.locals&&(t.exports=s.locals);i(4)("1d597e89",s,!0,{})},308:function(t,e,i){(t.exports=i(3)(!1)).push([t.i,".frame{background-color:#fff;padding:20px;max-width:30rem;margin:10% auto;border-radius:5px}.frame .submit{margin-left:3.5rem;cursor:pointer}.frame .login_footer{padding:10px 0;border-top:1px solid #ccc}",""])},309:function(t,e,i){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={data:function(){return{form:{name:"",password:"",captcha:""},domain:location.href.substring(7).split("/")[0]}},methods:{submit:function(){var t=this;t.$API.post("/login",this.form).then(function(e,i){t.tips(i),t.$emit("init"),t.$router.push({name:"welcome"})}).catch(function(t){})}},mounted:function(){this.$emit("initClear"),document.getElementById("name").focus()}}},310:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,i=t._self._c||e;return i("div",{staticClass:"login"},[i("div",{staticClass:"frame"},[t._m(0),t._v(" "),i("div",{staticClass:"content"},[i("form",{staticClass:"form",attrs:{method:"post"},on:{keydown:function(e){return"button"in e||!t._k(e.keyCode,"enter",13,e.key,"Enter")?t.submit(e):null}}},[i("div",{staticClass:"mdui-textfield mdui-textfield-floating-label"},[i("i",{staticClass:"mdui-icon material-icons"},[t._v("account_circle")]),t._v(" "),i("label",{staticClass:"mdui-textfield-label"},[t._v("登录名")]),t._v(" "),i("input",{directives:[{name:"model",rawName:"v-model",value:t.form.name,expression:"form.name"}],staticClass:"mdui-textfield-input",attrs:{type:"text",id:"name"},domProps:{value:t.form.name},on:{input:function(e){e.target.composing||t.$set(t.form,"name",e.target.value)}}})]),t._v(" "),i("div",{staticClass:"mdui-textfield mdui-textfield-floating-label"},[i("i",{staticClass:"mdui-icon material-icons"},[t._v("lock")]),t._v(" "),i("label",{staticClass:"mdui-textfield-label"},[t._v("密　码")]),t._v(" "),i("input",{directives:[{name:"model",rawName:"v-model",value:t.form.password,expression:"form.password"}],staticClass:"mdui-textfield-input",attrs:{type:"password"},domProps:{value:t.form.password},on:{input:function(e){e.target.composing||t.$set(t.form,"password",e.target.value)}}})]),t._v(" "),i("div",{staticClass:"mdui-textfield"},[i("a",{staticClass:"mdui-btn mdui-ripple mdui-color-theme submit",on:{click:t.submit}},[t._v("登录")])])])]),t._v(" "),i("div",{staticClass:"login_footer"},[t._v("© 2017 EBank "+t._s(t.domain)+" All rights reserved")])])])},staticRenderFns:[function(){var t=this.$createElement,e=this._self._c||t;return e("div",{staticClass:"title"},[e("h3",[this._v("EBank 电子银行系统")])])}]}},366:function(t,e,i){var s=i(1)(i(309),i(310),!1,function(t){i(307)},null,null);t.exports=s.exports}});
+webpackJsonp([3],{
+
+/***/ 335:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(336);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("587efbbc", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-69787b62\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./login.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-69787b62\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./login.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 336:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.frame {\n\tbackground-color:#FFF;\n\tpadding:20px;\n\tmax-width:30rem;\n\tmargin:10% auto;\n\tborder-radius: 5px;\n}\n.frame .submit {\n\tmargin-left:3.5rem;\n\tcursor:pointer;\n}\n.frame .login_footer {\n\tpadding:10px 0;\n\tborder-top:1px solid #CCC;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 337:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			form: {
+				name: '',
+				password: '',
+				captcha: ''
+			},
+			domain: location.href.substring(7).split('/')[0]
+		};
+	},
+
+	methods: {
+		submit: function submit() {
+			var t = this;
+			t.$API.post('/login', this.form).then(function (data, message) {
+				t.tips(message);
+				t.$emit('init');
+				t.$router.push({ name: 'welcome' });
+			}).catch(function (msg) {});
+		}
+	},
+	mounted: function mounted() {
+		this.$emit('initClear');
+		document.getElementById('name').focus();
+	}
+});
+
+/***/ }),
+
+/***/ 338:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "login" }, [
+    _c("div", { staticClass: "frame" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "content" }, [
+        _c(
+          "form",
+          {
+            staticClass: "form",
+            attrs: { method: "post" },
+            on: {
+              keydown: function($event) {
+                if (
+                  !("button" in $event) &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.submit($event)
+              }
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "mdui-textfield mdui-textfield-floating-label" },
+              [
+                _c("i", { staticClass: "mdui-icon material-icons" }, [
+                  _vm._v("account_circle")
+                ]),
+                _vm._v(" "),
+                _c("label", { staticClass: "mdui-textfield-label" }, [
+                  _vm._v("登录名")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.name,
+                      expression: "form.name"
+                    }
+                  ],
+                  staticClass: "mdui-textfield-input",
+                  attrs: { type: "text", id: "name" },
+                  domProps: { value: _vm.form.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "name", $event.target.value)
+                    }
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "mdui-textfield mdui-textfield-floating-label" },
+              [
+                _c("i", { staticClass: "mdui-icon material-icons" }, [
+                  _vm._v("lock")
+                ]),
+                _vm._v(" "),
+                _c("label", { staticClass: "mdui-textfield-label" }, [
+                  _vm._v("密　码")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.password,
+                      expression: "form.password"
+                    }
+                  ],
+                  staticClass: "mdui-textfield-input",
+                  attrs: { type: "password" },
+                  domProps: { value: _vm.form.password },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "password", $event.target.value)
+                    }
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "mdui-textfield" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "mdui-btn mdui-ripple mdui-color-theme submit",
+                  on: { click: _vm.submit }
+                },
+                [_vm._v("登录")]
+              )
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "login_footer" }, [
+        _vm._v("© 2017 EBank " + _vm._s(_vm.domain) + " All rights reserved")
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "title" }, [
+      _c("h3", [_vm._v("EBank 电子银行系统")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-69787b62", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 65:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(335)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(337)
+/* template */
+var __vue_template__ = __webpack_require__(338)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/login.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-69787b62", Component.options)
+  } else {
+    hotAPI.reload("data-v-69787b62", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ })
+
+});

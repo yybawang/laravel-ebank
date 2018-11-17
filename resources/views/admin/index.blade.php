@@ -9,6 +9,7 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta name="csrf-token" content="{{csrf_token()}}" />
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 	<link rel="stylesheet" href="{{mix('css/app.css')}}" />
 	<title>EBank@电子银行--站内虚拟积分与聚合支付解决方案</title>
 </head>
