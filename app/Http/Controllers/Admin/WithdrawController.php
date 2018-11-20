@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\BasicRequest;
 use App\Libraries\Bank\EBank;
 use App\Libraries\ExportCsv;
+use App\Models\FundFreeze;
 use App\Models\FundMerchant;
 use App\Models\FundPurseType;
 use App\Models\FundWithdraw;
@@ -116,9 +117,13 @@ class WithdrawController extends CommonController {
 		$withdraw_class = '\\App\\Models\\FundWithdraw'.$type;
 		$withdraw_object = new $withdraw_class();
 		$EBank = new EBank();
-		DB::transaction(function() use ($EBank,$withdraw_object,$ids){
+		DB::transaction(function() use ($EBank, $withdraw_object, $ids){
 			foreach($ids as $k => $id){
 				$withdraw = $withdraw_object->findOrFail($id);
+				// 如果已冻结,就跳过
+				if(FundFreeze::isFreeze($withdraw->freeze_id)){
+					continue;
+				}
 				$EBank->unfreeze($withdraw->freeze_id);
 				$purse_type = ucfirst($withdraw->purse);
 				$transfer_alias_user = 'user'.$purse_type.'ToUserWithdraw';
