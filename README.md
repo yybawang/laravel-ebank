@@ -150,7 +150,7 @@ CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - [x] 商户接口错误率统计
 - [ ] 流水关联重新设计
 - [ ] 后台功能点帮助文案
-- [ ] 对接 hhxsv5/laravel-s 可选常驻内存式部署
+- [x] 对接 hhxsv5/laravel-s 可选常驻内存式部署（php artisan laravel start 运行，队列还是使用 supervisor）
 - [ ] 报表统计动态筛选，选择下拉生成对应sql，形成数据统计
 
 ## Q && A

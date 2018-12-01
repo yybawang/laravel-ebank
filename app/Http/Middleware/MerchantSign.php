@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Jobs\ApiBehavior;
 use App\Models\FundMerchant;
+use App\Models\FundMerchantBehavior;
 use Closure;
 
 class MerchantSign
@@ -44,21 +45,6 @@ class MerchantSign
 	 * @param $response
 	 */
     public function terminate($request, $response){
-		$now_time_float = microtime(true);
-		$response_content = json_decode($response->getContent(),true);
-		$data = [
-			'appid'			=> $request->input('ebank_appid'),	// 直接记录appid，避免每次查询数据库
-			'url'			=> request()->url(),
-			'execute_time'	=> round($now_time_float - LARAVEL_START,8),
-			'response'		=> print_r($response_content,true),		// 输出的结果集
-			'status'		=> $response_content['status'],
-			'$_GET'			=> print_r($_GET,true),
-			'$_POST'		=> print_r($_POST,true),
-			'$_REQUEST'		=> print_r($request->all(),true),
-			'$_SERVER'		=> print_r($_SERVER,true),
-			'$_SESSION'		=> print_r($_SESSION,true),
-			'$_COOKIE'		=> print_r($_COOKIE,true),
-		];
-		ApiBehavior::dispatch($data)->onQueue(queue_name('behavior'));
+		FundMerchantBehavior::createQueue($request, $response);
 	}
 }

@@ -10,6 +10,7 @@
         "barryvdh/laravel-cors": "^0.11.0",
         "fideloper/proxy": "~3.3",
         "guzzlehttp/guzzle": "^6.3",
+        "hhxsv5/laravel-s": "~3.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "pda/pheanstalk": "^3.1",
