@@ -140,10 +140,7 @@
 						<td class="api_list">
 							<div class="title"><strong>资金操作</strong></div>
 							<div class="tab"><a class="mock" tab="test_sign" url="bank/test_sign">测试签名</a></div>
-							<div class="tab"><a class="mock" tab="user_wallet" url="bank/user_wallet">用户所有钱包列表</a></div>
-							<div class="tab"><a class="mock" tab="central_wallet" url="bank/central_wallet">中央所有钱包列表</a></div>
-							<div class="tab"><a class="mock" tab="system_wallet" url="bank/system_wallet">系统所有钱包列表</a></div>
-							<div class="tab"><a class="mock" tab="user_type_wallet" url="bank/user_type_wallet">其他身份钱包列表</a></div>
+							<div class="tab"><a class="mock" tab="user_wallet" url="bank/user_wallet">钱包余额列表</a></div>
 							<div class="tab"><a class="mock" tab="user_type" url="bank/user_type">身份类型列表</a></div>
 							<div class="tab"><a class="mock" tab="purse_type" url="bank/purse_type">钱包类型列表</a></div>
 							<div class="tab"><a class="mock" tab="transfer" url="bank/transfer">钱包转账</a></div>
@@ -163,11 +160,9 @@
 						<th></th>
 						<td><input name="key[]" class="key" value="user_id" />：<input name="value[]" class="value" value="1" /></td>
 					</tr>
-					
-					
-					<tr class="param_mock mock_user_type_wallet">
+					<tr class="param_mock mock_user_wallet">
 						<th></th>
-						<td><input name="key[]" class="key" value="user_type" />：<input name="value[]" class="value" value="central" /></td>
+						<td><input name="key[]" class="key" value="type" />：<input name="value[]" class="value" value="user" /></td>
 					</tr>
 					
 					
