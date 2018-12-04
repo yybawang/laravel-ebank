@@ -22,7 +22,7 @@ class Handler extends ExceptionHandler
 //		\Symfony\Component\HttpKernel\Exception\HttpException::class,
 //		\Illuminate\Database\Eloquent\ModelNotFoundException::class,
 //		\Illuminate\Validation\ValidationException::class,
-//		\App\Exceptions\LoginException::class,
+		\App\Exceptions\LoginException::class,
 //		\Illuminate\Foundation\Http\Exceptions\MaintenanceModeException::class
     ];
 

@@ -15,21 +15,13 @@ class LoginController extends Controller {
 	/**
 	 * post 提交登录，只用路由中间件验证
 	 * @param BasicRequest $request
-	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 * @return array
 	 */
 	public function login_submit(BasicRequest $request){
 		$param = request()->validate([
 			'name'		=> 'required|exists:fund_admin,name',
 			'password'	=> 'required',
-//			'captcha'	=> 'required|captcha'
-		],[
-			'captcha.captcha'	=> '验证码错误',
 		]);
-		unset($param['captcha']);
-//		$param = $request->validate([
-//			'name'		=> 'required|exists:fund_admin,name',
-//			'password'	=> 'required',
-//		]);
 		$param['password'] = FundAdmin::md5($param['password']);
 		$uid = FundAdmin::where($param)->value('id');
 		if(!$uid){
