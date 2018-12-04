@@ -87,7 +87,7 @@
 					<template v-else>
 					<tr>
 						<td colspan="5">
-							<div class="mdui-p-y-2 mdui-valign order-notify-clear"><span class="mdui-m-r-1">服务正常工作中</span><i class="mdui-icon material-icons mdui-text-color-orange">sentiment_satisfied</i></div>
+							<div class="mdui-p-y-2 mdui-valign order-notify-clear"><span class="mdui-m-r-1">服务正常工作中</span><i class="mdui-icon material-icons mdui-text-color-green">sentiment_satisfied</i></div>
 						</td>
 					</tr>
 					</template>

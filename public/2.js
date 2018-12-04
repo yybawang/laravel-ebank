@@ -841,7 +841,7 @@ var render = function() {
                                 "i",
                                 {
                                   staticClass:
-                                    "mdui-icon material-icons mdui-text-color-orange"
+                                    "mdui-icon material-icons mdui-text-color-green"
                                 },
                                 [_vm._v("sentiment_satisfied")]
                               )
