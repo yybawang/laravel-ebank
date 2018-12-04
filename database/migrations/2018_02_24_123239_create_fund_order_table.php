@@ -18,7 +18,7 @@ class CreateFundOrderTable extends Migration
             $table->increments('id');
             $table->integer('merchant_id')->comment('商户ID');
             $table->integer('user_id')->comment('用户ID，用于用户钱包扣款');
-            $table->string('order_no',50)->comment('唯一订单号');
+            $table->string('order_no',50)->comment('唯一订单号，多商户也不能重复，全局唯一');
             $table->string('order_type')->comment('订单类型，商户自由区分，可存中文或英文');
             $table->string('product_name')->comment('商品名');
             $table->decimal('amount',30,0)->comment('组合支付总金额，单位分');
@@ -38,7 +38,7 @@ class CreateFundOrderTable extends Migration
 			$table->tinyInteger('status')->comment('0无效，1有效');
 			$table->string('remarks')->nullable();
 			
-			$table->unique(['order_no','merchant_id'],'order_no');
+			$table->unique(['order_no'],'order_no');
 			$table->index('user_id','user_id');
 			$table->index('order_type','order_type');
             $table->timestamps();

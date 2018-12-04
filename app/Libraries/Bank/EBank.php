@@ -609,7 +609,7 @@ class EBank {
 		Cache::add($cache_key,1,0.05);		// 3秒钟
 		
 		$freeze = FundFreeze::findOrFail($freeze_id);
-		$purse = FundUserPurse::active()->where(['id'=>$freeze->purse_id])->firstOrFail();
+		$purse = FundUserPurse::where(['id'=>$freeze->purse_id])->firstOrFail();
 		
 		if($freeze->status != 1){
 			exception('冻结记录['.$freeze_id.']已被处理过');

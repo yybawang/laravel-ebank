@@ -13,12 +13,14 @@ use Illuminate\Support\Facades\Cache;
 
 class OrderPayments
 {
+	private $merchant_id;
 	private $order_no;
 	private $amount_thread;
 	private $amount_wallet;
 	private $product_name;
-	public function __construct($order_no,$amount_thread,$amount_wallet,$product_name)
+	public function __construct($merchant_id,$order_no,$amount_thread,$amount_wallet,$product_name)
 	{
+		$this->merchant_id = $merchant_id;
 		$this->order_no = $order_no;
 		$this->amount_thread = $amount_thread;
 		$this->amount_wallet = $amount_wallet;

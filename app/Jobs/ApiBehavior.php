@@ -32,6 +32,6 @@ class ApiBehavior implements ShouldQueue
      */
     public function handle()
     {
-		FundMerchantBehavior::create($this->data);
+		FundMerchantBehavior::insert($this->data);
 	}
 }

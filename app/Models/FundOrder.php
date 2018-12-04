@@ -64,7 +64,7 @@ class FundOrder extends CommonModel
 	 * @return bool
 	 */
 	public function complete(string $order_no,int $amount){
-		$multi_key = 'notifyController_complete'.$order_no.'_'.$amount;
+		$multi_key = 'notifyController_complete'.$order_no;
 		if(Cache::has($multi_key)){
 			exception($order_no.'并发重复通知，缓存已拦截');
 		}
