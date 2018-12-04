@@ -237,6 +237,21 @@ function email_bug(...$msg){
 	return true;
 }
 
+/**
+ * bug 邮件发送，收件人为数组配置
+ * @param $msg
+ * @return bool
+ */
+function email_notice(...$msg){
+	$receives = config('basic.bug_receives');
+	if(empty($receives)){
+		logger()->alert('收件人邮箱未配置，忽略发送邮件请求');
+		return false;
+	}
+	\Illuminate\Support\Facades\Mail::to($receives)->queue((new \App\Mail\Notice($msg))->onQueue(queue_name('email')));
+	return true;
+}
+
 
 /**
  * 时间戳格式化成国内日期格式

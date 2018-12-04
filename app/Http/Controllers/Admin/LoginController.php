@@ -23,12 +23,12 @@ class LoginController extends Controller {
 			'password'	=> 'required',
 		]);
 		$param['password'] = FundAdmin::md5($param['password']);
-		$uid = FundAdmin::where($param)->value('id');
-		if(!$uid){
+		$user = FundAdmin::select(['id','name'])->where($param)->first();
+		if(!$user){
 			exception('登录密码错误');
 		}
-		FundAdmin::where(['id'=>$uid])->update(['last_login'=>time2date()]);
-		session(['admin_uid'=>$uid]);
+		FundAdmin::where(['id'=>$user->id])->update(['last_login'=>time2date()]);
+		session(['admin_uid'=>$user->id]);
 		return json_success('验证成功，正在跳转主页');
 	}
 	
