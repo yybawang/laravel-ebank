@@ -75,15 +75,16 @@ class PurseController extends CommonController {
 			'status'		=> 'required',
 			'remarks'		=> '',
 		]);
-		request()->validate([
-			'freeze'		=> 'required|integer|min:0',
+		$post_freeze = request()->validate([
+			'freeze_add'		=> 'required|integer|min:0',
+			'freeze_remarks'	=> 'required',
 		]);
 		FundUserPurse::where(['id'=>$post['id']])->update($post);
-		$Purse = FundUserPurse::find($post['id']);
+		$Purse = FundUserPurse::findOrFail($post['id']);
 		// 冻结金额
-		if(($freeze = $request->input('freeze') - $Purse->freeze) > 0){
+		if($post_freeze['freeze_add'] > 0){
 			$EBank = new EBank();
-			$EBank->freeze($Purse->id,$freeze,$request->input('freeze_remarks'));
+			$EBank->freeze($Purse->id, $post_freeze['freeze_add'], $post_freeze['freeze_remarks']);
 		}
 		return json_success('OK');
 	}

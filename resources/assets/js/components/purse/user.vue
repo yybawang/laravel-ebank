@@ -83,8 +83,14 @@
 				<form>
 					<div class="mdui-container">
 						<div class="mdui-textfield">
-							<label class="mdui-textfield-label">冻结金额(不可大于余额 {{form.balance}})</label>
-							<input class="mdui-textfield-input" type="tel" v-model="form.freeze" />
+							<label class="mdui-textfield-label">当前冻结金额</label>
+							<input class="mdui-textfield-input" disabled type="tel" v-model="form.freeze" />
+						</div>
+					</div>
+					<div class="mdui-container">
+						<div class="mdui-textfield">
+							<label class="mdui-textfield-label">冻结金额(不可大于余额 {{form.balance}}</label>
+							<input class="mdui-textfield-input" type="tel" v-model="form.freeze_add" />
 						</div>
 					</div>
 					<div class="mdui-container">
@@ -149,7 +155,8 @@
 					id : 0,
 					balance : 0,
 					freeze : 0,
-					freeze_remarks : '',
+					freeze_add : 0,
+					freeze_remarks : '后台管理员冻结',
 					status : 0,
 					remarks : '',
 				},
@@ -181,6 +188,9 @@
 					t.form.freeze = data.freeze;
 					t.form.status = data.status;
 					t.form.remarks = data.remarks;
+					t.$nextTick(function(){
+						$('.mdui-dialog').mutation();
+					});
 				}).catch(function(){
 				
 				})

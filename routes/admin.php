@@ -74,6 +74,8 @@ Route::middleware([AdminUser::class])->namespace('Admin')->group(function(){
 		Route::post('unfreeze','PurseController@unfreeze');
 		Route::get('purse','PurseController@purse')->name('menu.身份类型余额');
 		Route::get('user','PurseController@user')->name('menu.用户钱包余额');
+		Route::get('user/{id}','PurseController@user_detail')->name('menu.用户钱包余额');
+		Route::post('user','PurseController@user_add')->name('menu.用户钱包余额');
 	});
 	
 	Route::prefix('order')->name('admin.订单管理.')->group(function(){
