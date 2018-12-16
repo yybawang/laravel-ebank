@@ -188,6 +188,7 @@
 					t.form.freeze = data.freeze;
 					t.form.status = data.status;
 					t.form.remarks = data.remarks;
+					t.form.freeze_add = 0;
 					t.$nextTick(function(){
 						$('.mdui-dialog').mutation();
 					});
