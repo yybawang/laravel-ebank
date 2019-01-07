@@ -1,1 +1,408 @@
-webpackJsonp([24],{358:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default={data:function(){return{list:[],keyword:{page:1,name:"",date:[]},exports_status:["执行中",'<span class="mdui-text-color-theme">执行完成</span>','<span class="mdui-text-color-red">执行失败</span>'],interval:""}},methods:{download:function(t,e){return this.$API.post("/export/increment",{id:t}).then(function(){}).catch(function(t){}),location.href=e,!0},del:function(t){var e=this;e.$API.delete("/export/index",{id:t}).then(function(t){mdui.alert("服务器文件已删除，外链失效","执行完成",function(){},{history:!1,confirmText:"完成"}),e.init()}).catch(function(t){})},search:function(t){this.keyword.page=t,this.init()},init:function(){var t=this;t.$API.get("/export/index",t.keyword).then(function(e){t.list=e}).catch(function(t){})}},mounted:function(){var t=this;t.init(),t.interval=setInterval(function(){t.init()},8e3)},beforeDestroy:function(){clearInterval(this.interval)}}},359:function(t,e){t.exports={render:function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",{staticClass:"export"},[n("div",{staticClass:"typo"},[n("blockquote",{staticClass:"blockquote_normal"},[t._v("\n\t\t\t* 记得及时删除不必要的导出文件，避免服务器磁盘占用。删除后外链下载失效。\n\t\t")]),t._v(" "),n("blockquote",{staticClass:"blockquote_normal"},[n("p",[t._v("\n\t\t\t\t操作名："),n("input",{directives:[{name:"model",rawName:"v-model",value:t.keyword.name,expression:"keyword.name"}],staticClass:"mdui-textfield-input input_normal",attrs:{type:"text"},domProps:{value:t.keyword.name},on:{input:function(e){e.target.composing||t.$set(t.keyword,"name",e.target.value)}}})]),t._v(" "),n("p",[t._v("\n\t\t\t\t日期筛选："),n("vue-datepicker-local",{attrs:{clearable:""},model:{value:t.keyword.date,callback:function(e){t.$set(t.keyword,"date",e)},expression:"keyword.date"}})],1),t._v(" "),n("a",{staticClass:"mdui-btn mdui-ripple mdui-color-theme",on:{click:function(e){t.search(1)}}},[n("i",{staticClass:"mdui-icon mdui-icon-left material-icons"},[t._v("search")]),t._v("搜索")])])]),t._v(" "),n("div",{staticClass:"mdui-table-fluid"},[n("table",{staticClass:"mdui-table mdui-table-hoverable"},[t._m(0),t._v(" "),n("tbody",t._l(t.list.data,function(e,o,i){return n("tr",[n("td",{domProps:{textContent:t._s("#"+(o+1))}}),t._v(" "),n("td",{domProps:{textContent:t._s(e.id)}}),t._v(" "),n("td",{domProps:{textContent:t._s(e.name)}}),t._v(" "),n("td",{domProps:{textContent:t._s(e.file_path)}}),t._v(" "),n("td",{domProps:{textContent:t._s(e.downloads)}}),t._v(" "),n("td",{domProps:{innerHTML:t._s(t.exports_status[e.status])}}),t._v(" "),n("td",{domProps:{textContent:t._s(e.created_at)}}),t._v(" "),n("td",{domProps:{textContent:t._s(e.complete_at)}}),t._v(" "),n("td",[n("div",{staticClass:"mdui-btn-group"},[1==e.status?n("a",{staticClass:"mdui-btn mdui-ripple mdui-color-theme",on:{click:function(n){t.download(e.id,e.file_path)}}},[t._v("下载")]):t._e(),t._v(" "),n("a",{staticClass:"mdui-btn mdui-ripple mdui-color-deep-orange",on:{click:function(n){t.del(e.id)}}},[t._v("删除")])])])])}),0)])]),t._v(" "),n("div",{staticClass:"mdui-color-white footer"},[n("pagination",{attrs:{pageInfo:{total:t.list.total,current:t.list.current_page,pagenum:t.list.per_page,page:t.list.last_page,pagegroup:9,skin:"#2196F3"}},on:{change:t.search}})],1)])},staticRenderFns:[function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("thead",[n("tr",[n("th",[t._v("#")]),t._v(" "),n("th",[t._v("ID")]),t._v(" "),n("th",[t._v("任务名")]),t._v(" "),n("th",[t._v("文件路径")]),t._v(" "),n("th",[t._v("下载次数")]),t._v(" "),n("th",[t._v("状态")]),t._v(" "),n("th",[t._v("创建时间")]),t._v(" "),n("th",[t._v("完成时间")]),t._v(" "),n("th",[t._v("操作")])])])}]}},387:function(t,e,n){var o=n(1)(n(358),n(359),!1,null,null,null);t.exports=o.exports}});
+webpackJsonp([24],{
+
+/***/ 386:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			list: [],
+			keyword: {
+				page: 1,
+				name: '',
+				date: []
+			},
+			exports_status: ['执行中', '<span class="mdui-text-color-theme">执行完成</span>', '<span class="mdui-text-color-red">执行失败</span>'],
+			interval: ''
+		};
+	},
+
+	methods: {
+		download: function download(id, url) {
+			var t = this;
+			t.$API.post('/export/increment', { id: id }).then(function () {
+				// 下载量计数+1
+			}).catch(function (msg) {});
+			location.href = url;
+			return true;
+		},
+		del: function del(id) {
+			var t = this;
+			t.$API.del('/export/index', { id: id }).then(function (data) {
+				mdui.alert('服务器文件已删除，外链失效', '执行完成', function () {}, { history: false, confirmText: '完成' });
+				t.init();
+			}).catch(function (msg) {});
+		},
+		search: function search(page) {
+			this.keyword.page = page;
+			this.init();
+		},
+		init: function init() {
+			var t = this;
+			t.$API.get('/export/index', t.keyword).then(function (data) {
+				t.list = data;
+			}).catch(function (msg) {});
+		}
+	},
+	mounted: function mounted() {
+		var t = this;
+		t.init();
+		t.interval = setInterval(function () {
+			t.init();
+		}, 8000);
+	},
+	beforeDestroy: function beforeDestroy() {
+		var t = this;
+		clearInterval(t.interval);
+	}
+});
+
+/***/ }),
+
+/***/ 387:
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "export" }, [
+    _c(
+      "div",
+      {
+        staticClass: "typo",
+        on: {
+          keydown: function($event) {
+            if (
+              !("button" in $event) &&
+              _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+            ) {
+              return null
+            }
+            _vm.search(1)
+          }
+        }
+      },
+      [
+        _c("blockquote", { staticClass: "blockquote_normal" }, [
+          _vm._v(
+            "\n\t\t\t* 记得及时删除不必要的导出文件，避免服务器磁盘占用。删除后外链下载失效。\n\t\t"
+          )
+        ]),
+        _vm._v(" "),
+        _c("blockquote", { staticClass: "blockquote_normal" }, [
+          _c("p", [
+            _vm._v("\n\t\t\t\t操作名："),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.keyword.name,
+                  expression: "keyword.name"
+                }
+              ],
+              staticClass: "mdui-textfield-input input_normal",
+              attrs: { type: "text" },
+              domProps: { value: _vm.keyword.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.keyword, "name", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "p",
+            [
+              _vm._v("\n\t\t\t\t日期筛选："),
+              _c("vue-datepicker-local", {
+                attrs: { clearable: "" },
+                model: {
+                  value: _vm.keyword.date,
+                  callback: function($$v) {
+                    _vm.$set(_vm.keyword, "date", $$v)
+                  },
+                  expression: "keyword.date"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+              on: {
+                click: function($event) {
+                  _vm.search(1)
+                }
+              }
+            },
+            [
+              _c(
+                "i",
+                { staticClass: "mdui-icon mdui-icon-left material-icons" },
+                [_vm._v("search")]
+              ),
+              _vm._v("搜索")
+            ]
+          )
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "mdui-table-fluid" }, [
+      _c("table", { staticClass: "mdui-table mdui-table-hoverable" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.list.data, function(val, key, index) {
+            return _c("tr", [
+              _c("td", { domProps: { textContent: _vm._s("#" + (key + 1)) } }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.id) } }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.name) } }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.file_path) } }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.downloads) } }),
+              _vm._v(" "),
+              _c("td", {
+                domProps: { innerHTML: _vm._s(_vm.exports_status[val.status]) }
+              }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.created_at) } }),
+              _vm._v(" "),
+              _c("td", { domProps: { textContent: _vm._s(val.complete_at) } }),
+              _vm._v(" "),
+              _c("td", [
+                _c("div", { staticClass: "mdui-btn-group" }, [
+                  val.status == 1
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "mdui-btn mdui-ripple mdui-color-theme",
+                          on: {
+                            click: function($event) {
+                              _vm.download(val.id, val.file_path)
+                            }
+                          }
+                        },
+                        [_vm._v("下载")]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass:
+                        "mdui-btn mdui-ripple mdui-color-deep-orange",
+                      on: {
+                        click: function($event) {
+                          _vm.del(val.id)
+                        }
+                      }
+                    },
+                    [_vm._v("删除")]
+                  )
+                ])
+              ])
+            ])
+          }),
+          0
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "mdui-color-white footer" },
+      [
+        _c("pagination", {
+          attrs: {
+            pageInfo: {
+              total: _vm.list.total,
+              current: _vm.list.current_page,
+              pagenum: _vm.list.per_page,
+              page: _vm.list.last_page,
+              pagegroup: 9,
+              skin: "#2196F3"
+            }
+          },
+          on: { change: _vm.search }
+        })
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("任务名")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("文件路径")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("下载次数")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("状态")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("创建时间")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("完成时间")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("操作")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1f8304ce", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 86:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(386)
+/* template */
+var __vue_template__ = __webpack_require__(387)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/export/index.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1f8304ce", Component.options)
+  } else {
+    hotAPI.reload("data-v-1f8304ce", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ })
+
+});

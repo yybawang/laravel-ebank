@@ -1,6 +1,6 @@
 <template>
 	<div class="purse_freeze">
-		<div class="mdui-typo">
+		<div class="mdui-typo" @keydown.enter="search(1)">
 			<blockquote class="blockquote_normal">
 				<p>
 					冻结ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.id" />

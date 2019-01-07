@@ -1,6 +1,6 @@
 <template>
 	<div class="purse_user">
-		<div class="mdui-typo">
+		<div class="mdui-typo" @keydown.enter="search(1)">
 			<blockquote class="blockquote_normal">
 				<p>
 					用户ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.user_id"/>
@@ -79,7 +79,7 @@
 			<div class="mdui-dialog-title">
 				用户钱包新增/修改
 			</div>
-			<div class="mdui-dialog-content">
+			<div class="mdui-dialog-content" @keydown.enter="add_submit">
 				<form>
 					<div class="mdui-container">
 						<div class="mdui-textfield">

@@ -96,7 +96,7 @@ const post = function(url,params){
  */
 const del = function(url,params){
 	url = url_prefix + url;
-	return axios.delete(url,params);
+	return axios.delete(url,{params});
 };
 
 /**

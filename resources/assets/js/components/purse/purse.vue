@@ -1,6 +1,6 @@
 <template>
 	<div class="purse">
-		<div class="mdui-typo">
+		<div class="mdui-typo" @keydown.enter="search(1)">
 			<blockquote class="blockquote_normal">
 				<p>
 					身份类型：

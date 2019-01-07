@@ -1,6 +1,6 @@
 <template>
 	<div class="report_purse">
-		<div class="mdui-typo">
+		<div class="mdui-typo" @keydown.enter="search(1)">
 			<blockquote class="blockquote_normal">
 				<p>注：钱包进出统计，根据转账流水以及第三方支付订单计算所得</p>
 			</blockquote>

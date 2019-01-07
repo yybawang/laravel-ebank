@@ -1,6 +1,6 @@
 <template>
 	<div class="purse_user">
-		<div class="mdui-typo">
+		<div class="mdui-typo" @keydown.enter="search(1)">
 			<blockquote class="blockquote_normal">
 				注：此接口数据只统计商户API模块接口，其他暂不列入范围内
 			</blockquote>

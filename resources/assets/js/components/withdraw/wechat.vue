@@ -1,6 +1,6 @@
 <template>
 	<div class="purse_user_type">
-		<div class="typo">
+		<div class="typo" @keydown.enter="search(1)">
 			<blockquote class="blockquote_normal">
 				<p>
 					用户ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.user_id" />

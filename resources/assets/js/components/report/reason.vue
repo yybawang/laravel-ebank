@@ -1,6 +1,6 @@
 <template>
 	<div class="report_reason">
-		<div class="mdui-typo">
+		<div class="mdui-typo" @keydown.enter="search(1)">
 			<blockquote class="blockquote_normal">
 				<p>注：reason 行为流水统计，根据实际成功的流水计算所得</p>
 			</blockquote>

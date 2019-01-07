@@ -1,6 +1,6 @@
 <template>
 	<div class="merchant">
-		<div class="typo">
+		<div class="typo" @keydown.enter="search(1)">
 			<blockquote class="blockquote_normal">
 				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="add(0)"><i class="mdui-icon mdui-icon-left material-icons">add</i>添加</a>
 			</blockquote>
@@ -63,7 +63,7 @@
 			<div class="mdui-dialog-title">
 				API 商户新增/修改
 			</div>
-			<div class="mdui-dialog-content">
+			<div class="mdui-dialog-content" @keydown.enter="add_submit">
 				<form>
 					<div class="mdui-container">
 						选择支付配置：
@@ -192,7 +192,7 @@
 			del(id){
 				let t = this;
 				mdui.confirm('删除后数据不可恢复，确认删除请点击【确定】按钮', '确认?', function(){
-					t.$API.delete('/merchant/index',{id:id}).then(function(){
+					t.$API.del('/merchant/index',{id:id}).then(function(){
 						t.init();
 					}).catch(function(msg){
 						

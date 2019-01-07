@@ -1,6 +1,6 @@
 <template>
 	<div class="transfer_index">
-		<div class="typo">
+		<div class="typo" @keydown.enter="search(1)">
 			<blockquote class="blockquote_normal">
 				<p>
 					转账ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.id" />

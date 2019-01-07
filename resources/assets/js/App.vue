@@ -110,7 +110,7 @@
 			<div class="mdui-dialog-title">
 				修改登录密码
 			</div>
-			<div class="mdui-dialog-content">
+			<div class="mdui-dialog-content" @keydown.enter="add_submit">
 				<div class="mdui-container">
 					<div class="mdui-textfield">
 						<label class="mdui-textfield-label">现登录密码</label>
