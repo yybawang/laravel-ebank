@@ -12,7 +12,7 @@
 					reason：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.reason" />
 				</p>
 				<p>
-					日期筛选：<vue-datepicker-local v-model="keyword.date" clearable />
+					日期筛选：<date-picker v-model="keyword.date"></date-picker>
 				<p>
 					钱包类型：
 					<label class="mdui-checkbox" v-for="(name,id) of purse_type" style="margin-right:2rem;">

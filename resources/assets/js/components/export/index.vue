@@ -9,7 +9,7 @@
 					操作名：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.name" />
 				</p>
 				<p>
-					日期筛选：<vue-datepicker-local v-model="keyword.date" clearable />
+					日期筛选：<date-picker v-model="keyword.date"></date-picker>
 				</p>
 				<a class="mdui-btn mdui-ripple mdui-color-theme" @click="search(1)"><i class="mdui-icon mdui-icon-left material-icons">search</i>搜索</a>
 			</blockquote>

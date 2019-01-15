@@ -14,11 +14,9 @@ import Vue from "vue"
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-import VueDatepickerLocal from 'vue-datepicker-local'
-
-// Vue.component('example-component', require('./components/ExampleComponent.vue'));
+import DatePicker from './components/DatePicker'
 Vue.component('pagination', require('./components/pagination.vue'));
-Vue.component('vue-datepicker-local',VueDatepickerLocal);
+Vue.component('datePicker',DatePicker);
 
 Vue.config.productionTip = false;
 

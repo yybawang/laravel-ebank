@@ -10,7 +10,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta name="csrf-token" content="{{csrf_token()}}" />
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
-	<link rel="stylesheet" href="{{mix('css/app.css')}}" />
+	<link rel="stylesheet" href="{{mix('css/app.css', '/dist')}}" />
 	<title>EBank@电子银行--站内虚拟积分与聚合支付解决方案</title>
 </head>
 <body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-blue mdui-theme-accent-blue mdui-color-grey-100 mdui-loaded">
@@ -19,9 +19,9 @@
 <script>
 	var APP_URL = "{{config('app.url')}}"
 </script>
-<script src="{{mix('js/manifest.js')}}"></script>
-<script src="{{mix('js/vendor.js')}}"></script>
-<script src="{{mix('js/app.js')}}"></script>
+<script src="{{mix('js/manifest.js', '/dist')}}"></script>
+<script src="{{mix('js/vendor.js', '/dist')}}"></script>
+<script src="{{mix('js/app.js', '/dist')}}"></script>
 </body>
 </html>
 <html>

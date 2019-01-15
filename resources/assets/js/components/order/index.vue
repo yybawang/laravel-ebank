@@ -9,7 +9,7 @@
 					下单用户ID：<input class="mdui-textfield-input input_normal" type="text" v-model="keyword.user_id" />
 				</p>
 				<p>
-					日期筛选：<vue-datepicker-local v-model="keyword.date" clearable />
+					日期筛选：<date-picker v-model="keyword.date"></date-picker>
 				<p>
 					商　　户：
 					<label class="mdui-checkbox" v-for="(name,id) of merchant" style="margin-right:2rem;">
