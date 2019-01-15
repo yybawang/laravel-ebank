@@ -4,7 +4,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<title>接口测试,模拟EBankSDK</title>
 	<meta content="text/html;charset=utf-8" http-equiv="content-type">
-	<script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 	<style type="text/css">
 		html,body,.layout {
 			margin:0;
