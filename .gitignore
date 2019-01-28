@@ -13,4 +13,5 @@ npm-debug.log
 /.idea
 /public/storage
 /storage/laravels.pid
+/storage/laravels.json
 

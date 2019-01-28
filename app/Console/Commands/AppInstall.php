@@ -60,6 +60,7 @@ class AppInstall extends Command
 		if (!file_exists($config)) {
 //			copy(base_path('.env.example'), $config);
 			$this->error('未发现 .env 配置文件，请复制 .env.example 文件为 .env 并修改配置');
+			return 1;
 		}
 		
 		// 初始化数据
