@@ -90,19 +90,17 @@ class InitDataSeeder extends Seeder
 		]);
 		
 		// 填充配置
-		FundConfig::insert([
-			[
-				'key'	=> 'project_name',
-				'value'	=> 'EBank',
-				'tips'	=> '项目名',
-				'status'=> '1',
-			],
-			[
-				'key'	=> 'github_show',
-				'value'	=> '1',
-				'tips'	=> '展示 github 链接',
-				'status'=> '1',
-			],
+		FundConfig::create([
+			'key'	=> 'project_name',
+			'value'	=> 'EBank',
+			'tips'	=> '项目名',
+			'status'=> '1',
+		]);
+		FundConfig::create([
+			'key'	=> 'github_show',
+			'value'	=> '1',
+			'tips'	=> '展示 github 链接',
+			'status'=> '1',
 		]);
 	}
 }
