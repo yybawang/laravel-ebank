@@ -1,7 +1,7 @@
 <template>
 	<div class="login">
 		<div class="frame">
-			<div class="title"><h3>EBank 电子银行系统</h3></div>
+			<div class="title"><h3 v-text="PROJECT_NAME"></h3></div>
 			<div class="content">
 				<form method="post" class="form" @keydown.enter="submit">
 					<div class="mdui-textfield mdui-textfield-floating-label">
@@ -19,7 +19,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="login_footer">&copy; 2017 EBank {{domain}} All rights reserved</div>
+			<div class="login_footer">&copy; 2016 {{PROJECT_NAME}} {{domain}} All rights reserved</div>
 		</div>
 	</div>
 </template>
@@ -27,6 +27,7 @@
 	export default {
 		data(){
 			return {
+				PROJECT_NAME : PROJECT_NAME,
 				form: {
 					name : '',
 					password : '',

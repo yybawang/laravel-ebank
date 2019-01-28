@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\BasicRequest;
+use App\Models\FundConfig;
 use App\Models\FundMerchantBehavior;
 use App\Models\FundMerchant;
 use App\Models\FundOrder;
@@ -16,7 +17,12 @@ use Illuminate\Support\Facades\DB;
 class IndexController extends CommonController
 {
 	public function index(BasicRequest $request){
-		return view('admin.index');
+		$project_name = FundConfig::get('project_name', config('app.name'));
+		$github_show = FundConfig::get('github_show', config('app.name'));
+		return view('admin.index', compact(
+			'project_name',
+			'github_show'
+		));
 	}
 	
 	/**

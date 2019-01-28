@@ -6,6 +6,8 @@
     "type": "project",
     "require": {
         "php": ">=7.1.0",
+        "ext-json": "*",
+        "ext-curl": "*",
         "arcanedev/log-viewer": "v4.4.*",
         "barryvdh/laravel-cors": "^0.11.0",
         "fideloper/proxy": "~3.3",
@@ -15,7 +17,7 @@
         "laravel/tinker": "~1.0",
         "pda/pheanstalk": "^3.1",
         "predis/predis": "^1.1",
-        "sentry/sentry-laravel": "^0.9.1",
+        "sentry/sentry-laravel": "^0.11.0",
         "yansongda/laravel-pay": "^2.0"
     },
     "require-dev": {

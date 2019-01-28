@@ -2,10 +2,10 @@
 
 use App\Models\FundAdmin;
 use App\Models\FundAdminGroup;
+use App\Models\FundConfig;
 use App\Models\FundMerchant;
 use App\Models\FundPayConfig;
 use App\Models\FundPurseType;
-use App\Models\FundTransferReason;
 use App\Models\FundUserType;
 use Illuminate\Database\Seeder;
 
@@ -87,6 +87,22 @@ class InitDataSeeder extends Seeder
 			'alias'		=> 'user',
 			'status'	=> 1,
 			'remarks'	=> '用户关联出入资金存放',
+		]);
+		
+		// 填充配置
+		FundConfig::insert([
+			[
+				'key'	=> 'project_name',
+				'value'	=> 'EBank',
+				'tips'	=> '项目名',
+				'status'=> '1',
+			],
+			[
+				'key'	=> 'github_show',
+				'value'	=> '1',
+				'tips'	=> '展示 github 链接',
+				'status'=> '1',
+			],
 		]);
 	}
 }

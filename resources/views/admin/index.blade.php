@@ -17,7 +17,9 @@
 <div id="app"></div>
 
 <script>
-	var APP_URL = "{{config('app.url')}}"
+	var APP_URL = "{{config('app.url')}}";
+	var PROJECT_NAME = "{{$project_name}}";
+	var GITHUB_SHOW = parseInt("{{$github_show}}");
 </script>
 <script src="{{mix('js/manifest.js', '/dist')}}"></script>
 <script src="{{mix('js/vendor.js', '/dist')}}"></script>

@@ -309,7 +309,7 @@
 			},
 			notify(id) {
 				let t = this;
-				mdui.confirm('请求重新进入通知队列，如果多次失败请检查队列(queue)服务配置，点击【确定】继续', '手动发起异步通知', function () {
+				mdui.confirm('请求重新进入通知队列，如果多次失败请检查通知地址，点击【确定】继续', '手动发起异步通知', function () {
 					t.$API.post('/order/notify', {id: id}).then(function (data) {
 						mdui.alert("已重新分发通知任务", function () {}, {history: false});
 						t.order_unnotify();
