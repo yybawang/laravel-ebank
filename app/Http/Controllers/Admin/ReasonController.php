@@ -23,14 +23,14 @@ class ReasonController extends CommonController {
 		$data['purse_type'] = FundPurseType::active()->pluck('name','id');
 		$data['merchant'] = FundMerchant::where(['status'=>1])->pluck('name','id');
 		$data['list'] = FundTransferReason::where(['merchant_id'=>$request->input('merchant_id')])
+			->when($request->input('id'),function($query) use ($request){
+				$query->where('id',$request->input('id'));
+			})
 			->when($request->input('name'),function($query) use ($request){
 				$query->where('name','like','%'.$request->input('name').'%');
 			})
 			->when($request->input('reason'),function($query) use ($request){
 				$query->where('reason','like','%'.$request->input('reason').'%');
-			})
-			->when($request->input('merchant_id'),function($query) use ($request){
-				$query->where('merchant_id',$request->input('merchant_id'));
 			})
 			->orderBy('id','desc')
 			->pages();
