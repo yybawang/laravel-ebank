@@ -22,7 +22,6 @@ class OrderNotify implements ShouldQueue
      */
     public function __construct($order_no)
     {
-        //
 		$this->order_no = $order_no;
     }
 
@@ -33,7 +32,6 @@ class OrderNotify implements ShouldQueue
      */
     public function handle()
     {
-        //
 		$order = FundOrder::where(['order_no'=>$this->order_no])->first();
 		$merchant = FundMerchant::where(['id' => $order->merchant_id])->first(['appid','secret']);
 		

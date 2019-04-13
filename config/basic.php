@@ -6,5 +6,5 @@ return [
 	'production'	=> config('app.env') == 'production' ? true : false,
 	
 	// bug 邮件接收者，修改成自己的邮箱即可收到错误邮件
-	'bug_receives'	=> explode(',',env('BUG_EMAIL','')),
+	'bug_receives'	=> env('BUG_EMAIL') ? explode(',', env('BUG_EMAIL')) : [],
 ];

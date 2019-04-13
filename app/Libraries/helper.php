@@ -201,7 +201,7 @@ function json_return($var,$error_msg = '服务器错误，请稍后重试',$succ
  */
 function exception($message = '',$var = false){
 	if(!$var){
-		abort(500,$message);
+		abort(500, $message);
 	}
 	return true;
 }
