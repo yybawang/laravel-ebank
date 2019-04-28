@@ -250,4 +250,24 @@ class OrderUnified {
 		$result = Pay::alipay()->scan($param);
 		return $result;
 	}
+	
+	/**
+	 * 支付宝小程序支付
+	 * 返回一个临时的二维码内容
+	 * @param string $order_no
+	 * @param int $amount
+	 * @param string $product_name
+	 * @param string $buyer_id
+	 * @return \Yansongda\Pay\Gateways\Alipay\ScanGateway
+	 */
+	public function alipayMini(string $order_no,int $amount,string $product_name, string $buyer_id){
+		$param = [
+			'out_trade_no'	=> $order_no,
+			'subject'		=> $product_name,
+			'total_amount'	=> round($amount / 100,2),
+			'buyer_id'		=> $buyer_id,
+		];
+		$result = Pay::alipay()->mini($param);
+		return $result;
+	}
 }
