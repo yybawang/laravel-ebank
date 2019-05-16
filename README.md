@@ -40,7 +40,7 @@ Mysql5.7+ / MariaDB
 
 ## DEMO 演示
 
-> **docker沙箱演示地址，每周清理数据库**
+> **docker沙箱演示地址，(打不开了，服务器过期了，计划买新的服务器中)**
 
 > [https://ebank-demo.thinkms.com](https://ebank-demo.thinkms.com "ebank演示沙箱站")
 
@@ -69,7 +69,7 @@ Mysql5.7+ / MariaDB
 - 微信扫码(正扫)
 - 微信小程序支付
 
-所有支付方式调用后返回值的使用方式可在 【[统一下单](https://doc.thinkms.com/project/1?p=5 "查看聚合支付返回参数")】 中查看即可，无需看 [laravel-pay 的文档](https://yansongda.gitbooks.io/pay/ "laravel-pay") 了<br />支持同时选择积分一起组合支付(三方支付只能一个，内部钱包可无限个)，实现积分抵扣等需求，其他三方支付需查阅源码自行封装开发
+所有支付方式调用后返回值的使用方式可在 【[统一下单](https://yybawang.gitbook.io/ebank/kai-shi-shi-yong-1 "查看返回参数")】 中查看即可，无需看 [laravel-pay 的文档](https://yansongda.gitbooks.io/pay/ "laravel-pay") 了<br />支持同时选择积分一起组合支付(三方支付只能一个，内部钱包可无限个)，实现积分抵扣等需求，其他三方支付需查阅源码自行封装开发
 
 #### 2. 站内积分
 
@@ -79,11 +79,11 @@ Mysql5.7+ / MariaDB
 > 2. 多种积分可相互实现转化，积分的操作我们统称为《转账》，积分的加减都必须有一个出账人和一个进账人，所以项目初始的时候都会有个控盘金额在系统余额中用来扣除<br />
 > 3. 积分每一笔的加减记录都必须有一个转账行为(reason参数)，每个业务对应一个reason，如提现成功为300001，发送红包为300002，用于开发者对此业务的中文释义以及对账的核实，保证用户积分余额经过每一笔转账之后是正确的<br />
 > 4. 每种积分互相转账都是无限制的，只需对接好你的业务需求即可，需求需要怎么转就怎么转
-> 5. more...中央银行是什么、系统银行是什么、reason意义、多项目对接 [请参阅项目介绍白皮书]('https://doc.thinkms.com/project/1?p=22' "项目说明")
+> 5. more...中央银行是什么、系统银行是什么、reason意义、多项目对接 [请参阅项目介绍白皮书]('https://yybawang.gitbook.io/ebank/' "项目说明")
 
 
 ## 文档
-[阅读在线文档](http://doc.thinkms.com/project/1 "Doc")
+[阅读在线文档](https://yybawang.gitbook.io/ebank/ "Doc")
 
 
 **github**
