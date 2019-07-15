@@ -40,9 +40,9 @@ Mysql5.7+ / MariaDB
 
 ## DEMO 演示
 
-> **docker沙箱演示地址，(打不开了，服务器过期了，计划买新的服务器中)**
+> **沙箱演示地址**
 
-> [https://ebank-demo.thinkms.com](https://ebank-demo.thinkms.com "ebank演示沙箱站")
+> [https://ebank.thinkms.com/](https://ebank.thinkms.com/ "ebank演示沙箱站")
 
 **后台账号密码**
 - admin
