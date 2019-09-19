@@ -38,12 +38,6 @@ Mysql5.7+ / MariaDB
 
 > 项目后台使用 vue 搭建，此项目中已自带编译后前端文件
 
-## DEMO 演示
-
-> **沙箱演示地址**
-
-> [https://ebank.thinkms.com/](https://ebank.thinkms.com/ "ebank演示沙箱站")
-
 **后台账号密码**
 - admin
 - 123456
