@@ -137,6 +137,44 @@ class OrderPayments
 		];
 	}
 	
+	public function wechat_transfer(){
+		$param = request()->validate([
+			'openid'	=> 'required',
+		]);
+		$order_unified = new OrderUnified();
+		$result = $order_unified->wechatTransfer($this->order_no,$this->amount_thread,$this->product_name,$param['openid']);
+		return [
+			'order_no'	=> $this->order_no,
+			'type'		=> 'transfer',
+			'platform'	=> 'wechat',
+			'content'	=> $result
+		];
+	}
+	
+	public function wechat_redpack(){
+		$param = request()->validate([
+			'openid'	=> 'required',
+			'wishing'	=> '',
+			'act_name'	=> '',
+			'total_num'	=> 'nullable|integer',
+		]);
+		$order_unified = new OrderUnified();
+		$result = $order_unified->wechatRedpack($this->order_no,$this->amount_thread,$this->product_name,$param['openid'] ,$param['wishing'] ,$param['act_name'], $param['total_num']);
+		return [
+			'order_no'	=> $this->order_no,
+			'type'		=> 'redpack',
+			'platform'	=> 'wechat',
+			'content'	=> $result
+		];
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public function alipay_web(){
 		$order_unified = new OrderUnified();
@@ -205,6 +243,21 @@ class OrderPayments
 		return [
 			'order_no'	=> $this->order_no,
 			'type'		=> 'mini',
+			'platform'	=> 'alipay',
+			'content'	=> $result
+		];
+	}
+	
+	public function alipay_transfer(){
+		$param = request()->validate([
+			'payee_type'	=> 'required',
+			'payee_account'	=> 'required',
+		]);
+		$order_unified = new OrderUnified();
+		$result = $order_unified->alipayTransfer($this->order_no,$this->amount_thread, $param['payee_type'], $param['payee_account']);
+		return [
+			'order_no'	=> $this->order_no,
+			'type'		=> 'transfer',
 			'platform'	=> 'alipay',
 			'content'	=> $result
 		];

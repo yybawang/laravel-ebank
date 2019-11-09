@@ -153,6 +153,51 @@ class OrderUnified {
 		return $result;
 	}
 	
+	/**
+	 * 微信给用户转账
+	 * @param string $order_no
+	 * @param int    $amount
+	 * @param string $product_name
+	 * @param string $openid
+	 * @return \Yansongda\Pay\Gateways\Wechat\TransferGateway
+	 */
+	public function wechatTransfer(string $order_no,int $amount,string $product_name,string $openid){
+		$param = [
+			'partner_trade_no'	=> $order_no,
+			'desc'				=> $product_name,	// 商品名作为备注
+			'amount'			=> $amount,
+			'openid'			=> $openid,
+			'check_name'		=> 'NO_CHECK',
+		];
+		// 返回 Collection 实例。包含了调用 JSAPI 的所有参数，如appId，timeStamp，nonceStr，package，signType，paySign 等
+		$result = Pay::wechat()->transfer($param);
+		return $result;
+	}
+	
+	/**
+	 * @param string $order_no
+	 * @param int    $amount
+	 * @param string $product_name
+	 * @param string $openid
+	 * @param string $wishing
+	 * @param string $act_name
+	 * @param int    $num
+	 * @return \Yansongda\Pay\Gateways\Wechat\RedpackGateway
+	 */
+	public function wechatRedpack(string $order_no,int $amount,string $product_name,string $openid, string $wishing = '恭喜发财，大吉大利', string $act_name = '参与奖励', int $num = 1){
+		$param = [
+			'mch_billno'	=> $order_no,
+			'send_name'		=> $product_name,	// 商品名作为备注
+			'total_amount'	=> $amount,
+			're_openid'		=> $openid,
+			'total_num'		=> $num,
+			'wishing'		=> $wishing,
+			'act_name'		=> $act_name,
+		];
+		// 返回 Collection 实例。包含了调用 JSAPI 的所有参数，如appId，timeStamp，nonceStr，package，signType，paySign 等
+		$result = Pay::wechat()->redpack($param);
+		return $result;
+	}
 	
 /*************************************************************************************
 *                 支付宝支付部分                                                       *
@@ -268,6 +313,26 @@ class OrderUnified {
 			'buyer_id'		=> $buyer_id,
 		];
 		$result = Pay::alipay()->mini($param);
+		return $result;
+	}
+	
+	/**
+	 * 支付宝给用户转账
+	 * 返回一个临时的二维码内容
+	 * @param string $order_no
+	 * @param int    $amount
+	 * @param string $payee_type
+	 * @param string $payee_account
+	 * @return \Yansongda\Pay\Gateways\Alipay\TransferGateway
+	 */
+	public function alipayTransfer(string $order_no,int $amount,string $payee_type, string $payee_account){
+		$param = [
+			'out_biz_no'	=> $order_no,
+			'payee_type'	=> $payee_type,
+			'payee_account'	=> $payee_account,
+			'amount'		=> round($amount / 100,2),
+		];
+		$result = Pay::alipay()->transfer($param);
 		return $result;
 	}
 }
