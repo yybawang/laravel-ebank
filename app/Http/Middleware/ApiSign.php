@@ -21,12 +21,11 @@ class ApiSign
     {
 		$response = $next($request);
 		
-		$param = $request->except(['s']);
+		$param = $request->except(['s', 'sign']);
 		
 		clear_null($param);
 		
-		$sign = $param['sign'];
-		unset($param['sign']);
+		$sign = $request->input('sign');
 		ksort($param);
 		$param2 = [];
 		foreach($param as $k => $v){
