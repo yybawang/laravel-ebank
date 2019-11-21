@@ -4,6 +4,7 @@
 /public/dist
 /storage/*.key
 /vendor
+.idea
 .env
 .env.backup
 .installed
