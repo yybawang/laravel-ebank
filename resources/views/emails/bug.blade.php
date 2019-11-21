@@ -1,0 +1,43 @@
+<div>
+	<p>
+		[env:{{config('app.env')}}]{{time2date()}}
+	</p>
+	
+	<div>
+		@foreach($msg as $v)
+			<pre>{{ print_r($v,true)}}</pre>
+		@endforeach
+	</div>
+	<div><h2>URL</h2></div>
+	<div>
+		<pre>{{print_r($url,true)}}</pre>
+	</div>
+	<div><h2>$_GET</h2></div>
+	<div>
+		<pre>{{print_r($get,true)}}</pre>
+	</div>
+	<div><h2>$_POST</h2></div>
+	<div>
+		<pre>{{print_r($post,true)}}</pre>
+	</div>
+	<div><h2>$_REQUEST</h2></div>
+	<div>
+		<pre>{{print_r($request,true)}}</pre>
+	</div>
+	<div><h2>$_SESSION</h2></div>
+	<div>
+		<pre>{{print_r($session,true)}}</pre>
+	</div>
+	<div><h2>$_COOKIE</h2></div>
+	<div>
+		<pre>{{print_r($cookie,true)}}</pre>
+	</div>
+	<div><h2>DATABASE</h2></div>
+	<div>
+		<pre>{{print_r($database,true)}}</pre>
+	</div>
+	<div><h2>$_SERVER</h2></div>
+	<div>
+		<pre>{{print_r($server,true)}}</pre>
+	</div>
+</div>

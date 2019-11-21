@@ -1,0 +1,16 @@
+/node_modules
+/public/hot
+/public/storage
+/public/dist
+/storage/*.key
+/vendor
+.env
+.env.backup
+.installed
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/storage/laravels.pid
+/storage/laravels.json

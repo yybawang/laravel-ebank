@@ -1,0 +1,23 @@
+// 部署流程，注php版本必需≥7.1
+1、cp .env.example .env // 修改.env 数据库、redis、SMTP邮箱等
+2、php artisan key:generate
+3、composer install
+4、非必须：npm install		// 系统已自带前端打包文件，如果需要自己开发，请按照lavavel的前端开发方式自行开发
+5、非必须：npm run production
+6、php artisan migrate --seed 初始化数据库和数据，如提示没有数据库，请先建立数据库 CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+7、复制项目根目录下的 ebank_supervisor.ini 文件到 /etc/supervisord.d/conf.d 中配置队列监听
+8、复制项目根目录下的 ebank_nginx.conf 到 /etc/nginx/conf.d 中配置虚拟站点
+
+// 本地CMD开发环境运行队列监听命令，服务器环境需使用 supervisord 单独监听每个queue，详见项目目录下 ebank_supervisor.ini
+php artisan queue:work --queue=default,email,export,order_notify,transfer,export,behavior --sleep=2 --tries=1
+
+// linux 定时任务调度
+* * * * * php /var/www/ebank/artisan schedule:run >> /dev/null 2>&1
+
+
+我的一些调试代码在 app/Http/Controllers/SandboxController.php 里能查看到，可自行更改后访问 /sandbox/test 调试
+
+可以访问 /sandbox 来进行调试，此页面就是模拟 EBankSdk 的效果
+
+项目推荐 laradock 搭建运行环境，https://github.com/laradock/laradock，推荐学习 docker 并 docker 化部署开发环境，抛弃 phpStudy
+
