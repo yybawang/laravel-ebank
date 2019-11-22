@@ -14,7 +14,7 @@ class CreateFundPayConfigTable extends Migration
     public function up()
     {
         Schema::create('fund_pay_config', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name',100)->comment('支付渠道名');
             $table->text('pay_config')->comment('支付秘钥配置，json保存');
             $table->tinyInteger('status')->comment('0无效，1有效');

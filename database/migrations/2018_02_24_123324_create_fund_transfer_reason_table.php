@@ -15,7 +15,7 @@ class CreateFundTransferReasonTable extends Migration
     public function up()
     {
         Schema::create('fund_transfer_reason', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->integer('merchant_id')->comment('所属API商户ID');
             $table->string('name')->comment('转账业务说明');
             $table->integer('out_user_type_id')->comment('出账身份类型ID');

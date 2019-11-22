@@ -15,7 +15,7 @@ class CreateFundMerchantTable extends Migration
     public function up()
     {
         Schema::create('fund_merchant', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->integer('pay_config_id')->comment('支付参数配置ID');
             $table->string('name',50)->comment('商户名称');
             $table->char('appid',32)->comment('商户接口唯一appid');

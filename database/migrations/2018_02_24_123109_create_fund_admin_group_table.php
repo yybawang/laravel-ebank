@@ -15,7 +15,7 @@ class CreateFundAdminGroupTable extends Migration
     public function up()
     {
         Schema::create('fund_admin_group', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name',50)->comment('权限组名称');
             $table->text('rule')->comment('权限组 json 格式');
 			$table->tinyInteger('status')->comment('0无效，1有效');

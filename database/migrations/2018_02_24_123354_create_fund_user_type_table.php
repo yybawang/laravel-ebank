@@ -15,7 +15,7 @@ class CreateFundUserTypeTable extends Migration
     public function up()
     {
         Schema::create('fund_user_type', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
 			$table->string('name',100)->comment('所有者名称');
 			$table->string('alias',50)->comment('类型英文别名，转账用');
 			$table->tinyInteger('status')->comment('0无效，1有效');

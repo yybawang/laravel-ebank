@@ -15,7 +15,7 @@ class CreateFundOrderTable extends Migration
     public function up()
     {
         Schema::create('fund_order', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->integer('merchant_id')->comment('商户ID');
             $table->integer('user_id')->comment('用户ID，用于用户钱包扣款');
             $table->string('order_no',50)->comment('唯一订单号，多商户也不能重复，全局唯一');

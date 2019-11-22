@@ -15,7 +15,7 @@ class CreateFundAdminTable extends Migration
     public function up()
     {
         Schema::create('fund_admin', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name',50)->comment('登录名');
             $table->char('password')->comment('32位MD5密码');
             $table->string('realname',15)->comment('管理者真实姓名');

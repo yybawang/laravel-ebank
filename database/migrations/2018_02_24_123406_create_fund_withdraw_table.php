@@ -15,7 +15,7 @@ class CreateFundWithdrawTable extends Migration
     public function up()
     {
         Schema::create('fund_withdraw', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->integer('merchant_id')->comment('提现发起商户ID');
             $table->integer('user_id')->comment('提现人用户ID');
             $table->string('purse',50)->comment('出账钱包类型，对应 purse_type 的 alias');

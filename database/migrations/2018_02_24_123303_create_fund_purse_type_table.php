@@ -15,7 +15,7 @@ class CreateFundPurseTypeTable extends Migration
     public function up()
     {
         Schema::create('fund_purse_type', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name',100)->comment('钱包名称');
             $table->string('alias',50)->comment('钱包英文别名，转账用');
 			$table->tinyInteger('status')->comment('0无效，1有效');

@@ -66,7 +66,7 @@ Mysql5.7+ / MariaDB
 - 微信企业转账
 - 微信红包
 
-所有支付方式调用后返回值的使用方式可在 【[统一下单](https://yybawang.gitbook.io/ebank/kai-shi-shi-yong-1 "查看返回参数")】 中查看即可，无需看 [laravel-pay 的文档](https://yansongda.gitbooks.io/pay/ "laravel-pay") 了<br />支持同时选择积分一起组合支付(三方支付只能一个，内部钱包可无限个)，实现积分抵扣等需求，其他三方支付需查阅源码自行封装开发
+所有支付方式调用后返回值的使用方式可在 【[统一下单](https://yybawang.gitbook.io/ebank/kai-shi-shi-yong-1 "查看返回参数")】 中查看即可，无需看 [laravel-pay 的文档](https://pay.yanda.net.cn/docs/2.x/overview "laravel-pay") 了<br />支持同时选择积分一起组合支付(三方支付只能一个，内部钱包可无限个)，实现积分抵扣等需求，其他三方支付需查阅源码自行封装开发
 
 #### 2. 站内积分
 
@@ -126,6 +126,8 @@ CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 // 编辑 .env 文件配置数据库、redis、SMTP 等，然后再继续执行以下命令
 4. composer install
 5. php artisan app:install
+6. npm install
+7. npm run prod
 ```
 
 
@@ -148,7 +150,7 @@ CREATE SCHEMA `ebank` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - [ ] 流水关联重新设计
 - [ ] 后台功能点帮助文案
 - [x] 对接 hhxsv5/laravel-s 可选常驻内存式部署（php bin/laravels start 运行，也可使用 supervisor 维护进程([文档](https://github.com/hhxsv5/laravel-s#run))），只托管WEB服务，队列还是使用 supervisor
-- [ ] 报表统计动态筛选，选择下拉生成对应sql，形成数据统计
+- [ ] 个人/商家固码管理，以及下单概率算法，可选跑分类型
 
 ## Q && A
 

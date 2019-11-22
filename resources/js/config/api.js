@@ -11,6 +11,7 @@ import Vue from "vue"
 
 let token = document.head.querySelector('meta[name="csrf-token"]');
 axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+axios.defaults.headers.common['Content-Type'] = 'multipart/form-data;charset=UTF-8';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 const url_prefix = APP_URL + "/admin";

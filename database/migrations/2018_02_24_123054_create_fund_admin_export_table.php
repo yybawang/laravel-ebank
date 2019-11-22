@@ -15,7 +15,7 @@ class CreateFundAdminExportTable extends Migration
     public function up()
     {
         Schema::create('fund_admin_export', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
 			$table->integer('admin_id')->comment('所属操作人员(后台登录用户)ID');
 			$table->string('name')->comment('操作名');
 			$table->string('file_name')->comment('文件名');

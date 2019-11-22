@@ -15,7 +15,7 @@ class CreateFundFreezeTable extends Migration
     public function up()
     {
         Schema::create('fund_freeze', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->integer('purse_id')->comment('user_purse 表的钱包id');
             $table->decimal('amount',30,0)->unsigned()->comment('冻结的金额，单位分');
 			$table->tinyInteger('status')->comment('0无效，1有效');

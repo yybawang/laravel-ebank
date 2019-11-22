@@ -15,7 +15,7 @@ class CreateFundOrderPaymentTable extends Migration
     public function up()
     {
         Schema::create('fund_order_payment', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->integer('order_id')->comment('所属订单表ID，一对多');
             $table->string('type')->comment('支付方式，对应 class OrderPayments 的方法名');
             $table->decimal('amount',30,0)->comment('支付金额，单位分');

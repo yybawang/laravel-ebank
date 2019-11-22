@@ -15,7 +15,7 @@ class CreateFundConfigTable extends Migration
     public function up()
     {
         Schema::create('fund_config', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('key',150)->comment('配置键');
             $table->text('value')->comment('配置值');
             $table->string('tips')->comment('配置提示');

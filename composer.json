@@ -10,10 +10,12 @@
     "require": {
         "php": "^7.2",
         "ext-curl": "*",
+        "ext-gd": "*",
         "ext-json": "*",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.4",
         "hhxsv5/laravel-s": "^3.5",
+        "khanamiryan/qrcode-detector-decoder": "^1.0",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^1.0",
         "laravel/ui": "^1.1",

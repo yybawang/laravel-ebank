@@ -102,5 +102,11 @@ class InitDataSeeder extends Seeder
 			'tips'	=> '展示 github 链接',
 			'status'=> '1',
 		]);
+        FundConfig::create([
+            'key'	=> 'collect_qrcode_limit',
+            'value'	=> '10',
+            'tips'	=> '码商可上传固码数量',
+            'status'=> '1',
+        ]);
 	}
 }

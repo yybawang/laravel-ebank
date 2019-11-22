@@ -15,7 +15,7 @@ class CreateFundMerchantBehaviorTable extends Migration
     public function up()
     {
         Schema::create('fund_merchant_behavior', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('appid',50)->comment('商户 appid');
             $table->string('url')->comment('操作地址 fullUrl()');
             $table->decimal('execute_time',10,8)->comment('执行时间，php microtime时间');

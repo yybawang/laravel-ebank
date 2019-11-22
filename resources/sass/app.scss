@@ -47,5 +47,23 @@
     font-weight: 700;
     //background-color: rgba(0,0,0,.08);
 }
-
+.relative {
+    position:relative;
+}
+.absolute {
+    position: absolute;
+}
+.upload-col {
+    width: 80px;
+    height: 80px;
+    border:1px dashed #CCC;
+}
+.upload-file {
+    opacity: 0;
+    cursor: pointer;
+    left:16px;
+    width: 82px;
+    top:0;
+    bottom:0;
+}
 /* 重绘部分结束------------  */

@@ -196,14 +196,10 @@ function json_return($var,$error_msg = '服务器错误，请稍后重试',$succ
 /**
  * 给http响应发送一个 500 服务器异常
  * @param string $message
- * @param false $var		// 判断变量是[假]才抛错
- * @return bool
+ * @param int $code
  */
-function exception($message = '',$var = false){
-	if(!$var){
-		abort(500, $message);
-	}
-	return true;
+function exception($message = '',$code = 500){
+    abort($code, $message);
 }
 
 /**
