@@ -1,0 +1,41 @@
+{
+    "name": "yybwang/ebank",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "yybawang",
+            "email": "yybawang@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.2.5",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-pcntl": "*",
+        "ext-pdo": "*",
+        "ext-simplexml": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "yybawang\\ebank\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "yybawang\\ebank\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "yybawang\\ebank\\ServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "prefer-stable": true
+}
