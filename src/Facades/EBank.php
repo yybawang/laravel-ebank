@@ -53,6 +53,9 @@ class EBank extends LaravelFacade
      * @return int|mixed 返回转账ID，如果是核心业务，建议记录ID到业务表，用于冲正和核对业务
      */
     public static function transfer(int $out_user_id, int $into_user_id, int $amount, int $reason, $detail = null, ?string $remarks = null){
+        if($amount == 0){
+            return 0;
+        }
         return (new PurseTransfer())->outUser($out_user_id)->intoUser($into_user_id)->amount($amount)->reason($reason)->detail($detail)->remarks($remarks)->execute();
     }
 
