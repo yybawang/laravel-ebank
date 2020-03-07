@@ -87,7 +87,9 @@ class ServiceProvider extends LaravelServiceProvider
             return new EBank();
         });
 
-        $this->registerServiceProvider();
+        if($this->app->runningInConsole()){
+            $this->registerServiceProvider();
+        }
     }
 
     public function provides()
