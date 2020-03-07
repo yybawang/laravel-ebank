@@ -1,0 +1,81 @@
+@import "flex";
+@import "~bootswatch/dist/pulse/variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootswatch/dist/pulse/bootswatch";
+#app {
+    height: 100vh;
+}
+.bg-muted {
+    background-color: #F2F2F2;
+}
+.layout {
+    height: 100%;
+    background-color: #edf1f3;
+    .layout-header {
+        border-bottom: 1px solid #d5dfe9;
+        .navbar {
+            padding: 20px;
+            .appname {
+
+            }
+            .action {
+
+            }
+        }
+    }
+    .layout-body {
+        .layout-menu {
+            width: 240px;
+            border-right: 1px solid #d5dfe9;
+            .nav {
+                > li {
+                    > a {
+                        color: #2a5164;
+                        padding: 10px 10px;
+                        text-decoration: none;
+                        > svg {
+                            width: 1rem;
+                            height: 1rem;
+                            margin-right: 10px;
+                            fill: #c3cbd3;
+                        }
+                        &.active {
+                            color: $primary;
+                            > svg {
+                                fill: $primary;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .layout-content {
+            padding: 20px;
+            background-color: $light;
+            .head-filters {
+                .filters {
+                    .form-group {
+                        display: flex;
+                        align-items: center;
+                        margin-right: 10px;
+                    }
+                    .form-label {
+                        padding-right: 10px;
+                        margin: 0;
+                        white-space: nowrap !important;
+                    }
+                }
+                .add {
+
+                }
+            }
+        }
+    }
+}
+.dashboard {
+    margin: 0 auto;
+    width: 920px;
+    .overview {
+        background-color: #fafafa;
+    }
+}

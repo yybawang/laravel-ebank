@@ -1,0 +1,44 @@
+<?php
+
+namespace yybawang\ebank\Http\Controllers;
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+use yybawang\ebank\Http\Middleware\Authenticate;
+
+Route::middleware(array_merge(config('ebank.middleware'), [Authenticate::class]))->prefix(Str::start(config('ebank.path'), '/'))->group(function(){
+    Route::get('/', [IndexController::class, 'index']);
+    Route::get('/dashboard', [IndexController::class, 'dashboard']);
+
+    Route::get('/transfers', [TransferController::class, 'index']);
+    Route::get('/transfers/filters', [TransferController::class, 'filters']);
+    Route::put('/transfers/un_transfer/{id}', [TransferController::class, 'un_transfer']);
+    Route::delete('/transfers/{id}', [TransferController::class, 'delete']);
+
+    Route::get('/freezes', [FreezeController::class, 'index']);
+    Route::put('/freezes/unfreeze/{id}', [FreezeController::class, 'unfreeze']);
+
+    Route::get('/purses', [PurseController::class, 'index']);
+    Route::get('/purses/filters', [PurseController::class, 'filters']);
+
+    Route::get('/identities', [IdentityController::class, 'index']);
+    Route::get('/identities/{id}', [IdentityController::class, 'show']);
+    Route::post('/identities', [IdentityController::class, 'store']);
+    Route::delete('/identities/{id}', [IdentityController::class, 'delete']);
+
+    Route::get('/purse_types', [PurseTypeController::class, 'index']);
+    Route::get('/purse_types/{id}', [PurseTypeController::class, 'show']);
+    Route::post('/purse_types', [PurseTypeController::class, 'store']);
+    Route::delete('/purse_types/{id}', [PurseTypeController::class, 'delete']);
+
+    Route::get('/reasons', [ReasonsController::class, 'index']);
+    Route::get('/reasons/{id}', [ReasonsController::class, 'show']);
+    Route::post('/reasons', [ReasonsController::class, 'store']);
+    Route::delete('/reasons/{id}', [ReasonsController::class, 'delete']);
+
+    Route::get('/reports/reason', [ReportController::class, 'reason']);
+    Route::get('/reports/transfer', [ReportController::class, 'transfer']);
+
+    Route::get('/behaviors', [BehaviorController::class, 'index']);
+    Route::get('/behaviors/{id}', [BehaviorController::class, 'show']);
+});

@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\Facades\Gate;
+use yybawang\ebank\ApplicationServiceProvider;
+
+class EBankServiceProvider extends ApplicationServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        parent::boot();
+    }
+
+    /**
+     * Register the EBank gate.
+     *
+     * This gate determines who can access EBank dashboard in non-local environments.
+     *
+     * @return void
+     */
+    protected function gate()
+    {
+        Gate::define('ebankDashboard', function ($user) {
+            return in_array($user->email, [
+                //
+            ]);
+        });
+    }
+}

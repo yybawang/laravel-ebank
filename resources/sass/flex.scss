@@ -1,0 +1,89 @@
+// flex布局
+.flex {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+}
+.flex-center {
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.flex-1 {
+    -webkit-flex: 1 1 0;
+    flex: 1 1 0;
+}
+// 填充剩余空间
+.flex-grow {
+    flex-grow: 1;
+}
+// 收缩可用空间
+.flex-shrink {
+    flex-shrink: 1;
+}
+// 横向,默认
+.flex-row {
+    flex-direction: row;
+}
+// 纵向
+.flex-col {
+    flex-direction: column;
+}
+// 默认
+.flex-no-wrap {
+    flex-wrap: nowrap;
+}
+.flex-wrap {
+    flex-wrap: wrap;
+}
+.flex-wrap-reverse {
+    flex-wrap: wrap-reverse;
+}
+.items-stretch {
+    align-items: stretch;
+}
+.items-start {
+    align-items: flex-start;
+}
+.items-center {
+    align-items: center;
+}
+.items-end {
+    align-items: flex-end;
+}
+.items-baseline {
+    align-items: baseline;
+}
+.content-start {
+    align-content: flex-start;
+}
+.content-center {
+    align-content: center;
+}
+.content-end {
+    align-content: flex-end;
+}
+.content-between {
+    align-content: space-between;
+}
+.content-around {
+    align-content: space-around;
+}
+.justify-start {
+    justify-content: flex-start;
+}
+.justify-center {
+    justify-content: center;
+}
+.justify-end {
+    justify-content: flex-end;
+}
+.justify-between {
+    justify-content: space-between;
+}
+.justify-around {
+    justify-content: space-around;
+}
