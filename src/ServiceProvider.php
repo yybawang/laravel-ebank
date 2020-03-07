@@ -106,6 +106,7 @@ class ServiceProvider extends LaravelServiceProvider
 //        $this->publishes([
 //            __DIR__ . '/stubs/EBankServiceProvider.stub' => app_path('Providers/EBankServiceProvider.php'),
 //        ]);
+        // todo.. 有时间优化
         if(!file_exists(app_path('Providers/EBankServiceProvider.php'))){
             copy(__DIR__ . '/stubs/EBankServiceProvider.stub', app_path('Providers/EBankServiceProvider.php'));
         }
