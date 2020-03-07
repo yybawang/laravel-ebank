@@ -15,6 +15,10 @@
 
 `php artisan vendor:publish --tag=laravel-ebank`
 
+### 运行数据表迁移
+
+`php artisan migrate`
+
 ### 更多配置项
 
 `config/ebank.php`
