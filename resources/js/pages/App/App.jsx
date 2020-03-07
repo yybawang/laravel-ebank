@@ -18,7 +18,7 @@ import Transfer from "../Reports/Transfer";
 export default (props) => {
 
     return (
-        <Router basename={'/ebank'}>
+        <Router>
             <div className={'flex flex-col layout'}>
                 <div className={'layout-header'}>
                     <div className={'flex justify-between navbar'}>
