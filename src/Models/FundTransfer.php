@@ -13,7 +13,7 @@ class FundTransfer extends FundModel
     const STATUS_SUCCESS = 1;   // 正常成功状态
     const STATUS_REVERSAL = 2;  // 已冲正
 
-    protected $with = ['outIdentityType', 'intoIdentityType', 'outPurseType', 'intoPurseType', 'outPurse', 'intoPurse'];
+    protected $with = ['reasonInfo', 'outIdentityType', 'intoIdentityType', 'outPurseType', 'intoPurseType', 'outPurse', 'intoPurse'];
     protected $casts = [
         'detail' => 'json',
     ];
@@ -24,6 +24,10 @@ class FundTransfer extends FundModel
         static::addGlobalScope('success', function(Builder $builder){
             return $builder->where('status', self::STATUS_SUCCESS);
         });
+    }
+
+    public function reasonInfo(){
+        return $this->belongsTo(FundTransferReason::class, 'reason', 'reason');
     }
 
     public function outIdentityType(){
