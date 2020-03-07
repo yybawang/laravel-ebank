@@ -154,8 +154,8 @@ class FundService
         $out_purse = $this->userWalletDetail($out_user_id, $out_purse_type_id, $out_identity_type_id);
         $into_purse = $this->userWalletDetail($into_user_id, $into_purse_type_id, $into_identity_type_id);
         // 自动生成 reason，格式为：{$maxId} + 出账身份类型+出账钱包类型+进账身份类型+进账钱包类型
-        $max_id = FundTransferReason::max('id');
-        $reason = str_pad($max_id, 3, '0') . str_pad($out_identity_type_id, 2, '0', STR_PAD_LEFT) . str_pad($out_purse_type_id, 2, '0', STR_PAD_LEFT) . str_pad($into_identity_type_id, 2, '0', STR_PAD_LEFT) . str_pad($into_purse_type_id, 2, '0', STR_PAD_LEFT);
+        $max_id = FundTransferReason::max('id') ?? 0;
+        $reason = ($max_id + 1) . str_pad($out_identity_type_id, 2, '0', STR_PAD_LEFT) . str_pad($out_purse_type_id, 2, '0', STR_PAD_LEFT) . str_pad($into_identity_type_id, 2, '0', STR_PAD_LEFT) . str_pad($into_purse_type_id, 2, '0', STR_PAD_LEFT);
         FundTransferReason::firstOrCreate(['reason' => $reason], [
             'name' => $reason_name ?? '钱包内部变动',
             'out_identity_type_id' => $out_identity_type_id,

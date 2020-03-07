@@ -21,7 +21,7 @@ export default (props) => {
         if(form.reason || form.out_identity_type_id <= 0 || form.out_purse_type_id <= 0 || form.into_identity_type_id <= 0 || form.into_purse_type_id <= 0){
             return;
         }
-        let reason = max.padEnd(3, '0')+(form.out_identity_type_id+'').padStart(2, '0')+(form.out_purse_type_id+'').padStart(2, '0')+(form.into_identity_type_id+'').padStart(2, '0')+(form.into_purse_type_id+'').padStart(2, '0');
+        let reason = max+(form.out_identity_type_id+'').padStart(2, '0')+(form.out_purse_type_id+'').padStart(2, '0')+(form.into_identity_type_id+'').padStart(2, '0')+(form.into_purse_type_id+'').padStart(2, '0');
         setForm(Object.assign({}, form, {reason}));
     }, [form.out_identity_type_id, form.out_purse_type_id, form.into_identity_type_id, form.into_purse_type_id]);
 
