@@ -5,6 +5,7 @@
     "keywords": ["ebank", "wallets", "online-wallets", "wechat-pay", "alipay", "unified-payments"],
     "homepage": "https://symfony.com",
     "license": "MIT",
+    "version": "v3.0.1",
     "authors": [
         {
             "name": "yybawang",
