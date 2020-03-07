@@ -26,7 +26,7 @@ class EBankServiceProvider extends ApplicationServiceProvider
      */
     protected function gate()
     {
-        Gate::define('ebankDashboard', function ($user) {
+        Gate::define('viewEBank', function ($user) {
             return in_array($user->email, [
                 //
             ]);

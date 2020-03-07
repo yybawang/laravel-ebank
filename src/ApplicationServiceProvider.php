@@ -29,7 +29,7 @@ class ApplicationServiceProvider extends LaravelServiceProvider
 
         ServiceProvider::auth(function ($request) {
             return app()->environment('local') ||
-                Gate::check('ebankDashboard', [$request->user()]);
+                Gate::check('viewEBank', [$request->user()]);
         });
     }
 
@@ -42,7 +42,7 @@ class ApplicationServiceProvider extends LaravelServiceProvider
      */
     protected function gate()
     {
-        Gate::define('ebankDashboard', function ($user) {
+        Gate::define('viewEBank', function ($user) {
             return in_array($user->email, [
                 //
             ]);
