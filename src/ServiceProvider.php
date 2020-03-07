@@ -65,10 +65,6 @@ class ServiceProvider extends LaravelServiceProvider
                 __DIR__ . '/../config/ebank.php' => config_path('ebank.php'),
                 __DIR__ . '/../public' => public_path('vendor/ebank'),
             ], 'laravel-ebank');
-
-            $this->publishes([
-                __DIR__ . '/stubs/EBankServiceProvider.stub' => app_path('Providers/EBankServiceProvider.php'),
-            ], 'laravel-ebank-provider');
         }
     }
 
@@ -107,7 +103,12 @@ class ServiceProvider extends LaravelServiceProvider
      */
     protected function registerServiceProvider()
     {
-        Artisan::call('vendor:publish', ['--tag' => 'laravel-ebank-provider']);
+//        $this->publishes([
+//            __DIR__ . '/stubs/EBankServiceProvider.stub' => app_path('Providers/EBankServiceProvider.php'),
+//        ]);
+        if(!file_exists(app_path('Providers/EBankServiceProvider.php'))){
+            copy(__DIR__ . '/stubs/EBankServiceProvider.stub', app_path('Providers/EBankServiceProvider.php'));
+        }
 
         $namespace = Str::replaceLast('\\', '', Container::getInstance()->getNamespace());
 
