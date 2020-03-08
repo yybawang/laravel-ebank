@@ -60,7 +60,6 @@ export default (props) => {
                                 <option key={purse.id} value={purse.id}>{purse.name}</option>
                             )}
                         </Form.Control></Form.Group>
-                        <Form.Group><Form.Label>时间筛选</Form.Label></Form.Group>
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
                     </div>
                 </Form>
