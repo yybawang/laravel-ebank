@@ -3,9 +3,8 @@
     "type": "library",
     "description": "A library for unified payments with online wallets and Alipay and WeChat",
     "keywords": ["ebank", "wallets", "online-wallets", "wechat-pay", "alipay", "unified-payments"],
-    "homepage": "https://symfony.com",
+    "homepage": "https://github.com/yybawang/laravel-ebank",
     "license": "MIT",
-    "version": "v3.0.1",
     "authors": [
         {
             "name": "yybawang",
@@ -37,9 +36,5 @@
                 "yybawang\\ebank\\ServiceProvider"
             ]
         }
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "prefer-stable": true
+    }
 }
