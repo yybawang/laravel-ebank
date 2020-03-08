@@ -15,6 +15,12 @@ class BehaviorController extends BaseController
         $Behaviors = FundBehavior::when($request->input('funcname'), function($query, $name){
             return $query->where('funcname', $name);
         })
+            ->when($request->input('date.0'), function($query, $date){
+                return $query->where('created_at', '>=', $date);
+            })
+            ->when($request->input('date.1'), function($query, $date){
+                return $query->where('created_at', '<=', $date);
+            })
             ->latest()
             ->paginate();
         return $this->success([

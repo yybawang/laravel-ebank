@@ -37,15 +37,15 @@ export default (props) => {
             <div className={'head-filters py-2'}>
                 <Form onSubmit={(e) => {e.preventDefault();init(true)}}>
                     <div className={'flex flex-wrap filters'}>
-                        <Form.Group><Form.Label>用户ID</Form.Label><Form.Control value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>用户ID</Form.Label><Form.Control type={"number"} value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
                         <Form.Group><Form.Label>身份类型</Form.Label><Form.Control as={'select'} onChange={e => setIdentity_type_id(e.target.value)}>
-                            <option value={0}>--筛选--</option>
+                            <option value={0}>-筛选-</option>
                             {identities.map(identity =>
                                 <option key={identity.id} value={identity.id}>{identity.name}</option>
                             )}
                         </Form.Control></Form.Group>
                         <Form.Group><Form.Label>钱包类型</Form.Label><Form.Control as={'select'} onChange={e => setPurse_type_id(e.target.value)}>
-                            <option value={0}>--筛选--</option>
+                            <option value={0}>-筛选-</option>
                             {purses.map(purse =>
                                 <option key={purse.id} value={purse.id}>{purse.name}</option>
                             )}
@@ -61,9 +61,9 @@ export default (props) => {
                     <th>用户ID</th>
                     <th>身份类型</th>
                     <th>钱包类型</th>
-                    <th>可用金额</th>
-                    <th>冻结金额</th>
                     <th>总金额</th>
+                    <th>冻结金额</th>
+                    <th>可用余额</th>
                     <th>钱包状态</th>
                 </tr>
                 </thead>
@@ -73,9 +73,9 @@ export default (props) => {
                     <td>{row.user_id}</td>
                     <td>{row.identity_type.name}</td>
                     <td>{row.purse_type.name}</td>
-                    <td>{Number(row.balance).toLocaleString()}</td>
-                    <td>{Number(row.freeze).toLocaleString()}</td>
                     <td>{(Number(row.balance) + Number(row.freeze)).toLocaleString()}</td>
+                    <td>{Number(row.freeze).toLocaleString()}</td>
+                    <td>{Number(row.balance).toLocaleString()}</td>
                     <td><StatusNormal status={row.status}/></td>
                 </tr>)}
                 </tbody>

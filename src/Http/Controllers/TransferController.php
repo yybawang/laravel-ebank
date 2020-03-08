@@ -30,6 +30,12 @@ class TransferController extends BaseController
             ->when($request->input('into_purse_type_id'), function($query, $id){
                 return $query->where('into_purse_type_id', $id);
             })
+            ->when($request->input('date.0'), function($query, $date){
+                return $query->where('created_at', '>=', $date);
+            })
+            ->when($request->input('date.1'), function($query, $date){
+                return $query->where('created_at', '<=', $date);
+            })
             ->withoutGlobalScope('success')
             ->latest('id')
             ->paginate();

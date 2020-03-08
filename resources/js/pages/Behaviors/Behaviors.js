@@ -3,6 +3,7 @@ import {Button, ButtonGroup, ButtonToolbar, Form, Modal, Table} from "react-boot
 import {useHistory} from 'react-router-dom';
 import {axios} from "../../helpers/axios";
 import Pagination from "../../components/Pagination";
+import DateRangePicker from "../../components/DateRangePicker";
 
 export default (props) => {
     const history = useHistory();
@@ -12,6 +13,7 @@ export default (props) => {
     const [funcname, setFuncname] = React.useState('');
     const [detail, setDetail] = React.useState({});
     const [visible, setVisible] = React.useState(false);
+    const [date, setDate] = React.useState('');
 
     React.useEffect(() => {
         init();
@@ -19,7 +21,7 @@ export default (props) => {
 
     async function init(reset) {
         let p = reset ? 1 : page;
-        let res = await axios.get('/behaviors', {params: {funcname, page: p}});
+        let res = await axios.get('/behaviors', {params: {funcname, date, page: p}});
         setList(res.behaviors);
         setFuncnames(res.funcnames);
     }
@@ -36,11 +38,13 @@ export default (props) => {
                 <Form onSubmit={(e) => {e.preventDefault();init(true)}}>
                     <div className={'flex flex-wrap filters'}>
                         <Form.Group><Form.Label>接口名</Form.Label><Form.Control as={'select'} onChange={e => setFuncname(e.target.value)}>
-                            <option value={''}>--筛选--</option>
+                            <option value={''}>-筛选-</option>
                             {Object.keys(funcnames).map(name =>
                                 <option key={name} value={name}>{funcnames[name]}</option>
                             )}
                         </Form.Control></Form.Group>
+                        <br />
+                        <DateRangePicker onChange={setDate} />
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
                     </div>
                 </Form>

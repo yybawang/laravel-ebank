@@ -2,11 +2,6 @@ import React from "react";
 import {Button, ButtonGroup, ButtonToolbar, Form, Table} from "react-bootstrap";
 import {useHistory} from 'react-router-dom';
 import {axios} from "../../helpers/axios";
-import Pagination from "../../components/Pagination";
-import StatusTransfer from "../../components/StatusTransfer";
-import {tips} from "../../helpers/functions";
-import ButtonUntransfer from "../../components/ButtonUntransfer";
-import ButtonTransferDelete from "../../components/ButtonTransferDelete";
 
 export default (props) => {
     const history = useHistory();
@@ -40,31 +35,32 @@ export default (props) => {
             <div className={'head-filters py-2'}>
                 <Form onSubmit={(e) => {e.preventDefault();init()}}>
                     <div className={'flex flex-wrap filters'}>
-                        <Form.Group><Form.Label>用户ID</Form.Label><Form.Control value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>用户ID</Form.Label><Form.Control type={"number"} value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
                         <Form.Group><Form.Label>出帐身份类型</Form.Label><Form.Control as={'select'} onChange={e => setOut_dentity_type_id(e.target.value)}>
-                            <option value={0}>--筛选--</option>
+                            <option value={0}>-筛选-</option>
                             {identities.map(identity =>
                                 <option key={identity.id} value={identity.id}>{identity.name}</option>
                             )}
                         </Form.Control></Form.Group>
                         <Form.Group><Form.Label>出帐钱包类型</Form.Label><Form.Control as={'select'} onChange={e => setOut_purse_type_id(e.target.value)}>
-                            <option value={0}>--筛选--</option>
+                            <option value={0}>-筛选-</option>
                             {purses.map(purse =>
                                 <option key={purse.id} value={purse.id}>{purse.name}</option>
                             )}
                         </Form.Control></Form.Group>
                         <Form.Group><Form.Label>入账身份类型</Form.Label><Form.Control as={'select'} onChange={e => setInto_dentity_type_id(e.target.value)}>
-                            <option value={0}>--筛选--</option>
+                            <option value={0}>-筛选-</option>
                             {identities.map(identity =>
                                 <option key={identity.id} value={identity.id}>{identity.name}</option>
                             )}
                         </Form.Control></Form.Group>
                         <Form.Group><Form.Label>入账钱包类型</Form.Label><Form.Control as={'select'} onChange={e => setInto_purse_type_id(e.target.value)}>
-                            <option value={0}>--筛选--</option>
+                            <option value={0}>-筛选-</option>
                             {purses.map(purse =>
                                 <option key={purse.id} value={purse.id}>{purse.name}</option>
                             )}
                         </Form.Control></Form.Group>
+                        <Form.Group><Form.Label>时间筛选</Form.Label></Form.Group>
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
                     </div>
                 </Form>

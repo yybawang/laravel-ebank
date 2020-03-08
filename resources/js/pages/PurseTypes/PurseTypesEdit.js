@@ -34,8 +34,9 @@ export default (props) => {
                     <Form.Control ref={focus} value={form.name} onChange={e => setForm(Object.assign({}, form, {name: e.target.value}))} />
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>英文别名（订单完成后扣款时使用）</Form.Label>
+                    <Form.Label>英文别名</Form.Label>
                     <Form.Control value={form.alias} onChange={e => setForm(Object.assign({}, form, {alias: e.target.value}))} />
+                    <Form.Text><Form.Text>* 必填，尽量只使用一个单词（订单完成后扣款时使用）</Form.Text></Form.Text>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>状态</Form.Label>

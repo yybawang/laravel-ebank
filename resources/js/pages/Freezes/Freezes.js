@@ -8,6 +8,7 @@ import {tips} from "../../helpers/functions";
 import Pagination from "../../components/Pagination";
 import StatusFreeze from "../../components/StatusFreeze";
 import ButtonUnfreeze from "../../components/ButtonUnfreeze";
+import DateRangePicker from "../../components/DateRangePicker";
 
 export default (props) => {
     const history = useHistory();
@@ -15,6 +16,7 @@ export default (props) => {
     const [page, setPage] = React.useState(1);
     const [id, setId] = React.useState('');
     const [user_id, setUser_id] = React.useState('');
+    const [date, setDate] = React.useState('');
 
     React.useEffect(() => {
         init();
@@ -22,7 +24,7 @@ export default (props) => {
 
     async function init(reset) {
         let p = reset ? 1 : page;
-        let res = await axios.get('/freezes', {params: {user_id, id, page: p}});
+        let res = await axios.get('/freezes', {params: {user_id, id, date, page: p}});
         setList(res);
     }
 
@@ -38,7 +40,9 @@ export default (props) => {
                 <Form onSubmit={(e) => {e.preventDefault();init(true)}}>
                     <div className={'flex flex-wrap filters'}>
                         <Form.Group><Form.Label>ID</Form.Label><Form.Control type={"number"} value={id} onChange={(e) => setId(e.target.value)}/></Form.Group>
-                        <Form.Group><Form.Label>用户ID</Form.Label><Form.Control value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>用户ID</Form.Label><Form.Control type={"number"} value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
+                        <br />
+                        <DateRangePicker onChange={setDate} />
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
                     </div>
                 </Form>

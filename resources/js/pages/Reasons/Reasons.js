@@ -36,7 +36,7 @@ export default (props) => {
                 <Form onSubmit={(e) => {e.preventDefault();init(true)}}>
                     <div className={'flex flex-wrap filters'}>
                         <Form.Group><Form.Label>名称</Form.Label><Form.Control value={name} onChange={(e) => setName(e.target.value)}/></Form.Group>
-                        <Form.Group><Form.Label>Reason</Form.Label><Form.Control value={reason} onChange={(e) => setReason(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>Reason</Form.Label><Form.Control type={"number"} value={reason} onChange={(e) => setReason(e.target.value)}/></Form.Group>
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
                     </div>
                 </Form>
@@ -46,12 +46,12 @@ export default (props) => {
                 <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Reason</th>
                     <th>行为名称</th>
                     <th>出帐身份</th>
                     <th>出帐钱包</th>
                     <th>入帐身份</th>
                     <th>入帐钱包</th>
-                    <th>Reason</th>
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
@@ -59,12 +59,12 @@ export default (props) => {
                 <tbody>
                 {list.data.map(row => <tr key={row.id}>
                     <td>{row.id}</td>
+                    <td>{row.reason}</td>
                     <td>{row.name}</td>
                     <td className={'text-warning'}>{row.out_identity_type.name}</td>
                     <td className={'text-warning'}>{row.out_purse_type.name}</td>
                     <td className={'text-info'}>{row.into_identity_type.name}</td>
                     <td className={'text-info'}>{row.into_purse_type.name}</td>
-                    <td>{row.reason}</td>
                     <td><StatusNormal status={row.status}/></td>
                     <td>
                         <ButtonGroup size={"sm"}>

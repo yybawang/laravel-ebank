@@ -17,6 +17,12 @@ class FreezeController extends BaseController
             ->when($request->input('id'), function($query, $id){
                 return $query->where('id', $id);
             })
+            ->when($request->input('date.0'), function($query, $date){
+                return $query->where('created_at', '>=', $date);
+            })
+            ->when($request->input('date.1'), function($query, $date){
+                return $query->where('created_at', '<=', $date);
+            })
             ->latest()
             ->paginate();
         return $this->success($Purses);

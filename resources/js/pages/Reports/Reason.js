@@ -1,11 +1,7 @@
 import React from "react";
 import {Button, ButtonGroup, ButtonToolbar, Form, Table} from "react-bootstrap";
 import {useHistory} from 'react-router-dom';
-import StatusNormal from "../../components/StatusNormal";
 import {axios} from "../../helpers/axios";
-import ButtonDelete from "../../components/ButtonDelete";
-import {tips} from "../../helpers/functions";
-import Pagination from "../../components/Pagination";
 
 export default (props) => {
     const history = useHistory();
@@ -27,8 +23,8 @@ export default (props) => {
             <div className={'head-filters py-2'}>
                 <Form onSubmit={(e) => {e.preventDefault();init()}}>
                     <div className={'flex flex-wrap filters'}>
-                        <Form.Group><Form.Label>Reason</Form.Label><Form.Control value={reason} onChange={(e) => setReason(e.target.value)}/></Form.Group>
-                        <Form.Group><Form.Label>用户ID</Form.Label><Form.Control value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>Reason</Form.Label><Form.Control type={"number"} value={reason} onChange={(e) => setReason(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>用户ID</Form.Label><Form.Control type={"number"} value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
                     </div>
                 </Form>
