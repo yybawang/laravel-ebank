@@ -35,4 +35,16 @@ class PurseController extends BaseController
             'purses' => $Purses,
         ]);
     }
+
+    public function enabled(Request $request){
+        $id = $request->input('id');
+        FundPurse::withoutGlobalScope('active')->where('id', $id)->update(['status' => 1]);
+        return $this->success();
+    }
+
+    public function disabled(Request $request){
+        $id = $request->input('id');
+        FundPurse::where('id', $id)->update(['status' => 0]);
+        return $this->success();
+    }
 }

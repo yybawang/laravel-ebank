@@ -14,7 +14,7 @@ import ReportsPurse from "../../../images/ReportsPurse";
 export default (props) => {
     return (
         <ul className={'nav flex flex-col'}>
-            <li><NavLink exact={true} to={'/'} className={'flex items-center'} activeClassName={'active'}><Dashboard /><span>仪表盘</span></NavLink></li>
+            <li className={'mt-3'}><NavLink exact={true} to={'/'} className={'flex items-center'} activeClassName={'active'}><Dashboard /><span>仪表盘</span></NavLink></li>
             <li><NavLink to={'/transfers'} className={'flex items-center'} activeClassName={'active'}><Transfer /><span>流水记录</span></NavLink></li>
             <li><NavLink to={'/reasons'} className={'flex items-center'} activeClassName={'active'}><Reasons /><span>转账Reason</span></NavLink></li>
             <li><NavLink to={'/freezes'} className={'flex items-center'} activeClassName={'active'}><Freezes /><span>冻结记录</span></NavLink></li>

@@ -20,6 +20,8 @@ Route::middleware(array_merge(config('ebank.middleware'), [Authenticate::class])
 
     Route::get('/purses', [PurseController::class, 'index']);
     Route::get('/purses/filters', [PurseController::class, 'filters']);
+    Route::put('/purses/enabled', [PurseController::class, 'enabled']);
+    Route::put('/purses/disabled', [PurseController::class, 'disabled']);
 
     Route::get('/identities', [IdentityController::class, 'index']);
     Route::get('/identities/{id}', [IdentityController::class, 'show']);

@@ -4,6 +4,9 @@ import {useHistory} from 'react-router-dom';
 import StatusNormal from "../../components/StatusNormal";
 import {axios} from "../../helpers/axios";
 import Pagination from "../../components/Pagination";
+import ButtonPurseEnabled from "../../components/ButtonPurseEnabled";
+import ButtonPurseDisabled from "../../components/ButtonPurseDisabled";
+import {tips} from "../../helpers/functions";
 
 export default (props) => {
     const history = useHistory();
@@ -15,9 +18,12 @@ export default (props) => {
     const [identity_type_id, setIdentity_type_id] = React.useState('');
     const [purse_type_id, setPurse_type_id] = React.useState('');
 
+    React.useEffect(()=> {
+        getFilters();
+    }, [])
+;
     React.useEffect(() => {
         init();
-        getFilters();
     }, [page]);
 
     async function init(reset) {
@@ -30,6 +36,18 @@ export default (props) => {
         let res2 = await axios.get('/purses/filters');
         setIdentities(res2.identities);
         setPurses(res2.purses);
+    }
+
+    async function enabled(id){
+        await axios.put('/purses/enabled', {id});
+        tips('开启成功', 'success');
+        await init();
+    }
+
+    async function disabled(id){
+        await axios.put('/purses/disabled', {id});
+        tips('关闭完成', 'success');
+        await init();
     }
 
     return (
@@ -65,6 +83,7 @@ export default (props) => {
                     <th>冻结金额</th>
                     <th>可用金额</th>
                     <th>钱包状态</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -77,6 +96,12 @@ export default (props) => {
                     <td>{Number(row.freeze).toLocaleString()}</td>
                     <td>{Number(row.balance).toLocaleString()}</td>
                     <td><StatusNormal status={row.status}/></td>
+                    <td>
+                        <ButtonGroup size={"sm"}>
+                            {row.status === 0 && <ButtonPurseEnabled onClick={()=> enabled(row.id)}>启用</ButtonPurseEnabled>}
+                            {row.status === 1 && <ButtonPurseDisabled onClick={()=> disabled(row.id)}>禁用</ButtonPurseDisabled>}
+                        </ButtonGroup>
+                    </td>
                 </tr>)}
                 </tbody>
             </Table>

@@ -23,7 +23,7 @@ export default (props) => {
                 <div className={'layout-header'}>
                     <div className={'flex justify-between navbar'}>
                         <div className={'appname'}><h4><strong>Laravel</strong> EBank - {$SITE_NAME}</h4></div>
-                        <div className={'action'}>refresh</div>
+                        <div className={'action'}> </div>
                     </div>
                 </div>
                 <div className={'flex-grow layout-body'}>
