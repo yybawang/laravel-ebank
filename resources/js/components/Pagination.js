@@ -15,8 +15,9 @@ export default (props) => {
     }, [props.current_page]);
 
     return (
-        <div className={'flex justify-end'}>
-            {pages > 1 && <Pagination>
+        props.last_page > 1 && <div className={'flex justify-end items-center'}>
+            <div className={'text-muted mr-3'}>共 {props.total} 条数据</div>
+            <Pagination className={'mb-0'}>
                 <Pagination.First disabled={props.current_page === 1} onClick={() => props.onChange(1)} />
                 <Pagination.Prev disabled={props.current_page === 1} onClick={() => props.onChange(props.current_page - 1)} />
                 {props.current_page > 6 && <Pagination.Ellipsis /> }
@@ -30,7 +31,7 @@ export default (props) => {
                 {props.last_page - props.current_page > 6 && <Pagination.Ellipsis /> }
                 <Pagination.Next disabled={props.last_page === props.current_page}  onClick={() => props.onChange(props.current_page + 1)} />
                 <Pagination.Last disabled={props.last_page === props.current_page} onClick={() => props.onChange(props.last_page)} />
-            </Pagination>}
+            </Pagination>
         </div>
     );
 }
