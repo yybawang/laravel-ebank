@@ -23,8 +23,8 @@ class CreateFundPurseTypesTable extends Migration
         });
 
         \yybawang\ebank\Models\FundPurseType::create(['name' => '现金钱包', 'alias' => 'cash', 'status' => 1]);
-        \yybawang\ebank\Models\FundPurseType::create(['name' => '积分钱包', 'alias' => 'integral', 'status' => 1]);
         \yybawang\ebank\Models\FundPurseType::create(['name' => '授信钱包', 'alias' => 'credit', 'status' => 1]);
+        \yybawang\ebank\Models\FundPurseType::create(['name' => '积分钱包', 'alias' => 'integral', 'status' => 1]);
     }
 
     /**
