@@ -22,7 +22,7 @@ class TransferController extends BaseController
                 return $query->where('out_identity_type_id', $id);
             })
             ->when($request->input('out_purse_type_id'), function($query, $id){
-                return $query->where('out_identity_type_id', $id);
+                return $query->where('out_purse_type_id', $id);
             })
             ->when($request->input('into_identity_type_id'), function($query, $id){
                 return $query->where('into_identity_type_id', $id);

@@ -63,7 +63,7 @@ export default (props) => {
                     <th>钱包类型</th>
                     <th>总金额</th>
                     <th>冻结金额</th>
-                    <th>可用余额</th>
+                    <th>可用金额</th>
                     <th>钱包状态</th>
                 </tr>
                 </thead>

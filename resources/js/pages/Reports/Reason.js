@@ -38,7 +38,7 @@ export default (props) => {
                     <th>出帐钱包</th>
                     <th>入帐身份</th>
                     <th>入帐钱包</th>
-                    <th>总交易金额</th>
+                    <th>交易总金额</th>
                 </tr>
                 </thead>
                 <tbody>
