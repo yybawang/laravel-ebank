@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Illuminate\Support\Str;
+use yybawang\ebank\Console\InstallCommand;
+use yybawang\ebank\Console\PaymentMakeCommand;
 use yybawang\ebank\Facades\EBank;
 
 /**
@@ -63,8 +65,15 @@ class ServiceProvider extends LaravelServiceProvider
         if($this->app->runningInConsole()){
             $this->publishes([
                 __DIR__ . '/../config/ebank.php' => config_path('ebank.php'),
+            ], 'laravel-ebank-config');
+
+            $this->publishes([
                 __DIR__ . '/../public' => public_path('vendor/ebank'),
-            ], 'laravel-ebank');
+            ], 'laravel-ebank-assets');
+
+            $this->publishes([
+                __DIR__ . '/stubs/EBankServiceProvider.stub' => app_path('Providers/EBankServiceProvider.php'),
+            ], 'laravel-ebank-provider');
         }
     }
 
@@ -87,49 +96,16 @@ class ServiceProvider extends LaravelServiceProvider
         });
 
         if($this->app->runningInConsole()){
-            $this->registerServiceProvider();
+            $this->commands([
+                InstallCommand::class,
+                PaymentMakeCommand::class,
+            ]);
         }
     }
 
     public function provides()
     {
         return ['ebank'];
-    }
-
-    /**
-     * Register the Horizon service provider in the application configuration file.
-     *
-     * @return void
-     */
-    protected function registerServiceProvider()
-    {
-//        $this->publishes([
-//            __DIR__ . '/stubs/EBankServiceProvider.stub' => app_path('Providers/EBankServiceProvider.php'),
-//        ]);
-        // todo.. 有时间优化
-        if(!file_exists(app_path('Providers/EBankServiceProvider.php'))){
-            copy(__DIR__ . '/stubs/EBankServiceProvider.stub', app_path('Providers/EBankServiceProvider.php'));
-        }
-
-        $namespace = Str::replaceLast('\\', '', Container::getInstance()->getNamespace());
-
-        $appConfig = file_get_contents(config_path('app.php'));
-
-        if (Str::contains($appConfig, $namespace.'\\Providers\\EBankServiceProvider::class')) {
-            return;
-        }
-
-        file_put_contents(config_path('app.php'), str_replace(
-            "{$namespace}\\Providers\EventServiceProvider::class,".PHP_EOL,
-            "{$namespace}\\Providers\EventServiceProvider::class,".PHP_EOL."        {$namespace}\Providers\EBankServiceProvider::class,".PHP_EOL,
-            $appConfig
-        ));
-
-        file_put_contents(app_path('Providers/EBankServiceProvider.php'), str_replace(
-            "namespace App\Providers;",
-            "namespace {$namespace}\Providers;",
-            file_get_contents(app_path('Providers/EBankServiceProvider.php'))
-        ));
     }
 
     /**

@@ -13,7 +13,7 @@
 
 ### 发布资源
 
-`php artisan vendor:publish --tag=laravel-ebank`
+`php artisan ebank:install`
 
 ### 运行数据表迁移
 
@@ -22,6 +22,10 @@
 ### 更多配置项
 
 `config/ebank.php`
+
+### 添加支付方式
+
+`php artisan make:payment CLASS_NAME`
 
 ### 控制面板访问地址
 
@@ -85,9 +89,11 @@ use yybawang\ebank\Facades\EBank;
 $response = EBank::order($user_id, $order_no, $product_name, $payments, $extra_param);
 
 // $payments 为数组，允许传入多个做组合支付，三方支付只能一个，内部钱包可以无限个，内部钱包会先冻结余额
-// 支付成功处理异步回调时请调用，自动解冻并转账
+
+// * 支付成功处理异步回调时请调用，自动解冻并转账
 EBank::orderPaid($order_no);
-// 支付失败或取消后，记得调用取消订单方法自动解冻
+
+// * 支付失败或取消后，记得调用取消订单方法自动解冻
 EBank::orderCancelled($order_no);
 
 // $extra_param 三方支付用到的其它参数

@@ -26,8 +26,10 @@ return [
     |
     */
     'payments' => [
+        // 纯内部钱包支付
         'wallet' => \yybawang\ebank\Illuminate\Payments\WalletPayment::class,
 
+        // 微信支付
         'wechat_wap' => \yybawang\ebank\Illuminate\Payments\WechatWapPayment::class,
         'wechat_mp' => \yybawang\ebank\Illuminate\Payments\WechatMpPayment::class,
         'wechat_app' => \yybawang\ebank\Illuminate\Payments\WechatAppPayment::class,
@@ -37,6 +39,7 @@ return [
         'wechat_transfer' => \yybawang\ebank\Illuminate\Payments\WechatTransferPayment::class,
         'wechat_redpack' => \yybawang\ebank\Illuminate\Payments\WechatRedpackPayment::class,
 
+        // 支付宝支付
         'alipay_wap' => \yybawang\ebank\Illuminate\Payments\AlipayWabPayment::class,
         'alipay_wep' => \yybawang\ebank\Illuminate\Payments\AlipayWebPayment::class,
         'alipay_app' => \yybawang\ebank\Illuminate\Payments\AlipayAppPayment::class,

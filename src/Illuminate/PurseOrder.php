@@ -187,7 +187,7 @@ class PurseOrder
         $Payment->amount_wallet = $amount_wallet;
         $Payment->amount_third_party = $amount_third_party;
         // 如果是三方支付，提前冻结内部钱包支付的金额
-        if($pay_type_unified != 'wallet'){
+        if($pay_type_unified !== 'wallet'){
             $Payment->preFreeze();
         }
         $response = $Payment->handle();

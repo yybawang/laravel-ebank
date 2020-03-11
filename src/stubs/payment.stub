@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Payments;
+
+use yybawang\ebank\Illuminate\Payments\PaymentGateway;
+
+/**
+* PaymentGateway 里存放了下单的所有参数，直接 $this-> 指向获取
+*/
+class DummyClass extends PaymentGateway
+{
+
+    /**
+     * Execute the payment
+     * 公共方法会实力化类并调用此方法
+     * @return mixed
+     */
+    public function handle()
+    {
+
+    }
+}
