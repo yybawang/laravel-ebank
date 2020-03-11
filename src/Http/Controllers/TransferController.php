@@ -18,6 +18,9 @@ class TransferController extends BaseController
                 return $query->where('out_user_id', $id)->orWhere('into_user_id', $id);
             });
         })
+            ->when($request->input('id'), function($query, $id){
+                return $query->where('id', $id);
+            })
             ->when($request->input('out_identity_type_id'), function($query, $id){
                 return $query->where('out_identity_type_id', $id);
             })

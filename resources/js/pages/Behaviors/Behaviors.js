@@ -43,7 +43,6 @@ export default (props) => {
                                 <option key={name} value={name}>{funcnames[name]}</option>
                             )}
                         </Form.Control></Form.Group>
-                        <br />
                         <DateRangePicker onChange={setDate} />
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
                     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, ButtonGroup, ButtonToolbar, Form, Table} from "react-bootstrap";
-import {useHistory} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {axios} from "../../helpers/axios";
 import Pagination from "../../components/Pagination";
 import StatusTransfer from "../../components/StatusTransfer";
@@ -15,6 +15,7 @@ export default (props) => {
     const [page, setPage] = React.useState(1);
     const [identities, setIdentities] = React.useState([]);
     const [purses, setPurses] = React.useState([]);
+    const [id, setId] = React.useState('');
     const [user_id, setUser_id] = React.useState('');
     const [out_identity_type_id, setOut_dentity_type_id] = React.useState('');
     const [out_purse_type_id, setOut_purse_type_id] = React.useState('');
@@ -56,6 +57,7 @@ export default (props) => {
             <div className={'head-filters py-2'}>
                 <Form onSubmit={(e) => {e.preventDefault();init(true)}}>
                     <div className={'flex flex-wrap filters'}>
+                        <Form.Group><Form.Label>转账ID</Form.Label><Form.Control value={id} onChange={(e) => setId(e.target.value)}/></Form.Group>
                         <Form.Group><Form.Label>用户ID</Form.Label><Form.Control value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
                         <Form.Group><Form.Label>出帐身份类型</Form.Label><Form.Control as={'select'} onChange={e => setOut_dentity_type_id(e.target.value)}>
                             <option value={0}>-筛选-</option>
@@ -81,7 +83,6 @@ export default (props) => {
                                 <option key={purse.id} value={purse.id}>{purse.name}</option>
                             )}
                         </Form.Control></Form.Group>
-                        <br />
                         <DateRangePicker onChange={setDate} />
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
                     </div>
@@ -115,12 +116,12 @@ export default (props) => {
                     <td className={'text-warning'}>{row.out_user_id}</td>
                     <td className={'text-warning'}>{row.out_identity_type.name}</td>
                     <td className={'text-warning'}>{row.out_purse_type.name}</td>
-                    <td className={'text-warning'}>{row.out_purse_id}</td>
+                    <td><Link to={'/purses?id='+row.out_purse_id} className={'text-warning'}>{row.out_purse_id}</Link></td>
                     <td className={'text-warning'}>{Number(row.out_balance).toLocaleString()}</td>
                     <td className={'text-info'}>{row.into_user_id}</td>
                     <td className={'text-info'}>{row.into_identity_type.name}</td>
                     <td className={'text-info'}>{row.into_purse_type.name}</td>
-                    <td className={'text-info'}>{row.into_purse_id}</td>
+                    <td><Link to={'/purses?id='+row.into_purse_id} className={'text-info'}>{row.into_purse_id}</Link></td>
                     <td className={'text-info'}>{Number(row.into_balance).toLocaleString()}</td>
                     <td>{Number(row.amount).toLocaleString()}</td>
                     <td><StatusTransfer status={row.status}/></td>

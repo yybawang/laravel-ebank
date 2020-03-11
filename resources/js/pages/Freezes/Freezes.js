@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, ButtonGroup, ButtonToolbar, Form, Table} from "react-bootstrap";
-import {useHistory} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import StatusNormal from "../../components/StatusNormal";
 import {axios} from "../../helpers/axios";
 import ButtonDelete from "../../components/ButtonDelete";
@@ -39,9 +39,8 @@ export default (props) => {
             <div className={'head-filters py-2'}>
                 <Form onSubmit={(e) => {e.preventDefault();init(true)}}>
                     <div className={'flex flex-wrap filters'}>
-                        <Form.Group><Form.Label>ID</Form.Label><Form.Control type={"number"} value={id} onChange={(e) => setId(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>冻结ID</Form.Label><Form.Control type={"number"} value={id} onChange={(e) => setId(e.target.value)}/></Form.Group>
                         <Form.Group><Form.Label>用户ID</Form.Label><Form.Control type={"number"} value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
-                        <br />
                         <DateRangePicker onChange={setDate} />
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
                     </div>
@@ -54,6 +53,7 @@ export default (props) => {
                     <th>用户ID</th>
                     <th>身份类型</th>
                     <th>钱包类型</th>
+                    <th>钱包ID</th>
                     <th>冻结金额</th>
                     <th>状态</th>
                     <th>操作</th>
@@ -65,6 +65,7 @@ export default (props) => {
                     <td>{row.purse.user_id}</td>
                     <td>{row.purse.identity_type.name}</td>
                     <td>{row.purse.purse_type.name}</td>
+                    <td><Link to={'/purses?id='+row.purse_id}>{row.purse_id}</Link></td>
                     <td>{Number(row.amount).toLocaleString()}</td>
                     <td><StatusFreeze status={row.status}/></td>
                     <td>

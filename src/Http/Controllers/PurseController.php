@@ -15,6 +15,9 @@ class PurseController extends BaseController
         $Purses = FundPurse::when($request->input('user_id'), function($query, $user_id){
             return $query->where('user_id', 'like', "%{$user_id}%");
         })
+            ->when($request->input('id'), function($query, $id){
+                return $query->where('id', $id);
+            })
             ->when($request->input('identity_type_id'), function($query, $id){
                 return $query->where('identity_type_id', $id);
             })

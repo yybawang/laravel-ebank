@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import cogoToast from 'cogo-toast';
+import {useLocation} from "react-router-dom";
 
 /**
  * 全局顶部等待提示
@@ -46,6 +47,15 @@ function tips(message, type = 'info') {
     return true;
 }
 
+
+/**
+ * A custom hook that builds on useLocation to parse
+ * @returns {URLSearchParams}
+ */
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
+
 /**
  * 返回格式化 日期
  * @param date
@@ -71,4 +81,4 @@ function  datetime(date) {
 }
 
 
-export {showLoading, hideLoading, tips, date, datetime}
+export {showLoading, hideLoading, tips, date, datetime, useQuery}

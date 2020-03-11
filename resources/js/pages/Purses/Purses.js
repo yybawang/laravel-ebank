@@ -1,19 +1,19 @@
 import React from "react";
 import {Button, ButtonGroup, ButtonToolbar, Form, Table} from "react-bootstrap";
-import {useHistory} from 'react-router-dom';
 import StatusNormal from "../../components/StatusNormal";
 import {axios} from "../../helpers/axios";
 import Pagination from "../../components/Pagination";
 import ButtonPurseEnabled from "../../components/ButtonPurseEnabled";
 import ButtonPurseDisabled from "../../components/ButtonPurseDisabled";
-import {tips} from "../../helpers/functions";
+import {tips, useQuery} from "../../helpers/functions";
 
 export default (props) => {
-    const history = useHistory();
+    const query = useQuery();
     const [list, setList] = React.useState({data: []});
     const [page, setPage] = React.useState(1);
     const [identities, setIdentities] = React.useState([]);
     const [purses, setPurses] = React.useState([]);
+    const [id, setId] = React.useState(query.get('id') || '');
     const [user_id, setUser_id] = React.useState('');
     const [identity_type_id, setIdentity_type_id] = React.useState('');
     const [purse_type_id, setPurse_type_id] = React.useState('');
@@ -26,9 +26,10 @@ export default (props) => {
         init();
     }, [page]);
 
+
     async function init(reset) {
         let p = reset ? 1 : page;
-        let res = await axios.get('/purses', {params: {user_id, identity_type_id, purse_type_id, page: p}});
+        let res = await axios.get('/purses', {params: {id, user_id, identity_type_id, purse_type_id, page: p}});
         setList(res);
     }
 
@@ -55,6 +56,7 @@ export default (props) => {
             <div className={'head-filters py-2'}>
                 <Form onSubmit={(e) => {e.preventDefault();init(true)}}>
                     <div className={'flex flex-wrap filters'}>
+                        <Form.Group><Form.Label>钱包ID</Form.Label><Form.Control type={"number"} value={id} onChange={(e) => setId(e.target.value)}/></Form.Group>
                         <Form.Group><Form.Label>用户ID</Form.Label><Form.Control type={"number"} value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
                         <Form.Group><Form.Label>身份类型</Form.Label><Form.Control as={'select'} onChange={e => setIdentity_type_id(e.target.value)}>
                             <option value={0}>-筛选-</option>
