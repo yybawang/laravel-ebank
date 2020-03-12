@@ -35,66 +35,12 @@
 
 `app/Providers/EBankServiceProvider.php`
 
+### 查看文档
 
-# 门面方法示例
+[Gitbook Document](https://yybawang.gitbook.io/laravel-ebank/)
 
-#### 获取用户下所有类型钱包
-```
-use yybawang\ebank\Facades\EBank;
+### 截图
 
-$wallets = EBank::wallets($user_id);
-```
-
-#### 获取用户下某一类型钱包
-```
-use yybawang\ebank\Facades\EBank;
-
-$wallet = EBank::wallet($user_id, 'cash');
-```
-
-#### 开始转账
-```
-use yybawang\ebank\Facades\EBank;
-
-$transfer_id = EBank::transfer($out_user_id, $into_user_id, $amount, $reason);
-```
-
-#### 转账冲正
-```
-use yybawang\ebank\Facades\EBank;
-
-$wallets = EBank::unTransfer($transfer_id);
-```
-
-#### 钱包余额冻结
-```
-use yybawang\ebank\Facades\EBank;
-
-$wallet = EBank::wallet($user_id, 'cash');
-$freeze_id = EBank::freeze($wallet->id, $amount);
-// 如果处理坏账，可以使用 freezeForce 方法不验证余额，允许扣为负数
-```
-
-#### 钱包余额解冻
-```
-use yybawang\ebank\Facades\EBank;
-
-$wallets = EBank::unfreeze($freeze_id);
-```
-
-#### 下单支付
-```
-use yybawang\ebank\Facades\EBank;
-
-$response = EBank::order($user_id, $order_no, $product_name, $payments, $extra_param);
-
-// $payments 为数组，允许传入多个做组合支付，三方支付只能一个，内部钱包可以无限个，内部钱包会先冻结余额
-
-// * 支付成功处理异步回调时请调用，自动解冻并转账
-EBank::orderPaid($order_no);
-
-// * 支付失败或取消后，记得调用取消订单方法自动解冻
-EBank::orderCancelled($order_no);
-
-// $extra_param 三方支付用到的其它参数
-```
+![](https://raw.githubusercontent.com/yybawang/images/master/picgo/20200312172715.png)
+![](https://raw.githubusercontent.com/yybawang/images/master/picgo/20200312172807.png)
+![](https://raw.githubusercontent.com/yybawang/images/master/picgo/20200312172848.png)

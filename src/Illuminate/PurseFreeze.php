@@ -34,6 +34,9 @@ class PurseFreeze
 
     public function remarks(?string $remarks)
     {
+        if(is_null($remarks)){
+            $remarks = '强制冻结';
+        }
         $this->remarks = $remarks;
         return $this;
     }

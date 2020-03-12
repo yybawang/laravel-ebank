@@ -46,7 +46,7 @@ class EBank extends LaravelFacade
     /**
      * @param int $out_user_id 出帐用户ID，系统出帐为0
      * @param int $into_user_id 进账用户ID，系统进账为0
-     * @param int $amount 转账金额
+     * @param int $amount 转账金额，这里只接收正整数，如果业务金额有带小数，需自行在业务代码中进行乘除运算
      * @param int $reason
      * @param null $detail 自定义详情，可根据不同业务自行填充
      * @param string|null $remarks  备注，根据业务自行传入
@@ -69,7 +69,7 @@ class EBank extends LaravelFacade
     }
 
     /**
-     * @param int $purse_id 用户钱包ID
+     * @param int $purse_id 调用钱包方法中的钱包ID
      * @param int $amount 冻结金额
      * @param array $detail 业务详情
      * @param string|null $remarks 备注，根据业务自行传入
