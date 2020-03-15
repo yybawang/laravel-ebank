@@ -131,11 +131,11 @@ export default (props) => {
                                 </div>
                                 {identities.map(identity =>
                                     <div key={identity.id} className={'flex-1 px-2 text-right border-top border-left'}>
-                                        <div className={'pt-3'}>{purseList.length > 0 && Number(purseList.find(list => list.user_id === 0 && list.identity_type_id === identity.id && list.purse_type_id === purseType.id).balance).toLocaleString()}</div>
+                                        <div className={'pt-3'}>{purseList.find(list => list.user_id === 0 && list.identity_type_id === identity.id && list.purse_type_id === purseType.id) ? Number(purseList.find(list => list.user_id === 0 && list.identity_type_id === identity.id && list.purse_type_id === purseType.id).balance).toLocaleString() : 0}</div>
                                     </div>
                                 )}
                                 <div className={'flex-1 px-2 text-right border-top border-left'}>
-                                    <div className={'pt-3'}>{purseList.length > 0 && Number(purseList.find(list => list.user_id > 0 && list.purse_type_id === purseType.id).balance).toLocaleString()}</div>
+                                    <div className={'pt-3'}>{purseList.find(list => list.user_id > 0 && list.purse_type_id === purseType.id) ? Number(purseList.find(list => list.user_id > 0 && list.purse_type_id === purseType.id).balance).toLocaleString() : 0}</div>
                                 </div>
                             </div>
                             <div className={'flex'}>
@@ -144,11 +144,11 @@ export default (props) => {
                                 </div>
                                 {identities.map(identity =>
                                     <div key={identity.id} className={'flex-1 px-2 text-right border-left'}>
-                                        <div className={'pb-3'}>{purseList.length > 0 && Number(purseList.find(list => list.user_id === 0 && list.identity_type_id === identity.id && list.purse_type_id === purseType.id).freeze).toLocaleString()}</div>
+                                        <div className={'pb-3'}>{purseList.find(list => list.user_id === 0 && list.identity_type_id === identity.id && list.purse_type_id === purseType.id) ?  Number(purseList.find(list => list.user_id === 0 && list.identity_type_id === identity.id && list.purse_type_id === purseType.id).freeze).toLocaleString() : 0}</div>
                                     </div>
                                 )}
                                 <div className={'flex-1 px-2 text-right border-left'}>
-                                    <div className={'pb-3'}>{purseList.length > 0 && Number(purseList.find(list => list.user_id > 0 && list.purse_type_id === purseType.id).freeze).toLocaleString()}</div>
+                                    <div className={'pb-3'}>{purseList.find(list => list.user_id > 0 && list.identity_type_id === 3 && list.purse_type_id === purseType.id) ? Number(purseList.find(list => list.user_id > 0 && list.identity_type_id === 3 && list.purse_type_id === purseType.id).freeze).toLocaleString() : 0}</div>
                                 </div>
                             </div>
                         </div>
