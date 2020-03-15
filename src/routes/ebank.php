@@ -9,6 +9,7 @@ use yybawang\ebank\Http\Middleware\Authenticate;
 Route::middleware(array_merge(config('ebank.middleware'), [Authenticate::class]))->prefix(Str::start(config('ebank.path'), '/'))->group(function(){
     Route::get('/', [IndexController::class, 'index']);
     Route::get('/dashboard', [IndexController::class, 'dashboard']);
+    Route::get('/report', [IndexController::class, 'report']);
 
     Route::get('/transfers', [TransferController::class, 'index']);
     Route::get('/transfers/filters', [TransferController::class, 'filters']);

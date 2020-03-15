@@ -4,6 +4,9 @@ import {axios} from "../../helpers/axios";
 
 export default (props) => {
     const [data, setData] = React.useState({});
+    const [identities, setIdentities] = React.useState([]);
+    const [purseTypes, setPurseTypes] = React.useState([]);
+    const [purseList, setPurseList] = React.useState([]);
 
     React.useEffect(()=> {
         init();
@@ -11,13 +14,17 @@ export default (props) => {
 
     async function init(){
         let res = await axios.get('/dashboard');
+        let res2 = await axios.get('/report');
         setData(res);
+        setIdentities(res2.identities);
+        setPurseTypes(res2.purse_types);
+        setPurseList(res2.list);
     }
 
     return (
         <div className={'dashboard'}>
             <Card border={'none'}>
-                <Card.Header className={'bg-white'}>预览</Card.Header>
+                <Card.Header className={'bg-white'}>出入帐预览</Card.Header>
                 <Card.Body className={'p-0 overview'}>
                     <div className={'flex'}>
                         <div className={'w-25 border-right border-bottom'}>
@@ -97,6 +104,56 @@ export default (props) => {
                             </div>
                         </div>
                     </div>
+                </Card.Body>
+            </Card>
+
+            <Card border={'none'} className={'mt-4'}>
+                <Card.Header className={'bg-white'}>钱包余额预览</Card.Header>
+                <Card.Body className={'p-0 overview'}>
+                    <div className={'flex'}>
+                        <div className={'flex-1 pl-2 text-center'}>
+                            <div className={'py-3'} />
+                        </div>
+                        {identities.map(identity =>
+                            <div key={identity.id} className={'flex-1 px-2 text-center border-left'}>
+                                <div className={'py-3'}>{identity.name}</div>
+                            </div>
+                        )}
+                        <div className={'flex-1 px-2 text-center border-left'}>
+                            <div className={'py-3'}>用户持有余额</div>
+                        </div>
+                    </div>
+                    {purseTypes.map(purseType =>
+                        <div key={purseType.id}>
+                            <div className={'flex'}>
+                                <div className={'flex-1 pl-2 border-top'}>
+                                    <div className={'pt-3'}>{purseType.name}</div>
+                                </div>
+                                {identities.map(identity =>
+                                    <div key={identity.id} className={'flex-1 px-2 text-right border-top border-left'}>
+                                        <div className={'pt-3'}>{purseList.length > 0 && Number(purseList.find(list => list.user_id === 0 && list.identity_type_id === identity.id && list.purse_type_id === purseType.id).balance).toLocaleString()}</div>
+                                    </div>
+                                )}
+                                <div className={'flex-1 px-2 text-right border-top border-left'}>
+                                    <div className={'pt-3'}>{purseList.length > 0 && Number(purseList.find(list => list.user_id > 0 && list.purse_type_id === purseType.id).balance).toLocaleString()}</div>
+                                </div>
+                            </div>
+                            <div className={'flex'}>
+                                <div className={'flex-1 pl-2'}>
+                                    <div className={'pb-3'}>冻结中</div>
+                                </div>
+                                {identities.map(identity =>
+                                    <div key={identity.id} className={'flex-1 px-2 text-right border-left'}>
+                                        <div className={'pb-3'}>{purseList.length > 0 && Number(purseList.find(list => list.user_id === 0 && list.identity_type_id === identity.id && list.purse_type_id === purseType.id).freeze).toLocaleString()}</div>
+                                    </div>
+                                )}
+                                <div className={'flex-1 px-2 text-right border-left'}>
+                                    <div className={'pb-3'}>{purseList.length > 0 && Number(purseList.find(list => list.user_id > 0 && list.purse_type_id === purseType.id).freeze).toLocaleString()}</div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                 </Card.Body>
             </Card>
         </div>
