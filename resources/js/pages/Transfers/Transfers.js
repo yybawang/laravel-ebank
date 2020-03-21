@@ -105,7 +105,7 @@ export default (props) => {
                     <th>入帐钱包ID</th>
                     <th>入帐后余额</th>
                     <th>交易金额</th>
-                    <th>钱包状态</th>
+                    <th>状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
