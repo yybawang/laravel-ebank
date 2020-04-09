@@ -9,7 +9,7 @@
 
 ### 开始安装
 
-`composer require yybawang/laravel-ebank:dev-master`
+`composer require yybawang/laravel-ebank`
 
 ### 发布资源
 
