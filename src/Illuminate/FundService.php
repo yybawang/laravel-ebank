@@ -7,12 +7,12 @@ namespace yybawang\ebank\Illuminate;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use yybawang\ebank\models\FundFreeze;
-use yybawang\ebank\models\FundPurseType;
-use yybawang\ebank\models\FundTransfer;
-use yybawang\ebank\models\FundTransferReason;
-use yybawang\ebank\models\FundPurse;
-use yybawang\ebank\models\FundIdentityType;
+use yybawang\ebank\Models\FundFreeze;
+use yybawang\ebank\Models\FundPurseType;
+use yybawang\ebank\Models\FundTransfer;
+use yybawang\ebank\Models\FundTransferReason;
+use yybawang\ebank\Models\FundPurse;
+use yybawang\ebank\Models\FundIdentityType;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
