@@ -14,7 +14,7 @@
         "axios": "^0.19",
         "cross-env": "^5.1",
         "laravel-mix": "^5.0.4",
-        "lodash": "^4.17.13",
+        "lodash": "^4.17.19",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "resolve-url-loader": "^2.3.1",
