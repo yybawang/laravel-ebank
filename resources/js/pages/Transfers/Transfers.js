@@ -60,25 +60,25 @@ export default (props) => {
                         <Form.Group><Form.Label>转账ID</Form.Label><Form.Control value={id} onChange={(e) => setId(e.target.value)}/></Form.Group>
                         <Form.Group><Form.Label>用户ID</Form.Label><Form.Control value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
                         <Form.Group><Form.Label>出帐身份类型</Form.Label><Form.Control as={'select'} onChange={e => setOut_dentity_type_id(e.target.value)}>
-                            <option value={0}>-筛选-</option>
+                            <option value={''} />
                             {identities.map(identity =>
                                 <option key={identity.id} value={identity.id}>{identity.name}</option>
                             )}
                         </Form.Control></Form.Group>
                         <Form.Group><Form.Label>出帐钱包类型</Form.Label><Form.Control as={'select'} onChange={e => setOut_purse_type_id(e.target.value)}>
-                            <option value={0}>-筛选-</option>
+                            <option value={''} />
                             {purses.map(purse =>
                                 <option key={purse.id} value={purse.id}>{purse.name}</option>
                             )}
                         </Form.Control></Form.Group>
                         <Form.Group><Form.Label>入账身份类型</Form.Label><Form.Control as={'select'} onChange={e => setInto_dentity_type_id(e.target.value)}>
-                            <option value={0}>-筛选-</option>
+                            <option value={''} />
                             {identities.map(identity =>
                                 <option key={identity.id} value={identity.id}>{identity.name}</option>
                             )}
                         </Form.Control></Form.Group>
                         <Form.Group><Form.Label>入账钱包类型</Form.Label><Form.Control as={'select'} onChange={e => setInto_purse_type_id(e.target.value)}>
-                            <option value={0}>-筛选-</option>
+                            <option value={''} />
                             {purses.map(purse =>
                                 <option key={purse.id} value={purse.id}>{purse.name}</option>
                             )}
@@ -88,25 +88,25 @@ export default (props) => {
                     </div>
                 </Form>
             </div>
-            <div className={'overflow-scroll'}>
-            <Table striped bordered hover>
+            <div className={'overflow-auto'}>
+            <Table striped bordered hover responsive={"xl"}>
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Reason</th>
-                    <th>出帐用户ID</th>
-                    <th>出帐身份类型</th>
-                    <th>出帐钱包类型</th>
-                    <th>出帐钱包ID</th>
-                    <th>出帐后余额</th>
-                    <th>入帐用户ID</th>
-                    <th>入帐身份类型</th>
-                    <th>入帐钱包类型</th>
-                    <th>入帐钱包ID</th>
-                    <th>入帐后余额</th>
-                    <th>交易金额</th>
-                    <th>状态</th>
-                    <th>操作</th>
+                    <th width={100}>ID</th>
+                    <th width={100}>Reason</th>
+                    <th width={100}>出帐用户ID</th>
+                    <th width={110}>出帐身份类型</th>
+                    <th width={110}>出帐钱包类型</th>
+                    <th width={100}>出帐钱包ID</th>
+                    <th width={180}>出帐后余额</th>
+                    <th width={100}>入帐用户ID</th>
+                    <th width={110}>入帐身份类型</th>
+                    <th width={110}>入帐钱包类型</th>
+                    <th width={100}>入帐钱包ID</th>
+                    <th width={180}>入帐后余额</th>
+                    <th width={120}>交易金额</th>
+                    <th width={80}>状态</th>
+                    <th width={80}>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -123,7 +123,7 @@ export default (props) => {
                     <td className={'text-info'}>{row.into_purse_type.name}</td>
                     <td><Link to={'/purses?id='+row.into_purse_id} className={'text-info'}>{row.into_purse_id}</Link></td>
                     <td className={'text-info'}>{Number(row.into_balance).toLocaleString()}</td>
-                    <td>{Number(row.amount).toLocaleString()}</td>
+                    <td className={'text-danger'}>{Number(row.amount).toLocaleString()}</td>
                     <td><StatusTransfer status={row.status}/></td>
                     <td>
                         <ButtonGroup size={"sm"}>

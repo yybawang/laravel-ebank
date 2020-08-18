@@ -38,7 +38,7 @@ export default (props) => {
                 <Form onSubmit={(e) => {e.preventDefault();init(true)}}>
                     <div className={'flex flex-wrap filters'}>
                         <Form.Group><Form.Label>接口名</Form.Label><Form.Control as={'select'} onChange={e => setFuncname(e.target.value)}>
-                            <option value={''}>-筛选-</option>
+                            <option value={''} />
                             {Object.keys(funcnames).map(name =>
                                 <option key={name} value={name}>{funcnames[name]}</option>
                             )}
@@ -99,7 +99,7 @@ export default (props) => {
                     </div>
                     <div className={'py-2'}>
                         <div><code>返回值</code></div>
-                        <div className={'bg-muted p-2'}>{detail.response}</div>
+                        <div className={'bg-muted text-break p-2'}>{detail.response}</div>
                     </div>
                     <div className={'py-2'}>
                         <div><code>调用时间</code></div>

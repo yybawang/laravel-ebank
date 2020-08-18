@@ -23,7 +23,7 @@ export default (props) => {
             <li><NavLink to={'/purse_types'} className={'flex items-center'} activeClassName={'active'}><Purses /><span>钱包类型</span></NavLink></li>
             <li className={'mt-3'}><NavLink to={'/reports/reason'} className={'flex items-center'} activeClassName={'active'}><ReportsReason /><span>行为统计</span></NavLink></li>
             <li><NavLink to={'/reports/transfer'} className={'flex items-center'} activeClassName={'active'}><ReportsPurse /><span>转账统计</span></NavLink></li>
-            <li><NavLink to={'/behaviors'} className={'flex items-center'} activeClassName={'active'}><Behaviors /><span>调用记录</span></NavLink></li>
+            <li><NavLink to={'/behaviors'} className={'flex items-center'} activeClassName={'active'}><Behaviors /><span>接口记录</span></NavLink></li>
         </ul>
     );
 }

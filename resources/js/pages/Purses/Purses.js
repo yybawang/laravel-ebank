@@ -59,13 +59,13 @@ export default (props) => {
                         <Form.Group><Form.Label>钱包ID</Form.Label><Form.Control type={"number"} value={id} onChange={(e) => setId(e.target.value)}/></Form.Group>
                         <Form.Group><Form.Label>用户ID</Form.Label><Form.Control type={"number"} value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
                         <Form.Group><Form.Label>身份类型</Form.Label><Form.Control as={'select'} onChange={e => setIdentity_type_id(e.target.value)}>
-                            <option value={0}>-筛选-</option>
+                            <option value={''} />
                             {identities.map(identity =>
                                 <option key={identity.id} value={identity.id}>{identity.name}</option>
                             )}
                         </Form.Control></Form.Group>
                         <Form.Group><Form.Label>钱包类型</Form.Label><Form.Control as={'select'} onChange={e => setPurse_type_id(e.target.value)}>
-                            <option value={0}>-筛选-</option>
+                            <option value={''} />
                             {purses.map(purse =>
                                 <option key={purse.id} value={purse.id}>{purse.name}</option>
                             )}
