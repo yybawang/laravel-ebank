@@ -6,6 +6,7 @@ namespace yybawang\ebank\Http\Controllers;
 
 use Illuminate\Http\Request;
 use yybawang\ebank\Facades\EBank;
+use yybawang\ebank\Illuminate\ExportCsv;
 use yybawang\ebank\Models\FundIdentityType;
 use yybawang\ebank\Models\FundPurseType;
 use yybawang\ebank\Models\FundTransfer;
@@ -13,7 +14,7 @@ use yybawang\ebank\Models\FundTransfer;
 class TransferController extends BaseController
 {
     public function index(Request $request){
-        $Purses = FundTransfer::when($request->input('user_id'), function($query, $id){
+        $Builder = FundTransfer::when($request->input('user_id'), function($query, $id){
             return $query->where(function($query) use ($id){
                 return $query->where('out_user_id', $id)->orWhere('into_user_id', $id);
             });
@@ -40,8 +41,12 @@ class TransferController extends BaseController
                 return $query->where('created_at', '<=', $date);
             })
             ->withoutGlobalScope('success')
-            ->latest('id')
-            ->paginate();
+            ->latest('id');
+            if(!$request->isXmlHttpRequest()){
+                $ExportCsv = new ExportCsv();
+                return $ExportCsv->transfer(clone $Builder);
+            }
+        $Purses = (clone $Builder)->paginate();
         return $this->success($Purses);
     }
 

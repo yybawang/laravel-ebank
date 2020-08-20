@@ -4,7 +4,7 @@ import {Link, useHistory} from 'react-router-dom';
 import StatusNormal from "../../components/StatusNormal";
 import {axios} from "../../helpers/axios";
 import ButtonDelete from "../../components/ButtonDelete";
-import {tips} from "../../helpers/functions";
+import {jumpDownload, tips} from "../../helpers/functions";
 import Pagination from "../../components/Pagination";
 import StatusFreeze from "../../components/StatusFreeze";
 import ButtonUnfreeze from "../../components/ButtonUnfreeze";
@@ -28,6 +28,10 @@ export default (props) => {
         setList(res);
     }
 
+    function download(){
+        jumpDownload('/freezes', {user_id, id, date});
+    }
+
     async function unfreeze(id){
         await axios.put('/freezes/unfreeze/'+id);
         tips('资金已解除冻结', 'success');
@@ -43,6 +47,7 @@ export default (props) => {
                         <Form.Group><Form.Label>用户ID</Form.Label><Form.Control type={"number"} value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
                         <DateRangePicker onChange={setDate} />
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
+                        <Form.Group><Button variant={'outline-primary'} onClick={() => download()}>导出</Button></Form.Group>
                     </div>
                 </Form>
             </div>

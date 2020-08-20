@@ -4,7 +4,7 @@ import {Link, useHistory} from 'react-router-dom';
 import {axios} from "../../helpers/axios";
 import Pagination from "../../components/Pagination";
 import StatusTransfer from "../../components/StatusTransfer";
-import {tips} from "../../helpers/functions";
+import {jumpDownload, tips} from "../../helpers/functions";
 import ButtonUntransfer from "../../components/ButtonUntransfer";
 import ButtonTransferDelete from "../../components/ButtonTransferDelete";
 import DateRangePicker from "../../components/DateRangePicker";
@@ -25,13 +25,20 @@ export default (props) => {
 
     React.useEffect(() => {
         init();
-        getFilters();
     }, [page]);
+
+    React.useEffect(() => {
+        getFilters();
+    }, [])
 
     async function init(reset) {
         let p = reset ? 1 : page;
         let res = await axios.get('/transfers', {params: {user_id, out_identity_type_id, out_purse_type_id, into_identity_type_id, into_purse_type_id, date, page: p}});
         setList(res);
+    }
+
+    function download(){
+        jumpDownload('/transfers', {user_id, out_identity_type_id, out_purse_type_id, into_identity_type_id, into_purse_type_id, date});
     }
 
     async function getFilters(){
@@ -85,11 +92,12 @@ export default (props) => {
                         </Form.Control></Form.Group>
                         <DateRangePicker onChange={setDate} />
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
+                        <Form.Group><Button variant={'outline-primary'} onClick={() => download()}>导出</Button></Form.Group>
                     </div>
                 </Form>
             </div>
-            <div className={'overflow-auto'}>
-            <Table striped bordered hover responsive={"xl"}>
+            <div className={'responsive-table'}>
+            <Table striped bordered hover style={{minWidth: 1780}}>
                 <thead>
                 <tr>
                     <th width={100}>ID</th>
@@ -105,7 +113,7 @@ export default (props) => {
                     <th width={100}>入帐钱包ID</th>
                     <th width={180}>入帐后余额</th>
                     <th width={120}>交易金额</th>
-                    <th width={80}>状态</th>
+                    <th width={50}>状态</th>
                     <th width={80}>操作</th>
                 </tr>
                 </thead>
@@ -124,6 +132,7 @@ export default (props) => {
                     <td><Link to={'/purses?id='+row.into_purse_id} className={'text-info'}>{row.into_purse_id}</Link></td>
                     <td className={'text-info'}>{Number(row.into_balance).toLocaleString()}</td>
                     <td className={'text-danger'}>{Number(row.amount).toLocaleString()}</td>
+                    <td>{row.created_at}</td>
                     <td><StatusTransfer status={row.status}/></td>
                     <td>
                         <ButtonGroup size={"sm"}>

@@ -5,6 +5,7 @@ namespace yybawang\ebank\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use yybawang\ebank\Illuminate\ExportCsv;
 use yybawang\ebank\Models\FundIdentityType;
 use yybawang\ebank\Models\FundPurse;
 use yybawang\ebank\Models\FundPurseType;
@@ -12,7 +13,7 @@ use yybawang\ebank\Models\FundPurseType;
 class PurseController extends BaseController
 {
     public function index(Request $request){
-        $Purses = FundPurse::when($request->input('user_id'), function($query, $user_id){
+        $Builder = FundPurse::when($request->input('user_id'), function($query, $user_id){
             return $query->where('user_id', 'like', "%{$user_id}%");
         })
             ->when($request->input('id'), function($query, $id){
@@ -25,8 +26,12 @@ class PurseController extends BaseController
                 return $query->where('purse_type_id', $id);
             })
             ->withoutGlobalScope('active')
-            ->latest('id')
-            ->paginate();
+            ->latest('id');
+        if(!$request->isXmlHttpRequest()){
+            $ExportCsv = new ExportCsv();
+            return $ExportCsv->purse(clone $Builder);
+        }
+        $Purses = (clone $Builder)->paginate();
         return $this->success($Purses);
     }
 

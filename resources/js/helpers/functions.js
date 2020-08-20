@@ -80,5 +80,20 @@ function  datetime(date) {
     return dayjs(date).format('YYYY-MM-DD HH:mm:ss');
 }
 
+function jumpDownload(url, params = []){
+    let param = [];
+    for(let i in params){
+        if(params[i].length > 0){
+            for (let j in params[i]){
+                params[i][j] && param.push(i+"["+j+"]="+params[i][j]);
+            }
+        }else{
+            param.push(i+"="+params[i]);
+        }
+    }
+    let query = param.join('&');
+    window.location.href = "/ebank"+url+"?"+query;
+}
 
-export {showLoading, hideLoading, tips, date, datetime, useQuery}
+
+export {showLoading, hideLoading, tips, date, datetime, useQuery, jumpDownload}

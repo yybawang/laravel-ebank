@@ -5,7 +5,7 @@ import {axios} from "../../helpers/axios";
 import Pagination from "../../components/Pagination";
 import ButtonPurseEnabled from "../../components/ButtonPurseEnabled";
 import ButtonPurseDisabled from "../../components/ButtonPurseDisabled";
-import {tips, useQuery} from "../../helpers/functions";
+import {jumpDownload, tips, useQuery} from "../../helpers/functions";
 
 export default (props) => {
     const query = useQuery();
@@ -31,6 +31,10 @@ export default (props) => {
         let p = reset ? 1 : page;
         let res = await axios.get('/purses', {params: {id, user_id, identity_type_id, purse_type_id, page: p}});
         setList(res);
+    }
+
+    function download(){
+        jumpDownload('/purses', {id, user_id, identity_type_id, purse_type_id})
     }
 
     async function getFilters(){
@@ -71,6 +75,7 @@ export default (props) => {
                             )}
                         </Form.Control></Form.Group>
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
+                        <Form.Group><Button variant={'outline-primary'} onClick={() => download()}>导出</Button></Form.Group>
                     </div>
                 </Form>
             </div>

@@ -88,3 +88,7 @@ $datepicker__selected-color: $primary;
         background-color: #fafafa;
     }
 }
+.responsive-table {
+    overflow:auto;
+    width: calc(100vw - 240px);
+}
