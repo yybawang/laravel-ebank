@@ -4,6 +4,7 @@
 namespace yybawang\ebank\Facades;
 
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Facade as LaravelFacade;
 use yybawang\ebank\Illuminate\PurseFreeze;
 use yybawang\ebank\Illuminate\PurseOrder;
@@ -14,6 +15,7 @@ use yybawang\ebank\Illuminate\PurseUnfreeze;
 use yybawang\ebank\Illuminate\PurseUnTransfer;
 use yybawang\ebank\Illuminate\PurseWallet;
 use yybawang\ebank\Illuminate\PurseWallets;
+use yybawang\ebank\Models\FundPurse;
 
 /**
  * Class EBank
@@ -25,7 +27,7 @@ class EBank extends LaravelFacade
      * 获取所有钱包
      * @param int $user_id 用户ID
      * @param string|null $identity_name 身份类型名称，默认为 user
-     * @return array|mixed 返回钱包列表
+     * @return Collection|mixed 返回钱包列表
      */
     public static function wallets(int $user_id, ?string $identity_name = null)
     {
@@ -37,7 +39,7 @@ class EBank extends LaravelFacade
      * @param int $user_id 用户ID
      * @param string $purse_name 钱包类型名称，[cash, integral, credit, etc.]
      * @param string|null $identity_name 身份类型名称，默认为 user
-     * @return array|mixed 返回钱包详情
+     * @return FundPurse|mixed 返回钱包详情
      */
     public static function wallet(int $user_id, string $purse_name, ?string $identity_name = null){
         return (new PurseWallet())->user($user_id)->purse($purse_name)->identity($identity_name)->execute();

@@ -38,7 +38,7 @@ class PurseOrderPaid
 
         $this->handle('orderPaid', $params);
         $FundService = new FundService();
-        $transfer_ids = FundFreeze::where('detail->order_no', $params['order_no'])->get()->map(function($v) use ($FundService){
+        $transfer_ids = FundFreeze::where('detail->order_no', $params['order_no'])->get()->transform(function($v) use ($FundService){
             EBank::unfreeze($v->id);
             $purse_name = $v->purse->purseType->alias;
             $transfer_alias = 'user'.$purse_name.'ToSystem'.$purse_name;
