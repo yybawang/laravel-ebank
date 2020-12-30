@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use yybawang\ebank\Http\Middleware\Authenticate;
 
-Route::middleware(array_merge(config('ebank.middleware'), [Authenticate::class]))->prefix(Str::start(config('ebank.path'), '/'))->group(function(){
+Route::middleware(array_merge(config('ebank.middleware') ?? [], [Authenticate::class]))->prefix(Str::start(config('ebank.path'), '/'))->group(function(){
     Route::get('/', [IndexController::class, 'index']);
     Route::get('/dashboard', [IndexController::class, 'dashboard']);
     Route::get('/report', [IndexController::class, 'report']);

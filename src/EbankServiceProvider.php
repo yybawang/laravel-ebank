@@ -42,7 +42,7 @@ class EbankServiceProvider extends LaravelServiceProvider
                 'memcached', 'redis'
             ];
             if(!in_array(config('cache.default'), $allow)){
-                exit('[laravel-ebank] 请将 .env 文件中的 CACHE_DRIVER 配置为 redis 或 memcached 以保证数据并发正确性，当前进程已退出执行'.PHP_EOL);
+                echo '[laravel-ebank] 请将 .env 文件中的 CACHE_DRIVER 配置为 redis 或 memcached 以保证正常运行'.PHP_EOL;
             }
         }
     }
