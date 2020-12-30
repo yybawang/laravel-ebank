@@ -4,6 +4,7 @@ import {useHistory} from 'react-router-dom';
 import {axios} from "../../helpers/axios";
 import Pagination from "../../components/Pagination";
 import DateRangePicker from "../../components/DateRangePicker";
+import {datetime} from "../../helpers/functions";
 
 export default (props) => {
     const history = useHistory();
@@ -65,7 +66,7 @@ export default (props) => {
                     <td>{row.funcname}</td>
                     <td>{funcnames[row.funcname] || '未知'}</td>
                     <td>{row.execute_time}</td>
-                    <td>{row.created_at}</td>
+                    <td>{datetime(row.created_at)}</td>
                     <td>
                         <ButtonGroup size={"sm"}>
                             <Button variant={"primary"} onClick={()=> show(row.id)}>详情</Button>

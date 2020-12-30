@@ -26,9 +26,6 @@ class CreateFundPursesTable extends Migration
 
             $table->unique(['user_id', 'identity_type_id', 'purse_type_id'], 'unique_purse');
         });
-
-        $FundService = new \yybawang\ebank\Illuminate\FundService();
-        $FundService->initPurse();
     }
 
     /**

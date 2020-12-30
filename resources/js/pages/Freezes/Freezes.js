@@ -4,7 +4,7 @@ import {Link, useHistory} from 'react-router-dom';
 import StatusNormal from "../../components/StatusNormal";
 import {axios} from "../../helpers/axios";
 import ButtonDelete from "../../components/ButtonDelete";
-import {tips} from "../../helpers/functions";
+import {datetime, tips} from "../../helpers/functions";
 import Pagination from "../../components/Pagination";
 import StatusFreeze from "../../components/StatusFreeze";
 import ButtonUnfreeze from "../../components/ButtonUnfreeze";
@@ -55,6 +55,7 @@ export default (props) => {
                     <th>钱包类型</th>
                     <th>钱包ID</th>
                     <th>冻结金额</th>
+                    <th>冻结时间</th>
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
@@ -68,6 +69,7 @@ export default (props) => {
                     <td><Link to={'/purses?id='+row.purse_id}>{row.purse_id}</Link></td>
                     <td>{Number(row.amount).toLocaleString()}</td>
                     <td><StatusFreeze status={row.status}/></td>
+                    <td>{datetime(row.created_at)}</td>
                     <td>
                         <ButtonGroup size={"sm"}>
                             {row.status === 1 && <ButtonUnfreeze onClick={()=> unfreeze(row.id)}>解冻</ButtonUnfreeze>}

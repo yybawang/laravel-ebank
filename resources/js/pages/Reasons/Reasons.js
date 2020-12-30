@@ -46,7 +46,7 @@ export default (props) => {
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Reason</th>
+                    <th>Reason 代码</th>
                     <th>行为名称</th>
                     <th>出帐身份</th>
                     <th>出帐钱包</th>

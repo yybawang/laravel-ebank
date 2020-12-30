@@ -17,7 +17,7 @@ use yybawang\ebank\Facades\EBank;
  * Class EBankServiceProvider
  * @package yybawang\ebank
  */
-class ServiceProvider extends LaravelServiceProvider
+class EbankServiceProvider extends LaravelServiceProvider
 {
     /**
      * The callback that should be used to authenticate Horizon users.
@@ -29,9 +29,9 @@ class ServiceProvider extends LaravelServiceProvider
     public function boot(){
         $this->checkCache();
         // 注册路由，注册数据库迁移，加载配置，加载前端资源，多语言
-        $this->registerRoutes();
-        $this->registerMigrates();
         $this->registerPublishing();
+        $this->registerMigrates();
+        $this->registerRoutes();
         $this->registerTransactions();
         $this->registerViews();
     }
@@ -42,7 +42,7 @@ class ServiceProvider extends LaravelServiceProvider
                 'memcached', 'redis'
             ];
             if(!in_array(config('cache.default'), $allow)){
-                exit('请将 .env 文件中的 CACHE_DRIVER 配置为 redis 或 memcached 以保证数据并发正确性'.PHP_EOL);
+                exit('[laravel-ebank] 请将 .env 文件中的 CACHE_DRIVER 配置为 redis 或 memcached 以保证数据并发正确性，当前进程已退出执行'.PHP_EOL);
             }
         }
     }
@@ -88,7 +88,7 @@ class ServiceProvider extends LaravelServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/ebank.php', 'ebank'
+            __DIR__ . '/../config/ebank.php', 'laravel-ebank'
         );
 
         $this->app->singleton('ebank', function(){

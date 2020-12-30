@@ -1,7 +1,7 @@
 <?php
 namespace yybawang\ebank\Http\Middleware;
 
-use yybawang\ebank\ServiceProvider;
+use yybawang\ebank\EbankServiceProvider;
 
 class Authenticate {
 
@@ -14,6 +14,6 @@ class Authenticate {
      * @return mixed
      */
     public function handle($request, $next){
-        return ServiceProvider::check($request) ? $next($request) : abort(403);
+        return EbankServiceProvider::check($request) ? $next($request) : abort(403);
     }
 }

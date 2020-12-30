@@ -27,7 +27,7 @@ class ApplicationServiceProvider extends LaravelServiceProvider
     {
         $this->gate();
 
-        ServiceProvider::auth(function ($request) {
+        EbankServiceProvider::auth(function ($request) {
             return app()->environment('local') ||
                 Gate::check('viewEBank', [$request->user()]);
         });

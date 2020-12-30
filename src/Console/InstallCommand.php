@@ -5,6 +5,7 @@ namespace yybawang\ebank\Console;
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
+use yybawang\ebank\Illuminate\FundService;
 
 class InstallCommand extends Command
 {
@@ -39,6 +40,10 @@ class InstallCommand extends Command
         $this->callSilent('vendor:publish', ['--tag' => 'laravel-ebank-assets', '--force' => true]);
 
         $this->registerServiceProvider();
+
+        $this->comment('Initialize purse balance...');
+        $FundService = new FundService();
+        $FundService->initPurse();
 
         $this->info('EBank scaffolding installed successfully.');
     }

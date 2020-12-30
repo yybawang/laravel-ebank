@@ -4,7 +4,7 @@ import {Link, useHistory} from 'react-router-dom';
 import {axios} from "../../helpers/axios";
 import Pagination from "../../components/Pagination";
 import StatusTransfer from "../../components/StatusTransfer";
-import {tips} from "../../helpers/functions";
+import {datetime, tips} from "../../helpers/functions";
 import ButtonUntransfer from "../../components/ButtonUntransfer";
 import ButtonTransferDelete from "../../components/ButtonTransferDelete";
 import DateRangePicker from "../../components/DateRangePicker";
@@ -92,21 +92,20 @@ export default (props) => {
             <Table striped bordered hover responsive={"xl"}>
                 <thead>
                 <tr>
-                    <th width={100}>ID</th>
-                    <th width={100}>Reason</th>
-                    <th width={100}>出帐用户ID</th>
-                    <th width={110}>出帐身份类型</th>
-                    <th width={110}>出帐钱包类型</th>
-                    <th width={100}>出帐钱包ID</th>
-                    <th width={180}>出帐后余额</th>
-                    <th width={100}>入帐用户ID</th>
-                    <th width={110}>入帐身份类型</th>
-                    <th width={110}>入帐钱包类型</th>
-                    <th width={100}>入帐钱包ID</th>
-                    <th width={180}>入帐后余额</th>
-                    <th width={120}>交易金额</th>
-                    <th width={80}>状态</th>
-                    <th width={80}>操作</th>
+                    <th>ID</th>
+                    <th>Reason</th>
+                    <th>出帐用户ID</th>
+                    <th><div>出帐身份类型</div><div>出帐钱包类型</div></th>
+                    <th>出帐钱包ID</th>
+                    <th>出帐后余额</th>
+                    <th>入帐用户ID</th>
+                    <th><div>入帐身份类型</div><div>入帐钱包类型</div></th>
+                    <th>入帐钱包ID</th>
+                    <th>入帐后余额</th>
+                    <th>交易金额</th>
+                    <th>交易时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -114,16 +113,15 @@ export default (props) => {
                     <td>{row.id}</td>
                     <td>{row.reason}</td>
                     <td className={'text-warning'}>{row.out_user_id}</td>
-                    <td className={'text-warning'}>{row.out_identity_type.name}</td>
-                    <td className={'text-warning'}>{row.out_purse_type.name}</td>
+                    <td className={'text-warning'}><div>{row.out_identity_type.name}</div><div>{row.out_purse_type.name}</div></td>
                     <td><Link to={'/purses?id='+row.out_purse_id} className={'text-warning'}>{row.out_purse_id}</Link></td>
                     <td className={'text-warning'}>{Number(row.out_balance).toLocaleString()}</td>
                     <td className={'text-info'}>{row.into_user_id}</td>
-                    <td className={'text-info'}>{row.into_identity_type.name}</td>
-                    <td className={'text-info'}>{row.into_purse_type.name}</td>
+                    <td className={'text-info'}><div>{row.into_identity_type.name}</div><div>{row.into_purse_type.name}</div></td>
                     <td><Link to={'/purses?id='+row.into_purse_id} className={'text-info'}>{row.into_purse_id}</Link></td>
                     <td className={'text-info'}>{Number(row.into_balance).toLocaleString()}</td>
                     <td className={'text-danger'}>{Number(row.amount).toLocaleString()}</td>
+                    <td>{datetime(row.created_at)}</td>
                     <td><StatusTransfer status={row.status}/></td>
                     <td>
                         <ButtonGroup size={"sm"}>
