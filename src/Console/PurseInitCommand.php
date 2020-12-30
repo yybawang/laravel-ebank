@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace yybawang\ebank\Console;
 
 use Illuminate\Console\Command;
 use yybawang\ebank\Illuminate\FundService;

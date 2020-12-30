@@ -4,14 +4,11 @@
 namespace yybawang\ebank;
 
 
-use App\Console\Commands\PurseInitCommand;
-use Illuminate\Container\Container;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
-use Illuminate\Support\Str;
 use yybawang\ebank\Console\InstallCommand;
 use yybawang\ebank\Console\PaymentMakeCommand;
+use yybawang\ebank\Console\PurseInitCommand;
 use yybawang\ebank\Facades\EBank;
 
 /**
