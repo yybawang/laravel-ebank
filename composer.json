@@ -33,7 +33,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "yybawang\\ebank\\ServiceProvider"
+                "yybawang\\ebank\\EbankServiceProvider"
             ]
         }
     }
