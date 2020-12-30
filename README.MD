@@ -11,13 +11,17 @@
 
 `composer require yybawang/laravel-ebank`
 
-### 发布资源
+### 1. 发布资源
 
 `php artisan ebank:install`
 
-### 运行数据表迁移
+### 2. 运行数据表迁移
 
 `php artisan migrate`
+
+### 3. 初始化钱包余额
+
+`php artisan ebank:purse-init`
 
 ### 更多配置项
 
@@ -31,7 +35,7 @@
 
 `env('APP_URL')/ebank`
 
-#### 如返回 403 无权限，请配置下方文件的 gate 方法返回权限认证
+#### 如返回 403 无权限，请配置下方文件的 gate 方法返回true则表示权限通过
 
 `app/Providers/EBankServiceProvider.php`
 

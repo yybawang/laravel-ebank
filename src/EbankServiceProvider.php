@@ -4,6 +4,7 @@
 namespace yybawang\ebank;
 
 
+use App\Console\Commands\PurseInitCommand;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -99,6 +100,7 @@ class EbankServiceProvider extends LaravelServiceProvider
             $this->commands([
                 InstallCommand::class,
                 PaymentMakeCommand::class,
+                PurseInitCommand::class,
             ]);
         }
     }

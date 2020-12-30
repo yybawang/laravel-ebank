@@ -41,10 +41,6 @@ class InstallCommand extends Command
 
         $this->registerServiceProvider();
 
-        $this->comment('Initialize purse balance...');
-        $FundService = new FundService();
-        $FundService->initPurse();
-
         $this->info('EBank scaffolding installed successfully.');
     }
 
