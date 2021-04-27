@@ -173,13 +173,13 @@ class FundService
      * 转账暴露方法
      * @param int $out_user_id
      * @param int $into_user_id
-     * @param int $amount
+     * @param float $amount
      * @param int $reason
      * @param array $detail
      * @param null|string $remarks
      * @return int
      */
-    public function transfer(int $out_user_id, int $into_user_id, int $amount, int $reason, $detail = [], ?string $remarks = null)
+    public function transfer(int $out_user_id, int $into_user_id, float $amount, int $reason, $detail = [], ?string $remarks = null)
     {
         $Validator = Validator::make([
             'out_user_id' => $out_user_id,
@@ -191,7 +191,7 @@ class FundService
         ], [
             'out_user_id' => 'required|integer|min:0',
             'into_user_id' => 'required|integer|min:0',
-            'amount' => 'required|integer|min:1',
+            'amount' => 'required|numeric|min:0',
             'reason' => [
                 'required',
                 'integer',
@@ -205,8 +205,8 @@ class FundService
             'into_user_id.integer' => '转入用户ID参数只能为正整数',
             'into_user_id.min' => '转入用户ID参数只能为正整数',
             'amount.required' => '金额参数必传',
-            'amount.integer' => '金额参数只能为正整数',
-            'amount.min' => '金额参数只能为正整数',
+            'amount.numeric' => '金额参数只能为数字',
+            'amount.min' => '金额参数只能为正数',
             'reason.required' => 'reason 参数必传',
             'reason.integer' => 'reason 参数只能为数字',
             'reason.exists' => 'reason 参数不存在',
@@ -214,6 +214,7 @@ class FundService
         if($Validator->fails()){
             abort(422, $Validator->errors()->first());
         }
+        abort_if($amount <= 0, 422, '转账金额不能为0');
 
         $reason_first = FundTransferReason::select(['out_identity_type_id', 'out_purse_type_id', 'into_identity_type_id', 'into_purse_type_id'])->where(['reason' => $reason])->firstOrFail();
         $out_identity_type_id = $reason_first->out_identity_type_id;
@@ -244,14 +245,14 @@ class FundService
     /**
      * @param int $out_purse_id
      * @param int $into_purse_id
-     * @param int $amount
+     * @param float $amount
      * @param int $reason
      * @param array $detail
      * @param string|null $remarks
      * @return int
      * 转账核心方法
      */
-    private function _transfer(int $out_purse_id, int $into_purse_id, int $amount, int $reason, $detail = [], ?string $remarks = null)
+    private function _transfer(int $out_purse_id, int $into_purse_id, float $amount, int $reason, $detail = [], ?string $remarks = null)
     {
         // 出账钱包最大可用金额，且扣减后的余额要 >= 0 ，如果超过了此金额，就不能转账
         $out_purse_balance = FundPurse::where(['id' => $out_purse_id])->where('balance', '>=', $amount)->value('balance');
@@ -272,7 +273,7 @@ class FundService
                 Rule::exists('fund_purses', 'id'),
                 'different:out_purse_id',    // 验证出账钱包id与进账钱包id是否不一样，一样会报错
             ],
-            'amount' => 'required|integer|min:1|max:' . $out_purse_balance,
+            'amount' => 'required|numeric|min:0|max:' . $out_purse_balance,
             'reason' => [
                 'required',
                 'integer',
@@ -297,6 +298,7 @@ class FundService
         if($Validator->fails()){
             abort(422, $Validator->errors()->first());
         }
+        abort_if($amount <= 0, 422, '转账金额不能为0');
 
         $transfer_id = DB::transaction(function () use ($out_purse_id, $into_purse_id, $amount, $reason, $detail, $remarks) {
             // 2019-11-26 14:48:39 修改为原子锁，避免幻读
@@ -542,13 +544,13 @@ class FundService
 
     /**
      * @param int $purse_id
-     * @param int $amount
+     * @param float $amount
      * @param array $detail
      * @param null|string $remarks
      * @return int
      * 冻结用户金额
      */
-    public function freeze(int $purse_id, int $amount, array $detail = [], ?string $remarks = null)
+    public function freeze(int $purse_id, float $amount, array $detail = [], ?string $remarks = null)
     {
         // 防多次点击
         $cache_key = 'EBank_freeze' . $purse_id . '_' . $amount . '_' . json_encode($detail);
@@ -571,12 +573,12 @@ class FundService
     /**
      * 强制冻结金额，不验证余额是否扣为负数，用于坏账操作
      * @param int $purse_id
-     * @param int $amount
+     * @param float $amount
      * @param array $detail
      * @param string|null $remarks
      * @return int
      */
-    public function freezeForce(int $purse_id, int $amount, array $detail = [], ?string $remarks = null)
+    public function freezeForce(int $purse_id, float $amount, array $detail = [], ?string $remarks = null)
     {
         // 防多次点击
         $cache_key = 'EBank_freezeForce' . $purse_id . '_' . $amount . '_' . json_encode($detail);
@@ -609,13 +611,13 @@ class FundService
 
     /**
      * @param int $purse_id
-     * @param int $amount
+     * @param float $amount
      * @param array $detail
      * @param null|string $remarks
      * @return int
      * 冻结用户钱包余额
      */
-    private function _freeze(int $purse_id, int $amount, array $detail = [], ?string $remarks = null)
+    private function _freeze(int $purse_id, float $amount, array $detail = [], ?string $remarks = null)
     {
         $Freeze = DB::transaction(function () use ($purse_id, $amount, $detail, $remarks) {
             FundPurse::where(['id' => $purse_id])->update(['balance' => DB::raw('balance - ' . $amount), 'freeze' => DB::raw('freeze + ' . $amount)]);

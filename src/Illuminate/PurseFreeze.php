@@ -20,7 +20,7 @@ class PurseFreeze
         return $this;
     }
 
-    public function amount(int $amount)
+    public function amount(float $amount)
     {
         $this->amount = $amount;
         return $this;
@@ -52,7 +52,7 @@ class PurseFreeze
         ];
         $Validator = Validator::make($params, [
             'purse_id'=> 'required|integer|min:1',
-            'amount'=> 'required|integer|min:1',
+            'amount'=> 'required|numeric|min:0',
         ]);
         if($Validator->fails()){
             abort(422, $Validator->errors()->first());

@@ -53,10 +53,10 @@ class PurseTransfer
 
     /**
      * 设置转账金额
-     * @param int $amount
+     * @param float $amount
      * @return $this
      */
-    public function amount(int $amount)
+    public function amount(float $amount)
     {
         $this->amount = $amount;
         return $this;
@@ -102,7 +102,7 @@ class PurseTransfer
         $Validator = Validator::make($params, [
             'out_user_id'=> 'required|integer|min:0',
             'into_user_id'=> 'required|integer|min:0',
-            'amount'=> 'required|integer|min:1',
+            'amount'=> 'required|numeric|min:0.00000001',
             'reason'=> 'required|integer|min:10000',
         ]);
         if($Validator->fails()){

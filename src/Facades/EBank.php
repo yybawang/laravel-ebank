@@ -46,13 +46,13 @@ class EBank extends LaravelFacade
     /**
      * @param int $out_user_id 出帐用户ID，系统出帐为0
      * @param int $into_user_id 进账用户ID，系统进账为0
-     * @param int $amount 转账金额，这里只接收正整数，如果业务金额有带小数，需自行在业务代码中进行乘除运算
+     * @param float $amount 转账金额
      * @param int $reason
      * @param null $detail 自定义详情，可根据不同业务自行填充
-     * @param string|null $remarks  备注，根据业务自行传入
+     * @param string|null $remarks 备注，根据业务自行传入
      * @return int|mixed 返回转账ID，如果是核心业务，建议记录ID到业务表，用于冲正和核对业务
      */
-    public static function transfer(int $out_user_id, int $into_user_id, int $amount, int $reason, $detail = null, ?string $remarks = null){
+    public static function transfer(int $out_user_id, int $into_user_id, float $amount, int $reason, $detail = null, ?string $remarks = null){
         if($amount == 0){
             return 0;
         }
@@ -70,23 +70,23 @@ class EBank extends LaravelFacade
 
     /**
      * @param int $purse_id 调用钱包方法中的钱包ID
-     * @param int $amount 冻结金额
+     * @param float $amount 冻结金额
      * @param array $detail 业务详情
      * @param string|null $remarks 备注，根据业务自行传入
      * @return int|mixed 冻结ID，请自行记录到业务，用于冻结还原
      */
-    public static function freeze(int $purse_id, int $amount, array $detail = [], ?string $remarks = null){
+    public static function freeze(int $purse_id, float $amount, array $detail = [], ?string $remarks = null){
         return (new PurseFreeze())->purseId($purse_id)->amount($amount)->detail($detail)->remarks($remarks)->execute();
     }
 
     /**
      * @param int $purse_id 用户钱包ID
-     * @param int $amount 冻结金额
+     * @param float $amount 冻结金额
      * @param array $detail 业务详情
      * @param string|null $remarks 备注，根据业务自行传入
      * @return int|mixed 冻结ID，请自行记录到业务，用于冻结还原
      */
-    public static function freezeForce(int $purse_id, int $amount, array $detail = [], ?string $remarks = null){
+    public static function freezeForce(int $purse_id, float $amount, array $detail = [], ?string $remarks = null){
         return (new PurseFreeze())->purseId($purse_id)->amount($amount)->detail($detail)->remarks($remarks)->execute();
     }
 

@@ -18,8 +18,8 @@ class CreateFundPursesTable extends Migration
             $table->bigInteger('user_id')->comment('用户ID');
             $table->bigInteger('identity_type_id')->comment('fund_identity_types 表的id，区分身份类型');
             $table->bigInteger('purse_type_id')->comment('fund_purse_type 表的ID，区分钱包类型');
-            $table->decimal('balance', 38, 8)->comment('用户钱包可用余额，精确到8位小数，全部余额需加上 freeze 字段');
-            $table->decimal('freeze', 38, 8)->comment('冻结余额，精确到8位小数');
+            $table->decimal('balance', 34, 4)->comment('用户钱包可用余额，精确到8位小数，全部余额需加上 freeze 字段');
+            $table->decimal('freeze', 34, 4)->comment('冻结余额，精确到8位小数');
             $table->tinyInteger('status')->comment('0无效，1有效');
             $table->string('remarks')->nullable();
             $table->timestamps();
