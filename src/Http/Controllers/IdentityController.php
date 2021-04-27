@@ -5,6 +5,7 @@ namespace yybawang\ebank\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use yybawang\ebank\Models\FundIdentityType;
 
 class IdentityController extends BaseController
@@ -37,6 +38,7 @@ class IdentityController extends BaseController
         ]);
         $param['alias'] = strtolower($param['alias']);
         $Identity = FundIdentityType::withoutGlobalScope('active')->updateOrCreate(['id' => $param['id']], $param);
+        Artisan::call('ebank:purse-init');
         return $this->success($Identity);
     }
 
