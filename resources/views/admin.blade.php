@@ -9,6 +9,7 @@
     <title>EBank Dashboard</title>
     <script>
         const $SITE_NAME = "{{config('app.name')}}";
+        const $EBANK_PATH = "/{{config('ebank.path')}}";
     </script>
 </head>
 <body>

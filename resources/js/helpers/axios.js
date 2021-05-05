@@ -1,7 +1,7 @@
 import {showLoading, hideLoading, tips} from "./functions";
 import axios from 'axios';
 
-axios.defaults.baseURL = '/ebank';
+axios.defaults.baseURL = $EBANK_PATH;
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['Content-Type'] = 'multipart/form-data;charset=UTF-8';
