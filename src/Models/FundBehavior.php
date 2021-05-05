@@ -20,5 +20,6 @@ class FundBehavior extends FundModel
 
     protected $casts = [
         'params' => 'json',
+        'response' => 'json',
     ];
 }

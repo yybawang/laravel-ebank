@@ -100,7 +100,9 @@ export default (props) => {
                     </div>
                     <div className={'py-2'}>
                         <div><code>返回值</code></div>
-                        <div className={'bg-muted text-break p-2'}>{detail.response}</div>
+                        <pre className={'bg-muted w-100 border-0 p-2'}>
+                            {JSON.stringify(detail.response, null, 2)}
+                        </pre>
                     </div>
                     <div className={'py-2'}>
                         <div><code>调用时间</code></div>
