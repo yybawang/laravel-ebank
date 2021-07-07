@@ -67,7 +67,7 @@ trait JsonResponse
      * @return mixed
      */
     public function failed($message = 'failed', array $data = []){
-        return $this->setCode(1)->setMessage($message)->setData($data)->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR)->respond();
+        return $this->setCode(1)->setMessage($message)->setData($data)->setStatusCode(Response::HTTP_OK)->respond();
     }
 
     protected function clearNull($data){
