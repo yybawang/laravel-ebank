@@ -159,7 +159,7 @@ class PurseOrder
         if($pay_type_third_count + $pay_type_wallet_count != count($this->param['payments'])){
             abort(422, '组合支付参数中存在不支持的支付方式');
         }
-        if($amount < 1){
+        if($amount < 0.01){
             abort(422, '订单金额不能少于 0.01 元');
         }
 

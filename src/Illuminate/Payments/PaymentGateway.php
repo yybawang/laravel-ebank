@@ -80,7 +80,7 @@ class PaymentGateway
             $wallets[$payment] = $wallet;
         }
         foreach ($payments as $payment => $price) {
-            $freeze_ids[] = EBank::freeze($wallets[$payment]->id, $price, ['order_no' => $this->order_no], '订单预支付前冻结');
+            $freeze_ids[] = EBank::freeze($wallets[$payment]->id, $price, ['detail' => ['order_no' => $this->order_no]], '订单预支付前冻结');
         }
         return $freeze_ids;
     }
