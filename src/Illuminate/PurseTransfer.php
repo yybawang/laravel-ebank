@@ -69,9 +69,6 @@ class PurseTransfer
      */
     public function detail($detail)
     {
-        if(is_array($detail)){
-            $detail = json_encode($detail);
-        }
         $this->detail = $detail;
         return $this;
     }

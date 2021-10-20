@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.2|^8.0",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
@@ -23,11 +23,6 @@
     "autoload": {
         "psr-4": {
             "yybawang\\ebank\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "yybawang\\ebank\\Tests\\": "tests/"
         }
     },
     "extra": {
