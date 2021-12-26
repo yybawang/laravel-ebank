@@ -601,11 +601,11 @@ class FundService
     public function unfreeze(int $freeze_id)
     {
         // 防多次点击
-        $cache_key = 'EBank_unfreeze' . $freeze_id;
-        if (Cache::has($cache_key)) {
-            abort(422, '钱包解冻请求频繁，请稍后再试');
-        }
-        Cache::add($cache_key, 1, 3);        // 3秒钟
+//        $cache_key = 'EBank_unfreeze' . $freeze_id;
+//        if (Cache::has($cache_key)) {
+//            abort(422, '钱包解冻请求频繁，请稍后再试');
+//        }
+//        Cache::add($cache_key, 1, 3);        // 3秒钟
         return $this->_unfreeze($freeze_id);
     }
 
