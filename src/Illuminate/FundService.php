@@ -553,11 +553,11 @@ class FundService
     public function freeze(int $purse_id, float $amount, array $detail = [], ?string $remarks = null)
     {
         // 防多次点击
-        $cache_key = 'EBank_freeze' . $purse_id . '_' . $amount . '_' . json_encode($detail);
-        if (Cache::has($cache_key)) {
-            abort(422, '钱包冻结请求频繁，请稍后再试');
-        }
-        Cache::add($cache_key, 1, 3);        // 3秒钟
+//        $cache_key = 'EBank_freeze' . $purse_id . '_' . $amount . '_' . json_encode($detail);
+//        if (Cache::has($cache_key)) {
+//            abort(422, '钱包冻结请求频繁，请稍后再试');
+//        }
+//        Cache::add($cache_key, 1, 3);        // 3秒钟
 
         if ($amount <= 0) {
             abort(422, '冻结金额只能为正整数');
@@ -581,11 +581,11 @@ class FundService
     public function freezeForce(int $purse_id, float $amount, array $detail = [], ?string $remarks = null)
     {
         // 防多次点击
-        $cache_key = 'EBank_freezeForce' . $purse_id . '_' . $amount . '_' . json_encode($detail);
-        if (Cache::has($cache_key)) {
-            abort(422, '钱包冻结请求频繁，请稍后再试');
-        }
-        Cache::add($cache_key, 1, 3);        // 3秒钟
+//        $cache_key = 'EBank_freezeForce' . $purse_id . '_' . $amount . '_' . json_encode($detail);
+//        if (Cache::has($cache_key)) {
+//            abort(422, '钱包冻结请求频繁，请稍后再试');
+//        }
+//        Cache::add($cache_key, 1, 3);        // 3秒钟
 
         if ($amount <= 0) {
             abort(422, '冻结金额只能为正整数');
