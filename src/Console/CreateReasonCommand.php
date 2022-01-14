@@ -34,9 +34,9 @@ class CreateReasonCommand extends Command
         $model_name = $this->ask('绑定转账身份，输入进出帐使用的模型名 [User|Admin]');
         $model_name = ucfirst(trim(trim($model_name), "\\"));
         $model_paths = [
-            "\App\Models\\{$model_name}",
-            "\App\\{$model_name}",
-            "\\{$model_name}",
+            "App\Models\\{$model_name}",
+            "App\\{$model_name}",
+            "{$model_name}",
         ];
         $model_class = null;
         foreach ($model_paths as $path){

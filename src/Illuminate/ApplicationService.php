@@ -206,7 +206,8 @@ class ApplicationService
         ]);
         abort_if($Validator->fails(), 422, $Validator->errors()->first());
 
-        $transfer_id = DB::transaction(function () use ($wallet_id, $amount, $reason, $upstream, $remarks) {
+        $Reason = EbankReason::where('code', $reason)->firstOrFail('id');
+        $transfer_id = DB::transaction(function () use ($wallet_id, $amount, $Reason, $upstream, $remarks) {
             // 2019-11-26 14:48:39 修改为原子锁，避免幻读
 
             // 出账钱包扣款
@@ -231,7 +232,6 @@ class ApplicationService
                 abort(422, '钱包扣款失败，余额不足或账户被禁用');
             }
 
-            $Reason = EbankReason::where('code', $reason)->firstOrFail('id');
             // 增加流水
             $transfer_add = [
                 'reason_id' => $Reason->id,

@@ -52,9 +52,9 @@ class ReasonsController extends BaseController
         ]);
         $model_name = ucfirst(trim(trim($param['identity']), "\\"));
         $model_paths = [
-            "\App\Models\\{$model_name}",
-            "\App\\{$model_name}",
-            "\\{$model_name}",
+            "App\Models\\{$model_name}",
+            "App\\{$model_name}",
+            "{$model_name}",
         ];
         $model_class = null;
         foreach ($model_paths as $path){
