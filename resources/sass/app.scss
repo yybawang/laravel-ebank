@@ -83,8 +83,11 @@ $datepicker__selected-color: $primary;
 }
 .dashboard {
     margin: 0 auto;
-    width: 920px;
+    width: 1000px;
     .overview {
         background-color: #fafafa;
     }
+}
+.table th, .table td {
+    vertical-align: middle;
 }

@@ -6,53 +6,34 @@ namespace yybawang\ebank\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use yybawang\ebank\Models\FundTransfer;
+use yybawang\ebank\Models\EbankTransfer;
 
 class ReportController extends BaseController
 {
     public function reason(Request $request){
-        $List = FundTransfer::select(DB::raw('reasons.*, sum(amount) as amount'))
-            ->leftJoin('fund_transfer_reasons as reasons', 'reasons.reason', '=', 'fund_transfers.reason')
-            ->when($request->input('reason'), function($query, $reason){
-                return $query->where('fund_transfers.reason', $reason);
-            })
-            ->when($request->input('user_id'), function($query, $id){
-                return $query->where(function($query) use ($id){
-                    return $query->where('out_user_id', $id)->orWhere('into_user_id', $id);
+        $List = EbankTransfer::select(DB::raw('reason_id, sum(abs(amount)) as amount'))
+            ->when($request->input('code'), function($query, $code){
+                $query->whereHas('reason', function($query) use($code){
+                    $query->where('code', $code);
                 });
             })
-            ->withoutGlobalScope('success')
-            ->where('fund_transfers.status', FundTransfer::STATUS_SUCCESS)
-            ->groupBy('reasons.reason')
+            ->where('status', EbankTransfer::STATUS_SUCCESS)
+            ->groupBy('reason_id')
             ->get();
         return $this->success($List);
     }
 
     public function transfer(Request $request){
-        $List = FundTransfer::select(DB::raw('max(id) as id, out_user_id, out_identity_type_id, out_purse_type_id, into_user_id, into_identity_type_id, into_purse_type_id, sum(amount) as amount'))
-            ->when($request->input('user_id'), function($query, $id){
-                return $query->where(function($query) use ($id){
-                    return $query->where('out_user_id', $id)->orWhere('into_user_id', $id);
-                });
+        $List = EbankTransfer::with(['walletType'])->select(DB::raw('identity_id, identity_type, (select wallet_type_id from ebank_wallets where id = ebank_transfers.wallet_id) as wallet_type_id, sum(abs(amount)) as amount'))
+            ->when($request->input('identity_id'), function($query, $value){
+                $query->where('identity_id', $value);
             })
-            ->when($request->input('out_identity_type_id'), function($query, $id){
-                return $query->where('out_identity_type_id', $id);
+            ->when($request->input('identity_type'), function($query, $value){
+                $query->where('identity_type', $value);
             })
-            ->when($request->input('out_purse_type_id'), function($query, $id){
-                return $query->where('out_purse_type_id', $id);
-            })
-            ->when($request->input('into_identity_type_id'), function($query, $id){
-                return $query->where('into_identity_type_id', $id);
-            })
-            ->when($request->input('into_purse_type_id'), function($query, $id){
-                return $query->where('into_purse_type_id', $id);
-            })
-            ->groupBy('out_user_id')
-            ->groupBy('out_identity_type_id')
-            ->groupBy('out_purse_type_id')
-            ->groupBy('into_user_id')
-            ->groupBy('into_identity_type_id')
-            ->groupBy('into_purse_type_id')
+            ->groupBy('identity_id')
+            ->groupBy('identity_type')
+            ->groupBy('wallet_type_id')
             ->get();
         return $this->success($List);
     }

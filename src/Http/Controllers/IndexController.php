@@ -6,11 +6,9 @@ namespace yybawang\ebank\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
-use yybawang\ebank\Models\FundIdentityType;
-use yybawang\ebank\Models\FundPurse;
-use yybawang\ebank\Models\FundPurseType;
-use yybawang\ebank\Models\FundTransfer;
+use yybawang\ebank\Models\EbankWallet;
+use yybawang\ebank\Models\EbankWalletType;
+use yybawang\ebank\Models\EbankTransfer;
 
 class IndexController extends BaseController
 {
@@ -22,33 +20,17 @@ class IndexController extends BaseController
         $today = [Carbon::today(), Carbon::tomorrow()->subSecond()];
         $yesterday = [Carbon::yesterday(), Carbon::today()->subSecond()];
 
-        $UserCount = FundPurse::selectRaw('count(*) count')->where('user_id', '>', 0)->groupBy('user_id');
-        $TransferCount = FundTransfer::where(function($query){
-            return $query->where('out_identity_type_id', 3)->orWhere('into_identity_type_id', 3);
-        });
-        $UserOut = FundTransfer::select(DB::raw('out_purse_type_id, sum(amount) as amount'))->where('out_user_id', '>', 0)->where(['out_identity_type_id'=> 3])->groupBy('out_purse_type_id');
-        $UserInto = FundTransfer::select(DB::raw('into_purse_type_id, sum(amount) as amount'))->where('into_user_id', '>', 0)->where(['into_identity_type_id'=> 3])->groupBy('into_purse_type_id');
+        $data['today_transfer_count'] = EbankTransfer::whereBetween('created_at', $today)->count();
+        $data['today_user_out_sum'] = EbankTransfer::whereBetween('created_at', $today)->where('amount', '<', 0)->sum('amount');
+        $data['today_user_into_sum'] = EbankTransfer::whereBetween('created_at', $today)->where('amount', '>', 0)->sum('amount');
 
-        $data['today_user_count'] = FundPurse::withoutGlobalScope('active')->from((clone $UserCount)->whereBetween('created_at', $today), 't')->count();
-        $data['today_transfer_count'] = (clone $TransferCount)->whereBetween('created_at', $today)->count();
-        $data['today_user_out'] = (clone $UserOut)->whereBetween('created_at', $today)->get();
-        $data['today_user_out_sum'] = collect($data['today_user_out'])->sum('amount');
-        $data['today_user_into'] = (clone $UserInto)->whereBetween('created_at', $today)->get();
-        $data['today_user_into_sum'] = collect($data['today_user_into'])->sum('amount');
+        $data['yesterday_transfer_count'] = EbankTransfer::whereBetween('created_at', $yesterday)->count();
+        $data['yesterday_user_out_sum'] = EbankTransfer::whereBetween('created_at', $yesterday)->where('amount', '<', 0)->sum('amount');
+        $data['yesterday_user_into_sum'] = EbankTransfer::whereBetween('created_at', $yesterday)->where('amount', '>', 0)->sum('amount');
 
-        $data['yesterday_user_count'] = FundPurse::withoutGlobalScope('active')->from((clone $UserCount)->whereBetween('created_at', $yesterday), 't')->count();
-        $data['yesterday_transfer_count'] = (clone $TransferCount)->whereBetween('created_at', $yesterday)->count();
-        $data['yesterday_user_out'] = (clone $UserOut)->whereBetween('created_at', $yesterday)->get();
-        $data['yesterday_user_out_sum'] = collect($data['yesterday_user_out'])->sum('amount');
-        $data['yesterday_user_into'] = (clone $UserInto)->whereBetween('created_at', $yesterday)->get();
-        $data['yesterday_user_into_sum'] = collect($data['yesterday_user_into'])->sum('amount');
-
-        $data['user_count'] = FundPurse::withoutGlobalScope('active')->from((clone $UserCount), 't')->count();
-        $data['transfer_count'] = (clone $TransferCount)->count();
-        $data['user_out'] = (clone $UserOut)->get();
-        $data['user_out_sum'] = collect($data['user_out'])->sum('amount');
-        $data['user_into'] = (clone $UserInto)->get();
-        $data['user_into_sum'] = collect($data['user_into'])->sum('amount');
+        $data['transfer_count'] = EbankTransfer::count();
+        $data['user_out_sum'] = EbankTransfer::where('amount', '<', 0)->sum('amount');
+        $data['user_into_sum'] = EbankTransfer::where('amount', '>', 0)->sum('amount');
 
         return $this->success($data);
     }
@@ -59,12 +41,12 @@ class IndexController extends BaseController
      * @return
      */
     public function report(Request $request){
-        $IdentityTypes = FundIdentityType::all();
-        $PurseTypes = FundPurseType::all();
-        $List = FundPurse::selectRaw('max(user_id) user_id, identity_type_id, purse_type_id, sum(balance) balance, sum(freeze) freeze')->groupBy('identity_type_id')->groupBy('purse_type_id')->groupByRaw('user_id > 0')->get();
+        $IdentityTypes = EbankWallet::select('identity_type')->groupBy('identity_type')->get();
+        $WalletTypes = EbankWalletType::oldest('id')->get(['id', 'name']);
+        $List = EbankWallet::selectRaw('identity_type, wallet_type_id, sum(balance) balance, sum(freeze) freeze')->groupBy('identity_type')->groupBy('wallet_type_id')->get()->groupBy('identity_type');
         return $this->success([
             'identities' => $IdentityTypes,
-            'purse_types' => $PurseTypes,
+            'wallet_types' => $WalletTypes,
             'list' => $List,
         ]);
     }

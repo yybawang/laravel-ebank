@@ -19,20 +19,15 @@ Route::middleware(array_merge(config('ebank.middleware') ?? [], [Authenticate::c
     Route::get('/freezes', [FreezeController::class, 'index']);
     Route::put('/freezes/unfreeze/{id}', [FreezeController::class, 'unfreeze']);
 
-    Route::get('/purses', [PurseController::class, 'index']);
-    Route::get('/purses/filters', [PurseController::class, 'filters']);
-    Route::put('/purses/enabled', [PurseController::class, 'enabled']);
-    Route::put('/purses/disabled', [PurseController::class, 'disabled']);
+    Route::get('/purses', [WalletController::class, 'index']);
+    Route::get('/purses/filters', [WalletController::class, 'filters']);
+    Route::put('/purses/enabled', [WalletController::class, 'enabled']);
+    Route::put('/purses/disabled', [WalletController::class, 'disabled']);
 
-    Route::get('/identities', [IdentityController::class, 'index']);
-    Route::get('/identities/{id}', [IdentityController::class, 'show']);
-    Route::post('/identities', [IdentityController::class, 'store']);
-    Route::delete('/identities/{id}', [IdentityController::class, 'delete']);
-
-    Route::get('/purse_types', [PurseTypeController::class, 'index']);
-    Route::get('/purse_types/{id}', [PurseTypeController::class, 'show']);
-    Route::post('/purse_types', [PurseTypeController::class, 'store']);
-    Route::delete('/purse_types/{id}', [PurseTypeController::class, 'delete']);
+    Route::get('/purse_types', [WalletTypeController::class, 'index']);
+    Route::get('/purse_types/{id}', [WalletTypeController::class, 'show']);
+    Route::post('/purse_types', [WalletTypeController::class, 'store']);
+    Route::delete('/purse_types/{id}', [WalletTypeController::class, 'delete']);
 
     Route::get('/reasons', [ReasonsController::class, 'index']);
     Route::get('/reasons/{id}', [ReasonsController::class, 'show']);

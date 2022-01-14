@@ -14,8 +14,8 @@ export default (props) => {
     const [identities, setIdentities] = React.useState([]);
     const [purses, setPurses] = React.useState([]);
     const [id, setId] = React.useState(query.get('id') || '');
-    const [user_id, setUser_id] = React.useState('');
-    const [identity_type_id, setIdentity_type_id] = React.useState('');
+    const [identity_id, setIdentity_id] = React.useState('');
+    const [identity_type, setIdentity_type] = React.useState('');
     const [purse_type_id, setPurse_type_id] = React.useState('');
 
     React.useEffect(()=> {
@@ -29,7 +29,7 @@ export default (props) => {
 
     async function init(reset) {
         let p = reset ? 1 : page;
-        let res = await axios.get('/purses', {params: {id, user_id, identity_type_id, purse_type_id, page: p}});
+        let res = await axios.get('/purses', {params: {id, identity_id, identity_type, purse_type_id, page: p}});
         setList(res);
     }
 
@@ -57,11 +57,11 @@ export default (props) => {
                 <Form onSubmit={(e) => {e.preventDefault();init(true)}}>
                     <div className={'flex flex-wrap filters'}>
                         <Form.Group><Form.Label>钱包ID</Form.Label><Form.Control type={"number"} value={id} onChange={(e) => setId(e.target.value)}/></Form.Group>
-                        <Form.Group><Form.Label>用户ID</Form.Label><Form.Control type={"number"} value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
-                        <Form.Group><Form.Label>身份类型</Form.Label><Form.Control as={'select'} onChange={e => setIdentity_type_id(e.target.value)}>
+                        <Form.Group><Form.Label>身份ID</Form.Label><Form.Control type={"number"} value={identity_id} onChange={(e) => setIdentity_id(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>身份类型</Form.Label><Form.Control as={'select'} value={identity_type} onChange={e => setIdentity_type(e.target.value)}>
                             <option value={''} />
                             {identities.map(identity =>
-                                <option key={identity.id} value={identity.id}>{identity.name}</option>
+                                <option key={identity.name} value={identity.name}>{identity.name}</option>
                             )}
                         </Form.Control></Form.Group>
                         <Form.Group><Form.Label>钱包类型</Form.Label><Form.Control as={'select'} onChange={e => setPurse_type_id(e.target.value)}>
@@ -78,7 +78,7 @@ export default (props) => {
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>用户ID</th>
+                    <th>身份ID</th>
                     <th>身份类型</th>
                     <th>钱包类型</th>
                     <th>总金额</th>
@@ -91,12 +91,12 @@ export default (props) => {
                 <tbody>
                 {list.data.map(row => <tr key={row.id}>
                     <td>{row.id}</td>
-                    <td>{row.user_id}</td>
-                    <td>{row.identity_type.name}</td>
-                    <td>{row.purse_type.name}</td>
-                    <td>{(Number(row.balance) + Number(row.freeze)).toLocaleString()}</td>
-                    <td>{Number(row.freeze).toLocaleString()}</td>
-                    <td>{Number(row.balance).toLocaleString()}</td>
+                    <td>{row.identity_id}</td>
+                    <td>{row.identity_type}</td>
+                    <td>{row.wallet_type.name}</td>
+                    <td>{(Number(row.balance) + Number(row.freeze)).toFixed(4)}</td>
+                    <td>{Number(row.freeze).toFixed(4)}</td>
+                    <td>{Number(row.balance).toFixed(4)}</td>
                     <td><StatusNormal status={row.status}/></td>
                     <td>
                         <ButtonGroup size={"sm"}>

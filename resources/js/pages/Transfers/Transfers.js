@@ -16,11 +16,9 @@ export default (props) => {
     const [identities, setIdentities] = React.useState([]);
     const [purses, setPurses] = React.useState([]);
     const [id, setId] = React.useState('');
-    const [user_id, setUser_id] = React.useState('');
-    const [out_identity_type_id, setOut_dentity_type_id] = React.useState('');
-    const [out_purse_type_id, setOut_purse_type_id] = React.useState('');
-    const [into_identity_type_id, setInto_dentity_type_id] = React.useState('');
-    const [into_purse_type_id, setInto_purse_type_id] = React.useState('');
+    const [identity_id, setIdentity_id] = React.useState('');
+    const [identity_type, setIdentity_type] = React.useState('');
+    const [wallet_type_id, setWallet_type_id] = React.useState('');
     const [date, setDate] = React.useState([]);
 
     React.useEffect(() => {
@@ -30,7 +28,7 @@ export default (props) => {
 
     async function init(reset) {
         let p = reset ? 1 : page;
-        let res = await axios.get('/transfers', {params: {user_id, out_identity_type_id, out_purse_type_id, into_identity_type_id, into_purse_type_id, date, page: p}});
+        let res = await axios.get('/transfers', {params: {id, identity_id, identity_type, wallet_type_id, date, page: p}});
         setList(res);
     }
 
@@ -58,26 +56,14 @@ export default (props) => {
                 <Form onSubmit={(e) => {e.preventDefault();init(true)}}>
                     <div className={'flex flex-wrap filters'}>
                         <Form.Group><Form.Label>转账ID</Form.Label><Form.Control value={id} onChange={(e) => setId(e.target.value)}/></Form.Group>
-                        <Form.Group><Form.Label>用户ID</Form.Label><Form.Control value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
-                        <Form.Group><Form.Label>出帐身份类型</Form.Label><Form.Control as={'select'} onChange={e => setOut_dentity_type_id(e.target.value)}>
+                        <Form.Group><Form.Label>身份ID</Form.Label><Form.Control value={identity_id} onChange={(e) => setIdentity_id(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>身份类型</Form.Label><Form.Control as={'select'} value={identity_type} onChange={e => setIdentity_type(e.target.value)}>
                             <option value={''} />
                             {identities.map(identity =>
-                                <option key={identity.id} value={identity.id}>{identity.name}</option>
+                                <option key={identity.name} value={identity.name}>{identity.name}</option>
                             )}
                         </Form.Control></Form.Group>
-                        <Form.Group><Form.Label>出帐钱包类型</Form.Label><Form.Control as={'select'} onChange={e => setOut_purse_type_id(e.target.value)}>
-                            <option value={''} />
-                            {purses.map(purse =>
-                                <option key={purse.id} value={purse.id}>{purse.name}</option>
-                            )}
-                        </Form.Control></Form.Group>
-                        <Form.Group><Form.Label>入账身份类型</Form.Label><Form.Control as={'select'} onChange={e => setInto_dentity_type_id(e.target.value)}>
-                            <option value={''} />
-                            {identities.map(identity =>
-                                <option key={identity.id} value={identity.id}>{identity.name}</option>
-                            )}
-                        </Form.Control></Form.Group>
-                        <Form.Group><Form.Label>入账钱包类型</Form.Label><Form.Control as={'select'} onChange={e => setInto_purse_type_id(e.target.value)}>
+                        <Form.Group><Form.Label>钱包类型</Form.Label><Form.Control as={'select'} value={wallet_type_id} onChange={e => setWallet_type_id(e.target.value)}>
                             <option value={''} />
                             {purses.map(purse =>
                                 <option key={purse.id} value={purse.id}>{purse.name}</option>
@@ -94,15 +80,10 @@ export default (props) => {
                 <tr>
                     <th>ID</th>
                     <th>Reason</th>
-                    <th>出帐用户ID</th>
-                    <th><div>出帐身份类型</div><div>出帐钱包类型</div></th>
-                    <th>出帐钱包ID</th>
-                    <th>出帐后余额</th>
-                    <th>入帐用户ID</th>
-                    <th><div>入帐身份类型</div><div>入帐钱包类型</div></th>
-                    <th>入帐钱包ID</th>
-                    <th>入帐后余额</th>
+                    <th>交易钱包</th>
+                    <th>身份类型</th>
                     <th>交易金额</th>
+                    <th>交易后余额</th>
                     <th>交易时间</th>
                     <th>状态</th>
                     <th>操作</th>
@@ -111,16 +92,11 @@ export default (props) => {
                 <tbody>
                 {list.data.map(row => <tr key={row.id}>
                     <td>{row.id}</td>
-                    <td>{row.reason}</td>
-                    <td className={'text-warning'}>{row.out_user_id}</td>
-                    <td className={'text-warning'}><div>{row.out_identity_type.name}</div><div>{row.out_purse_type.name}</div></td>
-                    <td><Link to={'/purses?id='+row.out_purse_id} className={'text-warning'}>{row.out_purse_id}</Link></td>
-                    <td className={'text-warning'}>{Number(row.out_balance).toLocaleString()}</td>
-                    <td className={'text-info'}>{row.into_user_id}</td>
-                    <td className={'text-info'}><div>{row.into_identity_type.name}</div><div>{row.into_purse_type.name}</div></td>
-                    <td><Link to={'/purses?id='+row.into_purse_id} className={'text-info'}>{row.into_purse_id}</Link></td>
-                    <td className={'text-info'}>{Number(row.into_balance).toLocaleString()}</td>
-                    <td className={'text-danger'}>{Number(row.amount).toLocaleString()}</td>
+                    <td>{row.reason.code}</td>
+                    <td><Link to={'/purses?id='+row.wallet_id} className={'text-info'}>{row.wallet.wallet_type.name}</Link></td>
+                    <td>{row.identity_type}</td>
+                    <td className={'text-danger'}>{Number(row.amount).toFixed(4)}</td>
+                    <td>{Number(row.balance).toFixed(4)}</td>
                     <td>{datetime(row.created_at)}</td>
                     <td><StatusTransfer status={row.status}/></td>
                     <td>

@@ -6,14 +6,19 @@ namespace yybawang\ebank\Http\Controllers;
 
 use Illuminate\Http\Request;
 use yybawang\ebank\Facades\EBank;
-use yybawang\ebank\Models\FundFreeze;
+use yybawang\ebank\Models\EbankFreeze;
+use yybawang\ebank\Models\EbankWallet;
 
 class FreezeController extends BaseController
 {
     public function index(Request $request){
-        $Purses = FundFreeze::when($request->input('user_id'), function($query, $user_id){
-            return $query->where('user_id', 'like', "%{$user_id}%");
+        $Identities = EbankWallet::groupBy('identity_type')->get(['identity_type as name']);
+        $List = EbankFreeze::when($request->input('identity_id'), function($query, $value){
+            return $query->where('identity_id', 'like', "%{$value}%");
         })
+            ->when($request->input('identity_type'), function($query, $value){
+                return $query->where('identity_type', $value);
+            })
             ->when($request->input('id'), function($query, $id){
                 return $query->where('id', $id);
             })
@@ -25,11 +30,14 @@ class FreezeController extends BaseController
             })
             ->latest()
             ->paginate();
-        return $this->success($Purses);
+        return $this->success([
+            'list' => $List,
+            'identities' => $Identities,
+        ]);
     }
 
     public function unfreeze(Request $request, int $id){
-        $Freeze =  FundFreeze::findOrFail($id);
+        $Freeze =  EbankFreeze::findOrFail($id);
         EBank::unfreeze($Freeze->id);
         return $this->success();
     }

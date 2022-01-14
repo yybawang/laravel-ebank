@@ -1,8 +1,8 @@
 {
     "name": "yybawang/laravel-ebank",
     "type": "library",
-    "description": "A library for unified payments with online wallets and Alipay and WeChat",
-    "keywords": ["ebank", "wallets", "online-wallets", "wechat-pay", "alipay", "unified-payments"],
+    "description": "A library for online wallets",
+    "keywords": ["bank", "ebank", "wallets", "online-wallet", "integral", "integral-wallet"],
     "homepage": "https://github.com/yybawang/laravel-ebank",
     "license": "MIT",
     "authors": [
@@ -12,13 +12,8 @@
         }
     ],
     "require": {
-        "php": "^7.2|^8.0",
-        "ext-curl": "*",
-        "ext-json": "*",
-        "ext-mbstring": "*",
-        "ext-openssl": "*",
-        "ext-pdo": "*",
-        "yansongda/pay": "^2.9.0"
+        "php": ">=7.3",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

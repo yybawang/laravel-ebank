@@ -5,8 +5,8 @@ namespace yybawang\ebank\Http\Controllers;
 
 
 use Illuminate\Routing\Controller;
-use yybawang\ebank\Responses\JsonResponse;
+use yybawang\ebank\Responses\EbankResponse;
 
 class BaseController extends Controller {
-    use JsonResponse;
+    use EbankResponse;
 }

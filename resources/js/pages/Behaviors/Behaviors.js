@@ -106,7 +106,7 @@ export default (props) => {
                     </div>
                     <div className={'py-2'}>
                         <div><code>调用时间</code></div>
-                        <div className={'bg-muted p-2'}>{detail.created_at}</div>
+                        <div className={'bg-muted p-2'}>{datetime(detail.created_at)}</div>
                     </div>
                 </Modal.Body>
             </Modal>

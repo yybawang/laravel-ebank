@@ -4,31 +4,32 @@
 namespace yybawang\ebank\Illuminate;
 
 
-use yybawang\ebank\Models\FundBehavior;
+use yybawang\ebank\Models\EbankBehavior;
 
 trait BehaviorMiddleware
 {
     private $begin_time;
     private $funcname;
-    private $params;
+    private $request;
+
     /**
      * 记录入参
      * @param string $funcname
-     * @param array $params
+     * @param array $request
      */
-    protected function handle(string $funcname, array $params){
+    protected function handle(string $funcname, array $request){
         $this->begin_time = microtime(true);
         $this->funcname = $funcname;
-        $this->params = $params;
+        $this->request = $request;
     }
 
     protected function terminate($response){
         $create = [
             'funcname'=> $this->funcname,
-            'params'=> $this->params,
+            'params'=> $this->request,
             'execute_time'=> round(microtime(true) - $this->begin_time, 8),
             'response'=> $response,
         ];
-        FundBehavior::create($create);
+        EbankBehavior::create($create);
     }
 }

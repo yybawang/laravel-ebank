@@ -5,7 +5,6 @@ import Reasons from "../../../images/Reasons";
 import Dashboard from "../../../images/Dashboard";
 import Freezes from "../../../images/Freezes";
 import Balances from "../../../images/Balances";
-import Identities from "../../../images/Identities";
 import Purses from "../../../images/Purses";
 import ReportsReason from "../../../images/ReportsReason";
 import Behaviors from "../../../images/Behaviors";
@@ -19,8 +18,7 @@ export default (props) => {
             <li><NavLink to={'/reasons'} className={'flex items-center'} activeClassName={'active'}><Reasons /><span>转账Reason</span></NavLink></li>
             <li><NavLink to={'/freezes'} className={'flex items-center'} activeClassName={'active'}><Freezes /><span>冻结记录</span></NavLink></li>
             <li><NavLink to={'/purses'} className={'flex items-center'} activeClassName={'active'}><Balances /><span>钱包余额</span></NavLink></li>
-            <li className={'mt-3'}><NavLink to={'/identities'} className={'flex items-center'} activeClassName={'active'}><Identities /><span>身份类型</span></NavLink></li>
-            <li><NavLink to={'/purse_types'} className={'flex items-center'} activeClassName={'active'}><Purses /><span>钱包类型</span></NavLink></li>
+            <li className={'mt-3'}><NavLink to={'/purse_types'} className={'flex items-center'} activeClassName={'active'}><Purses /><span>钱包类型</span></NavLink></li>
             <li className={'mt-3'}><NavLink to={'/reports/reason'} className={'flex items-center'} activeClassName={'active'}><ReportsReason /><span>行为统计</span></NavLink></li>
             <li><NavLink to={'/reports/transfer'} className={'flex items-center'} activeClassName={'active'}><ReportsPurse /><span>转账统计</span></NavLink></li>
             <li><NavLink to={'/behaviors'} className={'flex items-center'} activeClassName={'active'}><Behaviors /><span>接口记录</span></NavLink></li>

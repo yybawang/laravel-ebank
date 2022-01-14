@@ -26,5 +26,5 @@ mix
     .react('resources/js/app.js', 'public')
     .sass('resources/sass/app.scss', 'public')
     .version()
-    // .copy('public', '../../../../laravel-package-test/public/vendor/ebank')
+    // .copy('public', '../../../public/vendor/ebank')
 ;

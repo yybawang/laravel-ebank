@@ -15,7 +15,9 @@ export default (props) => {
     const [list, setList] = React.useState({data: []});
     const [page, setPage] = React.useState(1);
     const [id, setId] = React.useState('');
-    const [user_id, setUser_id] = React.useState('');
+    const [identities, setIdentities] = React.useState([]);
+    const [identity_id, setIdentity_id] = React.useState('');
+    const [identity_type, setIdentity_type] = React.useState('');
     const [date, setDate] = React.useState('');
 
     React.useEffect(() => {
@@ -24,8 +26,9 @@ export default (props) => {
 
     async function init(reset) {
         let p = reset ? 1 : page;
-        let res = await axios.get('/freezes', {params: {user_id, id, date, page: p}});
-        setList(res);
+        let res = await axios.get('/freezes', {params: {identity_id, id, identity_type, date, page: p}});
+        setList(res.list);
+        setIdentities(res.identities);
     }
 
     async function unfreeze(id){
@@ -40,7 +43,13 @@ export default (props) => {
                 <Form onSubmit={(e) => {e.preventDefault();init(true)}}>
                     <div className={'flex flex-wrap filters'}>
                         <Form.Group><Form.Label>冻结ID</Form.Label><Form.Control type={"number"} value={id} onChange={(e) => setId(e.target.value)}/></Form.Group>
-                        <Form.Group><Form.Label>用户ID</Form.Label><Form.Control type={"number"} value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>身份ID</Form.Label><Form.Control type={"number"} value={identity_id} onChange={(e) => setIdentity_id(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>身份类型</Form.Label><Form.Control as={'select'} value={identity_type} onChange={e => setIdentity_type(e.target.value)}>
+                            <option value={''} />
+                            {identities.map(identity =>
+                                <option key={identity.name} value={identity.name}>{identity.name}</option>
+                            )}
+                        </Form.Control></Form.Group>
                         <DateRangePicker onChange={setDate} />
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
                     </div>
@@ -50,10 +59,9 @@ export default (props) => {
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>用户ID</th>
+                    <th>身份ID</th>
                     <th>身份类型</th>
                     <th>钱包类型</th>
-                    <th>钱包ID</th>
                     <th>冻结金额</th>
                     <th>冻结时间</th>
                     <th>状态</th>
@@ -63,11 +71,10 @@ export default (props) => {
                 <tbody>
                 {list.data.map(row => <tr key={row.id}>
                     <td>{row.id}</td>
-                    <td>{row.purse.user_id}</td>
-                    <td>{row.purse.identity_type.name}</td>
-                    <td>{row.purse.purse_type.name}</td>
-                    <td><Link to={'/purses?id='+row.purse_id}>{row.purse_id}</Link></td>
-                    <td>{Number(row.amount).toLocaleString()}</td>
+                    <td>{row.identity_id}</td>
+                    <td>{row.identity_type}</td>
+                    <td>{row.wallet.wallet_type.name}</td>
+                    <td><Link to={'/purses?id='+row.wallet_id}>{Number(row.amount).toFixed(4)}</Link></td>
                     <td><StatusFreeze status={row.status}/></td>
                     <td>{datetime(row.created_at)}</td>
                     <td>

@@ -1,8 +1,6 @@
 import React from 'react';
 import {HashRouter as Router, Switch, Route} from 'react-router-dom'
 import Menu from "./Menu";
-import Identities from "../Identities/Identities";
-import IdentitiesEdit from "../Identities/IdentitiesEdit";
 import PurseTypes from "../PurseTypes/PurseTypes";
 import PurseTypesEdit from "../PurseTypes/PurseTypesEdit";
 import Reasons from "../Reasons/Reasons";
@@ -35,8 +33,6 @@ export default (props) => {
                                 <Route exact={true} path={'/transfers'}><Transfers /></Route>
                                 <Route exact={true} path={'/freezes'}><Freezes /></Route>
                                 <Route exact={true} path={'/purses'}><Purses /></Route>
-                                <Route exact={true} path={'/identities'}><Identities /></Route>
-                                <Route path={'/identities/edit/:id'}><IdentitiesEdit /></Route>
                                 <Route exact={true} path={'/purse_types'}><PurseTypes /></Route>
                                 <Route path={'/purse_types/edit/:id'}><PurseTypesEdit /></Route>
                                 <Route exact={true} path={'/reasons'}><Reasons /></Route>

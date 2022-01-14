@@ -6,9 +6,8 @@ namespace yybawang\ebank;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
+use yybawang\ebank\Console\CreateReasonCommand;
 use yybawang\ebank\Console\InstallCommand;
-use yybawang\ebank\Console\PaymentMakeCommand;
-use yybawang\ebank\Console\PurseInitCommand;
 use yybawang\ebank\Facades\EBank;
 
 /**
@@ -96,8 +95,7 @@ class EbankServiceProvider extends LaravelServiceProvider
         if($this->app->runningInConsole()){
             $this->commands([
                 InstallCommand::class,
-                PaymentMakeCommand::class,
-                PurseInitCommand::class,
+                CreateReasonCommand::class,
             ]);
         }
     }

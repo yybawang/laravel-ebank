@@ -6,15 +6,14 @@ import {axios} from "../../helpers/axios";
 export default (props) => {
     const history = useHistory();
     const [list, setList] = React.useState([]);
-    const [reason, setReason] = React.useState('');
-    const [user_id, setUser_id] = React.useState('');
+    const [code, setCode] = React.useState('');
 
     React.useEffect(() => {
         init();
     }, []);
 
     async function init(reset) {
-        let res = await axios.get('/reports/reason', {params: {reason, user_id}});
+        let res = await axios.get('/reports/reason', {params: {code}});
         setList(res);
     }
 
@@ -23,8 +22,7 @@ export default (props) => {
             <div className={'head-filters py-2'}>
                 <Form onSubmit={(e) => {e.preventDefault();init()}}>
                     <div className={'flex flex-wrap filters'}>
-                        <Form.Group><Form.Label>Reason</Form.Label><Form.Control type={"number"} value={reason} onChange={(e) => setReason(e.target.value)}/></Form.Group>
-                        <Form.Group><Form.Label>用户ID</Form.Label><Form.Control type={"number"} value={user_id} onChange={(e) => setUser_id(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>Reason 代码</Form.Label><Form.Control type={"number"} value={code} onChange={(e) => setCode(e.target.value)}/></Form.Group>
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
                     </div>
                 </Form>
@@ -34,22 +32,18 @@ export default (props) => {
                 <tr>
                     <th>Reason</th>
                     <th>行为名称</th>
-                    <th>出帐身份</th>
-                    <th>出帐钱包</th>
-                    <th>入帐身份</th>
-                    <th>入帐钱包</th>
-                    <th>交易总金额</th>
+                    <th>交易身份</th>
+                    <th>钱包类型</th>
+                    <th>交易总量</th>
                 </tr>
                 </thead>
                 <tbody>
-                {list.map(row => <tr key={row.id}>
-                    <td>{row.reason}</td>
-                    <td>{row.name}</td>
-                    <td className={'text-warning'}>{row.out_identity_type.name}</td>
-                    <td className={'text-warning'}>{row.out_purse_type.name}</td>
-                    <td className={'text-info'}>{row.into_identity_type.name}</td>
-                    <td className={'text-info'}>{row.into_purse_type.name}</td>
-                    <td>{Number(row.amount).toLocaleString()}</td>
+                {list.map(row => <tr key={row.reason_id}>
+                    <td className={'text-info'}>{row.reason.code}</td>
+                    <td>{row.reason.name}</td>
+                    <td>{row.reason.identity}</td>
+                    <td>{row.reason.wallet_type.name}</td>
+                    <td>{Number(row.amount).toFixed(4)}</td>
                 </tr>)}
                 </tbody>
             </Table>

@@ -5,7 +5,6 @@ namespace yybawang\ebank\Console;
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
-use yybawang\ebank\Illuminate\FundService;
 
 class InstallCommand extends Command
 {

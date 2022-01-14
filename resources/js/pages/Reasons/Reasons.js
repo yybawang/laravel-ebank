@@ -12,7 +12,7 @@ export default (props) => {
     const [list, setList] = React.useState({data: []});
     const [page, setPage] = React.useState(1);
     const [name, setName] = React.useState('');
-    const [reason, setReason] = React.useState('');
+    const [code, setCode] = React.useState('');
 
     React.useEffect(() => {
         init();
@@ -20,7 +20,7 @@ export default (props) => {
 
     async function init(reset) {
         let p = reset ? 1 : page;
-        let res = await axios.get('/reasons', {params: {name, reason, page: p}});
+        let res = await axios.get('/reasons', {params: {name, code, page: p}});
         setList(res);
     }
 
@@ -36,7 +36,7 @@ export default (props) => {
                 <Form onSubmit={(e) => {e.preventDefault();init(true)}}>
                     <div className={'flex flex-wrap filters'}>
                         <Form.Group><Form.Label>名称</Form.Label><Form.Control value={name} onChange={(e) => setName(e.target.value)}/></Form.Group>
-                        <Form.Group><Form.Label>Reason</Form.Label><Form.Control type={"number"} value={reason} onChange={(e) => setReason(e.target.value)}/></Form.Group>
+                        <Form.Group><Form.Label>Reason</Form.Label><Form.Control type={"number"} value={code} onChange={(e) => setCode(e.target.value)}/></Form.Group>
                         <Form.Group><Button type={"submit"}>搜索</Button></Form.Group>
                     </div>
                 </Form>
@@ -48,10 +48,8 @@ export default (props) => {
                     <th>ID</th>
                     <th>Reason 代码</th>
                     <th>行为名称</th>
-                    <th>出帐身份</th>
-                    <th>出帐钱包</th>
-                    <th>入帐身份</th>
-                    <th>入帐钱包</th>
+                    <th>钱包类型</th>
+                    <th>身份类型</th>
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
@@ -59,12 +57,10 @@ export default (props) => {
                 <tbody>
                 {list.data.map(row => <tr key={row.id}>
                     <td>{row.id}</td>
-                    <td>{row.reason}</td>
+                    <td>{row.code}</td>
                     <td>{row.name}</td>
-                    <td className={'text-warning'}>{row.out_identity_type.name}</td>
-                    <td className={'text-warning'}>{row.out_purse_type.name}</td>
-                    <td className={'text-info'}>{row.into_identity_type.name}</td>
-                    <td className={'text-info'}>{row.into_purse_type.name}</td>
+                    <td>{row.wallet_type.name}</td>
+                    <td>{row.identity}</td>
                     <td><StatusNormal status={row.status}/></td>
                     <td>
                         <ButtonGroup size={"sm"}>
