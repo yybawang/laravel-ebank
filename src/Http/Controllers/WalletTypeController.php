@@ -37,7 +37,6 @@ class WalletTypeController extends BaseController
         ]);
         $param['alias'] = strtolower($param['alias']);
         $Purse = EbankWalletType::updateOrCreate(['id' => $param['id']], $param);
-        Artisan::call('ebank:purse-init');
         return $this->success($Purse);
     }
 
