@@ -38,14 +38,13 @@ trait UseEBank {
     /**
      * 钱包转账，加减款流水
      * @param float $amount
-     * @param string $wallet_alias
      * @param int $reason
      * @param array $upstream
      * @param string|null $remarks
      * @return int
      */
-    public function transfer(float $amount, string $wallet_alias, int $reason, array $upstream = [], ?string $remarks = null){
-        return EBank::transfer($this, $amount, $wallet_alias, $reason, $upstream, $remarks);
+    public function transfer(float $amount, int $reason, array $upstream = [], ?string $remarks = null){
+        return EBank::transfer($this, $amount, $reason, $upstream, $remarks);
     }
 
     /**
