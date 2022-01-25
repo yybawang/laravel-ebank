@@ -32,9 +32,11 @@ class EBank extends  LaravelFacade
         return (new EBankWallet())->setIdentity($model)->setWalletAlias($wallet_alias)->execute();
     }
 
-    public static function transfer($model, float $amount, int $reason, array $upstream = [], ?string $remarks = null){
-        abort_if(!method_exists($model, 'getKey') || $model->getKey() <= 0, 422, '参数错误，请传递 Model 对象');
-        return (new EBankTransfer())->setIdentity($model)->setAmount($amount)->setReason($reason)->setUpstream($upstream)->setRemarks($remarks)->execute();
+    public static function transfer($identity, int $reason, float $amount, array $upstream = [], ?string $remarks = null){
+        abort_if(!is_object($identity) && !is_integer($identity), 422, '参数错误，请传递 Model 对象或 ID');
+        abort_if(is_object($identity) && (!method_exists($identity, 'getKey') || $identity->getKey() <= 0), 422, '参数错误，请传递 Model 对象');
+        abort_if(is_integer($identity) && $identity <= 0, 422, '参数错误，数字ID需大于0');
+        return (new EBankTransfer())->setIdentity($identity)->setAmount($amount)->setReason($reason)->setUpstream($upstream)->setRemarks($remarks)->execute();
     }
 
     public static function unTransfer(int $transfer_id){

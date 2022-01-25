@@ -69,12 +69,18 @@ class EBankTransfer
      * @return int
      */
     public function execute(){
+        $Reason = EbankReason::where('code', $this->params['reason'])->firstOrFail(['identity', 'wallet_type_id']);
+        // 是数字就查询出数据
+        if(is_integer($this->identity)){
+            $identity = $Reason->identity;
+            $Identity = new $identity();
+            $this->identity = $Identity->findOrFail($this->identity);
+        }
         $this->params['identity_id'] = $this->identity->getKey();
         $this->params['identity_type'] = get_class($this->identity);
 
         $this->handle('transfer', $this->params);
         $EBankService = new ApplicationService();
-        $Reason = EbankReason::where('code', $this->params['reason'])->firstOrFail(['identity', 'wallet_type_id']);
         $wallet = $EBankService->walletDetail($this->params['identity_id'], $this->params['identity_type'], $Reason->wallet_type_id);
         abort_if($Reason->identity !== $this->params['identity_type'], 422, '当前对象名不等于 reason 绑定身份名');
         $transfer_id = $EBankService->transfer($wallet->id, $this->params['amount'], $this->params['reason'], $this->params['upstream'], $this->params['remarks']);

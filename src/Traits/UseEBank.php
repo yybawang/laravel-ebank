@@ -8,18 +8,11 @@ use yybawang\ebank\Facades\EBank;
  * Laravel Ebank trait
  * Trait UseEBank
  * @package yybawang\ebank\Models\Traits
-// * @method Collection wallets
-// * @method EBankWallet wallet
-// * @method int freeze
-// * @method int freezeForce
-// * @method bool unfreeze
-// * @method int transfer
-// * @method bool unTransfer
  */
 trait UseEBank {
 
     /**
-     * 用户所有钱包|模型
+     * 用户所有钱包模型
      * @return \Illuminate\Support\Collection
      */
     public function wallets(){
@@ -37,14 +30,14 @@ trait UseEBank {
 
     /**
      * 钱包转账，加减款流水
-     * @param float $amount
      * @param int $reason
+     * @param float $amount
      * @param array $upstream
      * @param string|null $remarks
      * @return int
      */
-    public function transfer(float $amount, int $reason, array $upstream = [], ?string $remarks = null){
-        return EBank::transfer($this, $amount, $reason, $upstream, $remarks);
+    public function transfer(int $reason, float $amount, array $upstream = [], ?string $remarks = null){
+        return EBank::transfer($this, $reason, $amount, $upstream, $remarks);
     }
 
     /**
