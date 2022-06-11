@@ -11,7 +11,7 @@ class AlipayAppPayment extends PaymentGateway
 {
 
     /**
-     * @return Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function handle()
     {

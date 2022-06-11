@@ -4,14 +4,13 @@
 namespace yybawang\ebank\Illuminate\Payments;
 
 
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Yansongda\Pay\Pay;
 
 class WechatAppPayment extends PaymentGateway
 {
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function handle()
     {

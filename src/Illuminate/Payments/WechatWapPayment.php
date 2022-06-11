@@ -11,7 +11,7 @@ class WechatWapPayment extends PaymentGateway
 {
 
     /**
-     * @return RedirectResponse
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function handle()
     {
