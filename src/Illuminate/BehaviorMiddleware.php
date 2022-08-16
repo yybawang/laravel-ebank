@@ -17,18 +17,18 @@ trait BehaviorMiddleware
      * @param array $params
      */
     protected function handle(string $funcname, array $params){
-        $this->begin_time = microtime(true);
-        $this->funcname = $funcname;
-        $this->params = $params;
+//        $this->begin_time = microtime(true);
+//        $this->funcname = $funcname;
+//        $this->params = $params;
     }
 
     protected function terminate($response){
-        $create = [
-            'funcname'=> $this->funcname,
-            'params'=> $this->params,
-            'execute_time'=> round(microtime(true) - $this->begin_time, 8),
-            'response'=> $response,
-        ];
-        FundBehavior::create($create);
+//        $create = [
+//            'funcname'=> $this->funcname,
+//            'params'=> $this->params,
+//            'execute_time'=> round(microtime(true) - $this->begin_time, 8),
+//            'response'=> $response,
+//        ];
+//        FundBehavior::create($create);
     }
 }
