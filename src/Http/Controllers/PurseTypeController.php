@@ -6,6 +6,7 @@ namespace yybawang\ebank\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use yybawang\ebank\Illuminate\FundService;
 use yybawang\ebank\Models\FundPurseType;
 
 class PurseTypeController extends BaseController
@@ -38,7 +39,8 @@ class PurseTypeController extends BaseController
         ]);
         $param['alias'] = strtolower($param['alias']);
         $Purse = FundPurseType::withoutGlobalScope('active')->updateOrCreate(['id' => $param['id']], $param);
-        Artisan::call('ebank:purse-init');
+        $FundService = new FundService();
+        $FundService->initPurse();
         return $this->success($Purse);
     }
 
